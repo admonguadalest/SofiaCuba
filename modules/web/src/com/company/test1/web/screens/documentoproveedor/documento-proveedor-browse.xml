@@ -21,7 +21,9 @@
         <filter id="filter"
                 applyTo="documentoProveedorsTable"
                 dataLoader="documentoProveedorsDl">
-            <properties include=".*"/>
+            <property name="proveedor.persona.nombreCompleto"/>
+            <property name="fechaEmision"/>
+            <property name="numDocumento"/>
         </filter>
         <table id="documentoProveedorsTable"
                width="100%"
