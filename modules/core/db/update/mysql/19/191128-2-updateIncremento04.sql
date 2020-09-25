@@ -1,0 +1,2 @@
+alter table INCREMENTO add constraint FK_INCREMENTO_ON_CONCEPTO foreign key (CONCEPTO_ID) references CONCEPTO(ID);
+create index IDX_INCREMENTO_ON_CONCEPTO on INCREMENTO (CONCEPTO_ID);

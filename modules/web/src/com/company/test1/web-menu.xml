@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <menu id="application-parametrizacion" icon="font-icon:ADJUST" insertAfter="help">
+        <menu id="Remesas">
+            <item screen="test1_DefinicionRemesa.browse"/>
+        </menu>
+        <menu id="mnuContratos">
+            <menu id="inquilinos">
+                <item screen="test1_Concepto.browse" id="conceptos"/>
+                <menu id="modelos">
+                    <item screen="test1_ModeloContrato.browse" id="gestionar"/>
+                    <item screen="test1_ModeloContrato.edit" id="nuevoModelo" openType="NEW_TAB" >
+
+                        <param name="newEntity" value="true"/>
+                    </item>
+                </menu>
+            </menu>
+        </menu>
+        <menu id="IPCs">
+            <item screen="test1_RegistroIndiceReferencia.browse"/>
+        </menu>
+        <menu id="conceptosAdicionales">
+            <item screen="test1_ConceptoAdicional.browse" id="Lista"/>
+        </menu>
+        <menu id="Plantillas">
+            <item screen="test1_Plantilla.browse" id="Administracion"/>
+            <item screen="test1_Plantilla.edit" id="nuevaPlantilla">
+                <param name="newEntity" value="true"/>
+            </item>
+        </menu>
+        <menu id="gestionCoeficientes">
+            <item screen="test1_TipoCoeficiente.browse" id="gestionarCoeficientes"/>
+        </menu>
+        <menu id="reports_">
+            <item screen="test1_FlexReport.browse" id="definicionElementos"/>
+        </menu>
+
+    </menu>
+    <menu id="application-test1" icon="font-icon:BUILDING_O">
+        <menu id="usuarios">
+            <menu id="personas">
+                <item screen="test1_PersonaFisica.edit" id="nuevaPersona">
+                    <param name="newEntity" value="true"/>
+                </item>
+                <item screen="test1_PersonaJuridica.edit" id="nuevaPersonaJuridica">
+                    <param name="newEntity" value="true"/>
+                </item>
+            </menu>
+            <item screen="test1_Persona.browse" id="administracion"/>
+            <item screen="test1_RepresentacionLegal.browse"/>
+            <item screen="test1_RegistroPresencial.browse" id="registroPresencial"/>
+        </menu>
+        <menu id="ubicaciones">
+            <item screen="test1_Ubicacion.browse" icon="font-icon:BUILDING_O"/>
+            <item screen="test1_Ubicacion.edit" id="nuevaUbicacion">
+                <param name="newEntity" value="true"/>
+            </item>
+        </menu>
+        <menu id="departamentos">
+            <item screen="test1_Departamento.browse"/>
+            <item screen="test1_Departamento.edit" id="nuevaVivienda">
+                <param name="newEntity" value="true"/>
+                <param name="esVivienda" value="true"/>
+            </item>
+            <item screen="test1_Departamento.edit" id="nuevoLocal">
+                <param name="newEntity" value="true"/>
+                <param name="esVivienda" value="false"/>
+            </item>
+        </menu>
+        <separator/>
+        <menu id="certificados">
+            <item screen="test1_CertificadoCalificacionEnergetica.browse" id="consultar"/>
+        </menu>
+        <item screen="test1_Proveedor.browse"/>
+        <item screen="test1_Propietario.browse"/>
+    </menu>
+    <menu id="contratacion" insertAfter="application-test1">
+        <item screen="test1_DepartamentoVacio.browse"/>
+        <menu id="contratos">
+            <menu id="inquilinos_">
+                <item screen="test1_ContratoInquilino.browse"/>
+                <item screen="test1_ContratoInquilinoFinalizacionesPrevistas.browse"/>
+                <menu id="crear">
+                    <item screen="test1_ContratoInquilino.edit" id="contratoVivienda">
+                        <param name="newEntity" value="true"/>
+                        <param name="tipo" value="vivienda"/>
+                    </item>
+                    <item screen="test1_ContratoInquilino.edit" id="contratoLocal">
+                        <param name="newEntity" value="true"/>
+                        <param name="tipo" value="local"/>
+                    </item>
+                </menu>
+            </menu>
+        </menu>
+        <menu id="recibos">
+            <item screen="test1_InformeDiferenciasPeriodos" id="informe-diferencias-periodos" openType="NEW_TAB"/>
+            <item screen="test1_CuadreYRegistro" id="cuadreYRegistro"/>
+            <item screen="test1_Impagados" id="impagados"/>
+            <item screen="test1_ReciboIndividualizado.edit" id="reciboIndividualizado"/>
+        </menu>
+        <menu id="incrementos">
+            <item screen="test1_IncrementosGenerales"/>
+            <item screen="test1_IncrementosIndiceReferencia" id="incrementoIndiceReferencia"/>
+        </menu>
+        <menu id="remesas">
+            <item screen="test1_Remesa.browse"/>
+            <item screen="test1_RemesarRecibos" id="remesarRecibos"/>
+        </menu>
+        <menu id="externos">
+            <item screen="test1_InformeIva" id="informe-iva" openType="NEW_TAB"/>
+            <item screen="test1_Mod347" id="mod-347"/>
+        </menu>
+        <item screen="test1_Fianzas" id="fianzas"/>
+        <menu id="aumentos">
+            <menu id="IPC">
+                <item screen="inputDialog" id="registrar-indice-referencia" openType="NEW_TAB"/>
+                <item screen="test1_RegistroIndiceReferencia.browse" id="registro-indice-referencia-browse"
+                      openType="NEW_TAB"/>
+            </menu>
+            <menu id="otro">
+                <item screen="test1_VistaAumentos" id="vista-aumentos" openType="NEW_TAB"/>
+            </menu>
+        </menu>
+        <menu id="cobros">
+            <item screen="test1_Recibo.browse" id="gestion-cobros"/>
+        </menu>
+        <menu id="notificaciones">
+            <item screen="test1_Notificacion.browse" id="notificaciones-browse" openType="NEW_TAB"/>
+            <item screen="test1_NotificacionesAumentos" id="notificaciones-aumentos" openType="NEW_TAB"/>
+            <item screen="test1_NotificacionesAumentosIpc" id="notificaciones-aumentos-ipc" openType="NEW_TAB"/>
+            <item screen="test1_RecibosPendientes" id="recibos-pendientes" openType="NEW_TAB"/>
+            <item screen="test1_NotificacionGenerica" id="notificacion-generica" openType="NEW_TAB"/>
+            <item screen="test1_NotificacionGenericaManual" id="notificacion-generica-manual" openType="NEW_TAB"/>
+        </menu>
+        <item screen="test1_DocumentacionInquilino.browse" id="documentacion-inquilino" openType="NEW_TAB"/>
+    </menu>
+    <menu id="application-archivo">
+        <menu id="administracion-documentos">
+            <item screen="test1_DocumentoProveedor.browse" id="browse-documento-proveedor" openType="NEW_TAB"/>
+            <item screen="test1_FacturaProveedor.edit" id="nuevaFactura">
+                <param name="newEntity" value="true"/>
+            </item>
+            <item screen="test1_Presupuesto.edit" id="nuevo-presupuesto" openType="NEW_TAB">
+                <param name="newEntity" value="true"/>
+            </item>
+        </menu>
+        <menu id="ciclos">
+            <item screen="test1_Ciclo.browse" id="consultarCiclos"/>
+            <item screen="test1_Ciclo.edit" id="nuevoCiclo">
+                <param name="newEntity" value="true"/>
+            </item>
+        </menu>
+        <menu id="validaciones">
+            <item screen="test1_GestionarValidaciones" id="gestionarValidaciones"/>
+        </menu>
+        <menu id="pagos">
+            <item screen="test1_OrdenPago.browse" id="filtradoPagos"/>
+            <item screen="test1_RealizacionPago.browse" id="filtradoRealizacionesPago"/>
+        </menu>
+        <menu id="cobros_">
+            <item screen="test1_OrdenCobro.browse" id="filtradoCobros"/>
+            <item screen="test1_RealizacionCobro.browse" id="filtradoRealizacionesCobro"/>
+        </menu>
+    </menu>
+</menu-config>

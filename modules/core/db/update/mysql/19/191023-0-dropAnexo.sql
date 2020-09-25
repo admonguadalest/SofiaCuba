@@ -1,0 +1,1 @@
+rename table TEST1_ANEXO to TEST1_ANEXO__U90688 ;

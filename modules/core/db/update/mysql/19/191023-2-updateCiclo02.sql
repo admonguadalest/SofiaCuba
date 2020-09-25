@@ -1,0 +1,2 @@
+alter table CICLO add constraint FK_CICLO_ON_DEPARTAMENTO foreign key (DEPARTAMENTO_ID) references DEPARTAMENTO(ID);
+create index IDX_CICLO_ON_DEPARTAMENTO on CICLO (DEPARTAMENTO_ID);

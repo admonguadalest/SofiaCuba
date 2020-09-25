@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.incrementos">
+    <data>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="ubicacionsDc" class="com.company.test1.entity.departamentos.Ubicacion">
+            <loader id="ubicacionsDl">
+                <query><![CDATA[select e from test1_Ubicacion e ]]></query>
+            </loader>
+        </collection>
+        <collection id="conceptoesDc" class="com.company.test1.entity.recibos.Concepto" view="_base">
+            <loader id="conceptoesDl">
+                <query><![CDATA[select e from test1_Concepto e ]]></query>
+            </loader>
+        </collection>
+        <collection id="conceptoReciboesDc" class="com.company.test1.entity.recibos.ConceptoRecibo"
+                    view="conceptoRecibo-view">
+            <loader id="conceptoReciboesDl">
+                <query><![CDATA[select e from test1_ConceptoRecibo e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpPropietario" caption="Propietario" optionsContainer="propietariosDc"
+                             captionProperty="persona.nombreCompleto" width="50%"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <table id="tblUbicaciones" height="200px" width="100%" caption="Ubicaciones"
+                       dataContainer="ubicacionsDc" multiselect="true">
+                    <columns>
+                        <column id="nombre"/>
+                        <column id="abreviacionUbicacion"/>
+                        <column id="esPropiedadVertical"/>
+                        <column id="latitud"/>
+                        <column id="longitud"/>
+                        <column id="numAscensores"/>
+                        <column id="informacionCatastral"/>
+                        <column id="nombreDistrito"/>
+                        <column id="rm2id"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnTodasUbicaciones" caption="Seleccionar Todo"
+                                invoke="onBtnTodasUbicacionesClick"/>
+                    </buttonsPanel>
+                </table>
+                <table id="tblConceptos" height="200px" width="100%" caption="Conceptos" dataContainer="conceptoesDc"
+                       multiselect="true">
+                    <columns>
+                        <column id="tituloConcepto"/>
+                        <column id="rm2id"/>
+                        <column id="abreviacion"/>
+                        <column id="descripcion"/>
+                        <column id="adicionSustraccion"/>
+                        <column id="fechaCreacion"/>
+                        <column id="agregarConceptoEnRecibo"/>
+                        <column id="ajustableAgregadamente"/>
+                        <column id="ordenacion"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnTodosConceptos" caption="Seleccionar Todo" invoke="onBtnTodosConceptosClick"/>
+                    </buttonsPanel>
+                </table>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <dateField resolution="DAY" id="dteFechaDesde" width="100%" caption="Fecha Desde"/>
+                <dateField resolution="DAY" id="dteFechaHasta" width="100%" caption="Fecha Hasta"/>
+            </hbox>
+            <label value="Resultados"/>
+            <table id="tblConceptosRecibos" height="400px" width="100%" dataContainer="conceptoReciboesDc">
+                <columns>
+                    <column id="programacionRecibo.contratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                    <column id="concepto.tituloConcepto"/>
+                    <column id="importe"/>
+                    <column id="fechaValor"/>
+                    <column id="descripcionCausa"/>
+                    <column id="estadoNotificacion"/>
+                    <column id="actualizableIPC"/>
+
+                </columns>
+            </table>
+            <buttonsPanel>
+                <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+                <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </vbox>
+    </layout>
+</window>

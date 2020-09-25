@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Visualización de Recibo"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <instance id="reciboDc"
+                  class="com.company.test1.entity.recibos.Recibo"
+                  view="recibo-view">
+            <loader/>
+            <collection id="recibosCobradosDc" property="recibosCobrados">
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox spacing="true" height="100%" width="679px" id="scrollBox">
+            <form id="form" dataContainer="reciboDc" width="100%">
+                <column width="100%">
+                    <textField editable="false" property="ordenanteRemesa.remesa.identificadorRemesa"/>
+                    <textField id="numReciboField" property="numRecibo" editable="false"/>
+                    <textField id="numContratoField" dataContainer="reciboDc"
+                               property="utilitarioContratoInquilino.numeroContrato" editable="false"/>
+                    <textField id="inquilinoField" dataContainer="reciboDc"
+                               property="utilitarioInquilino.nombreCompleto" editable="false"/>
+                    <dateField resolution="DAY" id="fechaEmisionField" property="fechaEmision" editable="false"/>
+                    <dateField resolution="DAY" id="fechaValorField" property="fechaValor" editable="false"/>
+                    <hbox>
+                        <textField id="totalReciboPostCCAAField" caption="Total Rbo. Post CCAA" dataContainer="reciboDc"
+                                   property="totalReciboPostCCAA" editable="false"/>
+                        <textField id="acumuladoField" caption="Total Ingresado" editable="false" datatype="double"
+                                   description="Importe Total cobrado para el presente recibo"/>
+                    </hbox>
+                    <lookupField id="gradoEstadoImpagoField" property="gradoEstadoImpago"/>
+                    <dateField resolution="DAY" id="fechaEstadoPendienteField" property="fechaEstadoPendiente"/>
+                    <dateField resolution="DAY" id="fechaEstadoIncobrableField" property="fechaEstadoIncobrable"/>
+                    <table id="tableMovimientos" width="100%" dataContainer="recibosCobradosDc" caption="Movimientos" height="300px">
+                        <actions>
+                            <action id="create"/>
+                            <action id="remove" type="remove"/>
+                            <action id="edit"/>
+                        </actions>
+                        <columns>
+                            <column id="fechaCobro"/>
+                            <column id="modoIngreso"/>
+                            <column id="totalIngreso"/>
+                            <column id="cobranzas"/>
+                            <column id="descripcion"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button caption="Nuevo" action="tableMovimientos.create"/>
+                            <button caption="Editar" action="tableMovimientos.edit"/>
+                            <button caption="Eliminar" action="tableMovimientos.remove"/>
+                        </buttonsPanel>
+                    </table>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+            <button id="btnImprimirRecibo" caption="Imprimir Recibo" invoke="onBtnImprimirReciboClick"/>
+        </hbox>
+    </layout>
+</window>

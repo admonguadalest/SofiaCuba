@@ -1,0 +1,1 @@
+drop table if exists TEST1_DEPARTAMENTO__U26271 cascade ;

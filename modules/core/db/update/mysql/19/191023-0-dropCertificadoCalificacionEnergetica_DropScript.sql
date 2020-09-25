@@ -1,0 +1,1 @@
+drop table if exists TEST1_CERTIFICADO_CALIFICACION_ENERGETICA__U21892 cascade ;

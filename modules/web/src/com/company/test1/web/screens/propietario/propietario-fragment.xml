@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="propietarioDc"
+                  class="com.company.test1.entity.extroles.Propietario"
+                  view="propietario-view" provided="true">
+
+        </instance>
+        <collection id="cuentasBancariasDc" class="com.company.test1.entity.CuentaBancaria" view="cuentaBancaria-view"
+                    provided="true">
+
+        </collection>
+    </data>
+
+    <layout  spacing="true">
+        <form id="form" dataContainer="propietarioDc">
+            <column width="250px">
+                <textField id="abreviacionContratosField" property="abreviacionContratos"/>
+                <textField id="codigoClienteField" property="codigoCliente"/>
+                <checkBox id="exoneracionIrpfField" property="exoneracionIrpf"/>
+                <checkBox id="gestionCajaField" property="gestionCaja"/>
+                <lookupField id="lkpCuentaBancaria" caption="Cuenta Bancaria" dataContainer="propietarioDc"
+                             property="cuentaBancaria" optionsContainer="cuentasBancariasDc"
+                             captionProperty="textoCuentaBancariaCompleta"/>
+                <checkBox id="prospectoField" property="prospecto"/>
+            </column>
+        </form>
+
+    </layout>
+
+</fragment>
+

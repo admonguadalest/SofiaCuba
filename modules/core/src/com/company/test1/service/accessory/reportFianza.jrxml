@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportFianza" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="parameters" class="java.util.List"/>
+	<parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+	<parameter name="P_FECHA" class="java.lang.String"/>
+	<parameter name="P_HORA" class="java.lang.String"/>
+	<parameter name="P_INFORME_REALIZADO_POR" class="java.lang.String"/>
+	<parameter name="P_GARANTIA_EFECTIVO" class="java.lang.Double"/>
+	<parameter name="P_GARANTIA_AVAL" class="java.lang.Double"/>
+	<parameter name="P_NO_INGRESADA_ADMON" class="java.lang.Double"/>
+	<parameter name="P_FIANZA_ADMON" class="java.lang.Double"/>
+	<parameter name="P_FIANZA_CAMARA" class="java.lang.Double"/>
+	<parameter name="P_SOLICITADA_DEVOLUCION" class="java.lang.Double"/>
+	<parameter name="P_FIANZA_DEVUELTA" class="java.lang.Double"/>
+	<parameter name="P_FINAL_TITULO" class="java.lang.String"/>
+	<parameter name="P_CAMPOS_DE_BUSQUEDA" class="java.lang.String"/>
+	<field name="finca" class="java.lang.String"/>
+	<field name="garantiaAval" class="java.lang.Double"/>
+	<field name="garantiaEfectivo" class="java.lang.Double"/>
+	<field name="noIngresadaEnAdmon" class="java.lang.Double"/>
+	<field name="fianzaAdmon" class="java.lang.Double"/>
+	<field name="fianzaCamara" class="java.lang.Double"/>
+	<field name="solicitadaDevolucion" class="java.lang.Double"/>
+	<field name="fianzaDevuelta" class="java.lang.Double"/>
+	<field name="datasources" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image scaleImage="RealHeight" hAlign="Right">
+				<reportElement x="315" y="0" width="200" height="23"/>
+				<imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="25" y="68" width="433" height="10" forecolor="#666666"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Fecha: " +$P{P_FECHA} + "  Hora: " +$P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="29" width="479" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["LISTADO DE FIANZAS Y GARANTÍAS POR FINCAS" + $P{P_FINAL_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="25" y="82" width="494" height="1"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_CAMPOS_DE_BUSQUEDA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+			<image scaleImage="RealHeight" hAlign="Right">
+				<reportElement x="315" y="3" width="200" height="23"/>
+				<imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="92" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="13" y="23" width="502" height="63"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="77" y="5" width="417" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{finca}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true">
+				<reportElement x="13" y="7" width="506" height="10"/>
+				<dataSourceExpression><![CDATA[$F{datasources}]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{subreport}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="21" y="30" width="60" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Finca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="42" y="63" width="38" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Garantías]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="42" y="47" width="38" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fianzas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="104" y="63" width="30" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aval]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="172" y="63" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Efectivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="104" y="47" width="30" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Ingr.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="172" y="47" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Admón.]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="134" y="63" width="35" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{garantiaAval}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="199" y="63" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{garantiaEfectivo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="134" y="47" width="35" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{noIngresadaEnAdmon}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="199" y="47" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{fianzaAdmon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="5" width="56" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finca:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="289" y="47" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{fianzaCamara}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="252" y="47" width="35" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cámara]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="379" y="47" width="38" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{solicitadaDevolucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="342" y="47" width="35" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sol.Devol.]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="452" y="47" width="29" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{fianzaDevuelta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="422" y="47" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retorn.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="15">
+			<textField>
+				<reportElement x="519" y="3" width="25" height="9"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="78">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="21" y="14" width="60" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Fincas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="13" y="7" width="502" height="65"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="287" y="33" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_FIANZA_CAMARA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="102" y="49" width="30" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aval]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="102" y="33" width="30" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Ingr.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="40" y="33" width="38" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fianzas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="250" y="33" width="35" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cámara]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="450" y="33" width="29" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_FIANZA_DEVUELTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="377" y="33" width="38" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_SOLICITADA_DEVOLUCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="340" y="33" width="35" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sol.Devol.]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="197" y="33" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_FIANZA_ADMON}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="197" y="49" width="50" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_GARANTIA_EFECTIVO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="132" y="49" width="35" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_GARANTIA_AVAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="132" y="33" width="35" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{P_NO_INGRESADA_ADMON}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="420" y="33" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retorn.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="170" y="49" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Efectivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="170" y="33" width="26" height="15"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Admón.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="40" y="49" width="38" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Garantías]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edicion de Contrato"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.contratoinquilino"
+        xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd"
+        >
+    <data>
+        <instance id="contratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                  view="contratoInquilino-view">
+            <loader/>
+            <instance id="fianzaDc" property="fianza"/>
+            <instance id="liquidacionSuscripcionDc" property="liquidacionSuscripcion"/>
+            <instance id="programacionReciboDc" property="programacionRecibo"/>
+            <collection id="anexosDc" property="anexos"/>
+            <instance id="liquidacionExtincionDc" property="liquidacionExtincion"/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+            <collection id="cotitularesDc" property="cotitulares"/>
+            <instance id="implementacionModeloDc" property="implementacionModelo"/>
+            <collection id="pagosInquilinoDc" property="ordenesPagoContratoInquilino"/>
+
+
+        </instance>
+        <instance id="escaneoArchivoAdjuntoDc" class="com.company.test1.entity.ArchivoAdjunto"
+                  view="archivoAdjunto-view">
+
+        </instance>
+        <instance id="escaneoRenunciaDc" class="com.company.test1.entity.ArchivoAdjunto" view="archivoAdjunto-view"/>
+        <collection id="carpetasDocumentosFotograficosCicloDc" view="_base" class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos" >
+            <loader id="carpetasDocumentosFotograficosCicloDl"/>
+        </collection>
+        <collection id="notificacionesDc" view="_base" class="com.company.test1.entity.notificaciones.NotificacionContratoInquilino" >
+            <loader id="notificacionesDl"/>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <label dataContainer="contratoInquilinoDc" property="id"/>
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="contratoInquilinoDc" width="100%">
+                <column width="50%">
+                    <pickerField id="inquilinoField" dataContainer="contratoInquilinoDc" property="inquilino"
+                                 captionProperty="nombreCompleto"/>
+
+                </column>
+                <column width="50%">
+                    <pickerField id="departamentoField" dataContainer="contratoInquilinoDc" property="departamento"
+                                 captionProperty="nombreDescriptivoCompleto"/>
+                </column>
+                <column>
+                    <pickerField id="pickerCiclo" caption="Ciclo" dataContainer="contratoInquilinoDc"
+                                       property="ciclo" captionProperty="codigoCiclo"/>
+                </column>
+            </form>
+            <groupBox spacing="true" caption="Cotitulares">
+                <table id="tableCotitulares" height="100px" width="100%" dataContainer="cotitularesDc">
+                    <columns>
+                        <column id="cotitular.nombreCompleto"/>
+                        <column id="cotitular.nifDni"/>
+                    </columns>
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <buttonsPanel>
+                        <button action="tableCotitulares.create" caption="Adjuntar Nuevo" invoke="onBtnCreateCotitular"/>
+                        <button action="tableCotitulares.edit" caption="Editar"/>
+                        <button action="tableCotitulares.remove" caption="Eliminar"/>
+                    </buttonsPanel>
+                </table>
+            </groupBox>
+            <vbox spacing="true">
+                <hbox spacing="true">
+                    <lookupField caption="Estado Contrato" id="estadoContratoField" property="estadoContrato"
+                                 dataContainer="contratoInquilinoDc"
+                                 optionsEnum="com.company.test1.entity.enums.EstadoContratoInquilinoEnum" width="100%"/>
+                    <textField caption="Numero de Contrato" id="numeroContratoField" property="numeroContrato" dataContainer="contratoInquilinoDc"
+                               width="100%"/>
+                    <app:WebArchivoAdjuntoField id="aaEscaneoContrato" caption="Escaneo de Contrato"
+                                             property="escaneoContrato" dataContainer="contratoInquilinoDc"
+                                             width="100%"/>
+                </hbox>
+                <hbox spacing="true">
+                    <pickerField caption="Representante Arrendador" id="representanteArrendadorField" property="representanteArrendador"
+                                 dataContainer="contratoInquilinoDc" captionProperty="nombreCompleto"/>
+                    <pickerField caption="Representante Arrendatario" id="representanteArrendatarioField" property="representanteArrendatario"
+                                 dataContainer="contratoInquilinoDc" captionProperty="nombreCompleto"/>
+                </hbox>
+                <hbox spacing="true">
+                    <pickerField caption="Comercial" id="comercialOfertasField" property="comercialOfertas"
+                                 dataContainer="contratoInquilinoDc"/>
+                    <groupBox caption="Opciones">
+                        <hbox spacing="true">
+                            <checkBox dataContainer="contratoInquilinoDc"
+                                      property="excluirDeMonitorizacionDeRecibosPendientesYDevueltos"
+                                      caption="Excluir Monitoriz. Ptes. Y Dev."/>
+                            <checkBox caption="Devengo Costes Postales" dataContainer="contratoInquilinoDc"
+                                      property="esteContratoDevengaCostesPostales"/>
+                            <checkBox caption="Recibos Incobrables" dataContainer="contratoInquilinoDc"
+                                      property="recibosIncobrables"/>
+                        </hbox>
+                    </groupBox>
+                </hbox>
+            </vbox>
+
+
+            <tabSheet id="tabContratoVarios">
+                <tab id="tabContrato" caption="Contrato" margin="true,false,false,false" spacing="true">
+
+                    <fragment screen="test1_ContratoInquilinoFragment"/>
+                </tab>
+                <tab id="tabFianza" caption="Fianza" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_FianzaFragment" id="fianzaFragment"/>
+                </tab>
+                <tab id="tabLiquidacionInicial" caption="Liquidacion Inicial" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_LiquidacionSuscripcionFragment"/>
+                </tab>
+                <tab id="tabProgramacionRecibo" caption="Programacion Recibo" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_ProgramacionReciboFragment"/>
+                </tab>
+                <tab id="tabAnexos" caption="Anexos" margin="true,false,false,false" spacing="true">
+                    <label value="Anexos"/>
+                    <table id="tableAnexos" height="200px" width="100%" dataContainer="anexosDc">
+                        <columns>
+                            <column id="nombreAnexo"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button action="tableAnexos.create"/>
+                            <button action="tableAnexos.edit"/>
+                            <button action="tableAnexos.remove"/>
+                            <button id="btnPrint" caption="Imprimir" invoke="imprimirAnexo"/>
+                        </buttonsPanel>
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                    </table>
+                </tab>
+                <tab id="tabDomiciliacionBancaria" caption="Domiciliacion Bancaria" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_DomiciliacionBancariaFragment"/>
+                </tab>
+                <tab id="tabEntregaDeLlaves" caption="Entrega de Llaves" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_EntregaLlavesFragment"/>
+                </tab>
+                <tab id="tabImprimibles" caption="Imprimibles" margin="true,false,false,false" spacing="true">
+                    <scrollBox spacing="true">
+
+                            <hbox spacing="true">
+                                <checkBox id="chkContrato" caption="Contrato"/>
+                                <checkBox id="chkCedula" caption="Cedula de Habitabilidad"/>
+                                <checkBox id="chkLiqInicial" caption="Liquidacion Inicial"/>
+                                <checkBox id="chkLiqFinal" caption="Liquidacion Final"/>
+                            </hbox>
+                            <hbox spacing="true">
+                                <checkBox id="chkDocumBancaria" caption="Documentacion Bancaria"/>
+                                <checkBox id="chkEntregaLlaves" caption="Entrega de Llaves"/>
+                                <checkBox id="chkCertCalifEnerg" caption="Certificado de Calificacion Energetica"/>
+
+                            </hbox>
+                        <groupBox caption="Seleccionar Documento Fotografico para Firma de Contrato" orientation="horizontal" spacing="true" width="100%">
+                            <checkBox id="chkDoctoFotografico" caption="Imprimir Documento Fotografico"/>
+                            <lookupField id="lkpCDFS" align="TOP_RIGHT" captionProperty="nombreCarpeta" dataContainer="contratoInquilinoDc" optionsContainer="carpetasDocumentosFotograficosCicloDc" property="carpetaDocumentoFotograficoFirma"/>
+                            <button id="btnImprimirCarpeta" caption="Ver" invoke="visualizarCarpetaDocumentosFotograficosFirma"/>
+                        </groupBox>
+
+                        <button id="btnImprimirSeleccionados" caption="Imprimir Seleccionados" invoke="onBtnImprimirSeleccionadosClicked"/>
+                    </scrollBox>
+                </tab>
+                <tab id="tabSubrogadores" caption="Subrogadores" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_SubrogadoresFragment"/>
+                </tab>
+                <tab id="tabColeccionAdjuntos" caption="Archivos Adjuntos" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_ColeccionArchivosAdjuntosFragment"/>
+                </tab>
+                <tab id="tabRenuncia" caption="Renuncia" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_RenunciaFragment"/>
+                </tab>
+                <tab id="tabPagosInquilino" caption="Pagos a Inquilino" margin="true, false, false, false" spacing="true">
+                    <table id="tablePagosInquilino" height="200px" width="100%" dataContainer="pagosInquilinoDc">
+                        <columns>
+                            <column id="fechaValor"/>
+                            <column id="importe"/>
+                            <column id="descripcion"/>
+                            <column id="realizacionPago.fechaValor" caption="RC Fecha Valor"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button id="btnCreatePagoInquilino" invoke="actionCreatePagoInquilino" caption="Crear"/>
+                            <button id="btnEditPagoInquilino" invoke="actionEditPagoInquilino" caption="Editar"/>
+
+
+                        </buttonsPanel>
+
+
+                    </table>
+                </tab>
+                <tab id="tabNotificationes" caption="Notificaciones" margin="true, false, false, false" spacing="true">
+                    <table id="tableNotificaciones" height="200px" width="100%" dataContainer="notificacionesDc">
+                        <columns>
+                            <column id="titulo"/>
+                            <column id="fechaRealizacion"/>
+                            <column id="fechaProgramadaEnvio"/>
+                            <column id="enviado"/>
+
+
+                        </columns>
+                        <buttonsPanel>
+                            <button id="btnVerNotificacion" invoke="onBtnVerNotificacion" caption="Ver"/>
+
+                        </buttonsPanel>
+
+                    </table>
+                </tab>
+                <tab id="tabLiquidacionExtincion" caption="Liquidacion Extincion" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_LiquidacionExtincionFragment"/>
+                </tab>
+                <tab id="tabClausuladoContrato" caption="Clausulado" margin="true,false,false,false" spacing="true">
+                    <vbox id="vbClausuladoFragment"/>
+                </tab>
+            </tabSheet>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,2 @@
+rename table TEST1_PLANTILLA to TEST1_PLANTILLA__U58994 ;
+alter table TEST1_ANEXO drop foreign key FK_TEST1_ANEXO_ON_PLANTILLA;

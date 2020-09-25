@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordenpago">
+    <data>
+        <instance id="ordenPagoFacturaProveedorDc"
+                  class="com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor"
+                  view="ordenPagoFacturaProveedor-view">
+            <loader/>
+            <collection id="compensacionOrdenPagoProveedorsDc"
+                        property="compensaciones">
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="ordenPagoFacturaProveedorDc">
+            <column width="500px">
+                <pickerField id="facturaProveedorField" editable="false"
+                             dataContainer="ordenPagoFacturaProveedorDc" property="facturaProveedor"
+                             captionProperty="textoDescriptivoDocumento">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor" editable="false"/>
+                <textField id="importeField" property="importe" editable="false"/>
+                <textField id="importeEfectivoField" property="importeEfectivo" editable="false"/>
+                <textField id="descripcionField" property="descripcion" editable="false"/>
+                <pickerField id="realizacionPagoField" property="realizacionPago" editable="false">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="rm2idField" property="rm2id" editable="false"/>
+                <checkBox id="esAbonoField" property="esAbono" editable="false"/>
+                <table id="tblCompensaciones" dataContainer="compensacionOrdenPagoProveedorsDc" width="100%"
+                       height="200px">
+                    <columns>
+                        <column id="informacionOrdenPago" generator="getColumnOrdenPagoCompensacion" caption="Info. Compensacion"/>
+                        <column id="importe"/>
+                    </columns>
+                </table>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

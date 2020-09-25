@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.registroindicereferencia">
+    <data>
+        <instance id="registroIndiceReferenciaDc"
+                  class="com.company.test1.entity.recibos.RegistroIndiceReferencia"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="registroIndiceReferenciaDc">
+            <column width="250px">
+                <textField id="mesField" property="mes"/>
+                <textField id="annoField" property="anno"/>
+                <textField id="valorField" property="valor"/>
+                <textField id="nombreTipoField" property="nombreTipo"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

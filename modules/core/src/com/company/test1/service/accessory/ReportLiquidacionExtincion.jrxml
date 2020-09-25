@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportLiquidacionInicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="1.6105100000000008"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <parameter name="TITULO_REPORT" class="java.lang.String"/>
+    <parameter name="CIUDAD_FECHA" class="java.lang.String"/>
+    <parameter name="NF" class="java.text.DecimalFormat"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <field name="detalle" class="java.lang.String"/>
+    <field name="totalesGarantias" class="java.lang.Double"/>
+    <field name="totalesRecibosPendientes" class="java.lang.Double"/>
+    <field name="totalesIndemnizaciones" class="java.lang.Double"/>
+    <field name="porLiquidar" class="java.lang.Double"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="69" splitType="Stretch">
+            <textField>
+                <reportElement x="70" y="40" width="422" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO_REPORT}]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="144" y="0" width="348" height="26"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+        </band>
+    </title>
+    <detail>
+        <band height="381" splitType="Stretch">
+            <staticText>
+                <reportElement x="62" y="28" width="159" height="20"/>
+                <textElement/>
+                <text><![CDATA[TOTALES GARANTIAS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="48" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[TOTALES RECIBOS PENDIENTES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="90" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[TOTAL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="130" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[TOTAL INDEMNIZACIONES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="185" width="191" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL LIQUIDACIÓN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="224" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[DETALLE]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="62" y="346" width="430" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{CIUDAD_FECHA}]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement x="62" y="244" width="430" height="79"/>
+            </rectangle>
+            <textField>
+                <reportElement x="70" y="254" width="411" height="58"/>
+                <textElement markup="html"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{detalle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="28" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NF}.format($F{totalesGarantias})]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="48" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NF}.format($F{totalesRecibosPendientes})]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="90" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NF}.format($F{totalesGarantias}-$F{totalesRecibosPendientes})]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="130" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NF}.format($F{totalesIndemnizaciones})]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="185" width="100" height="20"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NF}.format($F{porLiquidar})]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="62" y="176" width="191" height="1"/>
+            </line>
+            <line>
+                <reportElement x="440" y="175" width="61" height="1"/>
+            </line>
+        </band>
+    </detail>
+</jasperReport>

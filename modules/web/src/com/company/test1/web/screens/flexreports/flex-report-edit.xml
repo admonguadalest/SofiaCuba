@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.flexreports">
+    <data>
+        <instance id="flexReportDc"
+                  class="com.company.test1.entity.reportsyplantillas.FlexReport"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="flexReportDc" width="100%">
+                <column width="100%" >
+                    <hbox width="100%" spacing="true">
+                        <textField id="nombreField" width="100%" caption="Nombre"
+                                   dataContainer="flexReportDc" property="nombre"/>
+                    </hbox>
+                    <hbox width="100%">
+                    </hbox>
+                    <tabSheet width="100%" height="600px">
+                        <tab id="tabJrxml" caption="JRXML">
+                            <textArea id="txaJrxml" caption="Contenido JRXML" width="100%" height="100%"
+                                      dataContainer="flexReportDc" property="contenidoJrxml"/>
+                        </tab>
+                    </tabSheet>
+
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edición de Persona Física"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.personafisica">
+    <data>
+        <instance id="personaFisicaDc"
+                  class="com.company.test1.entity.PersonaFisica"
+                  view="personaFisica-view">
+            <loader/>
+
+            <collection id="direccionsDc"
+                        property="direcciones" >
+
+            </collection>
+            <collection id="datosDeContactoDc"
+                        property="datosDeContacto">
+
+            </collection>
+            <collection id="cuentasBancariasDc"
+                        property="cuentasBancarias">
+
+            </collection>
+            <instance id="proveedorDc" property="proveedor">
+
+                <collection id="programacionesConceptosAdicionalesDc" property="programacionesConceptosAdicionales"/>
+            </instance>
+            <instance id="propietarioDc" property="propietario">
+            </instance>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="personaFisicaDc" width="100%">
+                <column width="100%">
+                    <pickerField id="userField" caption="Usuario"
+                                 dataContainer="personaFisicaDc" property="usuario" captionProperty="login"/>
+                    <textField id="nombreField" property="nombre"/>
+                    <textField id="apellido1Field" property="apellido1"/>
+                    <textField id="apellido2Field" property="apellido2"/>
+                    <textField property="nifDni"/>
+                    <textField id="nombreCompletoField" property="nombreCompleto" editable="false"/>
+                    <lookupField id="lkpEstadoCivil" caption="Estado Civil" optionsEnum="com.company.test1.entity.enums.EstadoCivilEnum"
+                                 dataContainer="personaFisicaDc" property="estadoCivil"/>
+                    <dateField resolution="DAY" id="fechaNacimientoField" property="fechaNacimiento"/>
+                    <label/>
+                    <tabSheet id="tab" height="420px" width="100%">
+                        <tab id="tabDirecciones" caption="Direcciones" margin="true,false,false,false" spacing="true">
+                            <table id="direccionTable" height="223px" width="100%" dataContainer="direccionsDc">
+                                <columns>
+                                    <column id="nombre"/>
+                                    <column id="nombreVia"/>
+                                    <column id="numeroVia"/>
+                                    <column id="codigoPostal"/>
+                                </columns>
+                                <actions>
+                                    <action id="create" type="create"/>
+                                    <action id="remove" type="remove"/>
+                                    <action id="edit" type="edit" trackSelection="true"/>
+                                </actions>
+                                <buttonsPanel>
+                                    <button id="btnNuevaDireccion" caption="Nueva" action="direccionTable.create" />
+                                    <button id="btnEditarDireccion" caption="Editar" action="direccionTable.edit"/>
+                                    <button id="btnEliminarDireccion" caption="Eliminar"
+                                            action="direccionTable.remove"/>
+                                </buttonsPanel>
+                            </table>
+                        </tab>
+                        <tab id="tabDatosDeContacto" caption="Datos de Contacto" margin="true,false,false,false" spacing="true">
+                            <table id="tableDatosDeContacto" height="200px" width="100%"
+                                   dataContainer="datosDeContactoDc">
+                                <columns>
+                                    <column id="tipoDeDato" caption="Tipo de Dato"/>
+                                    <column id="dato" caption="Dato"/>
+                                    <column id="descripcionDato" caption="Descripcion Dato"/>
+                                </columns>
+                                <actions>
+                                    <action id="create" caption="Nuevo" type="create"/>
+                                    <action id="remove" type="remove"/>
+                                    <action id="edit" caption="Editar" type="edit" trackSelection="true"/>
+                                </actions>
+                                <buttonsPanel>
+                                    <button id="btnNuevoDato" caption="Nueva" action="tableDatosDeContacto.create"/>
+                                    <button id="btnEditarDato" caption="Editar" action="tableDatosDeContacto.edit"/>
+                                    <button id="btnEliminarDato" caption="Eliminar" action="tableDatosDeContacto.remove"/>
+                                </buttonsPanel>
+                            </table>
+                        </tab>
+                        <tab id="tabCuentasBancarias" caption="Cuentas Bancarias" margin="true,false,false,false" spacing="true">
+                            <table id="tableCuentasBancarias" height="196px" width="100%"
+                                   dataContainer="cuentasBancariasDc">
+                                <columns>
+                                    <column id="entidad"/>
+                                    <column id="oficina"/>
+                                    <column id="digitosControl"/>
+                                    <column id="numeroCuenta"/>
+                                    <column id="infoContactoOficina"/>
+                                    <column id="domicilioEntidadBancaria"/>
+                                    <column id="nombreEntidadBancaria"/>
+                                    <column id="pais"/>
+                                    <column id="codigoBIC"/>
+                                    <column id="digigosControlIBAN"/>
+                                </columns>
+                                <actions>
+                                    <action id="create" caption="Nuevo" type="create"/>
+                                    <action id="remove" type="remove"/>
+                                    <action id="edit" caption="Editar" type="edit" trackSelection="true"/>
+                                </actions>
+                                <buttonsPanel>
+                                    <button id="btnNuevaCB" caption="Nueva" action="tableCuentasBancarias.create"/>
+                                    <button id="btnEditarCB" caption="Editar" action="tableCuentasBancarias.edit"/>
+                                    <button id="btnEliminarCB" caption="Eliminar" action="tableCuentasBancarias.remove"/>
+                                </buttonsPanel>
+                            </table>
+                        </tab>
+                        <tab id="tabProveedor" caption="Proveedor" margin="true,false,false,false" spacing="true">
+                            <scrollBox height="100%">
+                                <checkBox id="chkProveedor" caption="Activar como Proveedor"/>
+                                <vbox id="sbxProveedor" height="432px">
+
+                                </vbox>
+                            </scrollBox>
+                        </tab>
+                        <tab id="tabPropietario" caption="Propietario" margin="true,false,false,false" spacing="true">
+                            <scrollBox height="100%">
+                                <checkBox id="chkPropietario" caption="Activar como Propietario"/>
+                                <vbox id="sbxPropietario" height="432px"/>
+                            </scrollBox>
+                        </tab>
+                    </tabSheet>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

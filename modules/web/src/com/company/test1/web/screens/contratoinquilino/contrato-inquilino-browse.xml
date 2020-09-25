@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Contratos Vigentes"
+        focusComponent="contratoInquilinoesTable"
+        messagesPack="com.company.test1.web.screens.contratoinquilino">
+    <data readOnly="true">
+        <collection id="contratoInquilinoesDc"
+                    class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                    view="contratoInquilino-list">
+            <loader id="contratoInquilinoesDl" >
+                <query>
+                    <![CDATA[select e from test1_ContratoInquilino e order by e.departamento.ubicacion.nombre asc, e.departamento.rm2id asc]]>
+                </query>
+            </loader>
+
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="contratoInquilinoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="contratoInquilinoesTable"
+                dataLoader="contratoInquilinoesDl" >
+            <property name="estadoContrato" caption="Estado Contrato"/>
+            <property name="inquilino.nombreCompleto" caption="Nombre Inquilino"/>
+            <property name="departamento.ubicacion.nombre" caption="Nombre Ubicación"/>
+            <property name="departamento.piso" caption="Piso"/>
+            <property name="departamento.puerta" caption="Puerta"/>
+            <property name="fechaRealizacion" caption="Fecha de Contrato"/>
+            <property name="fechaDesocupacion" caption="Fecha Desocupacion"/>
+            <property name="fechaVencimientoPrevisto" caption="Fecha Vencimiento Previsto"/>
+        </filter>
+        <groupTable id="contratoInquilinoesTable"
+                    width="100%"
+                    dataContainer="contratoInquilinoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+
+                <column id="departamento.ubicacion.nombre"/>
+                <column id="departamento.piso"/>
+                <column id="departamento.puerta"/>
+                <column id="estadoContrato"/>
+                <column id="fechaOcupacion"/>
+                <column id="fechaVencimientoPrevisto"/>
+                <column id="fechaDesocupacion"/>
+                <column id="inquilino.nombreCompleto"/>
+                <column id="rentaContractual"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="contratoInquilinoesTable.create"/>
+                <button id="editBtn" action="contratoInquilinoesTable.edit"/>
+                <button id="removeBtn" action="contratoInquilinoesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

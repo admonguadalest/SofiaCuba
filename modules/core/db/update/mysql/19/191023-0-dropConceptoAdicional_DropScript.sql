@@ -1,0 +1,1 @@
+drop table if exists TEST1_CONCEPTO_ADICIONAL__U24359 cascade ;

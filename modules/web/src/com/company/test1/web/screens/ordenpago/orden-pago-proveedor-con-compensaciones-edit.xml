@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordenpago">
+    <data>
+        <instance id="ordenPagoProveedorDc"
+                  class="com.company.test1.entity.ordenespago.OrdenPagoProveedor"
+                  view="ordenPagoProveedor-view">
+            <loader/>
+            <collection id="compensaciones" property="compensacionesOrdenesPagoProveedor"
+                        class="com.company.test1.entity.ordenespago.CompensacionOrdenPagoProveedor"
+                        view="compensacionOrdenPagoProveedor-view">
+                <loader>
+                    <query><![CDATA[select e from test1_CompensacionOrdenPagoProveedor e ]]></query>
+                </loader>
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="frm" dataContainer="ordenPagoProveedorDc">
+            <column width="250px">
+                <pickerField id="proveedorField" property="proveedor" width="659px"
+                             captionProperty="persona.nombreCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
+                <textField id="importeField" property="importe"/>
+                <textArea id="descripcionField" property="descripcion" width="693px"/>
+                <label id="lblInfoPago" value="Informacion de pago"/>
+                <label value="Compensaciones"/>
+                <table id="tableCompensaciones" width="100%" dataContainer="compensaciones">
+                    <columns>
+                        <column id="importe"/>
+                        <column id="ordenPagoFacturaProveedor.facturaProveedor.textoDescriptivoDocumento"/>
+                    </columns>
+                </table>
+
+
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordentrabajo">
+    <data>
+        <instance id="ordenTrabajoDc"
+                  class="com.company.test1.entity.ciclos.OrdenTrabajo"
+                  view="ordenTrabajo-view">
+            <loader id="ordenTrabajoDl"/>
+            <collection id="notasIntervencionDc"
+                         property="notasIntervenciones">
+
+            </collection>
+            <collection id="asignacionesTareasDc"
+                         property="asignacionesTareas">
+
+            </collection>
+        </instance>
+        <collection id="carpetaDocumentosFotograficosesDc"
+                    class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos"
+                    view="_minimal">
+            <loader id="carpetaDocumentosFotograficosesLc">
+                <query>
+                    <![CDATA[select e from test1_CarpetaDocumentosFotograficos e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="administradorsDc" class="com.haulmont.cuba.security.entity.User" view="_minimal">
+            <loader id="administradorsLc">
+                <query>
+                    <![CDATA[select e from sec$User e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="ordenTrabajoDc" width="100%">
+                <column width="50%">
+                    <dateField resolution="DAY" id="fechaSolicitudField" property="fechaSolicitud"/>
+                    <checkBox id="reparacionRehabilitacionField" property="reparacionRehabilitacion"/>
+                    <textField id="costeOrientativoField" property="costeOrientativo"/>
+                    <checkBox id="excluirDeMonitorizacionEncargadoField" property="excluirDeMonitorizacionEncargado"/>
+                    <lookupField id="tipoPrivacidadField" property="tipoPrivacidad"/>
+                </column>
+                <column width="50%">
+                    <pickerField id="propuestoPorField" property="propuestoPor">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                        </actions>
+                    </pickerField>
+                    <lookupPickerField id="carpetaDocumentosFotograficosField"
+                                       optionsContainer="carpetaDocumentosFotograficosesDc"
+                                       property="carpetaDocumentosFotograficos"/>
+                    <dateField resolution="DAY" id="fechaPrevistaIntervencionField" property="fechaPrevistaIntervencion"/>
+                    <dateField resolution="DAY" id="fechaFinalizacionField" property="fechaFinalizacion"/>
+                    <lookupPickerField id="administradorField" optionsContainer="administradorsDc"
+                                       property="administrador">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                        </actions>
+                    </lookupPickerField>
+                </column>
+            </form>
+            <textArea id="descripcionField" property="descripcion" rows="5" width="100%"/>
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <tabSheet>
+                    <tab id="tabNotasIntervencion" caption="Notas de Intervencion" margin="true,false,false,false" spacing="true">
+                        <table id="tableNotasIntervencion" height="281px" width="100%"
+                               dataContainer="notasIntervencionDc">
+                            <columns>
+                                <column id="fechaIntervencion"/>
+                                <column id="contenido"/>
+                            </columns>
+                            <buttonsPanel>
+                                <button id="btnNuevaNotaIntervencion" caption="Nueva"
+                                        action="tableNotasIntervencion.create"/>
+                                <button id="btnEditarNotaIntervencion" caption="Editar"
+                                        action="tableNotasIntervencion.edit"/>
+                                <button id="btnEliminarNotaIntervencion" caption="Eliminar"
+                                        action="tableNotasIntervencion.remove"/>
+                            </buttonsPanel>
+                            <actions>
+                                <action id="create" type="create"/>
+                                <action id="edit" type="edit"/>
+                                <action id="remove" type="remove"/>
+                            </actions>
+                        </table>
+                    </tab>
+                    <tab id="tabAsignacionesTareas" caption="Asignaciones Tareas" margin="true,false,false,false" spacing="true">
+                        <table id="tableAsignacionesTareas" height="281px" width="100%"
+                               dataContainer="asignacionesTareasDc">
+                            <columns>
+                                <column id="proveedor.nombreComercial"/>
+                                <column id="descripcion"/>
+                                <column id="fechaFinalizacion"/>
+                                <column id="acordadoConIndustrial"/>
+                            </columns>
+                            <buttonsPanel>
+                                <button id="btnNuevaAsignacionTarea" caption="Nueva"
+                                        action="tableAsignacionesTareas.create"/>
+                                <button id="btnEditarAsignacionTarea" caption="Editar"
+                                        action="tableAsignacionesTareas.edit"/>
+                                <button id="btnEliminarAsignacionTarea" caption="Eliminar"
+                                        action="tableAsignacionesTareas.remove"/>
+                            </buttonsPanel>
+                            <actions>
+                                <action id="create" type="create"/>
+                                <action id="edit" type="edit"/>
+                                <action id="remove" type="remove"/>
+                            </actions>
+                        </table>
+                    </tab>
+                </tabSheet>
+            </groupBox>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,4 @@
+alter table DEFINICION_REMESA change column PROPIETARIO_ID PROPIETARIO_ID__U63917 varchar(32)^
+drop index IDX_DEFINICION_REMESA_ON_PROPIETARIO on DEFINICION_REMESA ;
+alter table DEFINICION_REMESA add column PROPIETARIO_ID varchar(32) ;
+alter table DEFINICION_REMESA add column RM2ID integer ;

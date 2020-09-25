@@ -1,0 +1,4 @@
+alter table TEST1_ENTRADA add constraint FK_TEST1_ENTRADA_ON_CICLO foreign key (CICLO_ID) references TEST1_CICLO(ID);
+alter table TEST1_ENTRADA add constraint FK_TEST1_ENTRADA_ON_EVENTO foreign key (EVENTO_ID) references TEST1_EVENTO(ID);
+create index IDX_TEST1_ENTRADA_ON_CICLO on TEST1_ENTRADA (CICLO_ID);
+create index IDX_TEST1_ENTRADA_ON_EVENTO on TEST1_ENTRADA (EVENTO_ID);

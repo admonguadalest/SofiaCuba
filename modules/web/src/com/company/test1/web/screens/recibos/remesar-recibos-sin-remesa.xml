@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <collection id="reciboesDc" class="com.company.test1.entity.recibos.Recibo" view="recibo-view">
+            <loader id="reciboesDl">
+                <query><![CDATA[select e from test1_Recibo e ]]></query>
+            </loader>
+        </collection>
+        <collection id="definicionRemesasDc" class="com.company.test1.entity.recibos.DefinicionRemesa"
+                    view="definicionRemesa-view">
+            <loader id="definicionRemesasDl">
+                <query><![CDATA[select e from test1_DefinicionRemesa e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <dateField resolution="DAY" id="dteFechaDesde" caption="Fecha Desde"/>
+                <dateField resolution="DAY" id="dteFechaHasta" caption="Fecha Hasta"/>
+                <lookupField id="lkpTipoGiro" caption="Tipo Giro"
+                             optionsEnum="com.company.test1.entity.enums.recibos.DefinicionRemesaTipoGiroEnum"/>
+                <textField id="txtCodigoRemesa" caption="Codigo Remesa"/>
+            </hbox>
+            <table id="tblRecibos" height="300px" width="100%" dataContainer="reciboesDc">
+                <columns>
+                    <column id="ampliacion"/>
+                    <column id="fechaEmision"/>
+                    <column id="totalRecibo"/>
+                    <column id="totalReciboPostCCAA"/>
+                    <column id="numRecibo"/>
+                    <column id="fechaValor"/>
+                    <column id="gradoEstadoImpago"/>
+                    <column id="fechaEstadoPendiente"/>
+                    <column id="fechaEstadoIncobrable"/>
+                    <column id="rm2id"/>
+                </columns>
+                <buttonsPanel>
+                    <button id="btnActualizar" caption="Actualizar Tabla" invoke="onBtnActualizarClick"/>
+                </buttonsPanel>
+            </table>
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpDefinicionRemesa" caption="Definiciones Remesa"
+                             optionsContainer="definicionRemesasDc" captionProperty="nombreRemesa"/>
+                <dateField resolution="DAY" id="dteFechaValor" caption="Fecha Valor"/>
+                <dateField resolution="DAY" id="dteFechaAdeudo" caption="Fecha Adeudo"/>
+            </hbox>
+        </vbox>
+        <buttonsPanel>
+            <button id="btnRealizar" caption="Generar Remesa y Orden de Cobro" css="margin-top: 30px;"
+                    invoke="onBtnRealizarClick"/>
+            <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

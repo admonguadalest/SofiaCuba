@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="implementacionModeloDc"
+                  class="com.company.test1.entity.contratosinquilinos.ImplementacionModelo"
+                  view="_local" provided="true">
+            <loader/>
+        </instance>
+        <collection id="modeloContratoesDc" class="com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato"
+                    view="modeloContrato-view">
+            <loader id="modeloContratoesDl">
+                <query>
+                    <![CDATA[select e from test1_ModeloContrato e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="clausulasDc" class="com.company.test1.entity.modeloscontratosinquilinos.Clausula" view="_local">
+            <loader id="clausulasDl">
+                <query>
+                    <![CDATA[select e from test1_Clausula e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="parametroValorsDc" class="com.company.test1.entity.contratosinquilinos.ParametroValor"
+                    view="_local">
+            <loader id="parametroValorsDl">
+                <query>
+                    <![CDATA[select e from test1_ParametroValor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+
+
+        <vbox spacing="true">
+            <lookupPickerField id="pickerModeloContrato" width="100%" caption="Modelo de Contrato" optionsContainer="modeloContratoesDc" captionProperty="nombreModelo" dataContainer="implementacionModeloDc" property="modeloContrato"/>
+            <lookupPickerField id="pickerClausula" width="100%" caption="Clausulas" optionsContainer="clausulasDc" captionProperty="nombreClausula"/>
+            <table height="350px" id="parametroValorsTable"  width="100%" dataContainer="parametroValorsDc">
+
+                <actions>
+                    <action id="edit" type="edit" invoke="editParametroValor"/>
+                </actions>
+
+                <columns>
+                    <column id="nombreParametro"/>
+                    <column id="valor"/>
+
+                </columns>
+            </table>
+
+        </vbox>
+    </layout>
+</fragment>
+

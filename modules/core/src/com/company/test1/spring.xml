@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context">
+
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="com.company.test1"/>
+    <bean id="cubaDataSource_rentamasterdocs" class="com.haulmont.cuba.core.sys.CubaJndiObjectFactoryBean">
+        <property name="resourceRef" value="true"/>
+        <property name="jndiNameAppProperty" value="cuba.dataSourceJndiName_rentamasterdocs"/>
+    </bean>
+    <bean id="entityManagerFactory_rentamasterdocs"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" lazy-init="false">
+        <property name="persistenceXmlLocation" value="file:${cuba.dataDir}/rentamasterdocs-persistence.xml"/>
+        <property name="dataSource" ref="cubaDataSource_rentamasterdocs"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+    </bean>
+    <bean id="transactionManager_rentamasterdocs" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory_rentamasterdocs"/>
+        <property name="dataSource" ref="cubaDataSource_rentamasterdocs"/>
+        <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="rentamasterdocs"/>
+    </bean>
+
+</beans>

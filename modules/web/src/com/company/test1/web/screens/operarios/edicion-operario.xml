@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.operarios">
+    <data>
+        <collection id="usersDc" class="com.haulmont.cuba.security.entity.User" view="_local">
+            <loader id="usersDl">
+                <query><![CDATA[select e from sec$User e ]]></query>
+            </loader>
+        </collection>
+        <collection id="ubicacionsDc" class="com.company.test1.entity.departamentos.Ubicacion"
+                    view="ubicacion-with-direcciones">
+            <loader id="ubicacionsDl">
+                <query><![CDATA[select e from test1_Ubicacion e ]]></query>
+            </loader>
+        </collection>
+        <collection id="departamentoesDc" class="com.company.test1.entity.departamentos.Departamento"
+                    view="departamento-view">
+            <loader id="departamentoesDl">
+                <query><![CDATA[select e from test1_Departamento e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <lookupField id="lkpOperario" width="563px" caption="Seleccionar Operario"/>
+            <groupTable id="tblUbicaciones" height="189px" width="100%" caption="Ubicaciones Asociadas"
+                        dataContainer="ubicacionsDc" enable="false">
+                <columns>
+                    <column id="nombre"/>
+                    <column id="abreviacionUbicacion"/>
+                    <column id="esPropiedadVertical"/>
+                    <column id="latitud"/>
+                    <column id="longitud"/>
+                    <column id="numAscensores"/>
+                    <column id="informacionCatastral"/>
+                    <column id="nombreDistrito"/>
+                    <column id="rm2id"/>
+                </columns>
+            </groupTable>
+            <groupTable id="tblDepartamentos" height="189px" width="100%" caption="Ubicaciones Asociadas"
+                        dataContainer="departamentoesDc" enable="false">
+                <columns>
+                    <column id="piso"/>
+                    <column id="puerta"/>
+                    <column id="viviendaLocal"/>
+                    <column id="superficie"/>
+                    <column id="abreviacionPisoPuerta"/>
+                    <column id="dadoDeBaja"/>
+                    <column id="descripcion"/>
+                    <column id="conAireAcondicionado"/>
+                    <column id="conCalefaccion"/>
+                    <column id="obsevaciones"/>
+                    <column id="referenciaCatastral"/>
+                    <column id="excluirDeMonitorizacionParaBusquedaDePisosVacios"/>
+                    <column id="conSalidaDeHumos"/>
+                    <column id="numBanos"/>
+                    <column id="numHabitaciones"/>
+                    <column id="esEstudio"/>
+                    <column id="rm2id"/>
+                    <column id="nombreDescriptivoCompleto"/>
+                    <column id="propietarioEfectivo"/>
+                </columns>
+            </groupTable>
+        </vbox>
+    </layout>
+</window>

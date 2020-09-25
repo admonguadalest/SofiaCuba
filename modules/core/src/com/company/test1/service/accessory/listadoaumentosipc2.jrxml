@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listadoaumentosipc2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="baseRenta" class="java.lang.Double"/>
+	<field name="baseIncrementosRenta" class="java.lang.Double"/>
+	<field name="baseAumento" class="java.lang.Double"/>
+	<field name="porcentajeIncremento" class="java.lang.Double"/>
+	<field name="importeAumento" class="java.lang.Double"/>
+	<field name="importeAumentado" class="java.lang.Double"/>
+	<field name="mesAnyoAplicacionIPC" class="java.lang.String"/>
+	<field name="indiceIPCAplicado" class="java.lang.Double"/>
+	<field name="indiceIPCAnterior" class="java.lang.Double"/>
+	<field name="mesAnyoAplicacionIPCAnterior" class="java.lang.String"/>
+	<columnHeader>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Base Rta.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="0" width="52" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Base Inc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Base Aum.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[% Inc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Imp.Aum.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="0" width="54" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Imp.Tot.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="0" width="60" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha Ap.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[IPC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="53" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[IPC Ant.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha Ap.Ant.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="0" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{baseRenta}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="45" y="0" width="52" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{baseIncrementosRenta}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="97" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{baseAumento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000 %">
+				<reportElement x="145" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{porcentajeIncremento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="193" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{importeAumento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="238" y="0" width="54" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{importeAumentado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="292" y="0" width="60" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mesAnyoAplicacionIPC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000">
+				<reportElement x="352" y="0" width="48" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{indiceIPCAplicado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000">
+				<reportElement x="400" y="0" width="53" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{indiceIPCAnterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="453" y="0" width="45" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mesAnyoAplicacionIPCAnterior}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,30 @@
+create table TEST1_ORDEN_TRABAJO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    ENTRADA_ID varchar(32),
+    CARPETA_DOCUMENTOS_FOTOGRAFICOS_ID varchar(32),
+    FECHA_SOLICITUD datetime(3),
+    FECHA_PREVISTA_INTERVENCION date,
+    COSTE_ORIENTATIVO double precision,
+    PROPUESTO_POR_ID varchar(32),
+    DESCRIPCION longtext,
+    OBSERVACION longtext,
+    OBSERVACION_INTERVENCION longtext,
+    DURACION_PREVISTA_INTERVENCION varchar(45),
+    FRANJA_HORARIA_INTERVENCION varchar(45),
+    FECHA_FINALIZACION date,
+    FECHA_FINALIZACION_ESTIMADA date,
+    EXCLUIR_DE_MONITORIZACION_ENCARGADO boolean,
+    TIPO_PRIVACIDAD integer,
+    ADMINISTRADOR_ID varchar(32),
+    REPARACION_REHABILITACION boolean,
+    --
+    primary key (ID)
+);

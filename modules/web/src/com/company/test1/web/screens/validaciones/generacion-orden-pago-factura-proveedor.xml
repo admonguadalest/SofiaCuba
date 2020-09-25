@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.validaciones">
+    <data>
+        <instance id="validacionImputacionDocumentoImputableDc" class="com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable"
+                  view="validacionImputacionDocumentoImputable-view"/>
+        <collection id="ordenesPagoDc" class="com.company.test1.entity.ordenespago.OrdenPago">
+            <loader id="ordenesPagoDl">
+            </loader>
+        </collection>
+        <instance id="ordenPagoFacturaProveedorDc" class="com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor"
+                  view="ordenPagoFacturaProveedor-view"/>
+    </data>
+    <dialogMode resizable="true" width="AUTO"/>
+    <layout >
+        <groupBox orientation="horizontal" spacing="true" width="100%" height="120px">
+            <textField id="txtProveedor" caption="Proveedor" width="350px" editable="false"
+                       dataContainer="ordenPagoFacturaProveedorDc" property="facturaProveedor.proveedor.persona.nombreCompleto"/>
+            <textField id="txtNumDocumento" caption="Num. Docto." editable="false"
+                       dataContainer="ordenPagoFacturaProveedorDc" property="facturaProveedor.numDocumento"/>
+            <textField id="txtImporte" caption="Importe" dataContainer="ordenPagoFacturaProveedorDc"
+                       property="importe" editable="false"/>
+            <textField id="txtPagoEfectivo" caption="Importe Efectivo" editable="false"
+                       dataContainer="ordenPagoFacturaProveedorDc" property="importeEfectivo"/>
+        </groupBox>
+        <label value="Compensaciones Pendientes de Aplicacion" width="353px"/>
+        <table id="tableOrdenesPagoPendientesCompensacion" height="300px" width="100%" dataContainer="ordenesPagoDc">
+            <columns>
+                <column id="fechaValor" caption="Fecha"/>
+                <column id="importe" caption="Importe OP"/>
+                <column id="importePendienteCompensacion" caption="Importe Pendiente" generator="getColumnImportePendienteCompensacion"/>
+                <column id="descripcion" caption="Desc."/>
+                <column id="compensacion" caption="Compoensacion" generator="getColumnCompensacion"/>
+            </columns>
+        </table>
+        <buttonsPanel>
+            <button id="btnGuardar" caption="Guardar" invoke="onBtnGuardarClick"/>
+            <button id="btnCancelar" caption="Cancelar" invoke="onBtnCancelarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

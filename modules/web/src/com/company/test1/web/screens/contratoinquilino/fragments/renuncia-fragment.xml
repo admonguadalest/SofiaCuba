@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd"
+          xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd">
+    <data>
+        <instance id="contratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                  view="contratoInquilino-view" provided="true">
+
+        </instance>
+        <instance id="escaneoRenunciaDc" class="com.company.test1.entity.ArchivoAdjunto" view="archivoAdjunto-view"
+                  provided="true"/>
+    </data>
+    <layout width="100%">
+        <scrollBox>
+            <textArea caption="Observaciones Texto Renuncia" width="100%" dataContainer="contratoInquilinoDc"
+                      property="observacionesRenuncia"/>
+            <buttonsPanel>
+                <button caption="Ver Modelo de Renuncia"/>
+            </buttonsPanel>
+            <app:WebArchivoAdjuntoField id="aaEscaneoContrato" caption="Documento de Renuncia"
+                                     property="archivoAdjuntoRenuncia" dataContainer="contratoInquilinoDc"
+                                     width="100%"/>
+        </scrollBox>
+    </layout>
+</fragment>
+

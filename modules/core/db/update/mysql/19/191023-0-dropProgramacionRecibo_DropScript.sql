@@ -1,0 +1,1 @@
+drop table if exists TEST1_PROGRAMACION_RECIBO__U30122 cascade ;

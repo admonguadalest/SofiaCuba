@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.concepto">
+    <data>
+        <instance id="conceptoDc"
+                  class="com.company.test1.entity.recibos.Concepto"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="conceptoDc">
+            <column width="250px">
+                <textField id="tituloConceptoField" property="tituloConcepto"/>
+                <textField id="abreviacionField" property="abreviacion"/>
+                <textArea id="descripcionField" property="descripcion" width="588px"/>
+                <checkBox id="adicionSustraccionField" property="adicionSustraccion"/>
+                <checkBox id="agregarConceptoEnReciboField" property="agregarConceptoEnRecibo"/>
+                <checkBox id="ajustableAgregadamenteField" property="ajustableAgregadamente"/>
+                <textField id="ordenacionField" property="ordenacion" editable="false"
+                           contextHelpText="Este valor se edita desde el dialogo de Filtro mediante los botones Subir/Bajar"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

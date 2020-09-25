@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.notificaciones">
+    <data>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem" view="_base">
+            <loader id="treeItemsDl">
+                <query><![CDATA[select e from test1_TreeItem e ]]></query>
+            </loader>
+        </collection>
+        <collection id="plantillasDc" class="com.company.test1.entity.reportsyplantillas.Plantilla" view="_base">
+            <loader id="plantillasDl">
+                <query><![CDATA[select e from test1_Plantilla e order by e.nombrePlantilla]]></query>
+            </loader>
+        </collection>
+        <collection id="helperInyeccionPlantillasDc" class="com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla"
+                    view="helperInyeccionPlantilla-view">
+            <loader id="helperInyeccionPlantillasDl">
+                <query><![CDATA[select e from test1_HelperInyeccionPlantilla e ]]></query>
+            </loader>
+        </collection>
+        <collection id="contratoInquilinoesDc" class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                    view="contratoInquilino-view">
+            <loader id="contratoInquilinoesDl">
+                <query><![CDATA[select e from test1_ContratoInquilino e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <table id="tblPropietarios" height="200px" width="100%" caption="Propietarios"
+                       dataContainer="propietariosDc">
+                    <columns>
+                        <column id="persona.nombreCompleto"/>
+
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnSeleccionarTodosPropietarios" caption="Seleccionar Todos"
+                                invoke="onBtnSeleccionarTodosPropietariosClick"/>
+                    </buttonsPanel>
+                </table>
+                <tree id="treeDepartamentos" height="200px" width="100%" caption="Ubicaciones/Departamentos" dataContainer="treeItemsDc"
+                      hierarchyProperty="parentItem" multiselect="true">
+                    <treechildren captionProperty="userObjectText"/>
+                    <buttonsPanel>
+                        <button id="btnSeleccionarTodosDepartamentos" caption="Seleccionar Todos"
+                                invoke="onBtnSeleccionarTodosDepartamentosClick"/>
+                    </buttonsPanel>
+                </tree>
+            </hbox>
+            <hbox spacing="true">
+                <button id="btnBuscarContratos" caption="Buscar" invoke="onBtnBuscarContratosClick"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <table id="tblContratos" height="150px" width="100%" caption="Contratos"
+                       dataContainer="contratoInquilinoesDc">
+                    <columns>
+                        <column id="departamento.nombreDescriptivoCompleto"/>
+                        <column id="inquilino.nombreCompleto"/>
+                        <column id="fechaOcupacion"/>
+                        <column id="numeroContrato"/>
+                        <column id="rentaContractual"/>
+                        <column id="fechaVencimientoPrevisto"/>
+
+                    </columns>
+                </table>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpPlantilla" caption="Plantilla" optionsContainer="plantillasDc"
+                             captionProperty="nombrePlantilla" width="100%"/>
+                <dateField resolution="DAY" id="dteFechaEnvio" caption="Fecha de Envio" width="253px" required="true"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <textField id="txtTitulo" caption="Titulo" width="100%"/>
+            </hbox>
+            <richTextArea id="rtaContenido" caption="Contenido Notificacion" width="100%" height="350px"/>
+            <buttonsPanel>
+                <checkBox id="chkVerCamposVacios" caption="Ver Campos Vacios"/>
+                <button id="btnPrevisualizar" caption="Previsualizar" invoke="onBtnPrevisualizarClick"/>
+                <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
+                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+            </buttonsPanel>
+        </vbox>
+    </layout>
+</window>

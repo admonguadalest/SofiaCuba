@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.definicionremesa">
+    <data>
+        <instance id="definicionRemesaDc"
+                  class="com.company.test1.entity.recibos.DefinicionRemesa"
+                  view="definicionRemesa-view">
+            <loader/>
+        </instance>
+        <collection id="cuentasBancariasDc" class="com.company.test1.entity.CuentaBancaria">
+            <loader id="cuentasBancariasDl">
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="definicionRemesaDc">
+            <column width="250px">
+                <textField id="nombreRemesaField" property="nombreRemesa"/>
+                <pickerField id="propietarioField" caption="Propietario" dataContainer="definicionRemesaDc" property="propietario"
+                             captionProperty="persona.nombreCompleto"/>
+                <textField id="descripcionField" property="descripcion"/>
+                <lookupField id="unidadPeriodicidadField" property="unidadPeriodicidad"/>
+                <textField id="cantidadPeriodicidadField" property="cantidadPeriodicidad"/>
+                <lookupField id="tipoGiroField" property="tipoGiro"/>
+                <lookupField id="cuentaBancariaField" dataContainer="definicionRemesaDc" property="cuentaBancaria"
+                             optionsContainer="cuentasBancariasDc" captionProperty="textoCuentaBancariaCompleta">
+
+                </lookupField>
+                <lookupField id="modoPresentacionField" property="modoPresentacion"/>
+                <pickerField id="delegadoField" property="delegado">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

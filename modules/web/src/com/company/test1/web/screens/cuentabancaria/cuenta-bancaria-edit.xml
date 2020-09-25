@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.cuentabancaria">
+    <data>
+        <instance id="cuentaBancariaDc"
+                  class="com.company.test1.entity.CuentaBancaria"
+                  view="cuentaBancaria-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="cuentaBancariaDc">
+            <column width="250px">
+                <textField id="entidadField" property="entidad" dataContainer="cuentaBancariaDc"/>
+                <textField id="oficinaField" property="oficina" dataContainer="cuentaBancariaDc"/>
+                <textField id="digitosControlField" property="digitosControl" dataContainer="cuentaBancariaDc"/>
+                <textField id="numeroCuentaField" property="numeroCuenta" dataContainer="cuentaBancariaDc"/>
+                <textField id="infoContactoOficinaField" property="infoContactoOficina" dataContainer="cuentaBancariaDc"/>
+                <textField id="domicilioEntidadBancariaField" property="domicilioEntidadBancaria" dataContainer="cuentaBancariaDc"/>
+                <textField id="nombreEntidadBancariaField" property="nombreEntidadBancaria" dataContainer="cuentaBancariaDc"/>
+                <textField id="paisField" property="pais" dataContainer="cuentaBancariaDc"/>
+                <textField id="codigoBICField" property="codigoBIC" dataContainer="cuentaBancariaDc"/>
+                <textField id="digigosControlIBANField" property="digigosControlIBAN" dataContainer="cuentaBancariaDc"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

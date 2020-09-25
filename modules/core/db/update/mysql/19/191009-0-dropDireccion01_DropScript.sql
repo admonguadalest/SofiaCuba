@@ -1,0 +1,1 @@
+drop table if exists TEST1_DIRECCION__U33306 cascade ;

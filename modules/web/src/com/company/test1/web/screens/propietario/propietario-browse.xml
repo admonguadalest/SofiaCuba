@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="propietariosTable"
+        messagesPack="com.company.test1.web.screens.propietario">
+    <data readOnly="true">
+        <collection id="propietariosDc"
+                    class="com.company.test1.entity.extroles.Propietario"
+                    view="propietario-view">
+            <loader id="propietariosDl">
+                <query>
+                    <![CDATA[select e from test1_Propietario e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="propietariosTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="propietariosTable"
+                dataLoader="propietariosDl" >
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="propietariosTable"
+                    width="100%"
+                    dataContainer="propietariosDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="abreviacionContratos"/>
+                <column id="codigoCliente"/>
+                <column id="exoneracionIrpf"/>
+                <column id="gestionCaja"/>
+                <column id="persona.nombreCompleto"/>
+                <column id="cuentaBancaria.textoCuentaBancariaCompleta"/>
+                <column id="prospecto"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="propietariosTable.create"/>
+                <button id="editBtn" action="propietariosTable.edit"/>
+                <button id="removeBtn" action="propietariosTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

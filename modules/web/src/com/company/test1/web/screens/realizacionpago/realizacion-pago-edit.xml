@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.realizacionpago">
+    <data>
+        <instance id="realizacionPagoDc"
+                  class="com.company.test1.entity.ordenespago.RealizacionPago"
+                  view="realizacionPago-view">
+            <loader/>
+            <collection id="ordenPagosDc"  property="ordenesPago">
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="realizacionPagoDc" width="100%">
+            <column width="100%">
+                <pickerField id="cuentaBancariaField" width="684px"
+                             dataContainer="realizacionPagoDc" property="cuentaBancaria"
+                             captionProperty="textoCuentaBancariaPropietario">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
+                <textField id="infoCuentaEmisoraField" property="infoCuentaEmisora" width="684px"/>
+                <textField id="xsdField" property="xsd"/>
+                <textField id="identificadorField" property="identificador"/>
+                <textField id="importeTotalField" property="importeTotal"/>
+                <tabSheet>
+                    <tab id="tabOrdenes" caption="Ordenes" margin="true,false,false,false" spacing="true">
+                        <table height="400px" width="100%" dataContainer="ordenPagosDc">
+                            <columns>
+                                <column id="nombreTipo"/>
+                                <column id="fechaValor"/>
+                                <column id="importe"/>
+                                <column id="importeEfectivo"/>
+                                <column id="descripcion"/>
+
+
+                            </columns>
+                        </table>
+                    </tab>
+                    <tab id="tabSepa" caption="Sepa" margin="true,false,false,false" spacing="true">
+                        <textArea height="400px" width="100%"/>
+                    </tab>
+                </tabSheet>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="btnDescargar" invoke="onBtnDescargarClick" caption="Descargar"/>
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

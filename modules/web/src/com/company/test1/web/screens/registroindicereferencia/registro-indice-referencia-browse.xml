@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="registroIndiceReferenciasTable"
+        messagesPack="com.company.test1.web.screens.registroindicereferencia">
+    <data readOnly="true">
+        <collection id="registroIndiceReferenciasDc"
+                    class="com.company.test1.entity.recibos.RegistroIndiceReferencia"
+                    view="_base">
+            <loader id="registroIndiceReferenciasDl" dynamicAttributes="true" >
+                <query><![CDATA[select e from test1_RegistroIndiceReferencia e order
+by e.anno desc, e.mes desc]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="registroIndiceReferenciasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="registroIndiceReferenciasTable"
+                dataLoader="registroIndiceReferenciasDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="registroIndiceReferenciasTable"
+                    width="100%"
+                    dataContainer="registroIndiceReferenciasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="mes"/>
+                <column id="anno"/>
+                <column id="valor"/>
+                <column id="nombreTipo"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="registroIndiceReferenciasTable.create"/>
+                <button id="editBtn" action="registroIndiceReferenciasTable.edit"/>
+                <button id="removeBtn" action="registroIndiceReferenciasTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

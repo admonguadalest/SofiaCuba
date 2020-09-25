@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="realizacionCobroesTable"
+        messagesPack="com.company.test1.web.screens.realizacioncobro">
+    <data readOnly="true">
+        <collection id="realizacionCobroesDc"
+                    class="com.company.test1.entity.ordenescobro.RealizacionCobro"
+                    view="_base">
+            <loader id="realizacionCobroesDl">
+                <query>
+                    <![CDATA[select e from test1_RealizacionCobro e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="realizacionCobroesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="realizacionCobroesTable"
+                dataLoader="realizacionCobroesDl">
+            <property caption="Fecha Valor" name="fechaValor"/>
+            <property caption="Identificador" name="identificador"/>
+        </filter>
+        <table id="realizacionCobroesTable"
+               width="100%"
+               dataContainer="realizacionCobroesDc">
+            <actions>
+
+                <action id="edit" type="edit"/>
+
+            </actions>
+            <columns>
+
+                <column id="identificador"/>
+                <column id="fechaValor"/>
+
+                <column id="importeTotal"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+
+                <button id="editBtn" action="realizacionCobroesTable.edit"/>
+                <button id="removeBtn" invoke="retrocederRealizacionCobro" caption="Retroceder"/>
+                <button id="btnSepa" invoke="onBtnDescargarSepaClick" caption="Descargar SEPA"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+            <button id="btnDescargarSepa" invoke="onBtnDescargarSepaClick"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,2 @@
+alter table VERSION_CLAUSULA change column NOMBRES_PARAMETROS NOMBRES_PARAMETROS__U91437 longtext^
+alter table VERSION_CLAUSULA add column NOMBRES_PARAMETROS varchar(255) ;

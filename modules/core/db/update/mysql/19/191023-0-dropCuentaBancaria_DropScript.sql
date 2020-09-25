@@ -1,0 +1,1 @@
+drop table if exists TEST1_CUENTA_BANCARIA__U09604 cascade ;

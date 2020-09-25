@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Impagados"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select p from test1_Propietario p]]></query>
+            </loader>
+        </collection>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem">
+            <loader id="treeItemsDl">
+            </loader>
+        </collection>
+        <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie" view="_base">
+            <loader id="seriesDl">
+                <query><![CDATA[select e from test1_Serie e ]]></query>
+            </loader>
+        </collection>
+        <collection id="recibosDc" class="com.company.test1.entity.recibos.Recibo" view="recibo-view">
+            <loader id="recibosDl">
+                <query><![CDATA[select e from test1_Recibo e ]]></query>
+            </loader>
+        </collection>
+
+    </data>
+    <layout expand="scroll">
+        <scrollBox id="scroll" spacing="true" height="100%">
+            <hbox spacing="true" width="100%">
+                <groupBox orientation="horizontal" spacing="true" width="100%" caption="Propietarios">
+                    <vbox spacing="true">
+                        <table id="tablePropietarios" height="290px" width="100%" dataContainer="propietariosDc"
+                               multiselect="true">
+                            <columns>
+                                <column id="persona.nombreCompleto"/>
+
+                            </columns>
+                        </table>
+                        <buttonsPanel>
+                            <button id="btnLimpiarSeleccionPropietarios" caption="Limpiar Seleccion"
+                                    invoke="onBtnLimpiarSeleccionPropietariosClick"/>
+                            <button id="btnInvertirSeleccionPropietarios" caption="Invertir Seleccion"
+                                    invoke="onBtnInvertirSeleccionPropietariosClick"/>
+                        </buttonsPanel>
+                    </vbox>
+                </groupBox>
+                <groupBox orientation="horizontal" spacing="true" caption="Ubicaciones/Departamento" width="100%">
+                    <vbox spacing="true">
+                        <tree id="treeUbicacionesDepartamentos" height="290px" width="100%" dataContainer="treeItemsDc" multiselect="true"
+                              hierarchyProperty="parentItem">
+                            <treechildren captionProperty="userObjectText"/>
+                        </tree>
+                        <buttonsPanel>
+                            <button id="btnLimpiarSeleccionTree" caption="Limpiar Seleccion"
+                                    invoke="onBtnLimpiarSeleccionTreeClick"/>
+                            <button id="btnSeleccionarTodosContratos" caption="Seleccionar todas las Ubicaciones"
+                                    invoke="onBtnSeleccionarTodosContratosClick"/>
+                        </buttonsPanel>
+                    </vbox>
+                </groupBox>
+            </hbox>
+            <vbox spacing="true">
+                <hbox spacing="true" width="100%">
+                    <dateField resolution="DAY" id="fechaDesde" caption="Fecha Desde"/>
+                    <dateField resolution="DAY" id="fechaHasta" caption="Fecha Hasta"/>
+                    <lookupField id="lkpContratos" caption="Contratos Vigentes/No Vigentes"
+
+                                 nullName="(Todos)"/>
+                    <lookupField id="lkpGradoIncobrable" caption="Incobrabilidad"
+                                 optionsEnum="com.company.test1.entity.enums.recibos.ReciboGradoImpago"
+                                 nullName="(Grado de Incobrabilidad)"/>
+                    <lookupField id="lkpSeries" caption="Series" optionsContainer="seriesDc" captionProperty="nombreSerie"
+                                 nullName="(Todas)"/>
+                </hbox>
+                <buttonsPanel>
+                    <button id="btnActualizar" caption="Actualizar Resultados" invoke="onBtnActualizarClick"/>
+                </buttonsPanel>
+                <table id="tableResultados" height="400px" width="100%" dataContainer="recibosDc">
+                    <columns>
+                        <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                        <column id="utilitarioInquilino.nombreCompleto"/>
+                        <column id="numRecibo"/>
+                        <column id="fechaEmision"/>
+                        <column id="totalRecibo"/>
+                        <column id="totalReciboPostCCAA"/>
+                        <column id="gradoEstadoImpago"/>
+
+                    </columns>
+                    <actions>
+                        <action id="edit" type="edit"/>
+                    </actions>
+                </table>
+            </vbox>
+        </scrollBox>
+        <buttonsPanel align="BOTTOM_LEFT" caption="Acciones">
+            <button id="btnPrevisualizar" caption="Imprimir Resultados" invoke="onBtnPrevisualizarClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

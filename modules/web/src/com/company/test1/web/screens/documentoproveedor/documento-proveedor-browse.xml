@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="documentoProveedorsTable"
+        messagesPack="com.company.test1.web.screens.documentoproveedor">
+    <data readOnly="true">
+        <collection id="documentoProveedorsDc"
+                    class="com.company.test1.entity.documentosImputables.DocumentoProveedor"
+                    view="documentoProveedor-view">
+            <loader id="documentoProveedorsDl">
+                <query>
+                    <![CDATA[select e from test1_DocumentoProveedor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="documentoProveedorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="documentoProveedorsTable"
+                dataLoader="documentoProveedorsDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="documentoProveedorsTable"
+               width="100%"
+               dataContainer="documentoProveedorsDc" multiselect="true">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto"/>
+                <column id="tipo"/>
+                <column id="fechaEmision"/>
+                <column id="numDocumento"/>
+                <column id="ordenPago" caption="Pago" generator="getOrdenPagoColumn"/>
+                <column id="importePostCCAA"/>
+                <column id="textoImputaciones"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="editBtn" action="documentoProveedorsTable.edit"/>
+                <button id="removeBtn" action="documentoProveedorsTable.remove"/>
+                <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+                <button id="btnVerEscaneos" caption="Ver Escaneos" invoke="onBtnVerEscaneosClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

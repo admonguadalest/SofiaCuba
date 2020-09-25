@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="0.699761070314602"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+    <parameter name="P_FECHA2" class="java.lang.String">
+        <defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+    </parameter>
+    <parameter name="P_COMPANYLOGO" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <parameter name="P_TOTALESBASE" class="java.lang.Double"/>
+    <parameter name="P_TOTALESIRPF" class="java.lang.Double"/>
+    <parameter name="P_TOTALESIVA" class="java.lang.Double"/>
+    <parameter name="P_TOTALES" class="java.lang.Double"/>
+    <parameter name="P_NUMRECIBOS" class="java.lang.Integer"/>
+    <parameter name="P_TITULO" class="java.lang.String"/>
+    <parameter name="P_UBICACION" class="java.lang.String"/>
+    <parameter name="P_COD1" class="java.lang.String"/>
+    <parameter name="P_COD2" class="java.lang.String"/>
+    <parameter name="P_COD3" class="java.lang.String"/>
+    <parameter name="P_COD4" class="java.lang.String"/>
+    <parameter name="P_DESC1" class="java.lang.String"/>
+    <parameter name="P_DESC2" class="java.lang.String"/>
+    <parameter name="P_DESC3" class="java.lang.String"/>
+    <parameter name="P_DESC4" class="java.lang.String"/>
+    <parameter name="P_IMP1" class="java.lang.String"/>
+    <parameter name="P_IMP2" class="java.lang.String"/>
+    <parameter name="P_IMP3" class="java.lang.String"/>
+    <parameter name="P_IMP4" class="java.lang.String"/>
+    <parameter name="P_COD5" class="java.lang.String"/>
+    <parameter name="P_COD7" class="java.lang.String"/>
+    <parameter name="P_COD9" class="java.lang.String"/>
+    <parameter name="P_COD10" class="java.lang.String"/>
+    <parameter name="P_COD6" class="java.lang.String"/>
+    <parameter name="P_COD8" class="java.lang.String"/>
+    <parameter name="P_DESC5" class="java.lang.String"/>
+    <parameter name="P_DESC7" class="java.lang.String"/>
+    <parameter name="P_DESC9" class="java.lang.String"/>
+    <parameter name="P_DESC10" class="java.lang.String"/>
+    <parameter name="P_DESC6" class="java.lang.String"/>
+    <parameter name="P_DESC8" class="java.lang.String"/>
+    <parameter name="P_IMP5" class="java.lang.String"/>
+    <parameter name="P_IMP7" class="java.lang.String"/>
+    <parameter name="P_IMP9" class="java.lang.String"/>
+    <parameter name="P_IMP10" class="java.lang.String"/>
+    <parameter name="P_IMP6" class="java.lang.String"/>
+    <parameter name="P_IMP8" class="java.lang.String"/>
+    <parameter name="P_COD11" class="java.lang.String"/>
+    <parameter name="P_IMP12" class="java.lang.String"/>
+    <parameter name="P_DESC13" class="java.lang.String"/>
+    <parameter name="P_DESC15" class="java.lang.String"/>
+    <parameter name="P_DESC16" class="java.lang.String"/>
+    <parameter name="P_DESC17" class="java.lang.String"/>
+    <parameter name="P_DESC18" class="java.lang.String"/>
+    <parameter name="P_DESC19" class="java.lang.String"/>
+    <parameter name="P_DESC20" class="java.lang.String"/>
+    <parameter name="P_COD12" class="java.lang.String"/>
+    <parameter name="P_COD13" class="java.lang.String"/>
+    <parameter name="P_COD14" class="java.lang.String"/>
+    <parameter name="P_COD15" class="java.lang.String"/>
+    <parameter name="P_COD16" class="java.lang.String"/>
+    <parameter name="P_COD17" class="java.lang.String"/>
+    <parameter name="P_COD18" class="java.lang.String"/>
+    <parameter name="P_COD19" class="java.lang.String"/>
+    <parameter name="P_COD20" class="java.lang.String"/>
+    <parameter name="P_IMP11" class="java.lang.String"/>
+    <parameter name="P_IMP13" class="java.lang.String"/>
+    <parameter name="P_IMP14" class="java.lang.String"/>
+    <parameter name="P_IMP15" class="java.lang.String"/>
+    <parameter name="P_IMP16" class="java.lang.String"/>
+    <parameter name="P_IMP17" class="java.lang.String"/>
+    <parameter name="P_IMP18" class="java.lang.String"/>
+    <parameter name="P_IMP19" class="java.lang.String"/>
+    <parameter name="P_IMP20" class="java.lang.String"/>
+    <parameter name="P_DESC11" class="java.lang.String"/>
+    <parameter name="P_DESC12" class="java.lang.String"/>
+    <parameter name="P_DESC14" class="java.lang.String"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <title>
+        <band height="802">
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="422" y="4" width="128" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="35" y="45" width="479" height="15"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_TITULO}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="640" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD20}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="592" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC11}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="531" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC1}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="640" width="126" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC20}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="544" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP4}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="592" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP11}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="234" y="515" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+            <textField pattern="###0.00">
+                <reportElement x="453" y="455" width="61" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Bottom">
+                    <font size="6"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$P{P_TOTALESIVA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="91" y="616" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC15}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="568" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC8}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="93" y="516" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="580" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP9}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="472" y="516" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="336" y="604" width="124" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC14}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="338" y="516" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="544" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP3}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="592" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD11}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="299" y="616" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD16}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="640" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC19}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="254" y="439" width="78" height="14" backcolor="#FFFFFF"/>
+                <textElement verticalAlignment="Bottom">
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Finca]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="471" y="628" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP18}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="568" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD7}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="604" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD13}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00">
+                <reportElement x="335" y="442" width="179" height="13"/>
+                <textElement textAlignment="Right" verticalAlignment="Bottom">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$P{P_TOTALESBASE}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00">
+                <reportElement x="453" y="486" width="61" height="13"/>
+                <textElement textAlignment="Right" verticalAlignment="Bottom">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$P{P_TOTALES}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="568" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP7}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="254" y="453" width="78" height="20" backcolor="#FFFFFF"/>
+                <textElement verticalAlignment="Bottom">
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nº Recibos]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="544" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC4}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="580" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC10}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="478" y="515" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="91" y="628" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC17}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="59" y="516" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Cod.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="470" width="78" height="14" backcolor="#FFFFFF"/>
+                <textElement verticalAlignment="Bottom">
+                    <font fontName="Tahoma" size="6" isBold="true"/>
+                </textElement>
+                <text><![CDATA[I.R.P.F.]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="604" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP13}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="336" y="616" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC16}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="227" y="516" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="336" y="628" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC18}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="628" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD17}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00">
+                <reportElement x="453" y="470" width="61" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Bottom">
+                    <font size="6"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$P{P_TOTALESIRPF}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="544" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD4}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="91" y="604" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC13}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="640" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP20}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="98" y="515" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="592" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC12}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="556" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP6}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="456" width="78" height="14" backcolor="#FFFFFF"/>
+                <textElement verticalAlignment="Bottom">
+                    <font fontName="Tahoma" size="6" isBold="true"/>
+                </textElement>
+                <text><![CDATA[I.V.A.]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="299" y="628" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD18}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="640" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD19}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="544" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC3}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="616" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD15}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="556" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD5}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="616" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP15}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="64" y="515" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[ Cod.]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="580" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD10}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="true">
+                <reportElement x="90" y="580" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC9}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="628" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP17}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="299" y="604" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD14}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="568" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD8}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="485" width="78" height="14" backcolor="#FFFFFF"/>
+                <textElement verticalAlignment="Bottom">
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Totales]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="531" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP1}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="531" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP2}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="531" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC2}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="640" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP19}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="531" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD2}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="471" y="616" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP16}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="592" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD12}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="298" y="556" width="25" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD6}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="300" y="516" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Cod.]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="531" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD1}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="592" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP12}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="344" y="515" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="568" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP8}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="225" y="556" width="45" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP5}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="580" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD9}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="307" y="515" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Cod.]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="470" y="581" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP10}]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement mode="Opaque" x="57" y="515" width="466" height="14" forecolor="#666666" backcolor="#666666"/>
+            </rectangle>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="544" width="25" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_COD3}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="568" width="125" height="12" isRemoveLineWhenBlank="true"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC7}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="471" y="604" width="45" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMP14}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="335" y="556" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC6}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="90" y="556" width="125" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_DESC5}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="335" y="459" width="22" height="14"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_NUMRECIBOS}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="471" y="515" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="57" y="515" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Cod.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="336" y="515" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="91" y="515" width="125" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="298" y="515" width="25" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Cod.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="225" y="515" width="45" height="14" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="8" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+        </band>
+    </title>
+</jasperReport>

@@ -1,0 +1,37 @@
+<Context>
+
+    <!-- Database connection -->
+    <Resource
+      name="jdbc/CubaDS"
+      type="javax.sql.DataSource"
+      maxTotal="20"
+      maxIdle="2"
+      maxWaitMillis="5000"
+      driverClassName="com.mysql.jdbc.Driver"
+      url="jdbc:mysql://localhost/cubatest1?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=UTC"
+      username="root"
+      password="dtisat"/>
+
+    <!-- Switch off session serialization -->
+    <Manager pathname=""/>
+    <!--<Resource driverClassName="org.hsqldb.jdbc.JDBCDriver"
+          maxIdle="2"
+          maxTotal="20"
+          maxWaitMillis="5000"
+          name="jdbc/CubaDS"
+          password=""
+          type="javax.sql.DataSource"
+          url="jdbc:hsqldb:hsql://localhost:9010/test1-I05V7AqSZ"
+          username="sa"/>-->
+    <!--Data store 'rentamasterdocs' connection-->
+    <Resource driverClassName="com.mysql.jdbc.Driver"
+              maxIdle="2"
+              maxTotal="20"
+              maxWaitMillis="5000"
+              name="jdbc/rentamasterdocs"
+              password="dtisat"
+              type="javax.sql.DataSource"
+              url="jdbc:mysql://localhost/rentamasterdocs?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=UTC"
+              username="root"/>
+
+</Context>

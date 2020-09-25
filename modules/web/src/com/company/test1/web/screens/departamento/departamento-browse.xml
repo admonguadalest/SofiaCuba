@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Filtrado de Departamentos"
+        focusComponent="departamentoesTable"
+        messagesPack="com.company.test1.web.screens.departamento">
+    <data readOnly="true">
+        <collection id="departamentoesDc"
+                    class="com.company.test1.entity.departamentos.Departamento"
+                    view="departamento-view">
+            <loader id="departamentoesDl" >
+                <query>
+                    <![CDATA[select e from test1_Departamento e join e.ubicacion u]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="departamentoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="departamentoesTable"
+                dataLoader="departamentoesDl">
+            <property name="ubicacion.nombre" caption="Nombre Ubicación"/>
+            <property name="piso"/>
+            <property name="puerta"/>
+        </filter>
+        <groupTable id="departamentoesTable"
+                    width="100%"
+                    dataContainer="departamentoesDc" >
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+                <action id="refresh" type="refresh"/>
+            </actions>
+            <columns>
+                <column id="ubicacion.nombre"/>
+                <column id="piso"/>
+                <column id="puerta"/>
+                <column id="viviendaLocal"/>
+                <column id="superficie"/>
+                <column id="referenciaCatastral"/>
+                <column id="propietarioEfectivo.persona.nombreCompleto" caption="Propietario"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="departamentoesTable.create"/>
+                <button id="editBtn" action="departamentoesTable.edit"/>
+                <button id="removeBtn" action="departamentoesTable.remove"/>
+                <button id="refreshBtn" action="departamentoesTable.refresh"/>
+                <button id="btnReport" caption="Pdf" invoke="onBtnReportClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

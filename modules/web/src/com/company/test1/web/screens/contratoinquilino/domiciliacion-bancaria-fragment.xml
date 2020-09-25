@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="contratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                  view="contratoInquilino-view" provided="true">
+
+            <instance id="programacionReciboDc" property="programacionRecibo"/>
+        </instance>
+        <collection id="cuentasBancariasPagadorDc" class="com.company.test1.entity.CuentaBancaria">
+            <loader id="cuentasBancariasDl">
+                <query><![CDATA[select e from test1_CuentaBancaria e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout spacing="true">
+        <scrollBox spacing="true">
+            <label value="Domiciliacion Bancaria"/>
+            <checkBox caption="El pagador es la misma persona que el titular del contrato" width="629px"
+                      dataContainer="contratoInquilinoDc" property="elPagadorEsElTitular"/>
+            <lookupPickerField id="pkfPagador" caption="Seleccionar Pagador" dataContainer="contratoInquilinoDc" property="pagador"
+                               captionProperty="nombreCompleto" width="464px">
+                <actions>
+                    <action id="lookup" type="picker_lookup"/>
+                    <action id="open" type="picker_open"/>
+                </actions>
+            </lookupPickerField>
+            <table id="tableCuentasBancariasPagador" height="200px" width="100%" dataContainer="cuentasBancariasPagadorDc">
+                <columns>
+                    <column id="textoCuentaBancariaCompleta"/>
+                    <column id="entidad"/>
+                    <column id="oficina"/>
+                    <column id="digitosControl"/>
+                    <column id="numeroCuenta"/>
+                    <column id="infoContactoOficina"/>
+                    <column id="domicilioEntidadBancaria"/>
+                    <column id="nombreEntidadBancaria"/>
+                    <column id="pais"/>
+                    <column id="codigoBIC"/>
+                    <column id="digigosControlIBAN"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="tableCuentasBancariasPagador.edit"/>
+                </buttonsPanel>
+                <actions>
+                    <action id="edit" type="edit"/>
+                </actions>
+            </table>
+            <lookupField caption="Seleccionar Cuenta Pagador" dataContainer="programacionReciboDc" width="545px"
+                         property="cuentaBancariaPagador" optionsContainer="cuentasBancariasPagadorDc"
+                         captionProperty="textoCuentaBancariaCompleta"/>
+            <hbox spacing="true">
+                <textField caption="Ref.Mandato" dataContainer="contratoInquilinoDc" property="referenciaMandato"/>
+                <dateField resolution="DAY" caption="Fecha Mandato" dataContainer="contratoInquilinoDc" property="fechaMandato"/>
+            </hbox>
+
+        </scrollBox>
+    </layout>
+</fragment>
+

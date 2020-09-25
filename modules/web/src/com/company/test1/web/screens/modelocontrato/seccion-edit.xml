@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edicion de Seccion"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.modelocontrato">
+    <data>
+        <instance id="seccionDc"
+                  class="com.company.test1.entity.modeloscontratosinquilinos.Seccion"
+                  view="seccion-view">
+            <loader id="seccionDl"/>
+            <collection id="clausulasDc" property="clausulas">
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode resizable="true" width="1200"/>
+    <layout spacing="true">
+        <vbox>
+            <form id="form" dataContainer="seccionDc" width="100%">
+                <column width="100%">
+                    <textField id="nombreField" property="nombre" width="100%"/>
+                    <checkBox id="obligatoriaField" property="obligatoria"/>
+                    <textField id="ordenacionField" property="ordenacion" editable="false"/>
+                    <richTextArea width="100%" dataContainer="seccionDc" property="descripcion" caption="Descripcion"/>
+                    <table id="tableClausulas" height="250px" width="100%" dataContainer="clausulasDc">
+                        <columns>
+                            <column id="nombreClausula"/>
+                            <column id="descripcion" captionAsHtml="true" generator="getDescripcionColumn"/>
+                            <column id="ordenacion"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button caption="Nueva Clausula" action="tableClausulas.create"/>
+                            <button action="tableClausulas.edit" caption="Editar Clausula"/>
+                            <button caption="Eliminar Clausula" action="tableClausulas.remove"/>
+                            <button id="btnSubir" caption="Subir" invoke="onBtnSubirClick"/>
+                            <button id="btnBajar" caption="Bajar" invoke="onBtnBajarClick"/>
+                            <button id="btnRehacerOrdenacion" caption="Rehacer Ordenacion"
+                                    invoke="onBtnRehacerOrdenacionClick"/>
+                        </buttonsPanel>
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                    </table>
+                </column>
+            </form>
+
+
+        </vbox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

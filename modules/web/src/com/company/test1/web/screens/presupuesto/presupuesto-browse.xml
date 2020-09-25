@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://browseCaption"
+        focusComponent="presupuestoesTable"
+        messagesPack="com.company.test1.web.screens.presupuesto">
+    <data readOnly="true">
+        <collection id="presupuestoesDc"
+                    class="com.company.test1.entity.documentosImputables.Presupuesto"
+                    view="presupuesto-view">
+            <loader id="presupuestoesDl">
+                <query>
+                    <![CDATA[select e from test1_Presupuesto e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="presupuestoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="presupuestoesTable"
+                dataLoader="presupuestoesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="presupuestoesTable"
+               width="100%"
+               dataContainer="presupuestoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto"/>
+                <column id="numDocumento"/>
+                <column id="fechaEmision"/>
+                <column id="importeTotalBase"/>
+                <column id="importePostCCAA"/>
+
+                <column id="textoImputaciones"/>
+                <column id="realizadoPor"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="presupuestoesTable.create"/>
+                <button id="editBtn" action="presupuestoesTable.edit"/>
+                <button id="removeBtn" action="presupuestoesTable.remove"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

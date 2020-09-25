@@ -1,0 +1,1 @@
+rename table TEST1_CLAUSULA to TEST1_CLAUSULA__U17874 ;

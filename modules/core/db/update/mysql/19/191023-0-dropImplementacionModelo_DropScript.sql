@@ -1,0 +1,1 @@
+drop table if exists TEST1_IMPLEMENTACION_MODELO__U12368 cascade ;

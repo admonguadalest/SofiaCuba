@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.documentacioninquilino">
+    <data>
+        <instance id="documentacionInquilinoDc"
+                  class="com.company.test1.entity.documentacionesinquilinos.DocumentacionInquilino"
+                  view="documentacionInquilino-view">
+            <loader/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+        </instance>
+    </data>
+    <dialogMode height="AUTO"
+                width="AUTO" resizable="true"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="documentacionInquilinoDc" width="100%">
+            <column width="100%">
+                <textField id="dniField" property="dni" width="313px"/>
+                <textField id="nombreCompletoField" property="nombreCompleto" width="641px"/>
+                <textField id="objetoCanidadoField" property="objetoCanidado" width="640px"/>
+                <textField id="informacionDeContactoField" property="informacionDeContacto" width="637px"/>
+                <textArea id="presentacionField" property="presentacion" rows="5" width="639px"/>
+                <dateField resolution="DAY" id="fechaRegistroField" property="fechaRegistro" editable="false" width="202px"/>
+                <fragment id="frgColeccionArchivosAdjuntos" caption="Coleccion de Archivos Adjuntos" height="400px"
+                          screen="test1_ColeccionArchivosAdjuntosFragment"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

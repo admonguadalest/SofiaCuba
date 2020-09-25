@@ -1,0 +1,1 @@
+rename table TEST1_ORDEN_PAGO to TEST1_ORDEN_PAGO__U17980 ;

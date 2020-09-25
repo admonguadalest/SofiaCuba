@@ -1,0 +1,1 @@
+rename table TEST1_FIANZA to TEST1_FIANZA__U36313 ;

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="plantillasTable"
+        messagesPack="com.company.test1.web.screens.plantilla">
+    <data readOnly="true">
+        <collection id="plantillasDc"
+                    class="com.company.test1.entity.reportsyplantillas.Plantilla"
+                    view="_base">
+            <loader id="plantillasDl">
+                <query><![CDATA[select e from test1_Plantilla e order by e.nombrePlantilla asc]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="plantillasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="plantillasTable"
+                dataLoader="plantillasDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="plantillasTable"
+                    width="100%"
+                    dataContainer="plantillasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombrePlantilla"/>
+                <column id="tipoPlantilla"/>
+                <column id="deSistema"/>
+                <column id="ruta"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="plantillasTable.create"/>
+                <button id="editBtn" action="plantillasTable.edit"/>
+                <button id="removeBtn" action="plantillasTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,1 @@
+drop table if exists TEST1_UBICACION__U08756 cascade ;

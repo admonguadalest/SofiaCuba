@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="proveedorDc"
+                  class="com.company.test1.entity.extroles.Proveedor"
+                  view="proveedor-view" provided="true">
+
+            <collection id="programacionesConceptosAdicionalesDc" property="programacionesConceptosAdicionales"
+                        provided="true">
+
+            </collection>
+        </instance>
+        <collection id="cuentasBancariasDc" class="com.company.test1.entity.CuentaBancaria" view="_base"
+                    provided="true">
+            <loader>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <form width="100%">
+            <column width="50%">
+                <textField id="txtNombreComercial" caption="Nombre Comercial" width="772px"
+                           dataContainer="proveedorDc" property="nombreComercial"/>
+                <textField id="txtActividad" caption="Actividad" width="100%"
+                           dataContainer="proveedorDc" property="descripcionActividad"/>
+                <textArea id="txaObservaciones" caption="Observaciones" width="100%"
+                          dataContainer="proveedorDc" property="observaciones"/>
+                <checkBox id="chbModoPagoTelematico" dataContainer="proveedorDc" property="modoDePagoTelematico"/>
+                <lookupField id="lkpCuentaBancaria" caption="Cuenta Bancaria Pagos Telemáticos" width="100%"
+                             dataContainer="proveedorDc" property="cuentaBancaria"
+                             optionsContainer="cuentasBancariasDc"
+                             captionProperty="textoCuentaBancariaCompleta"/>
+                <checkBox id="chbModoPagoDomiciliado" dataContainer="proveedorDc" property="modoDePagoDomiciliado"/>
+                <lookupField id="lkpCuentaBancariaDomiciliado" caption="Cuenta Bancaria Pagos Domiciliados" width="100%"
+                             dataContainer="proveedorDc" property="cuentaBancariaDomiciliado"
+                             optionsContainer="cuentasBancariasDc"
+                             captionProperty="textoCuentaBancariaCompleta"/>
+                <checkBox id="chkEnviarCorreoAprobacionFras" dataContainer="proveedorDc"
+                          property="enviarCorreoConfirmacionAlAprobarFactura"
+                          caption="Enviar Correo al Aprobar Facturas"/>
+                <lookupField id="lkpModoDePago" caption="Modo de Pago" dataContainer="proveedorDc"
+                             property="modoDePago" optionsEnum="com.company.test1.entity.enums.ModoPagoProveedor"
+                             width="475px"/>
+                <label value="Conceptos Adicionales"/>
+                <table id="tableProgramacionesCCAA" height="250px" width="100%"
+                       dataContainer="programacionesConceptosAdicionalesDc">
+                    <columns>
+                        <column id="conceptoAdicional.abreviacion" caption="Abreviacion"/>
+                    </columns>
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <buttonsPanel>
+                        <button id="btnNuevaPCA" action="tableProgramacionesCCAA.create"/>
+                        <button id="btnEditarPCA" action="tableProgramacionesCCAA.edit"/>
+                        <button id="btnEliminarPCA" action="tableProgramacionesCCAA.remove"/>
+                    </buttonsPanel>
+                </table>
+            </column>
+        </form>
+    </layout>
+</fragment>
+

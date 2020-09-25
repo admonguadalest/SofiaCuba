@@ -1,0 +1,1 @@
+alter table RTRO_APP_CONCEPTO_ADICIONAL add column IMPLEMENTACION_CONCEPTO_ID varchar(32) ;

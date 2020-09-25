@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.datodecontacto">
+    <data>
+        <instance id="datoDeContactoDc"
+                  class="com.company.test1.entity.DatoDeContacto"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="datoDeContactoDc">
+            <column width="250px">
+                <textField id="datoField" property="dato"/>
+                <textField id="descripcionDatoField" property="descripcionDato"/>
+                <lookupField id="tipoDeDatoField" property="tipoDeDato"/>
+                <checkBox id="correoDeRecuperacionDeConstrasenyaField" property="correoDeRecuperacionDeConstrasenya"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

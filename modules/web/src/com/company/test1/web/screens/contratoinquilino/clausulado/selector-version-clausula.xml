@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.contratoinquilino.clausulado">
+    <data>
+        <instance id="clausulaDc" class="com.company.test1.entity.modeloscontratosinquilinos.Clausula"
+                  view="clausula-view">
+            <loader>
+                <query>
+                    <![CDATA[select e from test1_Clausula e]]>
+                </query>
+            </loader>
+        </instance>
+        <collection id="versionClausulasDc" class="com.company.test1.entity.modeloscontratosinquilinos.VersionClausula"
+                    view="_local">
+            <loader id="versionClausulasDl">
+                <query>
+                    <![CDATA[select e from test1_VersionClausula e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode resizable="true"/>
+    <layout spacing="true">
+        <vbox width="100%">
+            <textField dataContainer="clausulaDc" property="nombreClausula" enable="false"/>
+
+        </vbox>
+        <table  width="100%" id="versionClausulasTable" height="300px" dataContainer="versionClausulasDc">
+            <columns>
+                <column id="textoVersion"/>
+
+            </columns>
+        </table>
+        <textArea caption="Contenido Version" editable="false" id="txtPreviewVersionClausula" width="100%" height="250px"/>
+    </layout>
+</window>

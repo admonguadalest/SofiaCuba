@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Filtrado Personas"
+        focusComponent="personaeTable"
+        messagesPack="com.company.test1.web.screens.persona">
+    <data readOnly="true">
+        <collection id="personaeDc"
+                    class="com.company.test1.entity.Persona"
+                    view="persona-view">
+            <loader id="personaeDl">
+                <query>
+                    <![CDATA[select e from test1_Persona e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="personaeTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="personaeTable"
+                dataLoader="personaeDl">
+            <property name="nombreCompleto"/>
+            <property name="nifDni"/>
+        </filter>
+        <groupTable id="personaeTable"
+                    width="100%"
+                    dataContainer="personaeDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombreCompleto"/>
+                <column id="nifDni"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="btnCreatePersonaFisica" caption="Nueva PF" invoke="onBtnCreatePersonaFisicaClick"/>
+                <button id="btnCreatePersonaJuridica" caption="Nueva PJ" invoke="onBtnCreatePersonaJuridicaClick"/>
+                <button id="editBtn" action="personaeTable.edit" caption="Editar"/>
+                <button id="removeBtn" action="personaeTable.remove" caption="Eliminar"/>
+                <button id="pdf" caption="Pdf" invoke="pdf"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

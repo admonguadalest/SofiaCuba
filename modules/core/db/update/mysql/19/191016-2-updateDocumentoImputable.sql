@@ -1,0 +1,11 @@
+alter table TEST1_DOCUMENTO_IMPUTABLE add column PROVEEDOR_ID varchar(32) ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column OVERRIDE_DOMICILIACION_CUENTA_BANCARIA_ID varchar(32) ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column ES_PRESUPUESTO_VERBAL boolean ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column IMPORTE_FACTURA_PAGADO double precision ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column FECHA_DEVENGO date ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column FECHA_PAGO date ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column CONSIDERACIONES_DOCUMENTO_IMPUTABLE longtext ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column DTYPE varchar(100) ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column PRESUPUESTO_ID varchar(32) ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column PAGO_POR_CAJA boolean ;
+alter table TEST1_DOCUMENTO_IMPUTABLE add column PORCENTAJE_FACTURA_PAGADO double precision ;

@@ -1,0 +1,1 @@
+drop table if exists TEST1_VERSION_CLAUSULA__U91311 cascade ;

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="tipoCoeficientesTable"
+        messagesPack="com.company.test1.web.screens.tipocoeficiente">
+    <data readOnly="true">
+        <collection id="tipoCoeficientesDc"
+                    class="com.company.test1.entity.coeficientes.TipoCoeficiente"
+                    view="_base">
+            <loader id="tipoCoeficientesDl">
+                <query>
+                    <![CDATA[select e from test1_TipoCoeficiente e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="tipoCoeficientesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="tipoCoeficientesTable"
+                dataLoader="tipoCoeficientesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="tipoCoeficientesTable"
+               width="100%"
+               dataContainer="tipoCoeficientesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombre"/>
+                <column id="descripcion"/>
+                <column id="valorMin"/>
+                <column id="valorMax"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="tipoCoeficientesTable.create"/>
+                <button id="editBtn" action="tipoCoeficientesTable.edit"/>
+                <button id="removeBtn" action="tipoCoeficientesTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

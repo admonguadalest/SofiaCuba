@@ -1,0 +1,1 @@
+alter table ORDEN_TRABAJO drop column CARPETA_DOCUMENTOS_FOTOGRAFICOS_ID__U73417 cascade ;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.registrosiva">
+    <data>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <textField id="txtInquilino" caption="Inquilino" width="100%"/>
+                <textField id="txtDireccion" caption="Direccion" width="100%"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <dateField resolution="DAY" id="dteFechaDesde" caption="Fecha Desde" width="278px"/>
+                <dateField resolution="DAY" id="dteFechaHasta" caption="Fecha Hasta" width="290px"/>
+            </hbox>
+            <buttonsPanel>
+                <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+                <button caption="Editar"/>
+                <button caption="Eliminar Registro"/>
+            </buttonsPanel>
+            <label id="lblResultados" value="(Resultados)"/>
+            <table id="tblRegistros" height="400px" width="100%">
+                <columns>
+                    <column id="a"/>
+                    <column id="b"/>
+                </columns>
+            </table>
+        </vbox>
+    </layout>
+</window>

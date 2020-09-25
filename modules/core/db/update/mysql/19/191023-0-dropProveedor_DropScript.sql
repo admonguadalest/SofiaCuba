@@ -1,0 +1,1 @@
+drop table if exists TEST1_PROVEEDOR__U15216 cascade ;

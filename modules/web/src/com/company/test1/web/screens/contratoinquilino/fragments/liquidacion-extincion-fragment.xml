@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="liquidacionExtincionDc"
+                  class="com.company.test1.entity.contratosinquilinos.LiquidacionExtincion"
+                  view="_base" provided="true">
+
+        </instance>
+    </data>
+    <layout>
+        <scrollBox spacing="true">
+            <label value="Liquidacion por Extincion de Contrato"/>
+            <textField id="totalFianzaYGarantias" caption="Total Fianza y Garantias" width="100%" dataContainer="liquidacionExtincionDc"
+                       property="totalesGarantias"/>
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <textField id="totalRecibosPendientes" caption="Total Recibos Ptes." dataContainer="liquidacionExtincionDc"
+                           property="totalesRecibosPendientes" width="50%"/>
+                <textField id="totalIndemnizaciones" caption="Total Indemnizaciones" dataContainer="liquidacionExtincionDc"
+                           property="totalesIndemnizaciones"/>
+            </groupBox>
+            <textField id="importeAvalEjecutado" caption="Importe Aval Ejecutado" dataContainer="liquidacionExtincionDc"
+                       property="importeAvalEjecutado"/>
+            <textField id="porLiquidar" caption="Por Liquidar" dataContainer="liquidacionExtincionDc" property="porLiquidar"/>
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <textField id="cantidadesActaLiquidacion" caption="Cantidades a Cta. Liquidacion" dataContainer="liquidacionExtincionDc"
+                           property="cantidadesACuentaLiquidacion"/>
+                <dateField resolution="DAY" id="fechaPagoCantidadesActa" caption="Fecha Pago Cantidades a Cta. Liq." dataContainer="liquidacionExtincionDc"
+                           property="fechaCantidadesACuentaLiquidacion"/>
+            </groupBox>
+            <dateField resolution="DAY" id="fechaLiquidacion" caption="Fecha Liquidacion" dataContainer="liquidacionExtincionDc" property="fechaLiquidacion"/>
+            <checkBox  id="conformidadAdministrador" caption="Conformidad Administrador" dataContainer="liquidacionExtincionDc" property="conformidadAdministrador"/>
+            <richTextArea id="detalle" width="100%" caption="Detalle" dataContainer="liquidacionExtincionDc" property="detalle"/>
+        </scrollBox>
+    </layout>
+</fragment>
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="direccionDc"
+                  class="com.company.test1.entity.Direccion"
+                  view="direccion-with-ubicacion" provided="true">
+            <loader/>
+        </instance>
+    </data>
+    <layout>
+        <form id="form" dataContainer="direccionDc" width="100%">
+            <column width="25%">
+                <lookupField id="viaField" dataContainer="direccionDc" property="via" caption="Via" width="100%"/>
+                <textField id="paisField" dataContainer="direccionDc" property="pais" width="100%"/>
+            </column>
+            <column width="25%">
+                <textField id="nombreViaField" dataContainer="direccionDc" property="nombreVia" width="100%"/>
+                <textField id="regionField" dataContainer="direccionDc" property="region" width="100%"/>
+            </column>
+            <column width="25%">
+                <textField id="numeroViaField" dataContainer="direccionDc" property="numeroVia" width="100%"/>
+                <textField id="poblacionField" dataContainer="direccionDc" property="poblacion" width="100%"/>
+            </column>
+            <column width="25%">
+                <textField id="codigoPostalField" dataContainer="direccionDc" property="codigoPostal" width="100%"/>
+                <textField id="provinciaField" dataContainer="direccionDc" property="provincia" width="100%"/>
+            </column>
+        </form>
+    </layout>
+</fragment>
+

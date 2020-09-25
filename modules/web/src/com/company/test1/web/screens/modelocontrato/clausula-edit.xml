@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edicion de Clausula"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.modelocontrato">
+    <data>
+        <instance id="clausulaDc"
+                  class="com.company.test1.entity.modeloscontratosinquilinos.Clausula"
+                  view="clausula-view">
+            <loader/>
+            <collection id="versionClausulasDc" property="versiones"
+                        >
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode resizable="true" width="1200"/>
+    <layout spacing="true">
+        <vbox >
+            <form id="form" dataContainer="clausulaDc" width="100%">
+                <column width="100%">
+                    <textField id="nombreClausulaField" property="nombreClausula" width="100%"/>
+                    <textField id="ordenacionField" property="ordenacion" editable="false"/>
+                    <richTextArea id="descripcionField" caption="Descripcion" dataContainer="clausulaDc"
+                              property="descripcion" width="100%"/>
+                    <table id="tableVersiones" width="100%" dataContainer="versionClausulasDc" height="500px">
+                        <columns>
+
+                            <column id="textoVersion" generator="getTextoVersionColumn"/>
+
+                        </columns>
+                        <buttonsPanel>
+                            <button caption="Nueva Version" action="tableVersiones.create"/>
+                            <button action="tableVersiones.edit" caption="Editar Version"/>
+                            <button caption="Eliminar Version" action="tableVersiones.remove"/>
+                        </buttonsPanel>
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                    </table>
+                </column>
+            </form>
+        </vbox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

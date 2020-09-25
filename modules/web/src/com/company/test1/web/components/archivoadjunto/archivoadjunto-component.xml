@@ -1,0 +1,10 @@
+<composite xmlns="http://schemas.haulmont.com/cuba/screen/composite.xsd">
+    <hbox id="rootBox" width="100%" expand="btnAccionArchivo">
+
+        <button id="btnAccionArchivo"
+                caption="(Seleccionar)"/>
+        <button id="btnClear"
+                caption="X"/>
+
+    </hbox>
+</composite>

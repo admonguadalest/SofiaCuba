@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="definicionRemesasTable"
+        messagesPack="com.company.test1.web.screens.definicionremesa">
+    <data readOnly="true">
+        <collection id="definicionRemesasDc"
+                    class="com.company.test1.entity.recibos.DefinicionRemesa"
+                    view="definicionRemesa-view">
+            <loader id="definicionRemesasDl">
+                <query>
+                    <![CDATA[select e from test1_DefinicionRemesa e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="definicionRemesasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="definicionRemesasTable"
+                dataLoader="definicionRemesasDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="definicionRemesasTable"
+                    width="100%"
+                    dataContainer="definicionRemesasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombreRemesa"/>
+                <column id="descripcion"/>
+                <column id="unidadPeriodicidad"/>
+                <column id="cantidadPeriodicidad"/>
+                <column id="tipoGiro"/>
+                <column id="cuentaBancaria.textoCuentaBancariaCompleta"/>
+                <column id="modoPresentacion"/>
+                <column id="delegado.nombreCompleto"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="definicionRemesasTable.create"/>
+                <button id="editBtn" action="definicionRemesasTable.edit"/>
+                <button id="removeBtn" action="definicionRemesasTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

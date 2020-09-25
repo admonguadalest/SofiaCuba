@@ -1,0 +1,1 @@
+drop table if exists TEST1_CICLO__U11434 cascade ;

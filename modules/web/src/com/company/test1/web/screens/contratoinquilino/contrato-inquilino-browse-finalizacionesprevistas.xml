@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="contratoInquilinoesTable"
+        messagesPack="com.company.test1.web.screens.contratoinquilino">
+    <data readOnly="true">
+        <collection id="contratoInquilinoesDc"
+                    class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                    view="contratoInquilino-view">
+            <loader id="contratoInquilinoesDl">
+                <query>
+                    <![CDATA[select e from test1_ContratoInquilino e WHERE e.estadoContrato = 3 order by e.departamento.ubicacion.nombre asc, e.departamento.rm2id asc]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="contratoInquilinoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="contratoInquilinoesTable"
+                dataLoader="contratoInquilinoesDl">
+            <property name="estadoContrato" caption="Estado Contrato"/>
+            <property name="inquilino.nombreCompleto" caption="Nombre Inquilino"/>
+            <property name="departamento.ubicacion.nombre" caption="Nombre Ubicación"/>
+            <property name="departamento.piso" caption="Piso"/>
+            <property name="departamento.puerta" caption="Puerta"/>
+            <property name="comunicacionRenuncia" caption="Renuncia Comunicada"/>
+            <property name="fechaPrevistaRenuncia" caption="Fecha Prevista Renuncia"/>
+            <property name="fechaVencimientoPrevisto" caption="Fecha Vencimiento Previsto"/>
+        </filter>
+        <groupTable id="contratoInquilinoesTable"
+                    width="100%"
+                    dataContainer="contratoInquilinoesDc">
+            <actions>
+                <action id="excel" type="excel"/>
+                <action id="edit" type="edit"/>
+            </actions>
+            <columns>
+                <column id="departamento.nombreDescriptivoCompleto"/>
+                <column id="inquilino.nombreCompleto"/>
+                <column id="fechaOcupacion"/>
+                <column id="rentaContractual"/>
+                <column id="comunicacionRenuncia"/>
+                <column id="fechaVencimientoPrevisto"/>
+                <column id="fechaPrevistaRenuncia"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="btnEdit" caption="Ver Contrato" action="contratoInquilinoesTable.edit"/>
+                <button id="btnPdf" caption="Ver Report" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

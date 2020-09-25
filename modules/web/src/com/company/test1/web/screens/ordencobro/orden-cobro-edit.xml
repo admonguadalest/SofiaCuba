@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordencobro">
+    <data>
+        <instance id="ordenCobroDc"
+                  class="com.company.test1.entity.ordenescobro.OrdenCobro"
+                  view="ordenCobro-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="ordenCobroDc">
+            <column width="250px">
+                <textField id="numReciboField" editable="false" property="recibo.numRecibo"/>
+                <dateField resolution="DAY" id="fechaValorField" editable="false" property="fechaValor"/>
+                <textField id="importeField" editable="false" property="importe"/>
+                <textField id="descripcionField" editable="false" property="descripcion"/>
+                <textField id="entToEntIdField" editable="false" property="entToEntId"/>
+                <textField editable="false" property="realizacionCobro.identificador"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="btnVerRecibo" caption="Ver Recibo" invoke="VerRecibo"/>
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

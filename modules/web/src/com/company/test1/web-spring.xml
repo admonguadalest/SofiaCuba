@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:gui="http://schemas.haulmont.com/cuba/spring/cuba-gui.xsd">
+
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="com.company.test1"/>
+
+    <gui:screens base-packages="com.company.test1.web"/>
+    <bean id="test1_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="test1_PlantillaService" value="com.company.test1.service.PlantillaService"/>
+                <entry key="ColeccionArchivosAdjuntosService"
+                       value="com.company.test1.service.ColeccionArchivosAdjuntosService"/>
+                <entry key="test1_ProgramacionReciboService"
+                       value="com.company.test1.service.ProgramacionReciboService"/>
+                <entry key="test1_RecibosService" value="com.company.test1.service.RecibosService"/>
+                <entry key="test1_NumberUtilsService" value="com.company.test1.service.NumberUtilsService"/>
+                <entry key="test1_OrdenCobroService" value="com.company.test1.service.OrdenCobroService"/>
+                <entry key="test1_ValidacionesService" value="com.company.test1.service.ValidacionesService"/>
+                <entry key="test1_OrdenPagoService" value="com.company.test1.service.OrdenPagoService"/>
+                <entry key="test1_JasperReportService" value="com.company.test1.service.JasperReportService"/>
+                <entry key="test1_IncrementosService" value="com.company.test1.service.IncrementosService"/>
+                <entry key="test1_ContratosService" value="com.company.test1.service.ContratosService"/>
+                <entry key="test1_RegistroIndiceReferenciaService"
+                       value="com.company.test1.service.RegistroIndiceReferenciaService"/>
+                <entry key="test1_DepartamentoService" value="com.company.test1.service.DepartamentoService"/>
+                <entry key="test1_SerializacionService" value="com.company.test1.service.SerializacionService"/>
+                <entry key="test1_PdfService" value="com.company.test1.service.PdfService"/>
+                <entry key="test1_NotificacionService" value="com.company.test1.service.NotificacionService"/>
+                <entry key="test1_ModeloContratoInquilinoService"
+                       value="com.company.test1.service.ModeloContratoInquilinoService"/>
+                <entry key="test1_CicloService" value="com.company.test1.service.CicloService"/>
+
+            </map>
+        </property>
+    </bean>
+
+</beans>

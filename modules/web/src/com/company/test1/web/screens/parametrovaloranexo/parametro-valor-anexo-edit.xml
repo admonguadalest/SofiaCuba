@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.parametrovaloranexo">
+    <data>
+        <instance id="parametroValorAnexoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ParametroValorAnexo"
+                  view="parametroValorAnexo-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="parametroValorAnexoDc">
+            <column width="250px">
+                <textField id="nombreParametroField" property="nombreParametro" width="303px"/>
+                <textField id="valorField" property="valor" width="303px"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

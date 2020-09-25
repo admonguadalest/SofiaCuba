@@ -1,0 +1,1 @@
+drop table if exists TEST1_CONCEPTO__U12512 cascade ;

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+
+
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.validaciones">
+    <data>
+        <collection id="validacionesDc" class="com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable"
+                    view="validacionImputacionDocumentoImputable-view">
+            <loader>
+                <query><![CDATA[select e from test1_ValidacionImputacionDocumentoImputable e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <vbox spacing="true">
+                <flowBox spacing="true" width="100%">
+                    <lookupField id="lkpTipoValidacion" caption="Tipo de Validacion" width="295px"
+                                 optionsEnum="com.company.test1.entity.enums.DocumentoImputableTipoEnum"/>
+                    <lookupField id="lkpEstadoValidacion" caption="Filtrar Por" width="293px"
+                                 optionsEnum="com.company.test1.entity.enums.ValidacionEstado"/>
+                </flowBox>
+                <flowBox spacing="true" width="100%">
+                    <dateField resolution="DAY" id="datFechaDesde" caption="Fecha Desde"/>
+                    <dateField resolution="DAY" id="datFechaHasta" caption="Fecha Hasta"/>
+                </flowBox>
+            </vbox>
+            <hbox spacing="true" width="100%">
+                <textField id="txtDireccion" caption="Direccion"/>
+                <textField id="txtProveedor" caption="Proveedor/No Documento"/>
+                <lookupField id="lkpVaciosOcupados" caption="Vacios/Ocupados"
+                             optionsEnum="com.company.test1.entity.enums.DepartamentoEstadoEnum"/>
+                <lookupField id="lkpTipoDepartamento" caption="Tipo Departamento"
+                             optionsEnum="com.company.test1.entity.enums.DepartamentoTipoEnum"/>
+                <lookupField id="lkpTipoCiclo" caption="Tipo de Ciclo"
+                             optionsEnum="com.company.test1.entity.enums.TipoCiclo"/>
+            </hbox>
+            <scrollBox height="100%">
+                <table id="tableValidaciones" height="600px" width="100%" dataContainer="validacionesDc">
+
+
+                    <columns>
+                        <column id="tipoDocumento" generator="getColumnTipoDocumento" caption="Tipo"/>
+                        <column id="nombreProveedor" generator="getColumnNombreProveedor" caption="Proveedor"/>
+                        <column id="imputacionDocumentoImputable.documentoImputable.fechaEmision" caption="Emision"/>
+                        <column id="imputacionDocumentoImputable.documentoImputable.numDocumento" caption="No. Docto."/>
+                        <column id="imputacionDocumentoImputable.ciclo.departamento.nombreDescriptivoCompleto" caption="Depto."/>
+                        <column id="imputacionDocumentoImputable.documentoImputable.importePostCCAA" caption="Importe"/>
+                        <column id="estadoValidacion" generator="getColumnEstadoValidacion" caption="Estado"/>
+
+
+                    </columns>
+                    <actions>
+                        <action id="create" type="create"/>
+                    </actions>
+                    <buttonsPanel>
+                        <button id="btnVerRegistroDocumento" caption="Ver Documento Imputable"
+                                invoke="onBtnVerRegistroDocumentoClick"/>
+                        <button id="btnVerEscaneoDocumento" caption="Ver Escaneo Documento"
+                                invoke="onBtnVerEscaneoDocumentoClick"/>
+                        <button id="btnConsultarCiclo" caption="Consultar Ciclo" invoke="onBtnConsultarCicloClick"/>
+                    </buttonsPanel>
+
+                </table>
+
+
+            </scrollBox>
+        </vbox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+            <button id="btnReport" caption="Hacer Report"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

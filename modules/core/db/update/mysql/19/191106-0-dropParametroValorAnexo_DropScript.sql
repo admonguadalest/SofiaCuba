@@ -1,0 +1,1 @@
+drop table if exists TEST1_PARAMETRO_VALOR_ANEXO__U86978 cascade ;

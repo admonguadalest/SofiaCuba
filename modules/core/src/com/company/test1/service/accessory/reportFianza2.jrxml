@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportFianza2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.9487171000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="inquilino" class="java.lang.String"/>
+	<field name="garantiaEstado" class="java.lang.String"/>
+	<field name="garantiaImporte" class="java.lang.String"/>
+	<field name="fianzaImporte" class="java.lang.String"/>
+	<field name="fianzaEstado" class="java.lang.String"/>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="75" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="10" width="175" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inquilino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="50" height="25"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Garantía]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="55" height="25"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe Garantía]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="0" width="48" height="25"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Fianza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="55" height="25"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe Fianza]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="480" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="75" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{departamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="0" width="175" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inquilino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="50" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{garantiaEstado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="45" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{garantiaImporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="70" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fianzaEstado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="0" width="45" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fianzaImporte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

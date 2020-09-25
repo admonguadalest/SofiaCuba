@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="flexReportsTable"
+        messagesPack="com.company.test1.web.screens.flexreports">
+    <data readOnly="true">
+        <collection id="flexReportsDc"
+                    class="com.company.test1.entity.reportsyplantillas.FlexReport"
+                    view="_base">
+            <loader id="flexReportsDl">
+                <query>
+                    <![CDATA[select e from test1_FlexReport e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout
+            spacing="true" expand="flexReportsTable">
+        <filter id="filter"
+                applyTo="flexReportsTable"
+                dataLoader="flexReportsDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="flexReportsTable"
+               width="100%"
+               dataContainer="flexReportsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombre"/>
+                <column id="modoProductor"/>
+                <column id="parametrosManuales"/>
+                <column id="tipo"/>
+                <column id="parametrosProductor"/>
+                <column id="ruta"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="flexReportsTable.create"/>
+                <button id="editBtn" action="flexReportsTable.edit"/>
+                <button id="removeBtn" action="flexReportsTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+            <button id="crearReport" invoke="onCrearReportClick" caption="Create Report Test"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="conceptoReciboDc"
+                  class="com.company.test1.entity.recibos.ConceptoRecibo"
+                  view="conceptoRecibo-view" provided="true">
+
+        </instance>
+    </data>
+    <layout>
+        <form width="100%">
+            <checkBox id="activadoDesactivadoField" property="activadoDesactivado" dataContainer="conceptoReciboDc"
+                      caption="Activado/Desactivado"/>
+        </form>
+    </layout>
+</fragment>
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="programacionReciboDc"
+                  class="com.company.test1.entity.recibos.ProgramacionRecibo"
+                  view="programacionRecibo-view" provided="true">
+
+            <collection id="conceptosReciboDc" property="conceptosRecibo">
+
+            </collection>
+            <collection id="programacionConceptosAdicionalesDc" property="programacionConceptosAdicionales" >
+
+            </collection>
+        </instance>
+        <collection id="definicionesRemesaDc" class="com.company.test1.entity.recibos.DefinicionRemesa"
+                    view="definicionRemesa-view">
+            <loader id="definicionesRemesaDl">
+                <query><![CDATA[select e from test1_DefinicionRemesa e ]]></query>
+            </loader>
+        </collection>
+        <collection id="nonPersistentConceptoReciboesDc" class="com.company.test1.entity.recibos.NonPersistentConceptoRecibo"
+                    view="nonPersistentConceptoRecibo-view">
+            <loader id="nonPersistentConceptoReciboesDl">
+                <query><![CDATA[select e from test1_NonPersistentConceptoRecibo e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout width="100%">
+        <form width="100%">
+            <lookupField caption="Definicion Remesa" dataContainer="programacionReciboDc" property="definicionRemesa"
+                         width="100%" optionsContainer="definicionesRemesaDc" captionProperty="nombreRemesa"/>
+            <checkBox id="aplicarIPCNegativoField" property="aplicarIPCNegativo" dataContainer="programacionReciboDc"
+                      caption="Aplicar IPC Negativo"/>
+            <checkBox id="desactivarProgramacionField" property="desactivarProgramacion"
+                      dataContainer="programacionReciboDc" caption="Desactivar Programacion"/>
+            <textField id="prorrateoProximaEmisionField" property="prorrateoProximaEmision"
+                       dataContainer="programacionReciboDc" caption=" Prorrateo Prox. Emision"/>
+            <label value="Conceptos Adicionales"/>
+            <table height="100px" width="100%" dataContainer="programacionConceptosAdicionalesDc">
+                <columns>
+                    <column id="conceptoAdicional.nombre"/>
+                </columns>
+            </table>
+            <label value="Conceptos Recibo"/>
+            <table id="tableConceptosRecibo" height="250px" width="100%" dataContainer="nonPersistentConceptoReciboesDc">
+                <columns>
+                    <column id="concepto.tituloConcepto"/>
+                    <column id="importe"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="tableConceptosRecibo.create"/>
+                    <button action="tableConceptosRecibo.edit"/>
+                    <button action="tableConceptosRecibo.remove"/>
+                </buttonsPanel>
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+            </table>
+        </form>
+    </layout>
+</fragment>
+

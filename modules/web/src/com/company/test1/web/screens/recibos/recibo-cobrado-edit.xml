@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <instance id="reciboCobradoDc"
+                  class="com.company.test1.entity.recibos.ReciboCobrado"
+                  view="reciboCobrado-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="reciboCobradoDc">
+            <column width="250px">
+                <dateField resolution="DAY" id="fechaCobroField" property="fechaCobro"/>
+                <lookupField id="modoIngresoField" property="modoIngreso"/>
+                <textField id="totalIngresoField" property="totalIngreso"/>
+                <textField id="cobranzasField" property="cobranzas"/>
+                <textArea id="descripcionField" property="descripcion"/>
+                <textArea id="ampliacionIngresoField" property="ampliacionIngreso"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.conceptosadicionales">
+    <data>
+        <instance id="registroAplicacionConceptoAdicionalDc"
+                  class="com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional"
+                  view="registroAplicacionConceptoAdicional-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="registroAplicacionConceptoAdicionalDc">
+            <column width="250px">
+                <pickerField id="conceptoAdicionalField"
+                             dataContainer="registroAplicacionConceptoAdicionalDc" property="conceptoAdicional"
+                             captionProperty="nombre">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="nifDniField" property="nifDni"/>
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
+                <textField id="numDocumentoField" property="numDocumento"/>
+                <textField id="baseField" property="base"/>
+                <lookupField id="porcentajeField"
+                             caption="Porcentaje"/>
+                <textField id="importeAplicadoField" property="importeAplicado"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

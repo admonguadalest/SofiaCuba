@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.plantilla">
+    <data>
+        <instance id="plantillaDc"
+                  class="com.company.test1.entity.reportsyplantillas.Plantilla"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="plantillaDc" width="100%">
+            <column width="100%">
+                <textField id="nombrePlantillaField" property="nombrePlantilla"/>
+                <lookupField id="tipoPlantillaField" caption="Tipo"
+                             dataContainer="plantillaDc" property="tipoPlantilla"/>
+                <richTextArea id="contenidoPlantillaField" caption="Contenido" dataContainer="plantillaDc"
+                              property="contenidoPlantilla" height="400px"/>
+                <checkBox id="deSistemaField" property="deSistema"/>
+                <textField id="rutaField" property="ruta"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

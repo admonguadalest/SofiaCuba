@@ -1,0 +1,1 @@
+drop table if exists TEST1_LIQUIDACION_EXTINCION__U65844 cascade ;

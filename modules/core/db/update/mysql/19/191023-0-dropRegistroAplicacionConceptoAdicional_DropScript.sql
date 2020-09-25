@@ -1,0 +1,1 @@
+drop table if exists TEST1_REGISTRO_APLICACION_CONCEPTO_ADICIONAL__U05604 cascade ;

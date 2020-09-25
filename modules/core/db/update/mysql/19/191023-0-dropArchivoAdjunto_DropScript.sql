@@ -1,0 +1,1 @@
+drop table if exists TEST1_ARCHIVO_ADJUNTO__U66569 cascade ;

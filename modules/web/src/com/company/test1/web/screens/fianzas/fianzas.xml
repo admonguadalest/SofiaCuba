@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.fianzas">
+    <data>
+        <collection id="fianzasDc" class="com.company.test1.entity.contratosinquilinos.Fianza" view="fianza-view">
+            <loader id="fianzasDl">
+                <query><![CDATA[select e from test1_Fianza e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <textField id="txtDireccion" caption="Direccion" width="100%"/>
+                <lookupField id="lkpVigencia" caption="Vigentes / No Vigentes"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <vbox spacing="true">
+                    <checkBox id="chbGarantiasEfectivo" caption="Garantias en Efectivo"/>
+                    <checkBox id="chbGarantiasAval" caption="Garantias Aval"/>
+                    <checkBox id="chbGarantiasPoliza" caption="Garantias en Poliza"/>
+                </vbox>
+                <vbox spacing="true">
+                    <checkBox id="chbNoIngresadaAdmon" caption="No Ingresada en Administracion"/>
+                    <checkBox id="chbFianzaEnCamara" caption="Fianza en Camara"/>
+                    <checkBox id="chbFianzaDevuelta" caption="Fianza Devuelta"/>
+                </vbox>
+                <vbox spacing="true">
+                    <checkBox id="chbFianzaEnAdmon" caption="Fianza en Administracion"/>
+                    <checkBox id="chbSolicitadaDevolucion" caption="Solicitada Devolucion"/>
+                </vbox>
+            </hbox>
+            <table id="tblFianzas" height="400px" width="100%" dataContainer="fianzasDc">
+                <columns>
+                    <column id="contratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                    <column id="contratoInquilino.inquilino.nombreCompleto"/>
+                    <column id="esAvalBancario"/>
+                    <column id="fianzaLegal"/>
+                    <column id="fianzaComplementaria"/>
+
+                </columns>
+            </table>
+        </vbox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+            <button id="btnSeleccionarTodos" caption="Seleccionar Todos" invoke="onBtnSeleccionarTodosClick"/>
+            <button id="btnInvertirSeleccion" caption="Invetir Seleccion" invoke="onBtnInvertirSeleccionClick"/>
+            <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

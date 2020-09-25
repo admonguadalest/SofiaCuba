@@ -1,0 +1,1 @@
+alter table TEST1_COLECCION_ARCHIVOS_ADJUNTOS add column COLECCION_PARENT_ID varchar(32) ;

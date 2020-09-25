@@ -1,0 +1,5 @@
+@import "../testtheme";
+
+@mixin com_haulmont_cuba {
+  @include testtheme;
+}

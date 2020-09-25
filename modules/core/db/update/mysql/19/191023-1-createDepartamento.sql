@@ -1,0 +1,33 @@
+create table DEPARTAMENTO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    PISO varchar(50),
+    PUERTA varchar(50),
+    VIVIENDA_LOCAL boolean,
+    SUPERFICIE double precision,
+    ABREVIACION_PISO_PUERTA varchar(10),
+    DADO_DE_BAJA boolean,
+    DESCRIPCION longtext,
+    CON_AIRE_ACONDICIONADO boolean,
+    CON_CALEFACCION boolean,
+    OBSEVACIONES longtext,
+    REFERENCIA_CATASTRAL varchar(100),
+    COLECCION_ADJUNTOS_ID varchar(32),
+    PROPIETARIO_ID varchar(32),
+    UBICACION_ID varchar(32),
+    PLANO_DEPARTAMENTO_ID varchar(32),
+    EXCLUIR_DE_MONITORIZACION_PARA_BUSQUEDA_DE_PISOS_VACIOS boolean,
+    CON_SALIDA_DE_HUMOS boolean,
+    NUM_BANOS integer,
+    NUM_HABITACIONES integer,
+    ES_ESTUDIO boolean,
+    --
+    primary key (ID)
+);

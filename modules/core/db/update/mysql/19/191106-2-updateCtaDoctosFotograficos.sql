@@ -1,0 +1,9 @@
+alter table CTA_DOCTOS_FOTOGRAFICOS add column ACCESIBLE_PARA_COMERCIALES boolean ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column LIQUIDACION_EXTINCION_ID varchar(32) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column DESCRIPCION varchar(255) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column CICLO_ID varchar(32) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column EVENTO_ID varchar(32) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column NUMERO_DE_FOTOGRAFIAS integer ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column APORTADAS_POR varchar(255) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column NOMBRE_CARPETA varchar(255) ;
+alter table CTA_DOCTOS_FOTOGRAFICOS add column RM2ID integer ;

@@ -1,0 +1,2 @@
+alter table ORDEN_PAGO add constraint FK_ORDEN_PAGO_ON_PROVEEDOR_AB foreign key (PROVEEDOR_AB_ID) references PROVEEDOR(ID);
+create index IDX_ORDEN_PAGO_ON_PROVEEDOR_AB on ORDEN_PAGO (PROVEEDOR_AB_ID);

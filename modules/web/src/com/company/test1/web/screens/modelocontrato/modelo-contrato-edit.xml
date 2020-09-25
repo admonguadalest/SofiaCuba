@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edicion de Modelo"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.modelocontrato">
+    <data>
+        <instance id="modeloContratoDc"
+                  class="com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato"
+                  view="modeloContrato-view">
+            <loader id="modeloContratoDl"/>
+            <collection id="seccionesDc"
+                        property="secciones">
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="modeloContratoDc" width="100%">
+            <column width="250px">
+                <textField id="nombreModeloField" property="nombreModelo" width="100%"/>
+                <richTextArea width="100%" dataContainer="modeloContratoDc" property="descripcion" caption="Descripcion"/>
+                <table id="tableSecciones" width="100%" dataContainer="seccionesDc" height="500px">
+                    <columns>
+                        <column id="nombre"/>
+                        <column id="descripcion" generator="getDescripcionColumn"/>
+                        <column id="obligatoria"/>
+                        <column id="ordenacion"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button caption="Nueva Seccion" action="tableSecciones.create"/>
+                        <button action="tableSecciones.edit" caption="Editar"/>
+                        <button caption="Eliminar" action="tableSecciones.remove"/>
+                        <button id="btnSubir" caption="Subir" invoke="onBtnSubirClick"/>
+                        <button id="btnBajar" caption="Bajar" invoke="onBtnBajarClick"/>
+                        <button id="btnRehacerOrdenacion" caption="Rehacer Ordenacion"
+                                invoke="onBtnRehacerOrdenacionClick"/>
+                    </buttonsPanel>
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                </table>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="coleccionArchivosAdjuntosDc"
+                  class="com.company.test1.entity.ColeccionArchivosAdjuntos"
+                  view="coleccionArchivosAdjuntos-view"
+                    provided="true">
+
+        </instance>
+        <collection id="archivosAdjuntosDc" class="com.company.test1.entity.ArchivoAdjunto">
+            <loader>
+                <query><![CDATA[select e from test1_ArchivoAdjunto e ]]></query>
+            </loader>
+        </collection>
+        <collection id="coleccionesDc" class="com.company.test1.entity.ColeccionArchivosAdjuntos"
+                    view="coleccionArchivosAdjuntos-view">
+
+
+            <loader id="coleccionesDl"/>
+        </collection>
+    </data>
+    <layout height="420px">
+
+        <scrollBox height="100%">
+            <hbox spacing="true" width="100%">
+                <tree id="treeColecciones" height="250px" width="100%" dataContainer="coleccionesDc"
+                      hierarchyProperty="coleccionParent">
+                    <treechildren captionProperty="nombre"/>
+                    <buttonsPanel align="BOTTOM_LEFT">
+                        <button id="btnCrear" caption="Crear" invoke="onBtnCrearClick"/>
+                        <button id="renombrarColeccionButton" caption="Renombrar" invoke="onRenombrarColeccionButtonClick"/>
+                        <button caption="Borrar"/>
+                        <button id="showUploadDialogButton" invoke="onShowUploadDialogButtonClick"
+                                caption="Cargar Archivo"/>
+                    </buttonsPanel>
+                </tree>
+                <table id="tableArchivos" height="250px" width="100%" dataContainer="archivosAdjuntosDc">
+                    <columns>
+                        <column id="nombreArchivo" width="80"/>
+                        <column id="tamano" width="20"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnDescargar" caption="Descargar" invoke="onBtnDescargarClick"/>
+                        <button caption="Eliminar" action="tableArchivos.remove"/>
+                    </buttonsPanel>
+                    <actions>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                </table>
+            </hbox>
+        </scrollBox>
+    </layout>
+</fragment>
+

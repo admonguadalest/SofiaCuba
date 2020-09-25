@@ -1,0 +1,1 @@
+alter table TEST1_UBICACION add column COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32) ;

@@ -1,0 +1,1 @@
+alter table TEST1_DOCUMENTACION_INQUILINO add column CONTRATO_INQUILINO_ID varchar(32) ;

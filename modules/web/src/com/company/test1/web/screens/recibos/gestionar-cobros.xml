@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="reciboesTable"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data readOnly="true">
+        <collection id="reciboesDc"
+                    class="com.company.test1.entity.recibos.Recibo"
+                    view="recibo-view">
+            <loader id="reciboesDl">
+                <query>
+                    <![CDATA[select e from test1_Recibo e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="reciboesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="reciboesTable"
+                dataLoader="reciboesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="reciboesTable"
+               width="100%"
+               dataContainer="reciboesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
+                <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                <column id="totalReciboPostCCAA"/>
+                <column id="totalCobrado"/>
+                <column id="numRecibo"/>
+                <column id="fechaEmision"/>
+                <column id="rm2id"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="editBtn" action="reciboesTable.edit"/>
+                <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

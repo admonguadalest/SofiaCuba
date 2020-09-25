@@ -1,0 +1,17 @@
+alter table TEST1_DEPARTAMENTO add column PROPIETARIO_ID varchar(32) ;
+alter table TEST1_DEPARTAMENTO add column PLANO_DEPARTAMENTO_ID varchar(32) ;
+alter table TEST1_DEPARTAMENTO add column REFERENCIA_CATASTRAL varchar(100) ;
+alter table TEST1_DEPARTAMENTO add column DESCRIPCION longtext ;
+alter table TEST1_DEPARTAMENTO add column ES_ESTUDIO boolean ;
+alter table TEST1_DEPARTAMENTO add column NUM_BANOS integer ;
+alter table TEST1_DEPARTAMENTO add column ABREVIACION_PISO_PUERTA varchar(10) ;
+alter table TEST1_DEPARTAMENTO add column EXCLUIR_DE_MONITORIZACION_PARA_BUSQUEDA_DE_PISOS_VACIOS boolean ;
+alter table TEST1_DEPARTAMENTO add column OBSEVACIONES longtext ;
+alter table TEST1_DEPARTAMENTO add column SUPERFICIE double precision ;
+alter table TEST1_DEPARTAMENTO add column DADO_DE_BAJA boolean ;
+alter table TEST1_DEPARTAMENTO add column CON_SALIDA_DE_HUMOS boolean ;
+alter table TEST1_DEPARTAMENTO add column VIVIENDA_LOCAL boolean ;
+alter table TEST1_DEPARTAMENTO add column CON_AIRE_ACONDICIONADO boolean ;
+alter table TEST1_DEPARTAMENTO add column NUM_HABITACIONES integer ;
+alter table TEST1_DEPARTAMENTO add column CON_CALEFACCION boolean ;
+alter table TEST1_DEPARTAMENTO add column COLECCION_ADJUNTOS_ID varchar(32) ;

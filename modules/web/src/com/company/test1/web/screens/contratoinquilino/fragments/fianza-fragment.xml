@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd"
+          xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd"
+    >
+    <data>
+        <instance id="fianzaDc"
+                  class="com.company.test1.entity.contratosinquilinos.Fianza"
+                  view="fianza-view" provided="true">
+
+        </instance>
+        <collection id="documentacionInquilinoesDc" class="com.company.test1.entity.documentacionesinquilinos.DocumentacionInquilino"
+                    view="documentacionInquilino-view">
+            <loader id="documentacionInquilinoesDl">
+                <query><![CDATA[select e from test1_DocumentacionInquilino e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout width="100%">
+        <form width="100%">
+            <flowBox spacing="true" width="100%">
+                <textField id="fianzaLegalField" property="fianzaLegal" dataContainer="fianzaDc"
+                           caption="Fianza Legal"/>
+                <textField id="fianzaComplementariaField" property="fianzaComplementaria" dataContainer="fianzaDc"
+                           caption="Fianza Complementaria"/>
+                <lookupField id="estadoFianzaField" property="estadoFianza" dataContainer="fianzaDc"
+                             optionsEnum="com.company.test1.entity.enums.EstadoFianzaEnum"
+                             caption="Estado Fianza"/>
+            </flowBox>
+            <flowBox spacing="true" width="100%">
+                <dateField resolution="DAY" id="fechaAbonoFianzaField" property="fechaAbonoFianza" dataContainer="fianzaDc"
+                           caption="Fecha Abono"/>
+                <dateField resolution="DAY" id="fechaIngresoFianzaEnCamaraField" property="fechaIngresoFianzaEnCamara"
+                           dataContainer="fianzaDc" caption="Fecha Ingreso en Camara"/>
+                <dateField resolution="DAY" id="fechaRescateFianzaDeCamaraField" property="fechaRescateFianzaDeCamara"
+                           dataContainer="fianzaDc" caption="Fecha Rescate de Camara"/>
+            </flowBox>
+            <flowBox spacing="true" width="100%">
+                <checkBox id="esAvalBancarioField" property="esAvalBancario" dataContainer="fianzaDc"
+                          caption="Aval Bancario Adjunto"/>
+                <textField id="identificadorAvalField" property="identificadorAval" dataContainer="fianzaDc"
+                           caption="Identificador Aval"/>
+                <app:WebArchivoAdjuntoField  caption="Escaneo Aval"
+                                         property="escaneoArchivoAdjunto" dataContainer="fianzaDc"
+                                         width="100%"/>
+            </flowBox>
+            <flowBox spacing="true" width="100%">
+                <checkBox id="tienePolizaAlquilerField" property="tienePolizaAlquiler" dataContainer="fianzaDc"
+                          caption="Adjunta Poliza de Seguros"/>
+                <textField id="numeroPolizaField" property="numeroPoliza" dataContainer="fianzaDc"
+                           caption="Numero Poliza"/>
+                <textField id="informacionDeContactoPolizaField" property="informacionDeContactoPoliza"
+                           dataContainer="fianzaDc" caption="Contacto Aseguradora"/>
+                <app:WebArchivoAdjuntoField  caption="Escaneo Poliza"
+                                         property="escaneoSeguroArchivoAdjunto" dataContainer="fianzaDc"
+                                         width="100%"/>
+            </flowBox>
+            <textArea id="observacionesField" property="observaciones" dataContainer="fianzaDc" width="100%"/>
+            <app:WebArchivoAdjuntoField id="aaEscaneoFianza" caption="Escaneo de Fianza"
+                                     property="escaneoFianza" dataContainer="fianzaDc"
+                                     width="100%"/>
+            <label value="Documentaciones de Inquilino Asociadas"/>
+            <table id="tblDocumentacionesInquilinos" height="200px" width="100%"
+                   dataContainer="documentacionInquilinoesDc">
+                <columns>
+                    <column id="dni"/>
+                    <column id="nombreCompleto"/>
+                    <column id="objetoCanidado"/>
+                    <column id="informacionDeContacto"/>
+                    <column id="presentacion"/>
+                    <column id="fechaRegistro"/>
+                </columns>
+                <buttonsPanel caption="Ver">
+                    <button id="btnAnadir" caption="Anadir" invoke="onBtnAnadirClick"/>
+                    <button id="btnSuprimir" caption="Suprimir" invoke="onBtnSuprimirClick"/>
+                    <button id="btnVer" caption="Ver" invoke="onBtnVerClick"/>
+                </buttonsPanel>
+            </table>
+        </form>
+    </layout>
+</fragment>
+

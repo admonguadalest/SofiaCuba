@@ -1,0 +1,1 @@
+drop table if exists TEST1_EVENTO__U11777 cascade ;

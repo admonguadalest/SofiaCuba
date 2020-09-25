@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd"
+          xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd">
+    <data>
+        <instance id="liquidacionSuscripcionDc"
+                  class="com.company.test1.entity.contratosinquilinos.LiquidacionSuscripcion"
+                  view="liquidacionSuscripcion-view" provided="true">
+
+        </instance>
+    </data>
+    <layout width="100%">
+        <form width="100%">
+            <flowBox spacing="true" width="100%">
+                <textField id="fianzaContratoField" property="fianzaContrato" dataContainer="liquidacionSuscripcionDc"
+                           caption="Fianza Legal"/>
+                <textField id="garantiasEnEfectivoField" property="garantiasEnEfectivo"
+                           dataContainer="liquidacionSuscripcionDc" caption="Garantias en Efectivo"/>
+                <textField id="cantidadesEntregadasEnReservaField" property="cantidadesEntregadasEnReserva"
+                           dataContainer="liquidacionSuscripcionDc" caption="Cantidades Entregadas"/>
+                <textField id="gastosContratoField" property="gastosContrato" dataContainer="liquidacionSuscripcionDc"
+                           caption="Gastos de Contrato"/>
+            </flowBox>
+            <flowBox spacing="true" width="100%">
+                <textField id="recibosACuentaField" property="recibosACuenta" dataContainer="liquidacionSuscripcionDc"
+                           caption="Recibos A Cuenta"/>
+                <textField id="otrosConceptosField" property="otrosConceptos" dataContainer="liquidacionSuscripcionDc"
+                           caption="Otros Conceptos"/>
+                <dateField resolution="DAY" id="fechaIngresoITPField" property="fechaIngresoITP" dataContainer="liquidacionSuscripcionDc"
+                           caption="Fecha Ingreso ITP"/>
+            </flowBox>
+            <textField id="totalLiquidacionField" property="totalLiquidacion" dataContainer="liquidacionSuscripcionDc"
+                       width="100%" caption="Total Liquidacion" editable="false"/>
+            <textArea id="detalleField" property="detalle" dataContainer="liquidacionSuscripcionDc" width="100%"
+                      caption="Detalle"/>
+            <app:WebArchivoAdjuntoField caption="Escaneo Liquidacion"
+                                     property="escaneoLiquidacion" dataContainer="liquidacionSuscripcionDc"
+                                     width="100%"/>
+            <app:WebArchivoAdjuntoField caption="Escaneo Ingreso Liquidacion"
+                                     property="escaneoIngresoLiquidacion" dataContainer="liquidacionSuscripcionDc"
+                                     width="100%"/>
+            <app:WebArchivoAdjuntoField caption="Escaneo Documentacion ITP"
+                                     property="escaneoResguardoITP" dataContainer="liquidacionSuscripcionDc"
+                                     width="100%"/>
+        </form>
+    </layout>
+</fragment>
+

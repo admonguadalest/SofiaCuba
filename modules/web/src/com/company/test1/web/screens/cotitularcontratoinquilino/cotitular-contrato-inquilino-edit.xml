@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.cotitularcontratoinquilino">
+    <data>
+        <instance id="cotitularContratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.CotitularContratoInquilino"
+                  view="cotitularContratoInquilino-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="AUTO"
+                width="AUTO"
+                modal="true"
+                forceDialog="true"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="cotitularContratoInquilinoDc">
+            <column width="250px">
+                <pickerField id="contratoInquilinoField"
+                             dataContainer="cotitularContratoInquilinoDc" property="contratoInquilino"
+                             captionProperty="numeroContrato" editable="false">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <pickerField id="cotitularField" dataContainer="cotitularContratoInquilinoDc" property="cotitular"
+                             captionProperty="nombreCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

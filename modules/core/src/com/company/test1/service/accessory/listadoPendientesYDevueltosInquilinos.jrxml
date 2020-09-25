@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listadoPendientesYDevueltosFinca" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+    <property name="ireport.zoom" value="2.1961500000000007"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+    <parameter name="SUBREPORT_RECIBOS" class="net.sf.jasperreports.engine.JasperReport"/>
+    <parameter name="P_TOTAL_DEVUELTO" class="java.lang.Double"/>
+    <parameter name="P_TOTAL_PENDIENTE" class="java.lang.Double"/>
+    <parameter name="P_TOTAL_INQUILINO" class="java.lang.String"/>
+    <field name="dataSourceRecibos" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <field name="reportRecibo" class="net.sf.jasperreports.engine.JasperReport">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="totalDevuelto" class="java.lang.String"/>
+    <field name="totalPendiente" class="java.lang.String"/>
+    <field name="totalInquilino" class="java.lang.String"/>
+    <detail>
+        <band height="30" splitType="Immediate">
+            <subreport isUsingCache="true">
+                <reportElement x="0" y="0" width="503" height="13"/>
+                <dataSourceExpression><![CDATA[$F{dataSourceRecibos}]]></dataSourceExpression>
+                <subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{reportRecibo}]]></subreportExpression>
+            </subreport>
+            <staticText>
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="254" y="13" width="80" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tot. Pendiente:]]></text>
+            </staticText>
+            <textField pattern="###0.00">
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="203" y="13" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalDevuelto}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00">
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="334" y="13" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalPendiente}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="382" y="13" width="80" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tot. Inquilino:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="123" y="13" width="80" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[  Tot. Devuelto:]]></text>
+            </staticText>
+            <textField pattern="###0.00">
+                <reportElement positionType="FixRelativeToBottom" mode="Transparent" x="462" y="13" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalInquilino}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

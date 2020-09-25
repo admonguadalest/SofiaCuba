@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <instance id="reciboDc"
+                  class="com.company.test1.entity.recibos.Recibo"
+                  view="recibo-view">
+            <loader/>
+            <collection id="implementacionConceptosDc" property="implementacionesConceptos">
+
+            </collection>
+        </instance>
+        <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie" view="_base">
+            <loader>
+                <query><![CDATA[select e from test1_Serie e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="reciboDc" width="100%">
+                <column width="100%">
+                    <lookupPickerField id="contratoField" caption="Contrato"
+                                       nullName="(Seleccionar Contrato de Inquilino)" dataContainer="reciboDc"
+                                       property="utilitarioContratoInquilino" required="true"
+                                       captionProperty="numeroContrato"/>
+                    <textField id="numReciboField" property="numRecibo" editable="false"/>
+                    <textField id="inquilinoField"
+                               editable="false" caption="Inquilino"/>
+                    <dateField resolution="DAY" id="fechaEmisionField" property="fechaEmision"/>
+                    <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
+                    <lookupField id="serieField" optionsContainer="seriesDc" caption="Serie"
+                                 captionProperty="nombreSerie"/>
+                    <textArea width="100%" caption="Ampliacion" dataContainer="reciboDc" property="ampliacion"/>
+                    <textField editable="false" id="totalReciboField" dataContainer="reciboDc" property="totalRecibo"
+                               caption="Total Recibo"/>
+                    <table id="tableImplementacionesConceptos" width="100%" dataContainer="implementacionConceptosDc"
+                           height="244px">
+                        <columns>
+                            <column id="overrideConcepto.tituloConcepto"/>
+                            <column id="importe"/>
+                            <column id="importePostCCAA"/>
+                        </columns>
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                        <buttonsPanel>
+                            <button caption="Nuevo" action="tableImplementacionesConceptos.create"/>
+                            <button caption="Editar" action="tableImplementacionesConceptos.edit"/>
+                            <button caption="Eliminar" action="tableImplementacionesConceptos.remove"/>
+                        </buttonsPanel>
+                    </table>
+                    <textField editable="false" id="totalReciboPostCCAA" caption="Total Rbo Post CCAA" dataContainer="reciboDc"
+                               property="totalReciboPostCCAA"/>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
+            <button action="windowClose" caption="Cancelar"/>
+            <button id="btnImprimir" invoke="onBtnImprimirClick" caption="Previsualizar"/>
+        </hbox>
+    </layout>
+</window>

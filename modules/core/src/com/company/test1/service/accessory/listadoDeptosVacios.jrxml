@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="2.106650034448641"/>
+    <property name="ireport.x" value="172"/>
+    <property name="ireport.y" value="0"/>
+    <property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+    <parameter name="P_FECHA" class="java.lang.String"/>
+    <parameter name="P_HORA" class="java.lang.String"/>
+    <parameter name="P_FECHA2" class="java.lang.String"/>
+    <parameter name="P_INFORME_REALIZADO_POR" class="java.lang.String"/>
+    <parameter name="P_TOTAL_PISOS_VACIOS" class="java.lang.String"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <field name="nombreDescriptivoCompleto" class="java.lang.String"/>
+    <field name="descripcionTipoViviendaLocal" class="java.lang.String"/>
+    <field name="vacioDesde" class="java.lang.String"/>
+    <field name="montanteUltimoRecibo" class="java.lang.String"/>
+    <field name="ubicacion" class="java.lang.String"/>
+    <field name="departamento" class="java.lang.String"/>
+    <columnHeader>
+        <band height="117" splitType="Stretch">
+            <line>
+                <reportElement x="185" y="65" width="253" height="1"/>
+            </line>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="338" y="5" width="206" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="185" y="48" width="177" height="20"/>
+                <textElement>
+                    <font fontName="Tahoma" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DEPARTAMENTOS VACÍOS A]]></text>
+            </staticText>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement x="363" y="48" width="75" height="20"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Tahoma" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHA2}]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement x="70" y="94" width="474" height="20" forecolor="#000000" backcolor="#666666"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="423" y="94" width="121" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ult.Rbo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="70" y="94" width="200" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Dirección]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="342" y="94" width="76" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Vacio  Desde]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="271" y="94" width="67" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Uso]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="14" y="73" width="518" height="15" forecolor="#999999"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["Fecha: " + $P{P_FECHA} + "  Hora: " + $P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="14" splitType="Stretch">
+            <textField>
+                <reportElement x="70" y="1" width="200" height="12"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nombreDescriptivoCompleto}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="281" y="1" width="57" height="12"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{descripcionTipoViviendaLocal}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="352" y="1" width="66" height="12"/>
+                <textElement>
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{vacioDesde}]]></textFieldExpression>
+            </textField>
+            <textField pattern="">
+                <reportElement x="452" y="1" width="92" height="12"/>
+                <textElement textAlignment="Left">
+                    <font fontName="Tahoma" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{montanteUltimoRecibo}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="5"/>
+    </pageFooter>
+    <summary>
+        <band height="47">
+            <textField>
+                <reportElement x="178" y="26" width="166" height="20"/>
+                <textElement>
+                    <font isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_TOTAL_PISOS_VACIOS}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="79" y="26" width="100" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Pisos vacíos: ]]></text>
+            </staticText>
+        </band>
+    </summary>
+</jasperReport>

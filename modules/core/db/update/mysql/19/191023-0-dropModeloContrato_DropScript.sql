@@ -1,0 +1,1 @@
+drop table if exists TEST1_MODELO_CONTRATO__U04938 cascade ;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="contratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                  provided="true">
+
+        </instance>
+    </data>
+    <layout>
+        <form width="100%">
+            <hbox spacing="true">
+                <textField id="lugarRealizacionField" property="lugarRealizacion" dataContainer="contratoInquilinoDc"
+                           caption="Lugar Realizacion"/>
+                <textField id="plazoAnyosField" property="plazoAnyos" dataContainer="contratoInquilinoDc"
+                           caption="Plazo Anyos"/>
+                <textField id="plazoAnyosProrrogableField" property="plazoAnyosProrrogable"
+                           dataContainer="contratoInquilinoDc" caption="Plazo Anyos Prorrogable"/>
+                <textField id="rentaContractualField" property="rentaContractual" dataContainer="contratoInquilinoDc"
+                           caption="Renta Contractual"/>
+                <lookupField id="tipoContratoField" property="tipoContrato" dataContainer="contratoInquilinoDc"
+                             optionsEnum="com.company.test1.entity.enums.TipoContratoInquilinoEnum"
+                             caption="Tipo de Contrato"/>
+            </hbox>
+            <hbox spacing="true">
+                <dateField resolution="DAY" id="fechaRealizacionField" property="fechaRealizacion" dataContainer="contratoInquilinoDc"
+                           caption="Fecha de Realizacion"/>
+                <dateField resolution="DAY" id="fechaOcupacionField" property="fechaOcupacion" dataContainer="contratoInquilinoDc"
+                           caption="Fecha Ocupacion"/>
+                <dateField resolution="DAY" id="fechaDesocupacionField" property="fechaDesocupacion" dataContainer="contratoInquilinoDc"
+                           caption="Fecha Desocupacion"/>
+                <dateField resolution="DAY" id="fechaVencimientoPrevistoField" property="fechaVencimientoPrevisto"
+                           dataContainer="contratoInquilinoDc" caption="Fecha Vto. Previsto"/>
+            </hbox>
+            <hbox spacing="true">
+                <lookupField id="usoContratoField" property="usoContrato" dataContainer="contratoInquilinoDc"
+                             optionsEnum="com.company.test1.entity.enums.UsoContratoEnum" caption="Uso Departamento"/>
+                <textField id="periodoActualizacionIPCField" property="periodoActualizacionIPC"
+                           dataContainer="contratoInquilinoDc" caption="Periodo Actualizacion IPC"/>
+                <textField id="mesAnyoAplicacionIPCField" property="mesAnyoAplicacionIPC"
+                           dataContainer="contratoInquilinoDc" caption="Mes/Anyo IPC"/>
+            </hbox>
+            <hbox>
+                <label value="Datos de Renuncia"/>
+            </hbox>
+
+            <hbox spacing="true" width="100%">
+                <checkBox id="comunicacionRenunciaField" property="comunicacionRenuncia"
+                          dataContainer="contratoInquilinoDc" caption="Renuncia Comunicada"/>
+                <dateField resolution="DAY" id="fechaComunicacionField" property="fechaComunicacion" dataContainer="contratoInquilinoDc"
+                           caption="Fecha de Comunicacion"/>
+                <dateField resolution="DAY" id="fechaPrevistaRenunciaField" property="fechaPrevistaRenuncia"
+                           dataContainer="contratoInquilinoDc" caption="Fecha Prevista Renuncia"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <textArea id="comentariosAdministradorField" property="comentariosAdministrador"
+                          dataContainer="contratoInquilinoDc" width="100%" caption="Comentarios Administrador"/>
+            </hbox>
+
+
+        </form>
+    </layout>
+</fragment>
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.externos">
+    <data>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem">
+            <loader id="treeItemsDl">
+                <query><![CDATA[select e from test1_TreeItem e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <vbox spacing="true" width="100%">
+                    <table id="tablePropietarios" height="300px" width="100%" dataContainer="propietariosDc" caption="Propietarios">
+                        <columns>
+                            <column id="abreviacionContratos"/>
+                            <column id="codigoCliente"/>
+                            <column id="exoneracionIrpf"/>
+                            <column id="gestionCaja"/>
+                            <column id="prospecto"/>
+                            <column id="rm2id"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button id="btnSeleccionarTodos" caption="Seleccionar Todos"/>
+                            <button id="btnInvertir" caption="Invertir"/>
+                        </buttonsPanel>
+                    </table>
+                </vbox>
+                <vbox spacing="true" width="100%">
+                    <tree id="treeUbicacionesDepartamentos" height="300px" width="100%" dataContainer="treeItemsDc"
+                          hierarchyProperty="parentItem" multiselect="true">
+                        <buttonsPanel>
+                            <button id="btnSeleccionarTodosDeptos" caption="Seleccionar Todos"
+                                    invoke="onBtnSeleccionarTodosDeptosClick"/>
+                        </buttonsPanel>
+                        <treechildren captionProperty="userObjectText"/>
+                    </tree>
+                </vbox>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <dateField resolution="DAY" id="dteFechaDesde" caption="Fecha Desde"/>
+                <dateField resolution="DAY" id="dteFechaHasta" caption="Fecha Hasta"/>
+            </hbox>
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpAnadirInfoGlobal" caption="Anyadir Informacion Global"
+                             optionsEnum="com.company.test1.entity.SiNoEnum"/>
+                <lookupField id="lkpAnadirInfoTrimestral" caption="Anyadir Informacion Trimestral"
+                             optionsEnum="com.company.test1.entity.SiNoEnum"/>
+            </hbox>
+        </vbox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnVistualizar" caption="Visualizar" invoke="onBtnVistualizarClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

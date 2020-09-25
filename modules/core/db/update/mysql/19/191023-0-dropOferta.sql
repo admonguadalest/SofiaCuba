@@ -1,0 +1,1 @@
+rename table TEST1_OFERTA to TEST1_OFERTA__U80141 ;

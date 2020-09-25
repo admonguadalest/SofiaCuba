@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportLiquidacionInicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="1.7715610000000053"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="48"/>
+    <parameter name="TITULO_REPORT" class="java.lang.String"/>
+    <parameter name="CIUDAD_FECHA" class="java.lang.String"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <field name="fianzaContrato" class="java.lang.String"/>
+    <field name="garantiasEnEfectivo" class="java.lang.String"/>
+    <field name="recibosACuenta" class="java.lang.String"/>
+    <field name="gastosContrato" class="java.lang.String"/>
+    <field name="totalLiquidacion" class="java.lang.String"/>
+    <field name="detalle" class="java.lang.String"/>
+    <field name="otrosConceptos" class="java.lang.String"/>
+    <field name="totalInicio" class="java.lang.String"/>
+    <field name="cantidadesEntregadasEnReserva" class="java.lang.String"/>
+    <field name="reservaNombre" class="java.lang.String"/>
+    <variable name="NF" class="java.text.DecimalFormat">
+        <initialValueExpression><![CDATA[new DecimalFormat("#,##0.00")]]></initialValueExpression>
+    </variable>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="82" splitType="Stretch">
+            <textField isStretchWithOverflow="true">
+                <reportElement positionType="Float" x="70" y="42" width="422" height="24"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true" isUnderline="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO_REPORT}]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="192" y="0" width="300" height="26"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+        </band>
+    </title>
+    <detail>
+        <band height="447" splitType="Stretch">
+            <staticText>
+                <reportElement x="62" y="28" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[FIANZA CONTRATO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="48" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[GARANTIAS ADICIONALES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="62" y="110" width="191" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" x="62" y="251" width="191" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL LIQUIDACIÓN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" x="62" y="277" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[DETALLE]]></text>
+            </staticText>
+            <textField>
+                <reportElement positionType="Float" x="62" y="399" width="430" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{CIUDAD_FECHA}]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement positionType="Float" x="62" y="297" width="430" height="79"/>
+            </rectangle>
+            <textField>
+                <reportElement positionType="Float" x="70" y="307" width="411" height="58"/>
+                <textElement markup="html"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{detalle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="28" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{fianzaContrato}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="48" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{garantiasEnEfectivo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="392" y="110" width="100" height="20"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalInicio}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement positionType="Float" x="392" y="169" width="100" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{recibosACuenta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement positionType="Float" x="392" y="210" width="100" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{gastosContrato}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement positionType="Float" x="392" y="251" width="100" height="20"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalLiquidacion}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="62" y="99" width="191" height="1"/>
+            </line>
+            <line>
+                <reportElement x="441" y="99" width="61" height="1"/>
+            </line>
+            <line>
+                <reportElement positionType="Float" x="62" y="243" width="191" height="1"/>
+            </line>
+            <line>
+                <reportElement positionType="Float" x="441" y="243" width="61" height="1"/>
+            </line>
+            <textField>
+                <reportElement x="392" y="68" width="100" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{otrosConceptos}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="62" y="68" width="191" height="20"/>
+                <textElement/>
+                <text><![CDATA[OTROS CONCEPTOS]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement positionType="Float" x="392" y="190" width="100" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{cantidadesEntregadasEnReserva}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" x="62" y="169" width="191" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement/>
+                <text><![CDATA[RECIBO ALQUILER]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" x="62" y="210" width="191" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement/>
+                <text><![CDATA[GASTOS DE CONTRATO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" x="62" y="189" width="191" height="20" isRemoveLineWhenBlank="true"/>
+                <textElement/>
+                <text><![CDATA[RESERVA]]></text>
+            </staticText>
+        </band>
+    </detail>
+</jasperReport>

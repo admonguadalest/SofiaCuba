@@ -1,0 +1,1 @@
+drop table if exists TEST1_IMPUTACION_DOCUMENTO_IMPUTABLE__U45752 cascade ;

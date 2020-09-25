@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.entrada">
+    <data>
+        <instance id="entradaDc"
+                  class="com.company.test1.entity.ciclos.Entrada"
+                  view="entrada-view">
+            <loader id="entradaDl"/>
+            <instance id="ordenTrabajoDc" property="ordenTrabajo">
+                <collection id="notasIntervencionDc" property="notasIntervenciones"/>
+                <collection id="asignacionesTareasDc" property="asignacionesTareas"/>
+            </instance>
+
+        </instance>
+        <collection id="eventoesDc" class="com.company.test1.entity.ciclos.Evento" view="_base">
+            <loader id="eventoesLc">
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="auto"
+                width="auto" resizable="true"/>
+    <layout expand="editActions" spacing="true" width="1000px">
+        <form id="form" dataContainer="entradaDc" width="100%">
+            <column width="100%">
+                <lookupPickerField id="eventoField" optionsContainer="eventoesDc"
+                                   dataContainer="entradaDc" property="evento" captionProperty="nombre">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                    </actions>
+                </lookupPickerField>
+                <dateField resolution="DAY" id="fechaEntradaField" property="fechaEntrada" width="190px"/>
+                <richTextArea id="contenidoEntradaField" property="contenidoEntrada" rows="5" width="100%"/>
+                <checkBox id="chkActivarOrdenTrabajo" caption="Activar Orden de Trabajo"/>
+                <groupBox visible="false" caption="Orden de Trabajo" id="gbxOrdenTrabajo" collapsable="true"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

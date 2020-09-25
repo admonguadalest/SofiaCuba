@@ -1,0 +1,1 @@
+drop table if exists TEST1_DEFINICION_REMESA__U53101 cascade ;

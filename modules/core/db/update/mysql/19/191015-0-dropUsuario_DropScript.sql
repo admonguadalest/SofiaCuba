@@ -1,0 +1,1 @@
+drop table if exists TEST1_USUARIO__U20318 cascade ;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.contratoinquilino">
+    <data>
+        <instance id="parametroValorDc"
+                  class="com.company.test1.entity.contratosinquilinos.ParametroValor"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800" forceDialog="true"/>
+    <layout expand="scroll" spacing="true">
+        <scrollBox id="scroll">
+        <vbox spacing="true">
+            <textField dataContainer="parametroValorDc" caption="Nombre Parametro" id="nombreParametroField" property="nombreParametro" enable="false"/>
+            <textArea caption="Valor" dataContainer="parametroValorDc" id="valorField" property="valor" rows="5" width="100%"/>
+        </vbox>
+        </scrollBox>
+        <hbox id="editActions" spacing="true" align="BOTTOM_LEFT">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+
+</window>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SeccionTablaEntradas" language="groovy" pageWidth="549" pageHeight="842" columnWidth="549" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+    <property name="ireport.zoom" value="2.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <parameter name="DATE_FORMAT" class="java.text.DateFormat">
+        <defaultValueExpression><![CDATA[DateFormat.getInstance()]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[]]>
+    </queryString>
+    <field name="textoClausula" class="java.lang.String"/>
+    <field name="ordinalClausula" class="java.lang.String"/>
+    <detail>
+        <band height="18" splitType="Stretch">
+            <textField isStretchWithOverflow="true">
+                <reportElement x="19" y="0" width="530" height="18" forecolor="#666666"/>
+                <textElement textAlignment="Justified" markup="html">
+                    <font size="7"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{textoClausula}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="2" y="0" width="17" height="18" forecolor="#666666"/>
+                <textElement markup="html">
+                    <font size="7"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{ordinalClausula}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

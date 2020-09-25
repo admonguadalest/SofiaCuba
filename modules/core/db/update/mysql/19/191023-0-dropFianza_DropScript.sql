@@ -1,0 +1,1 @@
+drop table if exists TEST1_FIANZA__U36313 cascade ;

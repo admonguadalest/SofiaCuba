@@ -1,0 +1,1 @@
+drop table if exists TEST1_CLAUSULA__U17874 cascade ;

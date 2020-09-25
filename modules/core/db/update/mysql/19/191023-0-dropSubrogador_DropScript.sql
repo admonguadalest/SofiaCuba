@@ -1,0 +1,1 @@
+drop table if exists TEST1_SUBROGADOR__U71452 cascade ;

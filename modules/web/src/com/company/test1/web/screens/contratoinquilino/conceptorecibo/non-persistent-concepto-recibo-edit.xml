@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Conceptos de Recibo"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.contratoinquilino.conceptorecibo">
+    <data>
+        <instance id="nonPersistentConceptoReciboDc"
+                  class="com.company.test1.entity.recibos.NonPersistentConceptoRecibo"
+                  view="nonPersistentConceptoRecibo-view">
+            <loader/>
+            <collection id="conceptosRecibosDc" property="conceptosRecibo"/>
+        </instance>
+    </data>
+    <dialogMode height="AUTO"
+                width="AUTO"
+                modal="true"
+                forceDialog="true"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="nonPersistentConceptoReciboDc" width="100%">
+            <column width="100%">
+                <groupBox orientation="horizontal" width="100%" visible="false">
+                    <pickerField id="conceptoField" editable="false"
+                                 dataContainer="nonPersistentConceptoReciboDc" property="concepto"
+                                 captionProperty="tituloConcepto">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <textField id="importeField" property="importe" editable="false"/>
+                </groupBox>
+                <table id="tableConceptosRecibo" width="100%" dataContainer="conceptosRecibosDc" height="300px">
+                    <columns>
+                        <column id="concepto.tituloConcepto"/>
+                        <column id="importe"/>
+                        <column id="vigencia"/>
+                        <column id="activadoDesactivado"/>
+                        <column id="fechaDesde"/>
+                        <column id="fechaHasta"/>
+                        <column id="numEmisiones"/>
+                        <column id="esModificacionAgregada"/>
+                        <column id="fechaValor"/>
+                        <column id="descripcionCausa"/>
+                        <column id="actualizableIPC"/>
+
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnCrear" action="tableConceptosRecibo.create"/>
+                        <button id="btnEditar" action="tableConceptosRecibo.edit"/>
+                        <button id="btnRemove" action="tableConceptosRecibo.remove"/>
+                    </buttonsPanel>
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                </table>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,2 @@
+alter table DIRECCION add constraint FK_DIRECCION_ON_UBICACION foreign key (UBICACION_ID) references UBICACION(ID);
+create index IDX_DIRECCION_ON_UBICACION on DIRECCION (UBICACION_ID);

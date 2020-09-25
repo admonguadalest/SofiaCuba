@@ -1,0 +1,1 @@
+drop table if exists TEST1_CONTRATO_INQUILINO__U26847 cascade ;

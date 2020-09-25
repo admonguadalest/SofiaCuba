@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edición de Concepto de Recibo"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.contratoinquilino.conceptorecibo">
+    <data>
+        <instance id="conceptoReciboDc"
+                  class="com.company.test1.entity.recibos.ConceptoRecibo"
+                  view="conceptoRecibo-view">
+            <loader/>
+            <collection id="conceptosAdicionalesDc" property="conceptosAdicionalesConceptoRecibo"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="conceptoReciboDc" width="100%">
+
+                <checkBox id="omitirEnProrrateoField" dataContainer="conceptoReciboDc" property="omitirEnProrrateo"/>
+                <groupBox caption="Definición de Concepto" orientation="horizontal" spacing="true" width="100%">
+                    <pickerField id="conceptoField" dataContainer="conceptoReciboDc" property="concepto"
+                                 caption="Concepto" captionProperty="tituloConcepto"/>
+                    <textField id="importeField" dataContainer="conceptoReciboDc" property="importe" caption="Importe"/>
+                </groupBox>
+                <groupBox caption="Tipo de Vigencia" orientation="horizontal" spacing="true" width="100%">
+                    <lookupField id="vigenciaField" caption="Vigencia"
+                                 dataContainer="conceptoReciboDc" property="vigencia"
+                                 optionsEnum="com.company.test1.entity.enums.recibos.ConceptoReciboVigenciaEnum"/>
+                    <dateField resolution="DAY" id="fechaValorField" caption="Fecha Valor"
+                               dataContainer="conceptoReciboDc" property="fechaValor"/>
+                </groupBox>
+                <flowBox id="flwVigencia" spacing="true" width="100%"/>
+                <groupBox caption="Definir Actualizable y Justificación" orientation="horizontal" spacing="true" width="100%">
+                    <checkBox id="actualizableIPCField" dataContainer="conceptoReciboDc" property="actualizableIPC"
+                              caption="Actualizable IPC"/>
+                    <textArea id="descripcionCausaField" width="100%"
+                              caption="Descripcion Causa" dataContainer="conceptoReciboDc" property="descripcionCausa"/>
+                </groupBox>
+
+                <groupBox caption="Conceptos Adicionales Aplicables" orientation="horizontal" spacing="true" width="100%">
+                    <table id="tableConceptosAdicionales" height="200px" width="100%" dataContainer="conceptosAdicionalesDc">
+                        <columns>
+                            <column id="conceptoAdicional.abreviacion"/>
+                            <column id="porcentaje"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button action="tableConceptosAdicionales.create"/>
+                            <button action="tableConceptosAdicionales.edit"/>
+                            <button action="tableConceptosAdicionales.remove"/>
+                        </buttonsPanel>
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                    </table>
+                </groupBox>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

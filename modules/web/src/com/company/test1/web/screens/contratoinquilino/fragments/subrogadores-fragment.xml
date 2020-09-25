@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="contratoInquilinoDc"
+                  class="com.company.test1.entity.contratosinquilinos.ContratoInquilino"
+                  provided="true" view="contratoInquilino-view">
+
+            <collection id="subrogadoresDc" property="subrogadores"/>
+        </instance>
+    </data>
+    <layout>
+        <scrollBox>
+            <label value="Inquilino y Subrogadores"/>
+            <table id="tableSubrogadores" height="250px" width="100%" dataContainer="subrogadoresDc">
+                <columns>
+                    <column id="fechaDesde"/>
+                    <column id="fechaHasta"/>
+                    <column id="subrogador.nombreCompleto"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="tableSubrogadores.create"/>
+                    <button action="tableSubrogadores.edit"/>
+                    <button action="tableSubrogadores.remove"/>
+                </buttonsPanel>
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+            </table>
+        </scrollBox>
+    </layout>
+</fragment>
+

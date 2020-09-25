@@ -1,0 +1,2 @@
+alter table ORDEN_TRABAJO add constraint FK_ORDEN_TRABAJO_ON_ENTRADA foreign key (ENTRADA_ID) references ENTRADA(ID);
+create index IDX_ORDEN_TRABAJO_ON_ENTRADA on ORDEN_TRABAJO (ENTRADA_ID);

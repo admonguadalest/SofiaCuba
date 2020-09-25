@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Implementar Concepto en Recibo"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <instance id="implementacionConceptoDc"
+                  class="com.company.test1.entity.recibos.ImplementacionConcepto"
+                  view="implementacionConcepto-view">
+            <loader/>
+            <collection id="registroAplicacionConceptoAdicionalsDc" property="registroAplicacionesConceptosAdicionales" >
+
+            </collection>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="implementacionConceptoDc" width="100%">
+            <column width="100%">
+                <pickerField id="overrideConceptoField" width="495px"
+                             dataContainer="implementacionConceptoDc" property="overrideConcepto"
+                             captionProperty="tituloConcepto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="importeField" property="importe"/>
+                <table id="tableRACA" width="100%" caption="Conceptos Adicionales" height="195px"
+                       dataContainer="registroAplicacionConceptoAdicionalsDc">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit" trackSelection="true"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <buttonsPanel>
+                        <button action="tableRACA.create"/>
+                        <button action="tableRACA.edit"/>
+                        <button action="tableRACA.remove"/>
+                    </buttonsPanel>
+                    <columns>
+                        <column id="conceptoAdicional.nombre"/>
+                        <column id="porcentaje"/>
+                        <column id="importeAplicado"/>
+
+                    </columns>
+                </table>
+                <textField id="importePostCCAAField" property="importePostCCAA"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordenpagocontratoinquilino">
+    <data>
+        <instance id="ordenPagoContratoInquilinoDc"
+                  class="com.company.test1.entity.ordenespago.OrdenPagoContratoInquilino"
+                  view="ordenPagoContratoInquilino-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="ordenPagoContratoInquilinoDc">
+            <column width="250px">
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
+                <textField id="importeField" property="importe"/>
+                <lookupField id="lkpTipo" caption="Tipo"/>
+                <textArea width="250px" height="100px" id="descripcionField" property="descripcion"/>
+
+                <pickerField editable="false" id="realizacionPagoField" property="realizacionPago">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

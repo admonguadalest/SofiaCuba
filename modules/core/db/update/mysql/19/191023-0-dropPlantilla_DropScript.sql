@@ -1,0 +1,1 @@
+drop table if exists TEST1_PLANTILLA__U58994 cascade ;

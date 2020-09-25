@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.registropresencial">
+    <data>
+        <instance id="registroPresencialDc"
+                  class="com.company.test1.entity.RegistroPresencial"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="registroPresencialDc">
+            <column width="250px">
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true" height="45px">
+
+            <button action="windowCommitAndClose" caption="Realizar Fichaje" width="294px"/>
+        </hbox>
+        <vbox spacing="true">
+            <label id="lblres"/>
+        </vbox>
+    </layout>
+</window>

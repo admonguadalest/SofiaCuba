@@ -1,0 +1,2 @@
+alter table DATO_DE_CONTACTO add constraint FK_DATO_DE_CONTACTO_ON_PERSONA foreign key (PERSONA_ID) references PERSONA(ID);
+create index IDX_DATO_DE_CONTACTO_ON_PERSONA on DATO_DE_CONTACTO (PERSONA_ID);

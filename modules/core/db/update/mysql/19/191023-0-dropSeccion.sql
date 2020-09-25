@@ -1,0 +1,2 @@
+rename table TEST1_SECCION to TEST1_SECCION__U85300 ;
+alter table TEST1_CLAUSULA drop foreign key FK_TEST1_CLAUSULA_ON_SECCION;

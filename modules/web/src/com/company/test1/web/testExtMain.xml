@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web">
+    <data>
+        <collection id="remesasDc" class="com.company.test1.entity.recibos.Remesa" view="_base">
+            <loader id="remesasDl">
+                <query><![CDATA[select e from test1_Remesa e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <chart:serialChart width="100%" height="300px" dataContainer="remesasDc" startDuration="1" categoryField="fechaRealizacion">
+            <chart:graphs>
+                <chart:graph balloonText="x:[[x]] y:[[y]]"
+
+                             fillToAxis="x"
+                             valueField="totalRemesa"
+                            />
+
+            </chart:graphs>
+            <chart:categoryAxis dashLength="1"
+                                minorGridEnabled="true"/>
+
+        </chart:serialChart>
+    </layout>
+</window>

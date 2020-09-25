@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listadoaumentosipc" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="P_SUBREPORT" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="P_FECHAREVISION" class="java.util.Date"/>
+	<parameter name="P_COMPANYLOGO" class="net.sf.jasperreports.engine.JRRenderable"/>
+	<parameter name="P_FECHAINCREMENTO" class="java.util.Date"/>
+	<parameter name="P_HORA" class="java.lang.String"/>
+	<parameter name="P_INFORME_REALIZADO_POR" class="java.lang.String"/>
+	<parameter name="P_FECHA" class="java.lang.String"/>
+	<field name="fechaContrato" class="java.util.Date"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="nombreInquilino" class="java.lang.String"/>
+	<field name="proximaRevision" class="java.lang.String"/>
+	<field name="detalleAumentos" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="101">
+			<image scaleImage="RetainShape" hAlign="Right">
+				<reportElement x="422" y="4" width="128" height="30"/>
+				<imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="406" y="43" width="131" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHAREVISION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="406" y="60" width="131" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHAINCREMENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="96" y="59" width="293" height="20">
+					<printWhenExpression><![CDATA[($P{P_FECHAINCREMENTO}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Calibri" size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA DE INCREMENTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="37" y="84" width="518" height="15" forecolor="#999999"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Fecha: " + $P{P_FECHA} + "  Hora: " + $P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="38">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+			<image scaleImage="RetainShape" hAlign="Right">
+				<reportElement x="422" y="4" width="128" height="30"/>
+				<imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="68" y="0" width="72" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Contr.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inquilino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prox. Revisión]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement x="72" y="0" width="72" height="13"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fechaContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="0" width="183" height="13"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="0" width="125" height="13"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombreInquilino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="454" y="0" width="100" height="13"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{proximaRevision}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true">
+				<reportElement x="72" y="13" width="483" height="15"/>
+				<dataSourceExpression><![CDATA[$F{detalleAumentos}]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{P_SUBREPORT}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="38">
+			<textField>
+				<reportElement x="281" y="13" width="20" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="245" y="13" width="36" height="20"/>
+				<textElement/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

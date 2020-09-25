@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.representacionlegal">
+    <data>
+        <instance id="representacionLegalDc"
+                  class="com.company.test1.entity.RepresentacionLegal"
+                  view="representacionLegal-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="representacionLegalDc">
+            <column width="250px">
+                <lookupPickerField id="lkpRepresentado" caption="Representado" dataContainer="representacionLegalDc"
+                                   property="persona"
+                                   width="424px" captionProperty="nombreCompleto"/>
+                <lookupPickerField id="lkpRepresentante" caption="Representante" dataContainer="representacionLegalDc"
+                                   property="persona_representante" captionProperty="nombreCompleto" width="423px"/>
+                <lookupField id="enCalidadDeField" property="enCalidadDe"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

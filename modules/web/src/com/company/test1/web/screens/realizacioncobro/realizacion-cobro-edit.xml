@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.realizacioncobro">
+    <data>
+        <instance id="realizacionCobroDc"
+                  class="com.company.test1.entity.ordenescobro.RealizacionCobro"
+                  view="realizacionCobro-view">
+            <collection id="ordenesCobroDc" property="ordenesCobro"/>
+            <loader/>
+
+        </instance>
+
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="realizacionCobroDc" width="100%">
+            <column width="100%">
+                <dateField resolution="DAY" id="fechaValorField" property="fechaValor" editable="false"/>
+                <textField id="identificadorField" property="identificador" editable="false"/>
+
+                <textField id="importeTotalField" property="importeTotal" editable="false"/>
+                <tabSheet>
+                    <tab id="tabOrdenes" caption="Ordenes" margin="true,false,false,false" spacing="true">
+                        <table height="400px" width="100%" dataContainer="ordenesCobroDc">
+                            <columns>
+                                <column id="recibo.utilitarioInquilino.nombreCompleto"/>
+                                <column id="recibo.utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                                <column id="fechaValor"/>
+                                <column id="importe"/>
+                                <column id="descripcion"/>
+                                <column id="entToEntId"/>
+                            </columns>
+                        </table>
+                    </tab>
+                    <tab id="tabSepa" caption="Sepa" margin="true,false,false,false" spacing="true">
+                        <textArea height="400px" width="100%" dataContainer="realizacionCobroDc" property="sepa"/>
+                    </tab>
+                </tabSheet>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="btnDescargar" invoke="onBtnDescargarClick" caption="Descargar"/>
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

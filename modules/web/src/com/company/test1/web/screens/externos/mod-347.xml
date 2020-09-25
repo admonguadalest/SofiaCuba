@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption2"
+        messagesPack="com.company.test1.web.screens.externos">
+    <data>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpPropietarios" caption="Propietarios" optionsContainer="propietariosDc"
+                             captionProperty="persona.nombreCompleto"/>
+                <dateField resolution="DAY" id="dteFechaDesde" caption="Fecha Desde"/>
+                <dateField resolution="DAY" id="dteFechaHasta" caption="Fecha Hasta"/>
+            </hbox>
+            <buttonsPanel>
+                <button id="btnPrevisualizar" caption="Previsualizar" invoke="onBtnPrevisualizarClick"/>
+                <button id="btnDescargarImportable" caption="Descargar Importable"
+                        invoke="onBtnDescargarImportableClick"/>
+            </buttonsPanel>
+        </vbox>
+    </layout>
+</window>

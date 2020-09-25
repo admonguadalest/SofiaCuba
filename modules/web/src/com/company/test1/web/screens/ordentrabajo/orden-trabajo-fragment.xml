@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="ordenTrabajoDc"
+                  class="com.company.test1.entity.ciclos.OrdenTrabajo"
+                  provided="true">
+
+            <collection id="notasIntervencionDc"
+                        property="notasIntervenciones" provided="true">
+
+            </collection>
+            <collection id="asignacionesTareasDc"
+                        property="asignacionesTareas" provided="true">
+
+            </collection>
+        </instance>
+        <collection id="carpetaDocumentosFotograficosesDc"
+                    class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos"
+                    view="_base">
+            <loader id="carpetaDocumentosFotograficosesLc">
+                <query>
+                    <![CDATA[select e from test1_CarpetaDocumentosFotograficos e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="administradorsDc" class="com.haulmont.cuba.security.entity.User" view="_minimal">
+            <loader id="administradorsLc">
+                <query>
+                    <![CDATA[select e from sec$User e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="ordenTrabajoDc" width="100%">
+                <column width="50%">
+                    <dateField resolution="DAY" id="fechaSolicitudField" dataContainer="ordenTrabajoDc" caption="Fecha Solicitud"
+                               property="fechaSolicitud"/>
+                    <checkBox id="reparacionRehabilitacionField"
+                              caption="Reparacion/Rehabilitacion" dataContainer="ordenTrabajoDc"
+                              property="reparacionRehabilitacion"/>
+                    <textField id="costeOrientativoField" dataContainer="ordenTrabajoDc" property="costeOrientativo"/>
+                    <checkBox id="excluirDeMonitorizacionEncargadoField"
+                              caption="Excluir de Monitorizacion" dataContainer="ordenTrabajoDc"
+                              property="excluirDeMonitorizacionEncargado"/>
+                    <lookupField id="tipoPrivacidadField" caption="Tipo Privacidad"
+                                 dataContainer="ordenTrabajoDc" property="tipoPrivacidad"/>
+                </column>
+                <column width="50%">
+                    <textField dataContainer="ordenTrabajoDc" property="propuestoPor"/>
+                    <lookupPickerField id="carpetaDocumentosFotograficosField"
+                                       optionsContainer="carpetaDocumentosFotograficosesDc"
+                                       dataContainer="ordenTrabajoDc" caption="Carpeta DDFF"
+                                       property="carpetaDocumentosFotograficos"/>
+                    <dateField resolution="DAY" id="fechaPrevistaIntervencionField" property="fechaPrevistaIntervencion"/>
+                    <dateField resolution="DAY" id="fechaFinalizacionField" caption="Fecha Finalizacion"
+                               dataContainer="ordenTrabajoDc" property="fechaFinalizacion"/>
+                    <lookupPickerField id="administradorField" optionsContainer="administradorsDc"
+                                       caption="Administrador" dataContainer="ordenTrabajoDc" property="administrador">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                        </actions>
+                    </lookupPickerField>
+                </column>
+            </form>
+            <textArea id="descripcionField" rows="5" width="100%"
+                      dataContainer="ordenTrabajoDc" property="descripcion" caption="Descripcion"/>
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <tabSheet>
+                    <tab id="tabNotasIntervencion" caption="Notas de Intervencion" margin="true,false,false,false" spacing="true">
+                        <table id="tableNotasIntervencion" height="281px" width="100%"
+                               dataContainer="notasIntervencionDc">
+                            <columns>
+                                <column id="fechaIntervencion"/>
+                                <column id="contenido"/>
+                            </columns>
+                            <buttonsPanel>
+                                <button id="btnNuevaNotaIntervencion" caption="Nueva"
+                                        action="tableNotasIntervencion.create"/>
+                                <button id="btnEditarNotaIntervencion" caption="Editar"
+                                        action="tableNotasIntervencion.edit"/>
+                                <button id="btnEliminarNotaIntervencion" caption="Eliminar"
+                                        action="tableNotasIntervencion.remove"/>
+                            </buttonsPanel>
+                            <actions>
+                                <action id="create" type="create"/>
+                                <action id="edit" type="edit"/>
+                                <action id="remove" type="remove"/>
+                            </actions>
+                        </table>
+                    </tab>
+                    <tab id="tabAsignacionesTareas" caption="Asignaciones Tareas" margin="true,false,false,false" spacing="true">
+                        <table id="tableAsignacionesTareas" height="281px" width="100%"
+                               dataContainer="asignacionesTareasDc">
+                            <columns>
+                                <column id="proveedor.persona.nombreCompleto"/>
+                                <column id="descripcion"/>
+                                <column id="fechaFinalizacion"/>
+                                <column id="acordadoConIndustrial"/>
+                            </columns>
+                            <buttonsPanel>
+                                <button id="btnNuevaAsignacionTarea" caption="Nueva"
+                                        action="tableAsignacionesTareas.create"/>
+                                <button id="btnEditarAsignacionTarea" caption="Editar"
+                                        action="tableAsignacionesTareas.edit"/>
+                                <button id="btnEliminarAsignacionTarea" caption="Eliminar"
+                                        action="tableAsignacionesTareas.remove"/>
+                            </buttonsPanel>
+                            <actions>
+                                <action id="create" type="create"/>
+                                <action id="edit" type="edit"/>
+                                <action id="remove" type="remove"/>
+                            </actions>
+                        </table>
+                    </tab>
+                </tabSheet>
+            </groupBox>
+        </scrollBox>
+    </layout>
+</fragment>
+

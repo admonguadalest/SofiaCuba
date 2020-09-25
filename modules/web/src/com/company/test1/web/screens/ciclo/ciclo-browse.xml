@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="cicloesTable"
+        messagesPack="com.company.test1.web.screens.ciclo">
+    <data readOnly="true">
+        <collection id="cicloesDc"
+                    class="com.company.test1.entity.ciclos.Ciclo"
+                    view="ciclo-browsing">
+            <loader id="cicloesDl">
+                <query>
+                    <![CDATA[select e from test1_Ciclo e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="cicloesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="cicloesTable"
+                dataLoader="cicloesDl">
+            <property name="departamento.ubicacion.nombre"/>
+            <property name="departamento.piso"/>
+            <property name="departamento.puerta"/>
+            <property name="estadoCiclo"/>
+        </filter>
+        <groupTable id="cicloesTable"
+                    width="100%"
+                    dataContainer="cicloesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="codigoCiclo"/>
+
+
+                <column id="estadoCiclo"/>
+                <column id="fechaCiclo"/>
+
+                <column id="tituloCiclo"/>
+                <column id="departamento.nombreDescriptivoCompleto"/>
+                <column id="tipoCiclo"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="cicloesTable.create"/>
+                <button id="editBtn" action="cicloesTable.edit"/>
+                <button id="removeBtn" action="cicloesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

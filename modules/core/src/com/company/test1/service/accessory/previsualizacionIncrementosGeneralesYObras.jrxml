@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="previsualizacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <parameter name="tituloConcepto" class="java.lang.String"/>
+    <parameter name="fechaRepercusion" class="java.lang.String"/>
+    <parameter name="ubicacion" class="java.lang.String"/>
+    <parameter name="totalCoeficiente" class="java.lang.String"/>
+    <parameter name="importeRepercutir" class="java.lang.String"/>
+    <parameter name="sumaCoeficientes" class="java.lang.String"/>
+    <parameter name="totalImporteAnual" class="java.lang.String"/>
+    <parameter name="totalImporteAumento" class="java.lang.String"/>
+    <parameter name="P_FECHA" class="java.lang.String"/>
+    <parameter name="P_HORA" class="java.lang.String"/>
+    <parameter name="P_FECHAINCREMENTO" class="java.util.Date"/>
+    <parameter name="P_INFORME_REALIZADO_POR" class="java.lang.String"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <parameter name="totalImporteAtrasos" class="java.lang.String"/>
+    <field name="id" class="java.lang.String">
+        <fieldDescription><![CDATA[id del departamento]]></fieldDescription>
+    </field>
+    <field name="pisoPuerta" class="java.lang.String"/>
+    <field name="titular" class="java.lang.String"/>
+    <field name="fechaContrato" class="java.lang.String"/>
+    <field name="importeAnual" class="java.lang.String"/>
+    <field name="importeActual" class="java.lang.String"/>
+    <field name="coeficiente" class="java.lang.String"/>
+    <field name="importeAumento" class="java.lang.String"/>
+    <field name="importeRecibo" class="java.lang.String"/>
+    <field name="mesesAtraso" class="java.lang.String"/>
+    <field name="importeAtrasos" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="159">
+            <image scaleImage="RealHeight" hAlign="Right">
+                <reportElement x="296" y="0" width="258" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="28" y="37" width="474" height="15"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["REPERCUSION " + $P{tituloConcepto} + " A FECHA " + $P{fechaRepercusion}+"CON NÚMERO DE ORDEN 02"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="28" y="64" width="112" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{ubicacion}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="30" y="81" width="124" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[IMPORTE A REPERCUTIR:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="304" y="81" width="100" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL COE:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="193" y="81" width="69" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{importeRepercutir}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="432" y="81" width="70" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{totalCoeficiente}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="30" y="105" width="184" height="10"/>
+                <textElement>
+                    <font size="7"/>
+                </textElement>
+                <text><![CDATA[(1)= Aumento superior al doble del último I.P.C aplicado]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="278" y="105" width="164" height="10"/>
+                <textElement>
+                    <font size="7"/>
+                </textElement>
+                <text><![CDATA[(2)= Concepto sin periocidad. Se asume mensual.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="30" y="118" width="348" height="10"/>
+                <textElement>
+                    <font size="7"/>
+                </textElement>
+                <text><![CDATA[(3)=No se puede efectuar el aumento porque el último % de I.P.C es 0 o negativo]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="28" y="141" width="433" height="12" forecolor="#666666"/>
+                <textElement>
+                    <font size="7"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["Fecha: " +$P{P_FECHA} + "  Hora: " +$P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="38" splitType="Stretch">
+            <printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 2]]></printWhenExpression>
+            <image scaleImage="RealHeight" hAlign="Right">
+                <reportElement x="296" y="2" width="258" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="28" splitType="Stretch">
+            <staticText>
+                <reportElement x="80" y="12" width="21" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text><![CDATA[Dep]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="101" y="12" width="118" height="12"/>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Titular/Subrogado]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="219" y="12" width="46" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[F.contrato]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="266" y="12" width="46" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Imp.actual]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="311" y="12" width="29" height="12"/>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Coef.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="12" width="42" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true" isItalic="false"/>
+                </textElement>
+                <text><![CDATA[Imp.anual]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="382" y="12" width="54" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Imp.aumento]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="436" y="12" width="42" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Imp.recibo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="478" y="12" width="28" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[M.atr.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="506" y="12" width="49" height="12"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Imp.atrasos]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="15" splitType="Stretch">
+            <textField>
+                <reportElement x="80" y="2" width="21" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{pisoPuerta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="101" y="2" width="119" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{titular}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="340" y="2" width="42" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeAnual}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="219" y="2" width="46" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{fechaContrato}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="266" y="2" width="46" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeActual}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="311" y="2" width="29" height="12"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{coeficiente}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="382" y="2" width="54" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeAumento}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="436" y="2" width="42" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeRecibo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="478" y="2" width="28" height="12"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{mesesAtraso}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="506" y="2" width="49" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeAtrasos}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="23">
+            <textField>
+                <reportElement x="314" y="3" width="20" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="272" y="3" width="42" height="20"/>
+                <textElement/>
+                <text><![CDATA[Página ]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="26" splitType="Stretch">
+            <staticText>
+                <reportElement x="153" y="10" width="31" height="12"/>
+                <textElement>
+                    <font size="7" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="225" y="10" width="24" height="12"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{sumaCoeficientes}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="278" y="10" width="52" height="12"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{totalImporteAnual}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="334" y="10" width="54" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{totalImporteAumento}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="404" y="10" width="54" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{totalImporteAtrasos}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

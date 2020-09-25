@@ -1,0 +1,1 @@
+drop table if exists TEST1_COLECCION_ARCHIVOS_ADJUNTOS__U31390 cascade ;

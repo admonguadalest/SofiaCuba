@@ -1,0 +1,7 @@
+@import "../hover/hover";
+
+@mixin testtheme {
+  @include hover;
+
+  .v-table-cell-wrapper>.v-widget {border: 0pt;}
+}

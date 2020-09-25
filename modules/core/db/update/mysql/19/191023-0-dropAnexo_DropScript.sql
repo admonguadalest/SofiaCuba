@@ -1,0 +1,1 @@
+drop table if exists TEST1_ANEXO__U90688 cascade ;

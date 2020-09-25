@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="ordenCobroesTable"
+        messagesPack="com.company.test1.web.screens.ordencobro">
+    <data readOnly="true">
+        <collection id="ordenCobroesDc"
+                    class="com.company.test1.entity.ordenescobro.OrdenCobro"
+                    view="ordenCobro-view">
+            <loader id="ordenCobroesDl">
+                <query>
+                    <![CDATA[select e from test1_OrdenCobro e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader>
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="cuentaBancariasDc" class="com.company.test1.entity.CuentaBancaria">
+            <loader id="cuentaBancariasDl">
+                <query><![CDATA[select e from test1_CuentaBancaria e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout
+            spacing="true" expand="ordenCobroesTable">
+        <filter id="filter"
+                applyTo="ordenCobroesTable"
+                dataLoader="ordenCobroesDl">
+            <property name="recibo.ordenanteRemesa.remesa.identificadorRemesa"/>
+            <property name="recibo.ordenanteRemesa.remesa.definicionRemesa.tipoGiro" caption="Tipo Giro"/>
+            <property name="fechaValor" caption="Fecha Valor"/>
+            <property name="fechaValor" caption="Fecha Valor"/>
+            <property name="recibo.utilitarioInquilino.nombreCompleto" caption="Nombre Inquilino"/>
+        </filter>
+
+            <table id="ordenCobroesTable"
+                   width="100%"
+                   dataContainer="ordenCobroesDc" height="400px" multiselect="true">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="recibo.ordenanteRemesa.remesa.identificadorRemesa"/>
+                    <column id="recibo.ordenanteRemesa.remesa.definicionRemesa.nombreRemesa"/>
+                    <column id="recibo.utilitarioInquilino.nombreCompleto"/>
+                    <column id="recibo.utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                    <column id="recibo.numRecibo"/>
+                    <column id="fechaValor"/>
+                    <column id="importe"/>
+                    <column id="realizacionCobro.fechaValor" caption="Fecha RC"/>
+
+                    <column id="entToEntId"/>
+
+                </columns>
+                <rowsCount/>
+                <buttonsPanel id="buttonsPanel"
+                              alwaysVisible="true">
+
+                    <button id="removeBtn" caption="Retroceder Orden" invoke="onBtnRemove"/>
+                    <button id="btnSeleccionarTodos" invoke="onBtnSeleccionarTodos" caption="Seleccionar Todos"/>
+                    <button id="btnInvertirSeleccion" invoke="onBtnInvertirSeleccion" caption="Invertir Seleccion"/>
+
+                </buttonsPanel>
+            </table>
+
+
+        <groupBox orientation="horizontal" spacing="true" caption="Generacion de Realizacion de Cobro" width="100%">
+            <lookupField id="lkpPresentador" caption="Presentador" width="100%" optionsContainer="propietariosDc"
+                         captionProperty="persona.nombreCompleto"/>
+            <lookupField id="lkpCB" caption="Cuenta Bancaria" width="100%" optionsContainer="cuentaBancariasDc" captionProperty="textoCuentaBancariaCompleta"/>
+            <button id="btnCrearRP" caption="Crear Cobro Bancario" align="BOTTOM_LEFT" invoke="onBtnCrearRealizacionCobroClick"/>
+        </groupBox>
+        <hbox id="lookupActions" spacing="true" visible="true" align="BOTTOM_LEFT">
+
+            <button action="lookupCancelAction"/>
+
+        </hbox>
+    </layout>
+</window>

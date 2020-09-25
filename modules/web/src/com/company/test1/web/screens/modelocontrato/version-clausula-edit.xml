@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.modelocontrato">
+    <data>
+        <instance id="versionClausulaDc"
+                  class="com.company.test1.entity.modeloscontratosinquilinos.VersionClausula"
+                  view="versionClausula-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="1200"/>
+    <layout expand="scroll" spacing="true">
+        <scrollBox id="scroll">
+        <form id="form" dataContainer="versionClausulaDc" width="100%">
+            <column width="100%">
+                <richTextArea id="textoVersionField" property="textoVersion" rows="5" width="100%"/>
+                <textArea id="nombresParametrosField" property="nombresParametros" rows="5" width="100%"/>
+                <textArea id="expresionesValoresDefectoField" property="expresionesValoresDefecto" rows="5" width="100%"/>
+                <textField id="descripcionParametrosField" property="descripcionParametros" width="100%"/>
+                <checkBox id="esPredeterminadaField" property="esPredeterminada"/>
+            </column>
+        </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

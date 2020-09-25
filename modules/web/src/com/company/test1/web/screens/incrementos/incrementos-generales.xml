@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Incrementos Generales"
+        messagesPack="com.company.test1.web.screens.incrementos">
+    <data>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem" view="_base">
+            <loader id="treeItemsDl">
+                <query><![CDATA[select e from test1_TreeItem e ]]></query>
+            </loader>
+        </collection>
+        <collection id="departamentosDc" class="com.company.test1.entity.departamentos.Departamento"
+                    view="departamento-view">
+            <loader id="departamentosDl">
+            </loader>
+        </collection>
+        <collection id="conceptosDc" class="com.company.test1.entity.recibos.Concepto" view="_base">
+            <loader id="conceptosDl">
+                <query><![CDATA[select e from test1_Concepto e ]]></query>
+            </loader>
+        </collection>
+        <collection id="tiposCoeficientesDc" class="com.company.test1.entity.coeficientes.TipoCoeficiente" view="_base">
+            <loader id="tipoCoeficientesDl">
+                <query><![CDATA[select e from test1_TipoCoeficiente e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout width="100%">
+        <scrollBox width="100%">
+            <hbox spacing="true" width="100%">
+            <vbox spacing="true">
+                <tree id="treePropietariosUbicaciones" height="200px" width="100%" dataContainer="treeItemsDc"
+                      hierarchyProperty="parentItem" >
+                    <treechildren captionProperty="userObjectText"/>
+
+                </tree>
+
+            </vbox>
+            <vbox spacing="true">
+                <table id="tableDepartamentos" height="200px" width="100%" dataContainer="departamentosDc"
+                       multiselect="true">
+                    <columns>
+                        <column id="piso"/>
+                        <column id="puerta"/>
+
+
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnSeleccionarTodosDeptos" caption="Seleccionar Todos"
+                                invoke="onBtnSeleccionarTodosDeptosClick"/>
+                        <button id="btnInvertirDeptos" caption="Invertir" invoke="onBtnInvertirDeptosClick"/>
+                    </buttonsPanel>
+                </table>
+            </vbox>
+        </hbox>
+        <hbox spacing="true" width="100%">
+            <lookupField id="lkpConcepto" caption="Concepto a Aplicar Incrementos" width="100%"
+                         optionsContainer="conceptosDc" captionProperty="tituloConcepto"/>
+            <lookupField id="lkpCoeficienteReparto" caption="Coeficiente de Reparto" width="100%"
+                         optionsContainer="tiposCoeficientesDc" captionProperty="nombre"/>
+        </hbox>
+        <hbox spacing="true" width="100%">
+            <dateField resolution="DAY" id="dteFechaAplicacion" width="100%" caption="Fecha Aplicacion"/>
+            <dateField resolution="DAY" id="dteFechaAplicacionOcupacionHasta" width="100%" caption="Fecha Aplicacion Ocupacion Hasta"/>
+        </hbox>
+        <hbox spacing="true" width="100%">
+            <textField id="txtImporteAumento" caption="Importe Aumento" width="100%" datatype="double"/>
+            <lookupField id="lkpDiscrimLau" caption="Disciriminacion LAU" width="100%"
+                         optionsEnum="com.company.test1.entity.enums.TipoContratoInquilinoEnum"/>
+            <checkBox id="chk12Perc" caption="Aplicar 12% Contratos Antiguos" align="MIDDLE_LEFT"/>
+        </hbox>
+        <hbox spacing="true" width="100%">
+            <lookupField id="lkpConceptoAtrasos" width="100%" caption="Concepto Atrasos"
+                         optionsContainer="conceptosDc" captionProperty="tituloConcepto"/>
+            <lookupField id="lkpNumMesesAtrasos" width="100%" caption="Num. Meses Atrasos"/>
+        </hbox>
+        <lookupField id="lkpModoImputacion" caption="Modo Imputacion"
+                     optionsEnum="com.company.test1.entity.enums.IncrementoGeneralObrasModoReparticion" width="100%"/>
+        <textArea id="txaDescripcion" caption="Descripcion" width="100%"/>
+        <hbox spacing="true" width="100%">
+            <lookupField id="lkpVigencia" caption="Vigencia" width="100%"
+                         optionsEnum="com.company.test1.entity.enums.recibos.ConceptoReciboVigenciaEnum"/>
+            <checkBox id="chkAplicacionIPC" caption="Aplicacion IPC" align="BOTTOM_LEFT"/>
+        </hbox>
+            <hbox id="hBoxVigencia" spacing="true" caption="Tipo de Vigencia"/>
+        </scrollBox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnProcesarIncrementosRecibos" caption="Procesar Incrementos en Recibos"
+                    invoke="onBtnProcesarIncrementosRecibosClick"/>
+            <button id="btnPrevisualizarContratosAfectados" caption="Previsualizar Contratos Afectados"
+                    invoke="onBtnPrevisualizarContratosAfectadosClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Departamentos Vacios"
+        focusComponent="departamentoesTable"
+        messagesPack="com.company.test1.web.screens.contratoinquilino">
+    <data readOnly="true">
+        <collection id="departamentoesDc"
+                    class="com.company.test1.entity.departamentos.Departamento"
+                    view="departamento-view">
+            <loader id="departamentoesDl">
+                <query>
+                    <![CDATA[select e from test1_Departamento e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="deptosTreeItemsDc" class="com.company.test1.entity.departamentos.UbicacionDeptoTreeItem">
+            <loader id="deptosTreeItemsDl">
+                <query><![CDATA[select e from test1_UbicacionDeptoTreeItem e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="departamentoesTable"
+            spacing="true">
+
+        <flowBox spacing="true" width="100%">
+            <table id="tablePropietarios" height="200px" width="48%" dataContainer="propietariosDc" multiselect="true">
+                <columns>
+                    <column id="persona.nombreCompleto"/>
+
+                </columns>
+            </table>
+            <tree id="treeItems" height="200px" width="48%" dataContainer="deptosTreeItemsDc" hierarchyProperty="parentItem"
+                  multiselect="true">
+                <treechildren captionProperty="textoItem"/>
+                <buttonsPanel>
+                    <button id="btnSeleccionarTodos" caption="Seleccionar Todos" invoke="onBtnSeleccionarTodosClick"/>
+                    <button id="btnLimpiarSeleccion" caption="Limpiar Seleccion" invoke="onBtnLimpiarSeleccionClick"/>
+                </buttonsPanel>
+            </tree>
+        </flowBox>
+        <lookupField id="tipoDepartamentoField" caption="Tipo Departamento" width="100%"/>
+        <table id="departamentoesTable"
+               width="100%"
+               dataContainer="departamentoesDc">
+
+            <columns>
+                <column id="ubicacion.nombre"/>
+                <column id="piso"/>
+                <column id="puerta"/>
+
+                <column id="viviendaLocal"/>
+                <column id="superficie"/>
+
+                <column id="propietario.persona.nombreCompleto"/>
+
+            </columns>
+            <rowsCount/>
+
+        </table>
+        <hbox id="actions" spacing="true">
+            <button id="btnImprimir" caption="Imprimir" invoke="onBtnImprimirClick"/>
+        </hbox>
+    </layout>
+</window>

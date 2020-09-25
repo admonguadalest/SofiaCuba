@@ -1,0 +1,1 @@
+drop table if exists TEST1_SECCION__U85300 cascade ;

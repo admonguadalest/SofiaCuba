@@ -1,0 +1,1 @@
+drop table if exists TEST1_ENTRADA__U83131 cascade ;

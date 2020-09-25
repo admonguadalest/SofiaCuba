@@ -1,0 +1,2 @@
+alter table TEST1_PERSONA add constraint FK_TEST1_PERSONA_ON_USUARIO foreign key (USUARIO_ID) references SEC_USER(ID);
+create index IDX_TEST1_PERSONA_ON_USUARIO on TEST1_PERSONA (USUARIO_ID);

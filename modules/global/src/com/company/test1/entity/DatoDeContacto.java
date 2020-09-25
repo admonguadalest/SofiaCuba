@@ -1,0 +1,97 @@
+package com.company.test1.entity;
+
+import com.company.test1.entity.enums.TipoDeDatoDeContactoEnum;
+import com.company.test1.entity.extroles.Proveedor;
+import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
+import com.haulmont.cuba.core.global.DeletePolicy;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+
+@Table(name = "DATO_DE_CONTACTO")
+@Entity(name = "test1_DatoDeContacto")
+public class DatoDeContacto extends StandardEntity {
+    private static final long serialVersionUID = -8586056989708651343L;
+
+    @NotNull(message = "Aportar Dato")
+    @Column(name = "DATO")
+    protected String dato;
+
+    @Column(name = "DESCRIPCION_DATO")
+    protected String descripcionDato;
+
+    @NotNull(message = "Especificar tipo de dato")
+    @Column(name = "TIPO_DE_DATO")
+    protected String tipoDeDato;
+
+    @NotNull(message = "el valor de Persona no puede ser nulo")
+    @Lookup(type = LookupType.SCREEN)
+    @OnDeleteInverse(DeletePolicy.CASCADE)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSONA_ID")
+    protected Persona persona;
+
+    @Column(name = "CORREO_DE_RECUPERACION_DE_CONSTRASENYA")
+    protected Boolean correoDeRecuperacionDeConstrasenya;
+
+    public Boolean getCorreoDeRecuperacionDeConstrasenya() {
+        return correoDeRecuperacionDeConstrasenya;
+    }
+
+    public void setCorreoDeRecuperacionDeConstrasenya(Boolean correoDeRecuperacionDeConstrasenya) {
+        this.correoDeRecuperacionDeConstrasenya = correoDeRecuperacionDeConstrasenya;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public TipoDeDatoDeContactoEnum getTipoDeDato() {
+        return tipoDeDato == null ? null : TipoDeDatoDeContactoEnum.fromId(tipoDeDato);
+    }
+
+    public void setTipoDeDato(TipoDeDatoDeContactoEnum tipoDeDato) {
+        this.tipoDeDato = tipoDeDato == null ? null : tipoDeDato.getId();
+    }
+
+    public String getDescripcionDato() {
+        return descripcionDato;
+    }
+
+    public void setDescripcionDato(String descripcionDato) {
+        this.descripcionDato = descripcionDato;
+    }
+
+    public String getDato() {
+        return dato;
+    }
+
+    public void setDato(String dato) {
+        this.dato = dato;
+    }
+
+    public static List<DatoDeContacto> getDatosDeContactoParaTipo(Persona p, TipoDeDatoDeContactoEnum tipo){
+        ArrayList<DatoDeContacto> al = new ArrayList<DatoDeContacto>();
+        for (int i = 0; i < p.getDatosDeContacto().size(); i++) {
+            DatoDeContacto ddc = p.getDatosDeContacto().get(i);
+            if (ddc.getTipoDeDato()==tipo){
+                al.add(ddc);
+            }
+        }
+
+        return al;
+    }
+
+
+}

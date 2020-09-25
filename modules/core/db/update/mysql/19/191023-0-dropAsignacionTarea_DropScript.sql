@@ -1,0 +1,1 @@
+drop table if exists TEST1_ASIGNACION_TAREA__U15280 cascade ;

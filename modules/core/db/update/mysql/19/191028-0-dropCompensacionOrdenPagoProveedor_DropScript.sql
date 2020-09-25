@@ -1,0 +1,1 @@
+drop table if exists TEST1_COMPENSACION_ORDEN_PAGO_PROVEEDOR__U49238 cascade ;

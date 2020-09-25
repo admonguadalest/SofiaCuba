@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="notificacionsTable"
+        messagesPack="com.company.test1.web.screens.notificaciones">
+    <data readOnly="true">
+        <collection id="notificacionsDc"
+                    class="com.company.test1.entity.notificaciones.NotificacionContratoInquilino"
+                    view="notificacionContratoInquilino-view">
+            <loader id="notificacionContratoInquilinoesDl">
+                <query><![CDATA[select e from test1_NotificacionContratoInquilino e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="notificacionsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="notificacionsTable"
+                dataLoader="notificacionContratoInquilinoesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="notificacionsTable"
+               width="100%"
+               dataContainer="notificacionsDc" multiselect="true">
+            <actions>
+
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="contratoInquilino.inquilino.nombreCompleto"/>
+                <column id="contratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                <column id="titulo"/>
+                <column id="enviado"/>
+                <column id="fechaRealizacion"/>
+                <column id="fechaProgramadaEnvio"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+
+                <button id="removeBtn" action="notificacionsTable.remove" enable="false"/>
+                <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

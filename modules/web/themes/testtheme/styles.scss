@@ -1,0 +1,6 @@
+@import "testtheme-defaults";
+@import "testtheme";
+
+.testtheme {
+  @include testtheme;
+}

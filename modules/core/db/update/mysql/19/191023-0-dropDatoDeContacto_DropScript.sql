@@ -1,0 +1,1 @@
+drop table if exists TEST1_DATO_DE_CONTACTO__U19798 cascade ;

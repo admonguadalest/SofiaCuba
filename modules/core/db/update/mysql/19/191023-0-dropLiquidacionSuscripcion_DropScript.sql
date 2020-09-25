@@ -1,0 +1,1 @@
+drop table if exists TEST1_LIQUIDACION_SUSCRIPCION__U47460 cascade ;

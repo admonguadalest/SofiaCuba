@@ -1,0 +1,1 @@
+drop table if exists TEST1_NOTA_INTERVENCION__U44609 cascade ;

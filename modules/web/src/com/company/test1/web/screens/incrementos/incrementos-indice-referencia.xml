@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Incrementos de Indice de Referencia"
+        messagesPack="com.company.test1.web.screens.incrementos">
+    <data>
+        <collection id="conceptosDc" class="com.company.test1.entity.recibos.Concepto" view="_base">
+            <loader id="conceptoesDl">
+                <query><![CDATA[select e from test1_Concepto e ]]></query>
+            </loader>
+        </collection>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem" view="_base">
+            <loader id="treeItemsDl">
+                <query><![CDATA[select e from test1_TreeItem e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout width="100%">
+        <scrollBox width="100%" spacing="true">
+            <hbox spacing="true" width="100%">
+                <lookupField id="lkpMes" caption="Mes"/>
+                <lookupField id="lkpAnno" caption="Anno"/>
+                <dateField resolution="DAY" id="dteFechaAplicacion" caption="Fecha de Aplicacion"/>
+            </hbox>
+            <hbox width="100%" spacing="true">
+                <table id="tablePropietarios" height="200px" width="100%" dataContainer="propietariosDc"
+                       multiselect="true">
+                    <columns>
+                        <column id="persona.nombreCompleto"/>
+                        <column id="persona.nifDni"/>
+
+                    </columns>
+                    <buttonsPanel>
+                        <button id="btnSelTodosProps" caption="Seleccionar Todos" invoke="onBtnSelTodosPropsClick"/>
+                        <button id="btnInvertirProps" caption="Invertir" invoke="onBtnInvertirPropsClick"/>
+                    </buttonsPanel>
+                </table>
+                <tree id="treeUbicacionesDepartamentos" height="200px" width="100%" dataContainer="treeItemsDc"
+                      hierarchyProperty="parentItem" multiselect="true">
+                    <buttonsPanel>
+                        <button id="btnSeleccionarTodosUbicacionesDepartamentos" caption="Seleccionar Todos"
+                                invoke="onBtnSeleccionarTodosUbicacionesDepartamentosClick"/>
+                        <button id="btnInvertirUbicacionesDepartamentos" caption="Invertir"
+                                invoke="onBtnInvertirUbicacionesDepartamentosClick"/>
+                    </buttonsPanel>
+                    <treechildren captionProperty="userObjectText"/>
+                </tree>
+            </hbox>
+            <vbox spacing="true">
+                <lookupField id="lkpConcepto" caption="Concepto a Aplicar Incremento"
+                             optionsContainer="conceptosDc" captionProperty="tituloConcepto"/>
+                <lookupField id="lkpConceptoAtrasos" caption="Concepto Aplicacion de Atrasos"
+                             optionsContainer="conceptosDc" captionProperty="tituloConcepto"/>
+            </vbox>
+            <buttonsPanel align="BOTTOM_LEFT" css="margin-top: 30px;">
+                <button id="btnProcesarIncrementosRecibos" caption="Procesar Incrementos en Recibos"
+                        invoke="onBtnProcesarIncrementosRecibosClick"/>
+                <button id="btnPrevisualizarContratosAfectados" caption="Previsualizar Contratos Afectados"
+                        invoke="onBtnPrevisualizarContratosAfectadosClick"/>
+                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+            </buttonsPanel>
+        </scrollBox>
+    </layout>
+</window>

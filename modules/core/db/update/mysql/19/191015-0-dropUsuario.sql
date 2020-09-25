@@ -1,0 +1,1 @@
+rename table TEST1_USUARIO to TEST1_USUARIO__U20318 ;

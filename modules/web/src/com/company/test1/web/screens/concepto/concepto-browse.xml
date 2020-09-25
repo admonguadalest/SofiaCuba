@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="conceptoesTable"
+        messagesPack="com.company.test1.web.screens.concepto">
+    <data readOnly="true">
+        <collection id="conceptoesDc"
+                    class="com.company.test1.entity.recibos.Concepto"
+                    view="_base">
+            <loader id="conceptoesDl">
+                <query>
+                    <![CDATA[select e from test1_Concepto e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="conceptoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="conceptoesTable"
+                dataLoader="conceptoesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="conceptoesTable"
+                    width="100%"
+                    dataContainer="conceptoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="tituloConcepto"/>
+                <column id="abreviacion"/>
+                <column id="descripcion"/>
+                <column id="ordenacion"/>
+                <column id="adicionSustraccion"/>
+                <column id="fechaCreacion"/>
+                <column id="agregarConceptoEnRecibo"/>
+                <column id="ajustableAgregadamente"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="conceptoesTable.create"/>
+                <button id="editBtn" action="conceptoesTable.edit"/>
+                <button id="removeBtn" action="conceptoesTable.remove" enable="false"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+                <button id="btnSubir" caption="Subir" invoke="onBtnSubirClick"/>
+                <button id="btnBajar" caption="Bajar" invoke="onBtnBajarClick"/>
+                <button id="btnRehacerOrdenacion" caption="Rehacer Ordenacion" invoke="onBtnRehacerOrdenacionClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

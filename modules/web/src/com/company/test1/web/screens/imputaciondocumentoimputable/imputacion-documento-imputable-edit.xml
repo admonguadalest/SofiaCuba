@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.imputaciondocumentoimputable">
+    <data>
+        <instance id="imputacionDocumentoImputableDc"
+                  class="com.company.test1.entity.ciclos.ImputacionDocumentoImputable"
+                  view="imputacionDocumentoImputable-view">
+            <loader id="imputacionDocumentoImputableDl"/>
+        </instance>
+        <collection id="eventoesDc" class="com.company.test1.entity.ciclos.Evento" view="_minimal">
+            <loader id="eventoesLc">
+                <query>
+                    <![CDATA[select e from test1_Evento e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form"  width="100%">
+            <column width="100%">
+                <pickerField id="cicloField" caption="Ciclo" width="511px"
+                             dataContainer="imputacionDocumentoImputableDc" property="ciclo" captionProperty="codigoCiclo"/>
+                <pickerField id="documentoImputableField" width="509px"
+                             dataContainer="imputacionDocumentoImputableDc" caption="Documento"
+                             property="documentoImputable" captionProperty="textoDescriptivoDocumento" 
+                >
+
+                    <actions>
+                        <action id="lookup" type="picker_lookup" trackSelection="true" />
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <lookupPickerField id="eventoField" optionsContainer="eventoesDc" width="512px"
+                                   dataContainer="imputacionDocumentoImputableDc"
+                                   property="evento" captionProperty="nombre">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                    </actions>
+                </lookupPickerField>
+                <hbox caption="Porcentaje Imp." spacing="true" width="100%" >
+                    <textField id="porcentajeImputacionField" box.expandRatio="55"
+                               dataContainer="imputacionDocumentoImputableDc" property="porcentajeImputacion"/>
+                    <button caption="100%" align="MIDDLE_RIGHT" box.expandRatio="15" invoke="btn100"/>
+                    <button caption="50%" align="MIDDLE_RIGHT" box.expandRatio="15" invoke="btn50"/>
+                    <button caption="25%" align="MIDDLE_RIGHT" box.expandRatio="15" invoke="btn25"/>
+
+                </hbox>
+
+                <textField id="importeImputacionField"
+                           dataContainer="imputacionDocumentoImputableDc" property="importeImputacion"/>
+                <checkBox id="imputacionIndefinidosField"
+                          dataContainer="imputacionDocumentoImputableDc" property="imputacionIndefinidos"/>
+                <textArea id="descripcionImputacionField" caption="Descripcion"
+                          width="514px" dataContainer="imputacionDocumentoImputableDc"
+                          property="descripcionImputacion"/>
+                <textArea id="informacionAdicionalField" caption="Info.Adicional"
+                          width="514px" dataContainer="imputacionDocumentoImputableDc" property="informacionAdicional"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="ordenPagosTable"
+        messagesPack="com.company.test1.web.screens.ordenpago">
+    <data readOnly="true">
+        <collection id="ordenPagoesDc"
+                    class="com.company.test1.entity.ordenespago.OrdenPago"
+                    view="ordenPago-view">
+            <loader id="ordenPagoesDl">
+                <query>
+                    <![CDATA[select e from test1_OrdenPago e order by e.fechaValor desc]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="cuentasBancariasDc" class="com.company.test1.entity.CuentaBancaria" view="cuentaBancaria-view">
+            <loader id="cuentaBancariasDl">
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="ordenPagosTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="ordenPagosTable"
+                dataLoader="ordenPagoesDl">
+            <properties include=".*"/>
+            <custom name="fechadesde" paramClass="java.util.Date" caption="Fecha Valor Desde" paramView="">
+                {E}.fechaValor >= ?
+            </custom>
+        </filter>
+        <table id="ordenPagosTable"
+               width="100%"
+               dataContainer="ordenPagoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="emisor" generator="EmisorColumn"/>
+                <column id="nombreTipo"/>
+                <column id="beneficiario" generator="getBeneficiarioColumn" caption="Beneficiario"/>
+                <column id="fechaValor"/>
+                <column id="importe"/>
+                <column id="importeEfectivo"/>
+                <column id="descripcion"/>
+                <column id="realizacionPago.fechaValor" caption="RP F.Valor"/>
+                <column id="sel" caption="Seleccionar" generator="getColumnSeleccionOrdenPago"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="ordenPagosTable.create"/>
+                <button id="editBtn" action="ordenPagosTable.edit"/>
+                <button id="removeBtn" action="ordenPagosTable.remove" caption="Retroceder Orden"/>
+            </buttonsPanel>
+        </table>
+        <groupBox orientation="horizontal" spacing="true" width="100%" caption="Crear Realizacion Pago Desde Cuenta"
+                  expand="lkpCB">
+            <lookupField id="lkpCB" optionsContainer="cuentasBancariasDc" captionProperty="textoCuentaBancariaPropietario" >
+
+            </lookupField>
+            <button id="btnCrearRealizacionPago" caption="Crear RealizacionPago"
+                    invoke="onBtnCrearRealizacionPagoClick"/>
+        </groupBox>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

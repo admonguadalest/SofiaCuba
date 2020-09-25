@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ubicacion">
+    <data>
+        <instance id="ubicacionDc"
+                  class="com.company.test1.entity.departamentos.Ubicacion"
+                  view="ubicacion-with-direcciones">
+            <loader id="ubicacionLoader"/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+            <instance id="direccionDc" property="direccion"/>
+            <collection id="departamentosDc"
+                        property="departamentos">
+
+            </collection>
+        </instance>
+        <collection id="tiposCoeficientesDc" class="com.company.test1.entity.coeficientes.TipoCoeficiente" view="_base">
+            <loader id="tipoCoeficientesDl">
+                <query><![CDATA[select tc FROM test1_TipoCoeficiente tc]]></query>
+            </loader>
+        </collection>
+        <collection id="tipoCoeficientesUbicacionDc" class="com.company.test1.entity.coeficientes.TipoCoeficiente">
+            <loader id="tipoCoeficientesUbicacionDl">
+            </loader>
+        </collection>
+        <collection id="coeficientesDc" class="com.company.test1.entity.coeficientes.Coeficiente">
+            <loader id="coeficientesDl">
+            </loader>
+        </collection>
+    </data>
+
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="ubicacionDc" height="107px">
+            <column width="250px">
+                <textField id="nombreField" property="nombre" width="389px"/>
+                <textField id="informacionCatastralField" dataContainer="ubicacionDc" property="informacionCatastral" width="100%"/>
+            </column>
+            <column width="250px">
+                <textField id="abreviacionField" property="abreviacionUbicacion" width="389px"/>
+
+            </column>
+            <column>
+                <textField id="latitudField" property="latitud"/>
+                <textField id="longitudField" property="longitud"/>
+            </column>
+        </form>
+        <groupBox orientation="horizontal" spacing="true" width="100%" caption="Direccion">
+            <fragment screen="test1_DireccionFragment"/>
+        </groupBox>
+        <groupBox orientation="horizontal" spacing="true" width="100%" caption="Propiedad">
+            <lookupPickerField id="lkpPropietario" caption="Propietario" dataContainer="ubicacionDc" property="propietario"
+                               captionProperty="persona.nombreCompleto" width="100%">
+                <actions>
+                    <action id="lookup" type="picker_lookup"/>
+                    <action id="open" type="picker_open"/>
+                </actions>
+            </lookupPickerField>
+            <checkBox caption="Es Propiedad Vertical" dataContainer="ubicacionDc" property="esPropiedadVertical"/>
+        </groupBox>
+        <tabSheet height="425px">
+            <tab id="tab-archivos" caption="Archivos" margin="true,false,false,false" spacing="true">
+
+                <fragment screen="test1_ColeccionArchivosAdjuntosFragment" height="425px"/>
+            </tab>
+            <tab id="tab-datos" caption="Datos" margin="true,false,false,false" spacing="true"/>
+            <tab id="tabDepartamentos" caption="Departamentos" margin="true,false,false,false" spacing="true" height="265px">
+                <table id="tableDepartamentos" height="196px" width="100%" caption="Departamentos" dataContainer="departamentosDc">
+                    <columns>
+                        <column id="piso" />
+                        <column id="puerta"/>
+                    </columns>
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit" trackSelection="true"/>
+                    </actions>
+                </table>
+                <buttonsPanel align="BOTTOM_LEFT">
+                    <button id="btnNuevoDepartamento" caption="Nuevo Departamento" action="tableDepartamentos.create"/>
+                    <button id="btnEditarDepartamento"
+                            caption="Editar Seleccionado" action="tableDepartamentos.edit"/>
+                </buttonsPanel>
+            </tab>
+            <tab id="tabCoeficientes" caption="Coeficientes" margin="true,false,false,false" spacing="true">
+                <scrollBox width="100%" height="100%" spacing="true">
+                    <twinColumn id="twcCoeficientes" width="100%" caption="Tipos de Coeficiente"
+                                optionsContainer="tiposCoeficientesDc" captionProperty="nombre" height="100px">
+
+                    </twinColumn>
+                    <lookupField id="lkpTipoCoeficiente" caption="Tipo Coeficiente" optionsContainer="tipoCoeficientesUbicacionDc" captionProperty="nombre"
+                                 contextHelpText="Seleccionar Tipo para Visualizar los Coeficientes registrados"/>
+                    <table id="tableCoeficientes" height="200px" width="100%" dataContainer="coeficientesDc" editable="true">
+                        <columns>
+                            <column id="departamento.piso"/>
+                            <column id="departamento.puerta"/>
+                            <column id="valor"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button id="btnNuevoCoeficienteDepartamento" caption="Nuevo Coeficiente Departamento"
+                                    invoke="onBtnNuevoCoeficienteDepartamentoClick"/>
+                            <button id="btnEditarCoeficienteDepartamento" caption="Editar"
+                                    invoke="onBtnEditarCoeficienteDepartamentoClick"/>
+                        </buttonsPanel>
+                        <actions/>
+                    </table>
+                </scrollBox>
+            </tab>
+        </tabSheet>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

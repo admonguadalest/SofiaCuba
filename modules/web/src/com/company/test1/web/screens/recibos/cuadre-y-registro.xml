@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Cuadre y Registro"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <collection id="definicionesRemesaDc" class="com.company.test1.entity.recibos.DefinicionRemesa"
+                    view="definicionRemesa-view">
+            <loader id="definicionRemesasDl">
+                <query><![CDATA[select e from test1_DefinicionRemesa e order by e.nombreRemesa]]></query>
+            </loader>
+        </collection>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader id="propietariosDl">
+            </loader>
+        </collection>
+        <collection id="conceptoesDc" class="com.company.test1.entity.recibos.Concepto" view="_base">
+            <loader id="conceptoesDl">
+                <query><![CDATA[select e from test1_Concepto e order by e.ordenacion]]></query>
+            </loader>
+        </collection>
+        <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie">
+            <loader id="seriesDl">
+                <query><![CDATA[select e from test1_Serie e order by e.nombreSerie]]></query>
+            </loader>
+        </collection>
+        <collection id="treeItemsDc" class="com.company.test1.entity.TreeItem">
+            <loader id="treeItemsDl">
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <groupBox orientation="horizontal" spacing="true" width="100%" caption="Propietarios">
+                    <vbox spacing="true">
+
+                        <tokenList id="tknDefsRemesa" caption="Defs. Remesa" captionProperty="nombreRemesa" width="100%">
+                            <lookup openType="DIALOG" optionsContainer="definicionesRemesaDc"
+                                    captionProperty="nombreRemesa"/>
+                        </tokenList>
+                        <table id="tablePropietarios" height="250px" width="100%" dataContainer="propietariosDc">
+                            <columns>
+                                <column id="persona.nombreCompleto"/>
+
+                            </columns>
+                        </table>
+                        <buttonsPanel>
+                            <button id="btnLimpiarSeleccionPropietarios" caption="Limpiar Seleccion"
+                                    invoke="onBtnLimpiarSeleccionPropietariosClick"/>
+                            <button id="btnInvertirSeleccionPropietarios" caption="Invertir Seleccion"
+                                    invoke="onBtnInvertirSeleccionPropietariosClick"/>
+                        </buttonsPanel>
+                    </vbox>
+                </groupBox>
+                <groupBox orientation="horizontal" spacing="true" caption="Contratos" width="100%">
+                    <vbox spacing="true">
+                        <tree id="treeContratos" height="290px" width="100%" dataContainer="treeItemsDc" multiselect="true"
+                              hierarchyProperty="parentItem">
+                            <treechildren captionProperty="userObjectText"/>
+                        </tree>
+                        <buttonsPanel>
+                            <button id="btnLimpiarSeleccionTree" caption="Limpiar Seleccion"
+                                    invoke="onBtnLimpiarSeleccionTreeClick"/>
+                            <button id="btnSeleccionarTodosContratos" caption="Seleccionar todas las Ubicaciones"
+                                    invoke="onBtnSeleccionarTodosContratosClick"/>
+                        </buttonsPanel>
+                    </vbox>
+                </groupBox>
+            </hbox>
+            <vbox spacing="true">
+                <label value="Seleccionar aquellos conceptos a excluir de la emision" width="576px"/>
+                <twinColumn width="100%" optionsContainer="conceptoesDc" captionProperty="tituloConcepto"/>
+                <lookupField id="lkpSerie" caption="Serie" optionsContainer="seriesDc" captionProperty="nombreSerie" width="435px"/>
+                <hbox spacing="true" width="100%">
+                    <dateField resolution="DAY" id="fechaValor" caption="Fecha Valor"/>
+                    <dateField resolution="DAY" id="fechaRealizacion" caption="Fecha Realizacion"/>
+                    <dateField resolution="DAY" id="fechaCargo" caption="Fecha Cargo"/>
+                </hbox>
+                <buttonsPanel align="BOTTOM_LEFT" caption="Acciones">
+                    <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
+                    <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+                    <button id="btnPrevisualizar" caption="Previsualizar" invoke="onBtnPrevisualizarClick"/>
+                </buttonsPanel>
+            </vbox>
+        </vbox>
+    </layout>
+</window>

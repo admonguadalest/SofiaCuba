@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="registroPresencialsTable"
+        messagesPack="com.company.test1.web.screens.registropresencial">
+    <data readOnly="true">
+        <collection id="registroPresencialsDc"
+                    class="com.company.test1.entity.RegistroPresencial"
+                    view="registroPresencial-view">
+            <loader id="registroPresencialsDl">
+                <query>
+                    <![CDATA[select e from test1_RegistroPresencial e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="registroPresencialsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="registroPresencialsTable"
+                dataLoader="registroPresencialsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="registroPresencialsTable"
+                    width="100%"
+                    dataContainer="registroPresencialsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="timestamp"/>
+                <column id="usuario.login"/>
+                <column id="accion"/>
+                <column id="ubicacion"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="registroPresencialsTable.create"/>
+                <button id="editBtn" action="registroPresencialsTable.edit"/>
+                <button id="removeBtn" action="registroPresencialsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

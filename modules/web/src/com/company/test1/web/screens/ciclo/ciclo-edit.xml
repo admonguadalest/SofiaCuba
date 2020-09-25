@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ciclo">
+    <data>
+        <instance id="cicloDc"
+                  class="com.company.test1.entity.ciclos.Ciclo"
+                  view="ciclo-view">
+            <loader/>
+            <collection id="eventosDc"   property="eventos">
+
+            </collection>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionAdjuntos"/>
+        </instance>
+        <instance id="eventoDc" class="com.company.test1.entity.ciclos.Evento"/>
+        <collection id="entradasDc" class="com.company.test1.entity.ciclos.Entrada" view="entrada-view">
+
+            <loader id="entradasDl"/>
+        </collection>
+        <collection id="imputacionesDc" class="com.company.test1.entity.ciclos.ImputacionDocumentoImputable" view="imputacionDocumentoImputable-view">
+
+            <loader id="imputacionDocumentoImputablesDl"/>
+        </collection>
+        <collection id="carpetaDocumentosFotograficosDc"
+                    class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos" view="_local">
+            <loader id="carpetaDocumentosFotograficosDl">
+                <query>
+                    <![CDATA[select e from test1_CarpetaDocumentosFotograficos e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="cicloDc" width="100%">
+                <column width="50%">
+                    <pickerField id="departamentoField" dataContainer="cicloDc" property="departamento"
+                                 captionProperty="nombreDescriptivoCompleto">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <textField editable="false" id="codigoCicloField" property="codigoCiclo"/>
+                    <textArea id="descripcionField" property="descripcion" rows="5" width="100%"/>
+                    <checkBox id="esCicloCorrienteField" property="esCicloCorriente"/>
+                    <dateField resolution="DAY" id="fechaCicloField" property="fechaCiclo"/>
+                    <checkBox id="excluirDeMonitorizacionParaBusquedaOrdenesTrabajoField"
+                              property="excluirDeMonitorizacionParaBusquedaOrdenesTrabajo"/>
+                </column>
+                <column width="50%">
+                    <textField id="tituloCicloField" property="tituloCiclo"/>
+                    <lookupField id="tipoCicloField" property="tipoCiclo"/>
+                    <textArea id="observacionesField" property="observaciones" rows="5" width="100%"/>
+                    <lookupField id="estadoCicloField" property="estadoCiclo"/>
+                    <pickerField id="contratoInquilinoField" dataContainer="cicloDc" property="contratoInquilino" captionProperty="departamento.nombreDescriptivoCompleto"/>
+<!--                    <pickerField id="coleccionAdjuntosField" dataContainer="cicloDc" property="coleccionAdjuntos"-->
+<!--                                 captionProperty="nombre">-->
+<!--                        <actions>-->
+<!--                            <action id="lookup" type="picker_lookup"/>-->
+<!--                            <action id="clear" type="picker_clear"/>-->
+<!--                        </actions>-->
+<!--                    </pickerField>-->
+                </column>
+            </form>
+            <form width="100%">
+                <column width="100%">
+                    <groupBox orientation="horizontal" width="100%" outerMargin="true" caption="Eventos">
+                        <lookupField id="lkpEventos" width="100%"
+                                     optionsContainer="eventosDc" captionProperty="nombre"/>
+                        <button id="btnNuevoEvento" align="BOTTOM_LEFT" width="174px" caption="Nuevo Evento"
+                                invoke="onBtnNuevoEventoClick"/>
+                    </groupBox>
+                    <tabSheet>
+                        <tab id="tabEntradas" caption="Entradas" margin="true,false,false,false" spacing="true">
+                            <table id="tableEntradas" height="279px" width="100%" dataContainer="entradasDc">
+                                <columns>
+                                    <column id="fechaEntrada"/>
+                                    <column id="contenidoEntrada"/>
+                                </columns>
+                                <buttonsPanel>
+                                    <button id="btnNuevaEntrada" icon="font-icon:PLUS" caption="Nueva"
+                                            action="tableEntradas.create"/>
+                                    <button id="btnEditarEntrada" caption="Editar" action="tableEntradas.edit"/>
+                                    <button id="btnEliminarEntrada" caption="Eliminar" action="tableEntradas.remove"/>
+                                </buttonsPanel>
+                                <actions>
+                                    <action id="create" type="create"/>
+                                    <action id="edit" type="edit"/>
+                                    <action id="remove" type="remove"/>
+                                </actions>
+                            </table>
+                        </tab>
+                        <tab id="tabImputaciones" caption="Imputaciones" margin="true,false,false,false" spacing="true">
+                            <table id="tableImputaciones" height="279px" width="100%" dataContainer="imputacionesDc">
+                                <columns>
+                                    <column id="documentoImputable.tipoEnum" caption="Tipo"/>
+                                    <column id="nombreProveedor" caption="Proveedor" generator="getColumnNombreProveedor"/>
+                                    <column id="documentoImputable.numDocumento"/>
+
+                                    <column id="importeImputacion"/>
+                                    <column id="porcentajeImputacion"/>
+                                    <column id="imputacionIndefinidos"/>
+                                    <column id="colVer" generator="VerColumn" caption="Ver"/>
+                                </columns>
+                                <buttonsPanel>
+                                    <button id="btnNuevaImputacion" icon="font-icon:PLUS" caption="Nueva"
+                                            action="tableImputaciones.create"/>
+                                    <button id="btnEditarImputacion" caption="Editar"
+                                            action="tableImputaciones.edit"/>
+                                    <button id="btnEliminarImputacion" caption="Eliminar"
+                                            action="tableImputaciones.remove"/>
+                                </buttonsPanel>
+                                <actions>
+                                    <action id="create" type="create"/>
+                                    <action id="edit" type="edit"/>
+                                    <action id="remove" type="remove"/>
+                                </actions>
+                            </table>
+                        </tab>
+                        <tab id="tabArchivosAdjuntos" caption="Archivos Adjuntos" margin="true,false,false,false" spacing="true">
+                            <fragment screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>
+                        </tab>
+                        <tab id="tabCarpetasDocumentosFotograficos" margin="true, false, false, false" caption="Doctos. Fotograficos" spacing="true">
+
+                            <table id="carpetaDocumentosFotograficosesTable" height="250px" width="100%"
+                                   dataContainer="carpetaDocumentosFotograficosDc" >
+                                <actions>
+                                    <action id="create" type="create"/>
+                                    <action id="edit" type="edit"/>
+                                    <action id="remove" type="remove"/>
+                                </actions>
+                                <buttonsPanel alwaysVisible="true">
+                                    <button id="carpetaDocumentosFotograficosesTableAddBtn"
+                                            action="carpetaDocumentosFotograficosesTable.create"/>
+                                    <button id="carpetaDocumentosFotograficosesTableEditBtn"
+                                            action="carpetaDocumentosFotograficosesTable.edit"/>
+                                    <button id="carpetaDocumentosFotograficosesTableRemoveBtn"
+                                            action="carpetaDocumentosFotograficosesTable.remove"/>
+                                    <button caption="Visualizar" id="btnVisualizar" invoke="visualizarCarpeta"/>
+                                </buttonsPanel>
+                                <columns>
+                                    <column id="nombreCarpeta"/>
+                                    <column id="aportadasPor"/>
+                                    <column id="descripcion"/>
+                                    <column id="numeroDeFotografias"/>
+                                    <column id="accesibleParaComerciales"/>
+                                    <column id="rm2id"/>
+                                </columns>
+                            </table>
+                        </tab>
+                    </tabSheet>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

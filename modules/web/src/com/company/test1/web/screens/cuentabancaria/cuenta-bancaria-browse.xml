@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="cuentaBancariasTable"
+        messagesPack="com.company.test1.web.screens.cuentabancaria">
+    <data readOnly="true">
+        <collection id="cuentaBancariasDc"
+                    class="com.company.test1.entity.CuentaBancaria"
+                    view="cuentaBancaria-view">
+            <loader id="cuentaBancariasDl">
+                <query>
+                    <![CDATA[select e from test1_CuentaBancaria e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="cuentaBancariasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="cuentaBancariasTable"
+                dataLoader="cuentaBancariasDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="cuentaBancariasTable"
+                    width="100%"
+                    dataContainer="cuentaBancariasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="entidad"/>
+                <column id="oficina"/>
+                <column id="digitosControl"/>
+                <column id="numeroCuenta"/>
+                <column id="infoContactoOficina"/>
+                <column id="domicilioEntidadBancaria"/>
+                <column id="nombreEntidadBancaria"/>
+                <column id="pais"/>
+                <column id="codigoBIC"/>
+                <column id="digigosControlIBAN"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="cuentaBancariasTable.create"/>
+                <button id="editBtn" action="cuentaBancariasTable.edit"/>
+                <button id="removeBtn" action="cuentaBancariasTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

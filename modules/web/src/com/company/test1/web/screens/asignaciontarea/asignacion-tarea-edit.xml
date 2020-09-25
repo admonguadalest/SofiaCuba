@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.asignaciontarea">
+    <data>
+        <instance id="asignacionTareaDc"
+                  class="com.company.test1.entity.ciclos.AsignacionTarea"
+                  view="asignacionTarea-view">
+            <loader/>
+        </instance>
+        <collection id="proveedorsDc" class="com.company.test1.entity.extroles.Proveedor" view="proveedor-view">
+            <loader id="proveedorsLc">
+                <query>
+                    <![CDATA[select e from test1_Proveedor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="asignacionTareaDc">
+            <column width="250px">
+                <lookupPickerField id="proveedorField" dataContainer="asignacionTareaDc" optionsContainer="proveedorsDc" property="proveedor" captionProperty="persona.nombreCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                    </actions>
+                </lookupPickerField>
+                <dateField resolution="DAY" id="fechaPrevistaField" property="fechaPrevista"/>
+                <dateField resolution="DAY" id="fechaFinalizacionField" property="fechaFinalizacion"/>
+                <textArea id="descripcionField" property="descripcion" rows="5"/>
+                <checkBox id="canceladoField" property="cancelado"/>
+                <dateField resolution="DAY" id="fechaPrevistoInicioField" property="fechaPrevistoInicio"/>
+                <checkBox id="acordadoConIndustrialField" property="acordadoConIndustrial"/>
+                <textArea id="comentariosIndustrialField" property="comentariosIndustrial" rows="5"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

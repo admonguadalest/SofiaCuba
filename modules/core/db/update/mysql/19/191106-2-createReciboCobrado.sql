@@ -1,0 +1,2 @@
+alter table RECIBO_COBRADO add constraint FK_RECIBO_COBRADO_ON_RECIBO foreign key (RECIBO_ID) references RECIBO(ID);
+create index IDX_RECIBO_COBRADO_ON_RECIBO on RECIBO_COBRADO (RECIBO_ID);

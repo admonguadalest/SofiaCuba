@@ -1,0 +1,1 @@
+drop table if exists TEST1_REALIZACION_PAGO__U13701 cascade ;

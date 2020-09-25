@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.documentosfotograficos">
+    <data>
+        <instance id="fotosThumbnailExtDc" class="com.company.test1.entity.FotosThumbnailExt" view="_local">
+
+        </instance>
+        <instance id="fotosThumbnailDc" class="com.company.test1.entity.documentosfotograficos.FotoThumbnail" view="_local"/>
+    </data>
+    <dialogMode modal="false" width="1035px" height="600px" resizable="false"/>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true">
+                <button align="MIDDLE_LEFT" width="15%" id="btnAnterior" caption="Anterior" invoke="anterior"/>
+                <image align="MIDDLE_CENTER" height="600px" width="800px" id="imageContainer" scaleMode="SCALE_DOWN"/>
+                <button align="MIDDLE_RIGHT" width="15%" id="btnPosterior" caption="Posterior" invoke="posterior"/>
+
+            </hbox>
+        </vbox>
+    </layout>
+</window>

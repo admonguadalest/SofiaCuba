@@ -1,0 +1,1 @@
+drop table if exists TEST1_NOTIFICACION__U50353 cascade ;

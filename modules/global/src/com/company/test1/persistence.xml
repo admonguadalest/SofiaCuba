@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="Test1" transaction-type="RESOURCE_LOCAL">
+
+        <class>com.company.test1.entity.departamentos.Ubicacion</class>
+        <class>com.company.test1.entity.Direccion</class>
+        <class>com.company.test1.entity.ColeccionArchivosAdjuntos</class>
+        <class>com.company.test1.entity.ArchivoAdjunto</class>
+
+        <class>com.company.test1.entity.Persona</class>
+        <class>com.company.test1.entity.PersonaFisica</class>
+        <class>com.company.test1.entity.departamentos.Departamento</class>
+        <class>com.company.test1.entity.documentosImputables.DocumentoImputable</class>
+        <class>com.company.test1.entity.extroles.Proveedor</class>
+        <class>com.company.test1.entity.extroles.ComercialOfertas</class>
+        <class>com.company.test1.entity.CuentaBancaria</class>
+        <class>com.company.test1.entity.documentosImputables.DocumentoProveedor</class>
+        <class>com.company.test1.entity.documentosImputables.FacturaProveedor</class>
+        <class>com.company.test1.entity.documentosImputables.Presupuesto</class>
+        <class>com.company.test1.entity.PersonaJuridica</class>
+        <class>com.company.test1.entity.DatoDeContacto</class>
+        <class>com.company.test1.entity.departamentos.CertificadoCalificacionEnergetica</class>
+        <class>com.company.test1.entity.departamentos.CedulaHabitabilidad</class>
+        <class>com.company.test1.entity.ciclos.Ciclo</class>
+        <class>com.company.test1.entity.contratosinquilinos.ContratoInquilino</class>
+        <class>com.company.test1.entity.ciclos.Entrada</class>
+        <class>com.company.test1.entity.ciclos.Evento</class>
+        <class>com.company.test1.entity.ciclos.OrdenTrabajo</class>
+        <class>com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos</class>
+        <class>com.company.test1.entity.ciclos.NotaIntervencion</class>
+        <class>com.company.test1.entity.ciclos.AsignacionTarea</class>
+        <class>com.company.test1.entity.ciclos.ImputacionDocumentoImputable</class>
+        <class>com.company.test1.entity.conceptosadicionales.ConceptoAdicional</class>
+        <class>com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional</class>
+        <class>com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional</class>
+        <class>com.company.test1.entity.contratosinquilinos.ImplementacionModelo</class>
+        <class>com.company.test1.entity.contratosinquilinos.Oferta</class>
+        <class>com.company.test1.entity.contratosinquilinos.CotitularContratoInquilino</class>
+        <class>com.company.test1.entity.contratosinquilinos.Fianza</class>
+        <class>com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato</class>
+        <class>com.company.test1.entity.contratosinquilinos.Anexo</class>
+        <class>com.company.test1.entity.reportsyplantillas.Plantilla</class>
+        <class>com.company.test1.entity.contratosinquilinos.Subrogador</class>
+        <class>com.company.test1.entity.recibos.ProgramacionRecibo</class>
+        <class>com.company.test1.entity.recibos.DefinicionRemesa</class>
+        <class>com.company.test1.entity.contratosinquilinos.LiquidacionExtincion</class>
+        <class>com.company.test1.entity.contratosinquilinos.LiquidacionSuscripcion</class>
+        <class>com.company.test1.entity.modeloscontratosinquilinos.Seccion</class>
+        <class>com.company.test1.entity.modeloscontratosinquilinos.Clausula</class>
+        <class>com.company.test1.entity.modeloscontratosinquilinos.VersionClausula</class>
+        <class>com.company.test1.entity.recibos.ConceptoRecibo</class>
+        <class>com.company.test1.entity.recibos.Concepto</class>
+        <class>com.company.test1.entity.incrementos.Incremento</class>
+        <class>com.company.test1.entity.recibos.ConceptoAdicionalConceptoRecibo</class>
+        <class>com.company.test1.entity.extroles.Propietario</class>
+        <class>com.company.test1.entity.contratosinquilinos.ParametroValorAnexo</class>
+        <class>com.company.test1.entity.notificaciones.Notificacion</class>
+        <class>com.company.test1.entity.notificaciones.NotificacionContratoInquilino</class>
+        <class>com.company.test1.entity.notificaciones.NotificacionRecibo</class>
+        <class>com.company.test1.entity.ordenespago.OrdenPago</class>
+        <class>com.company.test1.entity.ordenespago.OrdenPagoProveedor</class>
+        <class>com.company.test1.entity.ordenespago.RealizacionPago</class>
+        <class>com.company.test1.entity.ordenespago.CompensacionOrdenPagoProveedor</class>
+        <class>com.company.test1.entity.ordenespago.OrdenPagoContratoInquilino</class>
+        <class>com.company.test1.entity.recibos.Recibo</class>
+        <class>com.company.test1.entity.recibos.OrdenanteRemesa</class>
+        <class>com.company.test1.entity.recibos.Serie</class>
+        <class>com.company.test1.entity.recibos.Remesa</class>
+        <class>com.company.test1.entity.recibos.ImplementacionConcepto</class>
+        <class>com.company.test1.entity.recibos.ReciboCobrado</class>
+        <class>com.company.test1.entity.validaciones.Validacion</class>
+        <class>com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable</class>
+        <class>com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor</class>
+        <class>com.company.test1.entity.ordenespago.OrdenPagoAbono</class>
+        <class>com.company.test1.entity.contratosinquilinos.ParametroValor</class>
+        <class>com.company.test1.entity.contratosinquilinos.OverrideClausula</class>
+        <class>com.company.test1.entity.contratosinquilinos.SeccionDescartada</class>
+        <class>com.company.test1.entity.ordenescobro.OrdenCobro</class>
+        <class>com.company.test1.entity.ordenescobro.RealizacionCobro</class>
+        <class>com.company.test1.entity.recibos.RegistroIndiceReferencia</class>
+        <class>com.company.test1.entity.reportsyplantillas.FlexReport</class>
+        <class>com.company.test1.entity.incrementos.IncrementoIndice</class>
+        <class>com.company.test1.entity.coeficientes.TipoCoeficiente</class>
+        <class>com.company.test1.entity.coeficientes.Coeficiente</class>
+        <class>com.company.test1.entity.coeficientes.UbicacionCoeficiente</class>
+        <class>com.company.test1.entity.incrementos.IncrementoGeneralObras</class>
+        <class>com.company.test1.entity.RepresentacionLegal</class>
+        <class>com.company.test1.entity.RegistroPresencial</class>
+        <class>com.company.test1.entity.documentacionesinquilinos.DocumentacionInquilino</class>
+        <class>com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico</class>
+        <class>com.company.test1.entity.documentosfotograficos.FotoThumbnail</class>
+
+
+    </persistence-unit>
+</persistence>

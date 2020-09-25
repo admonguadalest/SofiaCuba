@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CaratulaContratoIndefinidoArrendamientoVivienda" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+    <property name="ireport.zoom" value="0.5"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <parameter name="en_ciudad" class="java.lang.String"/>
+    <parameter name="a_dia" class="java.lang.String"/>
+    <parameter name="de_mes" class="java.lang.String"/>
+    <parameter name="de_ano" class="java.lang.String"/>
+    <parameter name="parte_arrendadora" class="java.lang.String"/>
+    <parameter name="arrendador_representado_por" class="java.lang.String"/>
+    <parameter name="domicilio_arrendador" class="java.lang.String"/>
+    <parameter name="edad_representante_arrendador" class="java.lang.String"/>
+    <parameter name="estado_representante_arrendador" class="java.lang.String"/>
+    <parameter name="dni_representante_arrendador" class="java.lang.String"/>
+    <parameter name="razon_social_sociedad_arrendadora" class="java.lang.String"/>
+    <parameter name="cif_arrendadora" class="java.lang.String"/>
+    <parameter name="nombre_completo_arrendataria" class="java.lang.String"/>
+    <parameter name="dni_arrendataria" class="java.lang.String"/>
+    <parameter name="domicilio_arrendataria" class="java.lang.String"/>
+    <parameter name="precio_arrendamiento" class="java.lang.String"/>
+    <parameter name="vivienda" class="java.lang.String"/>
+    <parameter name="calle" class="java.lang.String"/>
+    <parameter name="ciudad" class="java.lang.String"/>
+    <parameter name="ref_catastral" class="java.lang.String"/>
+    <parameter name="cp" class="java.lang.String"/>
+    <parameter name="provincia" class="java.lang.String"/>
+    <parameter name="no_cedula_habitabilidad" class="java.lang.String"/>
+    <parameter name="no_contrato" class="java.lang.String"/>
+    <parameter name="IMAGEN_MARGEN_IZQUIERDO" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <parameter name="ES_BORRADOR" class="java.lang.Boolean"/>
+    <background>
+        <band height="842">
+            <staticText>
+                <reportElement x="333" y="208" width="100" height="390" forecolor="#CCCCCC">
+                    <printWhenExpression><![CDATA[($P{ES_BORRADOR}==true)]]></printWhenExpression>
+                </reportElement>
+                <textElement rotation="Left">
+                    <font size="66"/>
+                </textElement>
+                <text><![CDATA[BORRADOR]]></text>
+            </staticText>
+        </band>
+    </background>
+    <detail>
+        <band height="842" splitType="Stretch">
+            <staticText>
+                <reportElement x="477" y="64" width="78" height="23" forecolor="#666666"/>
+                <textElement textAlignment="Right">
+                    <font size="14" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[De Vivienda]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="175" y="90" width="280" height="20" forecolor="#999999"/>
+                <textElement>
+                    <font size="10" isBold="true" isItalic="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[Identificación de la Vivienda Objeto de Contrato]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="123" width="44" height="13" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Vivienda]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="136" width="44" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Calle]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="150" width="44" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Ciudad]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="164" width="102" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Referencia Catastral]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="388" y="136" width="78" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Código Postal]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="388" y="150" width="44" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Provincia]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="175" y="36" width="380" height="24"/>
+                <textElement textAlignment="Right">
+                    <font size="18" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[CONTRATO DE ARRENDAMIENTO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="166" y="242" width="100" height="15"/>
+                <textElement>
+                    <font isBold="true" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[REUNIDOS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="175" y="266" width="151" height="20"/>
+                <textElement>
+                    <font isItalic="true" isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[Como parte arrendadora]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="175" y="441" width="151" height="20"/>
+                <textElement>
+                    <font isItalic="true" isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[y como parte arrendataria]]></text>
+            </staticText>
+            <rectangle>
+                <reportElement x="174" y="694" width="372" height="111"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="175" y="655" width="371" height="20"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Y para que conste, firman ambas partes por duplicado. Fecha ut supra.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="217" y="699" width="100" height="20"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[EL ARRENDATARIO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="411" y="699" width="100" height="20"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[EL ARRENDADOR]]></text>
+            </staticText>
+            <line>
+                <reportElement x="175" y="719" width="370" height="1"/>
+            </line>
+            <line>
+                <reportElement x="360" y="694" width="1" height="111"/>
+            </line>
+            <textField>
+                <reportElement x="246" y="123" width="132" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{vivienda}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="246" y="136" width="132" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{calle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="246" y="149" width="132" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{ciudad}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="165" width="247" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{ref_catastral}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="466" y="137" width="88" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{cp}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="466" y="149" width="89" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{provincia}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="175" y="296" width="380" height="135"/>
+                <textElement textAlignment="Justified" lineSpacing="1_1_2" markup="html"/>
+                <textFieldExpression class="java.lang.String"><![CDATA["<b><i>" + $P{parte_arrendadora} + "</i></b> representado por <b><i>" + $P{arrendador_representado_por} + "</i></b> con domicilio en  " + $P{domicilio_arrendador} + " de Barcelona, provincia de Barcelona con D.N.I. <b><i>" + $P{dni_representante_arrendador} + "</i></b> expedido en Barcelona en su condición de ADMINISTRADOR de la sociedad <b><i>" + $P{razon_social_sociedad_arrendadora} + "</i></b> con C.I.F. <b><i>" + $P{cif_arrendadora} + "</i></b>"]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="175" y="461" width="380" height="153"/>
+                <textElement textAlignment="Justified" lineSpacing="1_1_2" markup="html"/>
+                <textFieldExpression class="java.lang.String"><![CDATA["<b><i>" + $P{nombre_completo_arrendataria} + "</i></b> con D.N.I. <b><i>" + $P{dni_arrendataria} + "</i></b> con domicilio en " + $P{domicilio_arrendataria} + " como arrendataria hemos concertado el arrendamiento de la vivienda indicada en el encabezamiento de este contrato, por <b><i>TIEMPO INDEFINIDO</i></b>, y precio de <b><i>" + $P{precio_arrendamiento} + "</i></b> pagaderos por MESES ANTICIPADOS dentro de los siete primeros días de cada mes con las demás condiciones anexas que se unen al presente contratoInquilino."]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="166" y="206" width="389" height="25"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA["En " + $P{en_ciudad} + " a " + $P{a_dia} + " de " + $P{de_mes} + " de " + $P{de_ano}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="177" width="247" height="13"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{no_cedula_habitabilidad}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="193" y="177" width="102" height="14" forecolor="#999999"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Cédula Habit.]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="288" y="64" width="178" height="20" forecolor="#999999"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{no_contrato}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="263" y="64" width="53" height="20" forecolor="#999999"/>
+                <textElement markup="none">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nº]]></text>
+            </staticText>
+            <image scaleImage="FillFrame">
+                <reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="149" height="842" forecolor="#CCCCCC"/>
+                <graphicElement>
+                    <pen lineWidth="0.0" lineStyle="Double"/>
+                </graphicElement>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{IMAGEN_MARGEN_IZQUIERDO}]]></imageExpression>
+            </image>
+        </band>
+    </detail>
+</jasperReport>

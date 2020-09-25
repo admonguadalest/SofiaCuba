@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Filtrado de Proveedores"
+        focusComponent="proveedorsTable"
+        messagesPack="com.company.test1.web.screens.proveedor">
+    <data readOnly="true">
+        <collection id="proveedorsDc"
+                    class="com.company.test1.entity.extroles.Proveedor"
+                    view="proveedor-view">
+            <loader id="proveedorsDl">
+                <query>
+                    <![CDATA[select e from test1_Proveedor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="proveedorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="proveedorsTable"
+                dataLoader="proveedorsDl">
+            <property name="persona.nombreCompleto"/>
+        </filter>
+        <groupTable id="proveedorsTable"
+                    width="100%"
+                    dataContainer="proveedorsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="refresh" type="refresh"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="persona.nombreCompleto"/>
+                <column id="descripcionActividad"/>
+                <column id="observaciones"/>
+                <column id="comercialOfertas"/>
+                <column id="nombreComercial"/>
+                <column id="cuentaBancaria"/>
+                <column id="modoDePago"/>
+                <column id="enviarCorreoConfirmacionAlAprobarFactura"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="editBtn" action="proveedorsTable.edit"/>
+                <button id="removeBtn" action="proveedorsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

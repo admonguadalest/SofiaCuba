@@ -1,0 +1,1 @@
+drop table if exists TEST1_COMERCIAL_OFERTAS__U31712 cascade ;

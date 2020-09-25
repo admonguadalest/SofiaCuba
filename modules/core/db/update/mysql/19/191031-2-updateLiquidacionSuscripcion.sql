@@ -1,0 +1,1 @@
+alter table LIQUIDACION_SUSCRIPCION add column ESCANEO_LIQUIDACION_ID varchar(32) ;

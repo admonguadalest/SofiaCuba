@@ -1,0 +1,1 @@
+alter table TEST1_DOCUMENTACION_INQUILINO drop column FECHA_REGISTRO__U98926 cascade ;

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="facturaProveedorsTable"
+        messagesPack="com.company.test1.web.screens.facturaproveedor">
+    <data readOnly="true">
+        <collection id="facturaProveedorsDc"
+                    class="com.company.test1.entity.documentosImputables.FacturaProveedor"
+                    view="facturaProveedor-view" >
+            <loader id="facturaProveedorsDl" >
+                <query><![CDATA[select fp from test1_FacturaProveedor fp]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="facturaProveedorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="facturaProveedorsTable"
+                dataLoader="facturaProveedorsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="facturaProveedorsTable"
+                    width="100%"
+                    dataContainer="facturaProveedorsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto"/>
+                <column id="numDocumento"/>
+                <column id="fechaEmision"/>
+                <column id="importePostCCAA"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="facturaProveedorsTable.create" align="BOTTOM_LEFT"/>
+                <button id="editBtn" action="facturaProveedorsTable.edit"/>
+                <button id="removeBtn" action="facturaProveedorsTable.remove"/>
+                <button id="btnReport" caption="Report" invoke="onBtnReportClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportFormDomiciliacionBancaria" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="1.3310000000000013"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="23"/>
+    <parameter name="NOMBRE_ARRENDADOR" class="java.lang.String"/>
+    <parameter name="CIF_ARRENDADOR" class="java.lang.String"/>
+    <parameter name="CIUDAD_FECHA" class="java.lang.String"/>
+    <parameter name="CODIGO_ENTIDAD" class="java.lang.String"/>
+    <parameter name="CODIGO_OFICINA" class="java.lang.String"/>
+    <parameter name="DC" class="java.lang.String"/>
+    <parameter name="NUMERO_CUENTA" class="java.lang.String"/>
+    <parameter name="NOMBRE_ENTIDAD_BANCARIA" class="java.lang.String"/>
+    <parameter name="DOMICILIO_ENTIDAD_BANCARIA" class="java.lang.String"/>
+    <parameter name="NOMBRE_DEPARTAMENTO_COMPLETO" class="java.lang.String"/>
+    <parameter name="TITULAR_CUENTA" class="java.lang.String"/>
+    <parameter name="DNI_TITULAR_CUENTA" class="java.lang.String"/>
+    <parameter name="NUM_CONTRATO" class="java.lang.String"/>
+    <parameter name="TITULAR_RECIBOS" class="java.lang.String"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="65">
+            <staticText>
+                <reportElement x="25" y="42" width="530" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true" isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[AUTORIZACIÓN DE CUENTA BANCARIA PARA GIRO DE RECIBOS]]></text>
+            </staticText>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="371" y="0" width="164" height="26"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+        </band>
+    </title>
+    <detail>
+        <band height="642" splitType="Stretch">
+            <staticText>
+                <reportElement x="25" y="34" width="118" height="20"/>
+                <textElement/>
+                <text><![CDATA[NOMBRE Y APELLIDOS:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="56" width="87" height="20"/>
+                <textElement/>
+                <text><![CDATA[DNI:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="110" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[AUTORIZA:]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="25" y="143" width="530" height="49"/>
+                <textElement textAlignment="Justified" markup="html"/>
+                <textFieldExpression class="java.lang.String"><![CDATA["A <b>" + $P{NOMBRE_ARRENDADOR} + "</b> con CIF <b>" + $P{CIF_ARRENDADOR} + "</b>, a cargar en el número de cuenta bancaria indicada en el presente documento todos los recibos que se le giren por la Sociedad y que hagan referencia al contrato de alquiler nº <b>" + $P{NUM_CONTRATO} + "</b> que tiene por objeto el piso/local sito en:"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="25" y="206" width="75" height="20"/>
+                <textElement/>
+                <text><![CDATA[Calle / Avda: ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="112" y="206" width="443" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NOMBRE_DEPARTAMENTO_COMPLETO}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="25" y="226" width="530" height="20"/>
+                <textElement/>
+                <text><![CDATA[Según lo establecido por la Ley de Servicios de Pago 16/2009]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="257" width="510" height="33"/>
+                <textElement/>
+                <text><![CDATA[A efectos de lo dispuesto en el artículo 29 de la ley de Servicios de Pago, estableciéndose un periodo de 15 días para su devolución o no aceptación.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="290" width="510" height="33"/>
+                <textElement/>
+                <text><![CDATA[Asumo el pago de cualquier gasto o canon que por la gestión de cobro de la domiciliación bancaria, en caso de devolución aplique el Banco o Caja de Ahorros.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="342" width="555" height="20"/>
+                <textElement>
+                    <font isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[DATOS Y CONFIRMACIÓN DE LA ENTIDAD BANCARIA]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="370" width="201" height="20"/>
+                <textElement/>
+                <text><![CDATA[Nombre de la Entidad Bancaria:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="390" width="201" height="20"/>
+                <textElement/>
+                <text><![CDATA[Domicilio de la Entidad Bancaria:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="25" y="427" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[Código Entidad]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="126" y="427" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[Código Oficina]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="226" y="427" width="17" height="20"/>
+                <textElement/>
+                <text><![CDATA[DC]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="256" y="427" width="246" height="20"/>
+                <textElement/>
+                <text><![CDATA[Número de Cuenta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="27" y="469" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[Titular de la Cuenta:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="26" y="489" width="100" height="20"/>
+                <textElement/>
+                <text><![CDATA[Titular de los Recibos]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="25" y="522" width="340" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{CIUDAD_FECHA}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="104" y="572" width="139" height="20"/>
+                <textElement/>
+                <text><![CDATA[TITULAR DEL RECIBO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="347" y="572" width="139" height="20"/>
+                <textElement/>
+                <text><![CDATA[TITULAR DE LA CUENTA]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="370" width="239" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NOMBRE_ENTIDAD_BANCARIA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="390" width="239" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{DOMICILIO_ENTIDAD_BANCARIA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="27" y="449" width="98" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{CODIGO_ENTIDAD}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="126" y="447" width="98" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{CODIGO_OFICINA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="226" y="447" width="17" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{DC}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="256" y="447" width="246" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{NUMERO_CUENTA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="143" y="469" width="222" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{TITULAR_CUENTA}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="143" y="489" width="222" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{TITULAR_RECIBOS}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="150" y="34" width="369" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{TITULAR_CUENTA}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="150" y="54" width="369" height="20"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{DNI_TITULAR_CUENTA}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

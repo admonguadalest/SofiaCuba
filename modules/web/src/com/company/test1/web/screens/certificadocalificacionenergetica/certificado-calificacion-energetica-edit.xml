@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.certificadocalificacionenergetica"
+        xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd">
+    <data>
+        <instance id="certificadoCalificacionEnergeticaDc"
+                  class="com.company.test1.entity.departamentos.CertificadoCalificacionEnergetica"
+                  view="certificadoCalificacionEnergetica-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="certificadoCalificacionEnergeticaDc">
+            <column width="100%">
+                <pickerField editable="false" id="departamentoField" property="departamento" captionProperty="nombreDescriptivoCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="numeroRegistroField" property="numeroRegistro"/>
+                <dateField resolution="DAY" id="fechaVencimientoField" property="fechaVencimiento"/>
+                <textArea id="observacionesField" property="observaciones" rows="5" width="100%"/>
+                <textField id="calificacionEmisionesField" property="calificacionEmisiones"/>
+                <textField id="calificacionConsumoEnergeticoField" property="calificacionConsumoEnergetico"/>
+                <app:WebArchivoAdjuntoField id="aaEscaneoCertificado" caption="Escaneo de Certificado"
+                                            property="archivoAdjunto" dataContainer="certificadoCalificacionEnergeticaDc"
+                                            width="100%"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

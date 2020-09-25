@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Edición de Departamento"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.departamento">
+    <data>
+        <instance id="departamentoDc"
+                  class="com.company.test1.entity.departamentos.Departamento"
+                  view="departamento-view">
+            <loader id="departamentoDl"/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionAdjuntos"/>
+        </instance>
+        <collection id="cedulasDc" class="com.company.test1.entity.departamentos.CedulaHabitabilidad" view="_base">
+            <loader id="cedulasDl">
+            </loader>
+        </collection>
+        <collection id="certificadosDc" class="com.company.test1.entity.departamentos.CertificadoCalificacionEnergetica" view="_base">
+            <loader id="certificadosDl">
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="groupbox" spacing="true">
+        <form id="form" dataContainer="departamentoDc">
+            <column width="100%">
+                <pickerField id="ubicacionField" dataContainer="departamentoDc" property="ubicacion"
+                             captionProperty="nombre">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <lookupField id="pisoField" caption="Piso"
+                             dataContainer="departamentoDc" property="piso"/>
+                <checkBox id="optViviendaLocal" caption="Vivienda/Local" property="viviendaLocal"/>
+                <textField id="superficieField" property="superficie"/>
+                <textArea id="descripcionField" property="descripcion" rows="5" width="100%"/>
+                <checkBox id="conAireAcondicionadoField" property="conAireAcondicionado"/>
+                <textField id="referenciaCatastralField" property="referenciaCatastral" width="293px"/>
+                <checkBox id="conSalidaDeHumosField" property="conSalidaDeHumos"/>
+                <textField id="numBanosField" property="numBanos"/>
+                <checkBox id="esEstudioField" property="esEstudio"/>
+            </column>
+            <column>
+                <pickerField id="propietarioField" dataContainer="departamentoDc" property="propietario"
+                             captionProperty="persona.nombreCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="open" type="picker_open"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <lookupField id="puertaField" caption="Puerta"
+                             dataContainer="departamentoDc" property="puerta"/>
+                <checkBox id="dadoDeBajaField" property="dadoDeBaja"/>
+                <textField id="abreviacionPisoPuertaField" property="abreviacionPisoPuerta"/>
+                <textArea id="obsevacionesField" property="obsevaciones" rows="5"/>
+                <checkBox id="conCalefaccionField" property="conCalefaccion"/>
+                <pickerField id="planoDepartamentoField" property="planoDepartamento" enable="false">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <label id="lblBlank"/>
+                <checkBox id="excluirDeMonitorizacionParaBusquedaDePisosVaciosField"
+                          property="excluirDeMonitorizacionParaBusquedaDePisosVacios"/>
+                <textField id="numHabitacionesField" property="numHabitaciones"/>
+            </column>
+        </form>
+        <groupBox id="groupbox" spacing="true" height="425px">
+            <tabSheet id="tabSheet" height="425px">
+                <tab id="tabCedulas" caption="CCHH" margin="true,false,false,false" spacing="true">
+                    <table id="tableCedulas" width="100%" dataContainer="cedulasDc" height="200px">
+                        <columns>
+                            <column id="fechaEmision"/>
+                            <column id="fechaVencimiento"/>
+                            <column id="numeroCedula"/>
+                            <column id="observaciones"/>
+                        </columns>
+                        <actions>
+                            <action id="create" caption="Nueva" type="create"/>
+                            <action id="remove" type="remove"/>
+                            <action id="edit" caption="Editar" type="edit" trackSelection="true" invoke="onBtnEditarClick"/>
+                        </actions>
+                    </table>
+                    <buttonsPanel>
+                        <button id="btnNuevaCH" invoke="onBtnNuevaCHClick" caption="Nueva"/>
+                        <button id="btnEditar" invoke="onBtnEditarClick" caption="Editar"/>
+                        <button id="btnEliminar" action="tableCedulas.remove" caption="Eliminar"/>
+                    </buttonsPanel>
+                </tab>
+                <tab id="tabCertificadosEnergeticos" caption="Energeticos" margin="true,false,false,false" spacing="true">
+                    <table id="tableCertificados" width="100%" dataContainer="certificadosDc" height="200px">
+                        <columns>
+                            <column id="numeroRegistro"/>
+                            <column id="fechaVencimiento"/>
+                            <column id="observaciones"/>
+                            <column id="calificacionEmisiones"/>
+                            <column id="calificacionConsumoEnergetico"/>
+                        </columns>
+                        <actions>
+                            <action id="edit" type="edit" caption="Editar" invoke="onBtnEditarCEClick"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                    </table>
+                    <buttonsPanel>
+                        <button id="btnNuevoCE" invoke="onBtnNuevoCEClick" caption="Nuevo"/>
+                        <button id="btnEditarCE" caption="Editar" invoke="onBtnEditarCEClick"/>
+                        <button id="btnEliminarCE" caption="Eliminar" action="tableCertificados.remove"/>
+                    </buttonsPanel>
+                </tab>
+                <tab id="tabColeccionAdjuntos" caption="Archivos Adjuntos" margin="true,false,false,false" spacing="true">
+                    <fragment screen="test1_ColeccionArchivosAdjuntosFragment"/>
+                </tab>
+            </tabSheet>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

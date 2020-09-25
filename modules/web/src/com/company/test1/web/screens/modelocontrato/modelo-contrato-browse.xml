@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="modeloContratoesTable"
+        messagesPack="com.company.test1.web.screens.modelocontrato">
+    <data readOnly="true">
+        <collection id="modeloContratoesDc"
+                    class="com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato"
+                    view="modeloContrato-view">
+            <loader id="modeloContratoesDl">
+                <query>
+                    <![CDATA[select e from test1_ModeloContrato e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="modeloContratoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="modeloContratoesTable"
+                dataLoader="modeloContratoesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="modeloContratoesTable"
+                    width="100%"
+                    dataContainer="modeloContratoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="nombreModelo" caption="Nombre Modelo"/>
+                <column id="descripcion" generator="getDescripcionColumn"/>
+                <column id="inquilinoPropietario"/>
+                <column id="rm2id"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="modeloContratoesTable.create"/>
+                <button id="editBtn" action="modeloContratoesTable.edit"/>
+                <button id="removeBtn" action="modeloContratoesTable.remove"/>
+                <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+                <button id="btnDuplicar" caption="Duplicar" invoke="onBtnDuplicarClick"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

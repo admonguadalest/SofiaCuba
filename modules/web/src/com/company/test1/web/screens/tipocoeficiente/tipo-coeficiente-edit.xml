@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.tipocoeficiente">
+    <data>
+        <instance id="tipoCoeficienteDc"
+                  class="com.company.test1.entity.coeficientes.TipoCoeficiente"
+                  view="tipoCoeficiente-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="tipoCoeficienteDc">
+            <column width="500px">
+                <textField id="nombreField" property="nombre"/>
+                <textArea width="100%" id="descripcionField" property="descripcion"/>
+                <textField id="valorMinField" property="valorMin"/>
+                <textField id="valorMaxField" property="valorMax"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

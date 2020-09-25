@@ -1,0 +1,1 @@
+drop table if exists TEST1_COTITULAR_CONTRATO_INQUILINO__U02159 cascade ;

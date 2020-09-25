@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="realizacionPagoesTable"
+        messagesPack="com.company.test1.web.screens.realizacionpago">
+    <data readOnly="true">
+        <collection id="realizacionPagoesDc"
+                    class="com.company.test1.entity.ordenespago.RealizacionPago"
+                    view="realizacionPago-view">
+            <loader id="realizacionPagoesDl">
+                <query>
+                    <![CDATA[select e from test1_RealizacionPago e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="realizacionPagoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="realizacionPagoesTable"
+                dataLoader="realizacionPagoesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="realizacionPagoesTable"
+               width="100%"
+               dataContainer="realizacionPagoesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="cuentaBancaria.textoCuentaBancariaPropietario"/>
+                <column id="fechaValor"/>
+                <column id="infoCuentaEmisora"/>
+                <column id="xsd"/>
+
+                <column id="identificador"/>
+                <column id="importeTotal"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="realizacionPagoesTable.create"/>
+                <button id="editBtn" action="realizacionPagoesTable.edit"/>
+                <button id="removeBtn" action="realizacionPagoesTable.remove"/>
+                <button id="btnDetalle" caption="Detalle RP" invoke="onBtnDetalleRp"/>
+                <button id="btnDownloadSepa" caption="Descargar SEPA" invoke="onBtnDownloadSepaClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+            <button id="btnDescargarSepa" invoke="onBtnDescargarSepaClick"/>
+        </hbox>
+    </layout>
+</window>

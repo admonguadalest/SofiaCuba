@@ -1,0 +1,1 @@
+drop table if exists TEST1_CEDULA_HABITABILIDAD__U50375 cascade ;

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Remesar Recibos"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+        <collection id="recibosDc" class="com.company.test1.entity.recibos.Recibo" view="recibo-view">
+            <loader id="reciboesDl">
+            </loader>
+        </collection>
+        <collection id="definicionRemesasDc" class="com.company.test1.entity.recibos.DefinicionRemesa">
+            <loader id="definicionRemesasDl">
+                <query><![CDATA[select e from test1_DefinicionRemesa e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+            <hbox spacing="true" width="100%">
+                <dateField resolution="DAY" id="fechaDesde" caption="Fecha Desde" dateFormat="dd/MM/yyyy" datatype="date"/>
+                <dateField resolution="DAY" id="fechaHasta" caption="Fecha Hasta" dateFormat="dd/MM/yyyy"/>
+                <textField id="codigoRemesa" caption="Codigo Remesa" editable="false"/>
+                <lookupField id="tipoGiro" caption="Tipo Giro"
+                             optionsEnum="com.company.test1.entity.enums.recibos.DefinicionRemesaTipoGiroEnum"
+                             visible="false"/>
+            </hbox>
+            <label value="msg://descripcionTabla"/>
+            <table id="tableRecibos" height="251px" width="100%" dataContainer="recibosDc">
+                <columns>
+                    <column id="numRecibo"/>
+                    <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                    <column id="utilitarioInquilino.nombreCompleto"/>
+                    <column id="fechaEmision"/>
+                    <column id="totalReciboPostCCAA"/>
+
+
+                </columns>
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                </actions>
+                <buttonsPanel>
+                    <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+                    <button id="btnNuevoRbo" caption="Nuevo Recibo" action="tableRecibos.create"/>
+                    <button action="tableRecibos.edit" caption="Editar"/>
+                </buttonsPanel>
+            </table>
+            <hbox spacing="true" width="100%">
+                <lookupField id="definicionesRemesaField" caption="Definiciones Remesa"
+                             optionsContainer="definicionRemesasDc" captionProperty="nombreRemesa"/>
+                <dateField resolution="DAY" id="fechaValor" caption="Fecha Valor"/>
+                <dateField resolution="DAY" id="fechaAdeudo" caption="FechaAdeudo"/>
+            </hbox>
+        </vbox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnVerReport" caption="Ver Report"/>
+            <button id="btnGenerarRemesaYOOCC" caption="Generar Remesa y OOCC" invoke="onBtnGenerarRemesaYOOCCClick"/>
+            <button id="cerrar" caption="Cerrar" invoke="onCerrarClick"/>
+        </buttonsPanel>
+    </layout>
+</window>

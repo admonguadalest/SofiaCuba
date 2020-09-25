@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Consultar Remesas"
+        focusComponent="remesasTable"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data readOnly="true">
+        <collection id="remesasDc"
+                    class="com.company.test1.entity.recibos.Remesa"
+                    view="remesa-view">
+            <loader id="remesasDl">
+                <query>
+                    <![CDATA[select e from test1_Remesa e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="remesasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="remesasTable"
+                dataLoader="remesasDl">
+            <property name="fechaValor" caption="Fecha Valor"/>
+            <property caption="Definicion Remesa" name="definicionRemesa.nombreRemesa"/>
+            <property caption="Tipo de Giro" name="definicionRemesa.tipoGiro"/>
+            <property caption="Nombre Propietario" name="definicionRemesa.propietario.persona.nombreCompleto"/>
+
+        </filter>
+        <table id="remesasTable"
+               width="100%"
+               dataContainer="remesasDc">
+            <actions>
+
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove" invoke="onRemoveBtnClick"/>
+            </actions>
+            <columns>
+
+                <column id="definicionRemesa.propietario.persona.nombreCompleto"/>
+                <column id="definicionRemesa.nombreRemesa"/>
+                <column id="identificadorRemesa"/>
+                <column id="fechaValor"/>
+                <column id="totalRemesa" caption="Totales" />
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+
+                <button id="editBtn" action="remesasTable.edit"/>
+                <button id="removeBtn" caption="Retroceder" action="remesasTable.remove"/>
+                <button id="btnReportDinamico" caption="Ver Report" invoke="onBtnReportDinamicoClick"/>
+                <button id="btnPdfRemesa" caption="Visualizar" invoke="onBtnPdfRemesaClick"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

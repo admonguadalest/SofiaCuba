@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.documentosfotograficos">
+    <data>
+        <instance id="carpetaDocumentosFotograficosDc"
+                  class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos"
+                  view="carpetaDocumentosFotograficos-view">
+            <loader/>
+            <collection id="fotoDocumentoFotograficoesDc" property="fotos" />
+        </instance>
+        <instance id="fotoThumbnailExt"
+                  class="com.company.test1.entity.FotosThumbnailExt" view="_base"/>
+        <instance id="fotoThumbnai"
+                  class="com.company.test1.entity.documentosfotograficos.FotoThumbnail" view="_base"/>
+        <collection id="eventosDc" class="com.company.test1.entity.ciclos.Evento"
+                    view="_base">
+            <loader id="eventosDl"/>
+        </collection>
+
+    </data>
+    <dialogMode height="650px"
+                width="800px"
+                modal="true"
+                forceDialog="true" resizable="true"/>
+    <layout expand="editActions" spacing="true">
+        <hbox spacing="true">
+            <form id="form" dataContainer="carpetaDocumentosFotograficosDc">
+                <column width="250px">
+                    <textField id="nombreCarpetaField" property="nombreCarpeta"/>
+                    <lookupField id="eventoField" width="100%" caption="Evento" dataContainer="carpetaDocumentosFotograficosDc" property="evento"
+                                 optionsContainer="eventosDc" captionProperty="nombre"/>
+                    <textField id="aportadasPorField" property="aportadasPor"/>
+                    <textField id="descripcionField" property="descripcion"/>
+                    <textField id="numeroDeFotografiasField" property="numeroDeFotografias"/>
+                    <checkBox id="accesibleParaComercialesField" property="accesibleParaComerciales"/>
+                </column>
+                <column width="250px">
+
+                </column>
+            </form>
+            <image id="previsualizador" width="250px" height="250px" scaleMode="SCALE_DOWN"/>
+        </hbox>
+
+        <table id="fotoDocumentoFotograficoesTable" height="250px" width="100%"
+               dataContainer="fotoDocumentoFotograficoesDc">
+            <buttonsPanel>
+                <multiUpload id="multiUploadField" caption="Upload Many"/>
+                <button id="btnRemove" caption="eliminar" invoke="removeSelected"/>
+            </buttonsPanel>
+            <columns>
+                <column id="nombreArchivo"/>
+                <column id="extension"/>
+
+
+
+                <column id="tamano"/>
+
+                <column id="extId"/>
+            </columns>
+        </table>
+
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+
+        </hbox>
+    </layout>
+</window>

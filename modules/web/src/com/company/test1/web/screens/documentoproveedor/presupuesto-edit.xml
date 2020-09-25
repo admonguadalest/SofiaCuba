@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.facturaproveedor">
+    <data>
+        <instance id="presupuestoDc"
+                  class="com.company.test1.entity.documentosImputables.Presupuesto"
+                  view="presupuesto-view">
+            <loader/>
+            <collection id="registroAplicacionConceptosAdicionalesDc" property="registroAplicacionConceptosAdicionales"/>
+            <collection id="imputacionesDocumentoImputableDc" property="imputacionesDocumentoImputable"
+            >
+
+            </collection>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="presupuestoDc" width="100%">
+                <column width="50%">
+                    <vbox spacing="true">
+                        <pickerField id="proveedorField" dataContainer="presupuestoDc" property="proveedor"
+                                     captionProperty="persona.nombreCompleto" caption="Proveedor" width="100%">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </pickerField>
+                        <textField id="numDocumentoField" caption="Num.Documento" width="100%"
+                                   dataContainer="presupuestoDc" property="numDocumento"/>
+                        <textArea id="descripcionDocumentoField" property="descripcionDocumento" rows="5"
+                                  caption="Descripcion" width="100%"/>
+                        <textField id="importeTotalBaseField"
+                                   dataContainer="presupuestoDc" caption="Importe Base" property="importeTotalBase"/>
+                    </vbox>
+                </column>
+                <column width="50%">
+                    <vbox spacing="true">
+                        <dateField resolution="DAY" id="fechaEmisionField" caption="Fecha Emision" width="100%"
+                                   dataContainer="presupuestoDc" property="fechaEmision"/>
+                        <textField caption="Realizado Por" width="100%"
+                                   dataContainer="presupuestoDc" property="realizadoPor"/>
+                        <textArea id="observacionesField" property="observaciones" rows="5" caption="Observaciones"
+                                  width="100%"/>
+                    </vbox>
+                </column>
+                <column>
+                    <vbox spacing="true">
+                        <groupBox orientation="horizontal" spacing="true" width="100%">
+                        </groupBox>
+                    </vbox>
+                </column>
+            </form>
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <table id="tableRegistrosAplicacionesCCAA" height="100px" width="100%"
+                       dataContainer="registroAplicacionConceptosAdicionalesDc" caption="Conceptos Adicionales" editable="true">
+                    <columns>
+                        <column id="conceptoAdicional.abreviacion" caption="Concepto"/>
+                        <column id="base" caption="Base" editable="true" />
+                        <column id="porcentaje" editable="true" generator="generateCellPorcentajeRACA"/>
+                        <column id="importeAplicado" editable="true"/>
+                    </columns>
+                </table>
+            </groupBox>
+            <form width="100%" caption="Importe Post CCAA">
+                <column width="50%">
+                    <textField id="importePostCCAAField" dataContainer="presupuestoDc" property="importePostCCAA"/>
+                </column>
+                <column width="50%">
+                    <dateField resolution="DAY" id="dteFechaValidezHasta" property="fechaPago" caption="Fecha Validez Hasta"/>
+                </column>
+                <column/>
+            </form>
+            <groupBox spacing="true">
+                <label value="Imputaciones"/>
+                <table id="tableImputaciones" height="200px" width="100%"
+                       dataContainer="imputacionesDocumentoImputableDc">
+                    <columns>
+                        <column id="ciclo.departamento.nombreDescriptivoCompleto"/>
+                        <column id="importeImputacion"/>
+                        <column id="porcentajeImputacion"/>
+                        <column id="descripcionImputacion"/>
+
+                    </columns>
+                    <actions>
+                        <action id="create" type="create" />
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <buttonsPanel>
+                        <button id="btnNuevaImputacion" action="tableImputaciones.create" caption="Nueva"/>
+                        <button id="btnEditar" action="tableImputaciones.edit"/>
+                        <button id="btnEliminar" action="tableImputaciones.remove"/>
+                    </buttonsPanel>
+                </table>
+            </groupBox>
+            <groupBox spacing="true" caption="Archivos Adjuntos">
+                <fragment screen="test1_ColeccionArchivosAdjuntosFragment"/>
+            </groupBox>
+
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

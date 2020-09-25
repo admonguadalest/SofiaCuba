@@ -1,0 +1,1 @@
+drop table if exists TEST1_PROGRAMACION_CONCEPTO_ADICIONAL__U84360 cascade ;

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.direccion">
+    <data>
+        <instance id="direccionDc"
+                  class="com.company.test1.entity.Direccion"
+                  view="direccion-with-ubicacion">
+            <loader/>
+        </instance>
+
+    </data>
+    <dialogMode resizable="true" width="1100px"/>
+    <layout expand="scrollBox" spacing="true">
+        <vbox id="scrollBox" spacing="true">
+            <flowBox spacing="true" width="100%">
+                <lookupField id="nombreField"  caption="Titulo" width="416px"/>
+                <textField id="nombrePersonalizadoField" />
+            </flowBox>
+            <checkBox caption="Establecer como Direccion de Envio de Correo" width="381px" dataContainer="direccionDc"
+                      property="enviarCorrespondenciaAEstaDireccion"/>
+            <form id="form" dataContainer="direccionDc" width="100%">
+                <flowBox spacing="true">
+                    <textField id="viaField" width="100px" caption="Via" dataContainer="direccionDc" property="via"/>
+                    <textField id="nombreViaField" property="nombreVia" dataContainer="direccionDc" caption="Nombre Via"/>
+                    <textField id="numeroViaField" property="numeroVia" dataContainer="direccionDc" caption="Num. Via"/>
+
+
+
+                </flowBox>
+                <flowBox spacing="true">
+                    <textField caption="Piso" dataContainer="direccionDc" property="piso" width="93px"/>
+                    <textField caption="Puerta" dataContainer="direccionDc" property="puerta" width="88px"/>
+                    <textField caption="Escalera" dataContainer="direccionDc" property="escalera" width="80px"/>
+                </flowBox>
+
+
+                <flowBox spacing="true">
+                    <textField id="poblacionField" dataContainer="direccionDc" property="poblacion" caption="Poblacion" width="299px"/>
+                    <textField id="codigoPostalField" dataContainer="direccionDc" property="codigoPostal" caption="Codigo Postal"/>
+                    <textField id="provinciaField" dataContainer="direccionDc" property="provincia" caption="Provincia" width="214px"/>
+                </flowBox>
+                <flowBox spacing="true">
+                    <lookupField id="paisField" dataContainer="direccionDc" property="pais" caption="Pais" />
+                    <textField id="regionField" dataContainer="direccionDc" property="region" caption="Region"/>
+
+                </flowBox>
+            </form>
+        </vbox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

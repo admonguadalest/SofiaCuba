@@ -1,0 +1,1577 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+
+    <view entity="test1_Ubicacion" name="ubicacion-with-direcciones" extends="_local">
+        <property name="direccion" view="direccion-with-ubicacion"/>
+        <property name="propietario" view="_base">
+            <property name="persona" view="_minimal">
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="departamentos" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="rm2id"/>
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+            <property name="coeficientes" view="_minimal">
+                <property name="tipoCoeficiente" view="_minimal"/>
+                <property name="valor"/>
+                <property name="departamento" view="_minimal"/>
+            </property>
+        </property>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="ubicacionesCoeficientes" view="_minimal">
+            <property name="ubicacion" view="_minimal"/>
+            <property name="tipoCoeficiente" view="_base"/>
+            <property name="totalTipoCoeficiente"/>
+        </property>
+    </view>
+    <view entity="test1_Direccion" name="direccion-with-ubicacion" extends="_local">
+
+    </view>
+    <view entity="test1_ColeccionArchivosAdjuntos" name="coleccionArchivosAdjuntos-view" extends="_local">
+        <property name="colecciones" view="_local">
+            <property name="colecciones" view="_minimal">
+                <property name="nombre"/>
+                <property name="colecciones" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="colecciones" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="colecciones" view="_minimal">
+                            <property name="nombre"/>
+                        </property>
+                        <property name="archivos" view="_base"/>
+                    </property>
+                    <property name="archivos" view="_base"/>
+                </property>
+                <property name="archivos" view="_base"/>
+            </property>
+            <property name="archivos" view="_base"/>
+        </property>
+        <property name="archivos" view="_base"/>
+        <property name="coleccionParent" view="_base">
+            <property name="colecciones" fetch="AUTO" view="_base">
+                <property name="colecciones" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="colecciones" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="colecciones" view="_minimal">
+                            <property name="nombre"/>
+                            <property name="colecciones" view="_minimal"/>
+                            <property name="archivos" view="_minimal"/>
+                        </property>
+                        <property name="archivos" view="_minimal"/>
+                    </property>
+                    <property name="archivos" view="_minimal"/>
+                </property>
+                <property name="archivos" view="_minimal"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Persona" name="persona-view" extends="_local">
+
+        <property name="direcciones" view="_minimal">
+            <property name="codigoPostal"/>
+            <property name="nombre"/>
+            <property name="nombreVia"/>
+            <property name="numeroVia"/>
+            <property name="persona" view="_minimal"/>
+        </property>
+        <property name="cuentasBancarias" view="_minimal">
+            <property name="entidad"/>
+            <property name="oficina"/>
+            <property name="digitosControl"/>
+            <property name="numeroCuenta"/>
+            <property name="infoContactoOficina"/>
+            <property name="domicilioEntidadBancaria"/>
+            <property name="nombreEntidadBancaria"/>
+            <property name="pais"/>
+            <property name="codigoBIC"/>
+            <property name="digigosControlIBAN"/>
+        </property>
+        <property name="datosDeContacto" view="_minimal">
+            <property name="dato"/>
+            <property name="descripcionDato"/>
+            <property name="tipoDeDato"/>
+            <property name="correoDeRecuperacionDeConstrasenya"/>
+        </property>
+        <property name="proveedor" view="_base"/>
+        <property name="propietario" view="_minimal">
+            <property name="abreviacionContratos"/>
+        </property>
+    </view>
+    <view entity="test1_PersonaFisica" name="personaFisica-view" extends="_local">
+        <property name="usuario" view="_base"/>
+        <property name="direcciones" view="direccion-with-persona-view"/>
+        <property name="cuentasBancarias" view="_base">
+            <property name="textoCuentaBancariaCompleta"/>
+        </property>
+        <property name="datosDeContacto" view="_base"/>
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
+            <property name="programacionesConceptosAdicionales" view="_base">
+                <property name="conceptoAdicional" view="_base"/>
+            </property>
+            <property name="cuentaBancaria" view="cuentaBancaria-view">
+                <property name="proveedor" view="_minimal"/>
+            </property>
+            <property name="cuentaBancariaDomiciliado" view="cuentaBancaria-view">
+                <property name="proveedor" view="_minimal"/>
+            </property>
+        </property>
+        <property name="propietario" view="_base">
+            <property name="cuentaBancaria" view="_base"/>
+            <property name="definicionesRemesa" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_PersonaJuridica" name="personaJuridica-view" extends="_local">
+        <property name="usuario" view="_base"/>
+        <property name="direcciones" view="direccion-with-persona-view"/>
+        <property name="cuentasBancarias" view="_base">
+            <property name="textoCuentaBancariaCompleta"/>
+        </property>
+        <property name="datosDeContacto" view="_base"/>
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
+            <property name="programacionesConceptosAdicionales" view="_base">
+                <property name="conceptoAdicional" view="_base"/>
+            </property>
+            <property name="cuentaBancaria" view="_base"/>
+            <property name="cuentaBancariaDomiciliado" view="_base"/>
+        </property>
+        <property name="propietario" view="_base">
+            <property name="cuentaBancaria" view="_base"/>
+            <property name="definicionesRemesa" view="_base"/>
+        </property>
+        <property name="representacionesLegales" view="_minimal">
+            <property name="persona" view="_base"/>
+            <property name="persona_representante" view="_base"/>
+            <property name="enCalidadDe"/>
+        </property>
+    </view>
+    <view entity="test1_CuentaBancaria" name="cuentaBancaria-view" extends="_local">
+        <property name="persona" view="_base">
+            <property name="proveedor" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+            <property name="propietario" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_CertificadoCalificacionEnergetica" name="certificadoCalificacionEnergetica-view"
+          extends="_local">
+        <property name="archivoAdjunto" view="_base"/>
+        <property name="departamento" view="_base">
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Departamento" name="departamento-view-for-tree" extends="_minimal">
+
+        <property name="piso"/>
+        <property name="puerta"/>
+        <property name="nombreDescriptivoCompleto"/>
+        <property name="viviendaLocal"/>
+        <property name="superficie"/>
+        <property name="abreviacionPisoPuerta"/>
+        <property name="dadoDeBaja"/>
+        <property name="descripcion"/>
+        <property name="conAireAcondicionado"/>
+        <property name="conCalefaccion"/>
+        <property name="obsevaciones"/>
+        <property name="referenciaCatastral"/>
+        <property name="propietario" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="ubicacion" view="_minimal">
+            <property name="nombre"/>
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="nifDni"/>
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+        </property>
+        <property name="excluirDeMonitorizacionParaBusquedaDePisosVacios"/>
+        <property name="conSalidaDeHumos"/>
+        <property name="numBanos"/>
+        <property name="numHabitaciones"/>
+        <property name="esEstudio"/>
+        <property name="rm2id"/>
+        <property name="pisoPuerta"/>
+        <property name="propietarioEfectivo" view="_minimal"/>
+    </view>
+    <view entity="test1_Departamento" name="departamento-view" extends="_local">
+        <property name="nombreDescriptivoCompleto"/>
+        <property name="cedulasHabitabilidad" view="cedulaHabitabilidad-view">
+
+        </property>
+        <property name="certificadosCalificacionEnergetica" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                </property>
+                <property name="planoDepartamento" view="_base"/>
+            </property>
+        </property>
+        <property name="coleccionAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="propietario" view="_base">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="ubicacion" view="_base">
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+        </property>
+        <property name="planoDepartamento" view="_base"/>
+    </view>
+    <view entity="test1_CedulaHabitabilidad" name="cedulaHabitabilidad-view" extends="_local">
+        <property name="departamento" view="_base">
+            <property name="ubicacion" view="_base"/>
+
+        </property>
+        <property name="escaneoCedula" view="_base"/>
+    </view>
+    <view entity="test1_Ciclo" name="ciclo-view" extends="_local">
+        <property name="eventos" view="_base"/>
+        <property name="imputacionesDocumentoImputable" view="_base">
+            <property name="documentoImputable" view="_base"/>
+            <property name="ciclo" view="_base">
+                <property name="eventos" view="_base"/>
+            </property>
+            <property name="evento" view="_base"/>
+        </property>
+        <property name="coleccionAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="departamento" view="_base">
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="nifDni"/>
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+            <property name="ubicacion" view="_base">
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="contratoInquilino" view="_base">
+            <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="nombreDescriptivoCompleto"/>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                </property>
+            </property>
+        </property>
+        <property name="entradas" view="_base">
+            <property name="ciclo" view="_minimal">
+                <property name="eventos" view="_base"/>
+            </property>
+            <property name="evento" view="_base"/>
+            <property name="ordenTrabajo" view="_base">
+                <property name="carpetaDocumentosFotograficos" view="_base"/>
+                <property name="administrador" view="_base"/>
+                <property name="notasIntervenciones" view="_base"/>
+                <property name="asignacionesTareas" view="_base">
+                    <property name="proveedor" view="_base">
+                        <property name="persona" view="_minimal">
+                            <property name="nombre"/>
+                            <property name="nifDni"/>
+                            <property name="nombreCompleto"/>
+                        </property>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="carpetasDocumentosFotograficos" view="_base">
+            <property name="evento" view="_base"/>
+            <property name="fotos" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_Ciclo" name="ciclo-browsing" extends="_local">
+        <property name="eventos" view="_base"/>
+        <property name="departamento" view="_base">
+            <property name="propietario" view="_base"/>
+            <property name="ubicacion" view="_base">
+                <property name="propietario" view="_minimal"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Evento" name="evento-view" extends="_local"/>
+    <view entity="test1_Entrada" name="entrada-view" extends="_local">
+        <property name="ciclo" view="ciclo-view">
+            <property name="eventos" view="_base"/>
+        </property>
+        <property name="evento" view="_base"/>
+        <property name="ordenTrabajo" view="_base">
+            <property name="carpetaDocumentosFotograficos" view="_local"/>
+            <property name="administrador" view="_base"/>
+            <property name="notasIntervenciones" view="_base"/>
+            <property name="asignacionesTareas" view="_base">
+                <property name="proveedor" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_ImputacionDocumentoImputable" name="imputacionDocumentoImputable-view" extends="_local">
+        <property name="validacionImputacion" view="_base">
+            <property name="imputacionDocumentoImputable" view="_minimal"/>
+            <property name="propietario" view="_minimal"/>
+        </property>
+        <property name="documentoImputable" view="_base"/>
+        <property name="ciclo" view="_base">
+            <property name="eventos" view="_base"/>
+            <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="nombreDescriptivoCompleto"/>
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal"/>
+                </property>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="evento" view="_base"/>
+    </view>
+    <view entity="test1_OrdenTrabajo" name="ordenTrabajo-view" extends="_base">
+        <property name="carpetaDocumentosFotograficos" view="_local"/>
+
+        <property name="administrador" view="_base"/>
+        <property name="notasIntervenciones" view="_base"/>
+        <property name="asignacionesTareas" view="_base">
+            <property name="proveedor" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_NotaIntervencion" name="notaIntervencion-view" extends="_local"/>
+    <view entity="test1_AsignacionTarea" name="asignacionTarea-view" extends="_local">
+        <property name="proveedor" view="_base"/>
+    </view>
+    <view entity="test1_FacturaProveedor" name="facturaProveedor-view" extends="_local">
+        <property name="presupuesto" view="_base"/>
+        <property name="imputacionesDocumentoImputable" view="imputacionDocumentoImputable-view"/>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="registroAplicacionConceptosAdicionales" view="_base">
+            <property name="conceptoAdicional" view="_base"/>
+            <property name="documentoImputable" view="_minimal"/>
+        </property>
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="programacionesConceptosAdicionales" view="_minimal">
+                <property name="conceptoAdicional" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="abreviacion"/>
+                    <property name="adicionSustraccion"/>
+                </property>
+                <property name="proveedor" view="_minimal"/>
+            </property>
+            <property name="nombreComercial"/>
+            <property name="modoDePagoTelematico"/>
+        </property>
+    </view>
+    <view entity="test1_Direccion" name="direccion-with-persona-view" extends="_base">
+        <property name="persona" view="_base"/>
+    </view>
+    <view entity="test1_DatoDeContacto" name="datoDeContacto-view" extends="_local">
+        <property name="persona" view="_base"/>
+    </view>
+    <view entity="test1_ConceptoAdicional" name="conceptoAdicional-view" extends="_local"/>
+    <view entity="test1_ProgramacionConceptoAdicional" name="programacionConceptoAdicional-view" extends="_local">
+        <property name="conceptoAdicional" view="_base"/>
+        <property name="proveedor" view="_base"/>
+    </view>
+    <view entity="test1_RegistroAplicacionConceptoAdicional" name="registroAplicacionConceptoAdicional-view"
+          extends="_local">
+        <property name="conceptoAdicional" view="_base"/>
+        <property name="documentoImputable" view="_base"/>
+    </view>
+    <view entity="test1_Proveedor" name="proveedor-view" extends="_local">
+        <property name="persona" view="_base">
+            <property name="cuentasBancarias" view="_base"/>
+        </property>
+        <property name="programacionesConceptosAdicionales" view="_base">
+            <property name="conceptoAdicional" view="_base"/>
+        </property>
+        <property name="comercialOfertas" view="_base"/>
+        <property name="cuentaBancaria" view="_base">
+            <property name="textoCuentaBancariaCompleta"/>
+            <property name="textoCuentaBancariaPropietario"/>
+        </property>
+        <property name="cuentaBancariaDomiciliado" view="_base">
+            <property name="textoCuentaBancariaCompleta"/>
+            <property name="textoCuentaBancariaPropietario"/>
+        </property>
+        <property name="modoDePagoTelematico"/>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-view" extends="_local">
+        <property name="ciclo" view="_base">
+            <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="nombreDescriptivoCompleto"/>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                </property>
+
+            </property>
+        </property>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="pagador" view="_base">
+            <property name="cuentasBancarias" view="_base">
+                <property name="textoCuentaBancariaCompleta"/>
+                <property name="persona" view="_base"/>
+            </property>
+        </property>
+        <property name="departamento" view="_base">
+            <property name="nombreDescriptivoCompleto"/>
+            <property name="cedulasHabitabilidad" view="_base"/>
+            <property name="certificadosCalificacionEnergetica" view="_base"/>
+            <property name="propietario" view="_minimal">
+                <property name="abreviacionContratos"/>
+                <property name="persona" view="_minimal">
+                    <property name="direcciones" view="_base"/>
+                    <property name="nombre"/>
+                    <property name="nifDni"/>
+                </property>
+            </property>
+            <property name="ubicacion" view="_base">
+                <property name="direccion" view="_base">
+                    <property name="direccionParaDocumento"/>
+                </property>
+                <property name="propietario" view="_minimal">
+                    <property name="abreviacionContratos"/>
+                    <property name="persona" view="_minimal">
+                        <property name="direcciones" view="_base"/>
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="escaneoContrato" view="_base"/>
+        <property name="implementacionModelo" view="_minimal">
+            <property name="contratoInquilino" view="_minimal"/>
+            <property name="parametrosValores" view="_base">
+                <property name="implementacionModelo" view="_minimal"/>
+            </property>
+            <property name="modeloContrato" view="_base"/>
+            <property name="overrideClausulas" view="_base">
+                <property name="clausula" view="_minimal"/>
+                <property name="versionAplicada" view="_base">
+                    <property name="clausula" view="_minimal"/>
+                </property>
+                <property name="implementacionModelo" view="_minimal"/>
+            </property>
+            <property name="seccionesDescartadas" view="_minimal">
+                <property name="seccion" view="_base"/>
+                <property name="implementacionModelo" view="_minimal"/>
+            </property>
+        </property>
+        <property name="inquilino" view="_base">
+            <property name="direcciones" view="_base"/>
+            <property name="cuentasBancarias" view="_base"/>
+        </property>
+        <property name="representanteArrendador" view="_base"/>
+        <property name="representanteArrendatario" view="_base"/>
+        <property name="comercialOfertas" view="_base"/>
+        <property name="oferta" view="_base"/>
+        <property name="archivoAdjuntoRenuncia" view="_base"/>
+        <property name="carpetaDocumentoFotograficoFirma" view="_base"/>
+        <property name="cotitulares" view="cotitularContratoInquilino-view"/>
+        <property name="fianza" view="_base">
+            <property name="contratoInquilino" view="_minimal"/>
+            <property name="escaneoArchivoAdjunto" view="_base"/>
+            <property name="escaneoSeguroArchivoAdjunto" view="_base"/>
+            <property name="escaneoFianza" view="_base"/>
+        </property>
+        <property name="programacionRecibo" view="programacionRecibo-view">
+            <property name="programacionConceptosAdicionales" view="programacionConceptoAdicional-view">
+                <property name="programacionRecibo" view="_minimal"/>
+            </property>
+            <property name="contratoInquilino" view="_minimal"/>
+        </property>
+        <property name="liquidacionExtincion" view="_base">
+            <property name="escaneoLiquidacion" view="_base"/>
+            <property name="retencionCarpetaDocumentoFotografico" view="_base"/>
+        </property>
+        <property name="liquidacionSuscripcion" view="_base">
+            <property name="escaneoLiquidacion" view="_base"/>
+            <property name="escaneoIngresoLiquidacion" view="_base"/>
+            <property name="contratoInquilino" view="_minimal">
+                <property name="estadoContrato"/>
+            </property>
+            <property name="escaneoResguardoITP" view="_base"/>
+        </property>
+        <property name="anexos" view="_base">
+            <property name="parametrosValores" view="_minimal">
+                <property name="nombreParametro"/>
+                <property name="valor"/>
+            </property>
+            <property name="plantilla" view="_minimal">
+                <property name="contenidoPlantilla"/>
+                <property name="tipoPlantilla"/>
+                <property name="deSistema"/>
+                <property name="ruta"/>
+            </property>
+        </property>
+        <property name="subrogadores" view="_base">
+            <property name="subrogador" view="_base"/>
+        </property>
+        <property name="ordenesPagoContratoInquilino" view="_base">
+            <property name="contratoInquilino" view="_minimal"/>
+            <property name="realizacionPago" view="_minimal">
+                <property name="fechaValor"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_ProgramacionRecibo" name="programacionRecibo-view" extends="_local">
+        <property name="conceptosRecibo" view="_base">
+            <property name="concepto" view="_base"/>
+            <property name="incremento" view="_base"/>
+            <property name="conceptosAdicionalesConceptoRecibo" view="_base">
+                <property name="conceptoAdicional" view="_base"/>
+            </property>
+        </property>
+        <property name="programacionConceptosAdicionales" view="programacionConceptoAdicional-view"/>
+        <property name="cuentaBancariaInquilino" view="_base"/>
+        <property name="definicionRemesa" view="_base"/>
+        <property name="cuentaBancariaPagador" view="_base"/>
+    </view>
+    <view entity="test1_ConceptoRecibo" name="conceptoRecibo-view" extends="_base">
+        <property name="concepto" view="_base"/>
+        <property name="conceptosAdicionalesConceptoRecibo" view="_minimal">
+            <property name="conceptoAdicional" view="_minimal">
+                <property name="nombre"/>
+                <property name="abreviacion"/>
+                <property name="adicionSustraccion"/>
+            </property>
+            <property name="conceptoRecibo" view="_minimal"/>
+            <property name="porcentaje"/>
+        </property>
+    </view>
+    <view entity="test1_ConceptoRecibo" name="conceptoRecibo-incrementos" extends="_base">
+        <property name="concepto" view="_base"/>
+        <property name="conceptosAdicionalesConceptoRecibo" view="_minimal">
+            <property name="conceptoAdicional" view="_minimal">
+                <property name="nombre"/>
+                <property name="abreviacion"/>
+                <property name="adicionSustraccion"/>
+            </property>
+            <property name="conceptoRecibo" view="_minimal"/>
+            <property name="porcentaje"/>
+
+        </property>
+        <property name="incremento" view="_base"/>
+        <property name="programacionRecibo" view="_minimal">
+            <property name="aplicarIPCNegativo"/>
+            <property name="contratoInquilino" view="_minimal">
+                <property name="fechaRealizacion"/>
+                <property name="departamento" view="_base">
+                    <property name="ubicacion" view="_base">
+                        <property name="direccion" view="_base"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_IncrementoIndice" name="incrementoIpc" extends="_base">
+
+    </view>
+    <view entity="test1_DefinicionRemesa" name="definicionRemesa-view" extends="_local">
+        <property name="propietario" view="_base">
+            <property name="persona" view="_base">
+                <property name="cuentasBancarias" view="_base"/>
+            </property>
+        </property>
+        <property name="cuentaBancaria" view="_base">
+            <property name="textoCuentaBancariaCompleta"/>
+            <property name="persona" view="_base"/>
+        </property>
+        <property name="delegado" view="_base"/>
+    </view>
+    <view entity="test1_Propietario" name="propietario-view" extends="_local">
+        <property name="persona" view="_base">
+            <property name="cuentasBancarias" view="_base">
+                <property name="textoCuentaBancariaCompleta"/>
+            </property>
+        </property>
+        <property name="cuentaBancaria" view="_base"/>
+        <property name="definicionesRemesa" view="_base">
+            <property name="cuentaBancaria" view="_base"/>
+            <property name="delegado" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_Anexo" name="anexo-view" extends="_local">
+        <property name="parametrosValores" view="_minimal">
+            <property name="nombreParametro"/>
+            <property name="valor"/>
+        </property>
+        <property name="plantilla" view="_minimal">
+            <property name="nombrePlantilla"/>
+            <property name="contenidoPlantilla"/>
+            <property name="tipoPlantilla"/>
+            <property name="deSistema"/>
+            <property name="ruta"/>
+        </property>
+        <property name="contratoInquilino" view="_minimal"/>
+    </view>
+    <view entity="test1_ParametroValorAnexo" name="parametroValorAnexo-view" extends="_local">
+        <property name="anexo" view="_base"/>
+    </view>
+    <view entity="test1_Subrogador" name="subrogador-view" extends="_local">
+        <property name="subrogador" view="_base"/>
+    </view>
+    <view entity="test1_ArchivoAdjunto" name="archivoAdjunto-view" extends="_local"/>
+    <view entity="test1_LiquidacionSuscripcion" name="liquidacionSuscripcion-view" extends="_local">
+        <property name="escaneoLiquidacion" view="_base"/>
+        <property name="escaneoIngresoLiquidacion" view="_base"/>
+        <property name="escaneoResguardoITP" view="_base"/>
+    </view>
+    <view entity="test1_Fianza" name="fianza-view" extends="_local">
+        <property name="escaneoArchivoAdjunto" view="_base"/>
+        <property name="escaneoSeguroArchivoAdjunto" view="_base"/>
+        <property name="escaneoFianza" view="_base"/>
+    </view>
+    <view entity="test1_CotitularContratoInquilino" name="cotitularContratoInquilino-view" extends="_local">
+        <property name="contratoInquilino" view="_minimal">
+            <property name="numeroContrato"/>
+        </property>
+        <property name="cotitular" view="_base"/>
+    </view>
+    <view entity="test1_NonPersistentConceptoRecibo" name="nonPersistentConceptoRecibo-view" extends="_local">
+        <property name="importe"/>
+        <property name="concepto" view="_base"/>
+        <property name="conceptosRecibo" view="_base">
+            <property name="concepto" view="_base"/>
+            <property name="programacionRecibo" view="_minimal"/>
+            <property name="conceptosAdicionalesConceptoRecibo" view="_base">
+                <property name="conceptoAdicional" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="abreviacion"/>
+                    <property name="adicionSustraccion"/>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_ProgramacionRecibo" name="programacionRecibo-viewCargaRecibos" extends="_local">
+        <property name="contratoInquilino" view="_minimal">
+            <property name="departamento" view="_minimal">
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nifDni"/>
+                    </property>
+                </property>
+                <property name="ubicacion" view="_minimal">
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal">
+                            <property name="nifDni"/>
+                        </property>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_ModeloContrato" name="modeloContrato-view" extends="_local">
+        <property name="secciones" view="_base">
+            <property name="clausulas" view="_base">
+                <property name="versiones" view="_base"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Seccion" name="seccion-view" extends="_local">
+        <property name="modeloContrato" view="_minimal"/>
+        <property name="clausulas" view="_base">
+            <property name="seccion" view="_minimal"/>
+            <property name="versiones" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_Clausula" name="clausula-view" extends="_local">
+        <property name="versiones" view="_base">
+            <property name="clausula" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_VersionClausula" name="versionClausula-view" extends="_local">
+        <property name="clausula" view="_minimal"/>
+    </view>
+    <view entity="test1_Departamento" name="departamento-view-cuadre-y-registro-recibos" extends="_local">
+        <property name="ubicacion" view="_minimal">
+            <property name="nombre"/>
+        </property>
+    </view>
+    <view entity="test1_Remesa" name="remesa-view" extends="_local">
+        <property name="definicionRemesa" view="_minimal">
+            <property name="nombreRemesa"/>
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+        </property>
+        <property name="totalRemesa"/>
+    </view>
+    <view entity="test1_Remesa" name="remesa-view-detalle" extends="_local">
+        <property name="definicionRemesa" view="_minimal">
+            <property name="nombreRemesa"/>
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+        </property>
+        <property name="ordenantesRemesa" view="_minimal">
+            <property name="recibos" view="_minimal">
+                <property name="fechaEmision"/>
+                <property name="totalRecibo"/>
+                <property name="totalReciboPostCCAA"/>
+                <property name="numRecibo"/>
+                <property name="fechaValor"/>
+                <property name="serie" view="_minimal">
+                    <property name="nombreSerie"/>
+                </property>
+                <property name="utilitarioContratoInquilino" view="_minimal">
+                    <property name="departamento" view="_minimal">
+                        <property name="piso"/>
+                        <property name="puerta"/>
+                        <property name="ubicacion" view="_minimal">
+                            <property name="nombre"/>
+                        </property>
+                        <property name="propietarioEfectivo" view="_minimal">
+                            <property name="persona" view="_minimal">
+                                <property name="nombre"/>
+                                <property name="nombreCompleto"/>
+                            </property>
+                        </property>
+                    </property>
+                </property>
+                <property name="utilitarioInquilino" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Recibo" name="recibo-view" extends="_base" systemProperties="true">
+        <property name="programacionRecibo" view="_minimal"/>
+        <property name="ordenanteRemesa" view="_minimal">
+            <property name="remesa" view="_base"/>
+        </property>
+        <property name="serie" view="_minimal"/>
+        <property name="utilitarioContratoInquilino" view="_minimal">
+            <property name="numeroContrato"/>
+            <property name="inquilino" view="_base"/>
+            <property name="departamento" view="_minimal">
+                <property name="rm2id"/>
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal">
+                            <property name="nifDni"/>
+                            <property name="nombreCompleto"/>
+                        </property>
+                    </property>
+                </property>
+                <property name="propietarioEfectivo" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="utilitarioInquilino" view="_minimal">
+            <property name="nombre"/>
+            <property name="nifDni"/>
+            <property name="nombreCompleto"/>
+        </property>
+        <property name="ordenesCobro" view="_base"/>
+        <property name="recibosCobrados" view="reciboCobrado-view"/>
+    </view>
+    <view entity="test1_ReciboCobrado" name="reciboCobrado-view" extends="_local">
+        <property name="recibo" view="_base"/>
+    </view>
+    <view entity="test1_ImplementacionConcepto" name="implementacionConcepto-view" extends="_local">
+        <property name="conceptoRecibo" view="_minimal"/>
+        <property name="recibo" view="_base"/>
+        <property name="overrideConcepto" view="_base"/>
+        <property name="registroAplicacionesConceptosAdicionales" view="registroAplicacionConceptoAdicional-view">
+            <property name="implementacionConcepto" view="_minimal"/>
+        </property>
+        <property name="concepto" view="_minimal"/>
+    </view>
+    <view entity="test1_ValidacionImputacionDocumentoImputable" name="validacionImputacionDocumentoImputable-view"
+          extends="_local">
+        <property name="imputacionDocumentoImputable" view="_minimal">
+            <property name="descripcionImputacion"/>
+            <property name="validacionImputacion" view="_minimal"/>
+            <property name="importeImputacion"/>
+            <property name="imputacionIndefinidos"/>
+            <property name="informacionAdicional"/>
+            <property name="porcentajeImputacion"/>
+            <property name="documentoImputable" view="_minimal">
+                <property name="descripcionDocumento"/>
+                <property name="textoDescriptivoDocumento"/>
+                <property name="fechaEmision"/>
+                <property name="importeTotalBase"/>
+                <property name="importePostCCAA"/>
+                <property name="imputacionesDocumentoImputable" view="_minimal"/>
+                <property name="numDocumento"/>
+                <property name="observaciones"/>
+                <property name="coleccionArchivosAdjuntos" view="_minimal"/>
+                <property name="archivado"/>
+                <property name="omitirControlDeOrdenPago"/>
+                <property name="registroAplicacionConceptosAdicionales" view="_minimal"/>
+                <property name="rm2id"/>
+            </property>
+            <property name="ciclo" view="_minimal">
+                <property name="departamento" view="_minimal">
+                    <property name="piso"/>
+                    <property name="puerta"/>
+                    <property name="nombreDescriptivoCompleto"/>
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal">
+                            <property name="nombre"/>
+                            <property name="nifDni"/>
+                            <property name="nombreCompleto"/>
+                        </property>
+                    </property>
+                    <property name="ubicacion" view="_base">
+                        <property name="propietario" view="_minimal">
+                            <property name="persona" view="_minimal">
+                                <property name="nombre"/>
+                                <property name="nifDni"/>
+                                <property name="nombreCompleto"/>
+                            </property>
+                        </property>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="propietario" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_DocumentoProveedor" name="documentoProveedor-view" extends="_local">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="imputacionesDocumentoImputable" view="_minimal">
+            <property name="ciclo" view="_minimal">
+                <property name="departamento" view="_minimal">
+                    <property name="piso"/>
+                    <property name="puerta"/>
+                    <property name="nombreDescriptivoCompleto"/>
+                    <property name="ubicacion" view="_minimal">
+                        <property name="nombre"/>
+                    </property>
+                </property>
+            </property>
+            <property name="evento" view="_minimal">
+                <property name="nombre"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Presupuesto" name="presupuesto-view" extends="_local">
+
+        <property name="imputacionesDocumentoImputable" view="_base">
+            <property name="validacionImputacion" view="_base"/>
+            <property name="ciclo" view="_base">
+                <property name="departamento" view="_base">
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_base"/>
+                    </property>
+                    <property name="ubicacion" view="_base">
+                        <property name="propietario" view="_minimal">
+                            <property name="persona" view="_base"/>
+                        </property>
+                    </property>
+                </property>
+            </property>
+            <property name="evento" view="_base"/>
+        </property>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="registroAplicacionConceptosAdicionales" view="_base">
+            <property name="conceptoAdicional" view="_base"/>
+            <property name="documentoImputable" view="_minimal"/>
+        </property>
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="programacionesConceptosAdicionales" view="_minimal">
+                <property name="conceptoAdicional" view="_minimal">
+                    <property name="nombre"/>
+                    <property name="abreviacion"/>
+                    <property name="adicionSustraccion"/>
+                </property>
+                <property name="proveedor" view="_minimal"/>
+            </property>
+            <property name="modoDePagoTelematico"/>
+        </property>
+    </view>
+    <view entity="test1_OrdenPagoFacturaProveedor" name="ordenPagoFacturaProveedor-view" extends="_local">
+        <property name="facturaProveedor" view="_base">
+            <property name="proveedor" view="_base">
+                <property name="persona" view="_base"/>
+            </property>
+        </property>
+        <property name="compensaciones" view="_base">
+            <property name="ordenPagoProveedor" view="_base"/>
+            <property name="ordenPagoAbono" view="_base"/>
+            <property name="ordenPagoFacturaProveedor" view="_minimal"/>
+        </property>
+        <property name="realizacionPago" view="_minimal"/>
+    </view>
+    <view entity="test1_OrdenPago" name="ordenPago-view" extends="_local">
+        <property name="realizacionPago" view="_base">
+            <property name="cuentaBancaria" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_OrdenPagoProveedor" name="ordenPagoProveedor-view" extends="_base">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="compensacionesOrdenesPagoProveedor" view="_base">
+            <property name="ordenPagoProveedor" view="_minimal"/>
+            <property name="ordenPagoAbono" view="_minimal"/>
+            <property name="ordenPagoFacturaProveedor" view="_minimal">
+                <property name="facturaProveedor" view="_minimal">
+                    <property name="descripcionDocumento"/>
+                    <property name="fechaEmision"/>
+                    <property name="numDocumento"/>
+                    <property name="proveedor" view="_minimal">
+                        <property name="persona" view="_minimal">
+                            <property name="nombre"/>
+                            <property name="nifDni"/>
+                            <property name="nombreCompleto"/>
+                        </property>
+                        <property name="nombreComercial"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="importePendienteCompensacion"/>
+        <property name="realizacionPago" view="_base"/>
+    </view>
+    <view entity="test1_RealizacionPago" name="realizacionPago-view" extends="_local">
+        <property name="ordenesPago" view="_base">
+            <property name="realizacionPago" view="_minimal"/>
+            <property name="nombreTipo"/>
+        </property>
+        <property name="cuentaBancaria" view="_base">
+            <property name="persona" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+        <property name="ordenesPagoProveedor" view="_minimal"/>
+    </view>
+    <view entity="test1_OrdenCobro" name="ordenCobro-view" extends="_local">
+        <property name="realizacionCobro" view="_minimal">
+            <property name="fechaValor"/>
+            <property name="identificador"/>
+        </property>
+        <property name="recibo" view="_base">
+            <property name="ordenanteRemesa" view="_minimal">
+                <property name="remesa" view="_minimal">
+                    <property name="identificadorRemesa"/>
+                    <property name="definicionRemesa" view="_minimal">
+                        <property name="tipoGiro"/>
+                    </property>
+                </property>
+            </property>
+            <property name="utilitarioContratoInquilino" view="_minimal">
+                <property name="fechaRealizacion"/>
+                <property name="numeroContrato"/>
+                <property name="departamento" view="_minimal">
+                    <property name="piso"/>
+                    <property name="puerta"/>
+                    <property name="nombreDescriptivoCompleto"/>
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal"/>
+                    </property>
+                    <property name="ubicacion" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="propietario" view="_minimal">
+                            <property name="persona" view="_minimal"/>
+                        </property>
+                    </property>
+                </property>
+                <property name="inquilino" view="_base"/>
+                <property name="fechaMandato"/>
+                <property name="referenciaMandato"/>
+                <property name="programacionRecibo" view="_minimal">
+                    <property name="cuentaBancariaPagador" view="_base">
+                        <property name="textoCuentaBancariaCompleta"/>
+                        <property name="versionIBAN"/>
+                        <property name="textoCuentaBancariaPropietario"/>
+                    </property>
+                </property>
+            </property>
+            <property name="utilitarioInquilino" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+    </view>
+
+    <view entity="test1_RealizacionCobro" name="realizacionCobro-view" extends="_base">
+        <property name="ordenesCobro" fetch="AUTO" view="ordenCobro-view">
+
+        </property>
+    </view>
+    <view entity="test1_Recibo" name="recibo-detalle-view" extends="_base">
+        <property name="ordenanteRemesa" view="_minimal">
+            <property name="definicionRemesa" view="_minimal">
+                <property name="tipoGiro"/>
+            </property>
+            <property name="remesa" view="_base">
+                <property name="definicionRemesa" view="_base"/>
+            </property>
+        </property>
+        <property name="serie" view="_minimal"/>
+        <property name="utilitarioContratoInquilino" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+            <property name="inquilino" view="_minimal">
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="programacionRecibo" view="_minimal">
+                <property name="cuentaBancariaInquilino" view="_base">
+                    <property name="textoCuentaBancariaCompleta"/>
+                </property>
+                <property name="definicionRemesa" view="_minimal">
+                    <property name="tipoGiro"/>
+                </property>
+                <property name="cuentaBancariaPagador" view="_base"/>
+            </property>
+        </property>
+        <property name="utilitarioInquilino" view="_minimal">
+            <property name="cuentasBancarias" view="_base">
+                <property name="textoCuentaBancariaCompleta"/>
+                <property name="versionIBAN"/>
+            </property>
+            <property name="nombre"/>
+        </property>
+        <property name="implementacionesConceptos" view="_base">
+            <property name="conceptoRecibo" view="_base">
+                <property name="concepto" view="_base"/>
+            </property>
+            <property name="overrideConcepto" view="_local"/>
+            <property name="registroAplicacionesConceptosAdicionales" view="_base">
+                <property name="conceptoAdicional" view="_minimal"/>
+                <property name="implementacionConcepto" view="_minimal"/>
+            </property>
+        </property>
+        <property name="recibosCobrados" view="_base"/>
+    </view>
+    <view entity="test1_Recibo" name="recibo-report-view" extends="_local">
+        <property name="programacionRecibo" view="_minimal"/>
+        <property name="utilitarioContratoInquilino" view="_minimal">
+            <property name="fechaVencimientoPrevisto"/>
+            <property name="lugarRealizacion"/>
+            <property name="departamento" view="_minimal">
+                <property name="referenciaCatastral"/>
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="direcciones" view="_base"/>
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+                <property name="ubicacion" view="_minimal">
+                    <property name="propietario" view="_minimal">
+                        <property name="persona" view="_minimal">
+                            <property name="direcciones" view="_base"/>
+                            <property name="nifDni"/>
+                            <property name="nombreCompleto"/>
+                        </property>
+                    </property>
+                    <property name="informacionCatastral"/>
+                </property>
+                <property name="propietarioEfectivo" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="direcciones" view="_base"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+            <property name="inquilino" view="_minimal">
+                <property name="direcciones" view="_base"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="programacionRecibo" view="_minimal">
+                <property name="cuentaBancariaInquilino" view="_base">
+                    <property name="versionIBAN"/>
+                    <property name="textoCuentaBancariaPropietario"/>
+                </property>
+            </property>
+        </property>
+        <property name="implementacionesConceptos" view="_base">
+            <property name="conceptoRecibo" view="_minimal">
+                <property name="concepto" view="_minimal">
+                    <property name="tituloConcepto"/>
+                </property>
+            </property>
+            <property name="overrideConcepto" view="_base"/>
+            <property name="registroAplicacionesConceptosAdicionales" view="_minimal">
+                <property name="conceptoAdicional" view="_minimal">
+                    <property name="abreviacion"/>
+                </property>
+                <property name="importeAplicado"/>
+            </property>
+            <property name="concepto" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_IncrementoGeneralObras" name="incrementoGeneralObras-view" extends="_local">
+        <property name="tipoCoeficiente" view="_base"/>
+        <property name="concepto" view="_base"/>
+        <property name="ubicacion" view="_base"/>
+        <property name="conceptoRecibo" view="_base"/>
+        <property name="conceptoReciboAtrasos" view="_base"/>
+    </view>
+    <view entity="test1_Recibo" name="recibo-listado-recibos-view" extends="_local">
+        <property name="ordenanteRemesa" view="_minimal">
+            <property name="definicionRemesa" view="_minimal">
+                <property name="nombreRemesa"/>
+                <property name="cuentaBancaria" view="_base"/>
+                <property name="modoPresentacion"/>
+            </property>
+            <property name="remesa" view="_minimal"/>
+        </property>
+        <property name="utilitarioContratoInquilino" view="_minimal">
+            <property name="fechaOcupacion"/>
+            <property name="numeroContrato"/>
+            <property name="tipoContrato"/>
+            <property name="usoContrato"/>
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+            <property name="inquilino" view="_base"/>
+        </property>
+        <property name="implementacionesConceptos" view="_base">
+            <property name="conceptoRecibo" view="_minimal">
+                <property name="concepto" view="_minimal">
+                    <property name="tituloConcepto"/>
+                    <property name="abreviacion"/>
+                    <property name="adicionSustraccion"/>
+                    <property name="ordenacion"/>
+                </property>
+            </property>
+            <property name="overrideConcepto" view="_minimal">
+                <property name="tituloConcepto"/>
+                <property name="abreviacion"/>
+                <property name="adicionSustraccion"/>
+                <property name="ordenacion"/>
+            </property>
+            <property name="registroAplicacionesConceptosAdicionales" view="_minimal">
+                <property name="conceptoAdicional" view="_base"/>
+                <property name="nifDni"/>
+                <property name="fechaValor"/>
+                <property name="base"/>
+                <property name="porcentaje"/>
+                <property name="importeAplicado"/>
+            </property>
+            <property name="concepto" view="_minimal">
+                <property name="tituloConcepto"/>
+                <property name="abreviacion"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_ModeloContrato" name="modeloContrato-CompleteForClonation" extends="_local">
+        <property name="secciones" view="_minimal">
+            <property name="modeloContrato" view="_minimal"/>
+            <property name="nombre"/>
+            <property name="descripcion"/>
+            <property name="obligatoria"/>
+            <property name="clausulas" view="_minimal">
+                <property name="seccion" view="_minimal"/>
+                <property name="nombreClausula"/>
+                <property name="descripcion"/>
+                <property name="ordenacion"/>
+                <property name="versiones" view="_minimal">
+                    <property name="clausula" view="_minimal"/>
+                    <property name="esPredeterminada"/>
+                    <property name="textoVersion"/>
+                    <property name="nombresParametros"/>
+                    <property name="descripcionParametros"/>
+                    <property name="expresionesValoresDefecto"/>
+                    <property name="rmi2"/>
+                </property>
+                <property name="rmi2"/>
+            </property>
+            <property name="ordenacion"/>
+        </property>
+    </view>
+    <view entity="test1_RepresentacionLegal" name="representacionLegal-view" extends="_local">
+        <property name="persona" view="_local" fetch="JOIN"/>
+        <property name="persona_representante" view="_local" fetch="JOIN"/>
+    </view>
+    <view entity="test1_RegistroPresencial" name="registroPresencial-view" extends="_local">
+        <property name="usuario" view="_local"/>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-reportrecibo-view" extends="contratoInquilino-view">
+        <property name="departamento" view="_minimal">
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="direcciones" view="_base"/>
+                </property>
+            </property>
+            <property name="ubicacion" view="_minimal">
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="direcciones" view="_base"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_Coeficiente" name="coeficiente-view" extends="_local">
+        <property name="tipoCoeficiente" view="_minimal">
+            <property name="nombre"/>
+            <property name="descripcion"/>
+            <property name="valorMin"/>
+            <property name="valorMax"/>
+            <property name="rm2id"/>
+        </property>
+        <property name="departamento" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="nombreDescriptivoCompleto"/>
+            <property name="ubicacion" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_ConceptoRecibo" name="conceptoRecibo-vistaAumentos-view" extends="_local">
+        <property name="concepto" view="_minimal">
+            <property name="tituloConcepto"/>
+        </property>
+        <property name="programacionRecibo" view="_minimal">
+            <property name="contratoInquilino" view="_minimal">
+                <property name="departamento" view="_minimal">
+                    <property name="piso"/>
+                    <property name="puerta"/>
+                    <property name="nombreDescriptivoCompleto"/>
+                    <property name="ubicacion" view="_minimal">
+                        <property name="nombre"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_NotificacionContratoInquilino" name="notificacionContratoInquilino-view" extends="_local">
+        <property name="contratoInquilino" view="_minimal">
+            <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="nombreDescriptivoCompleto"/>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                </property>
+            </property>
+            <property name="inquilino" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_HelperInyeccionPlantilla" name="helperInyeccionPlantilla-view" extends="_local">
+        <property name="titulo"/>
+        <property name="valor"/>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-notificaciones-aumentos-view" extends="_base">
+        <property name="departamento" view="_minimal">
+            <property name="propietario" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="direcciones" view="_base"/>
+                    <property name="nombre"/>
+                    <property name="nifDni"/>
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+                <property name="propietario" view="_minimal">
+                    <property name="persona" view="_minimal">
+                        <property name="direcciones" view="_base"/>
+                        <property name="nombre"/>
+                        <property name="nifDni"/>
+                        <property name="nombreCompleto"/>
+                    </property>
+                </property>
+            </property>
+            <property name="rm2id"/>
+        </property>
+        <property name="inquilino" view="_minimal">
+            <property name="direcciones" view="_base"/>
+            <property name="nombre"/>
+            <property name="nifDni"/>
+            <property name="nombreCompleto"/>
+        </property>
+        <property name="programacionRecibo" view="_minimal">
+            <property name="conceptosRecibo" view="conceptoRecibo-vistaAumentos-view"/>
+        </property>
+    </view>
+    <view entity="test1_DocumentacionInquilino" name="documentacionInquilino-view" extends="_local">
+        <property name="coleccionArchivosAdjuntos" view="_minimal">
+            <property name="nombre"/>
+            <property name="colecciones" view="_minimal">
+                <property name="nombre"/>
+                <property name="colecciones" view="_minimal"/>
+                <property name="archivos" view="_base"/>
+                <property name="coleccionParent" view="_minimal"/>
+            </property>
+            <property name="archivos" view="_base">
+                <property name="coleccionArchivosAdjuntos" view="_minimal"/>
+                <property name="extId"/>
+                <property name="representacionSerial"/>
+                <property name="nombreArchivo"/>
+                <property name="nombreArchivoOriginal"/>
+                <property name="descripcion"/>
+                <property name="extension"/>
+                <property name="mimeType"/>
+                <property name="tamano"/>
+            </property>
+            <property name="coleccionParent" view="_minimal"/>
+        </property>
+        <property name="contratoInquilino" view="_minimal"/>
+    </view>
+    <view entity="test1_OrdenPagoAbono" name="ordenPagoAbono-view" extends="_local">
+        <property name="compensaciones" view="_local">
+            <property name="ordenPagoProveedor" view="_minimal"/>
+            <property name="ordenPagoAbono" view="_minimal"/>
+            <property name="ordenPagoFacturaProveedor" view="_minimal"/>
+        </property>
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="nombreComercial"/>
+        </property>
+        <property name="facturaProveedor" view="_minimal"/>
+        <property name="importePendienteCompensacion"/>
+        <property name="realizacionPago" view="_minimal"/>
+    </view>
+    <view entity="test1_CompensacionOrdenPagoProveedor" name="compensacionOrdenPagoProveedor-view" extends="_local">
+        <property name="ordenPagoFacturaProveedor" view="_minimal">
+            <property name="facturaProveedor" view="_minimal">
+                <property name="fechaEmision"/>
+                <property name="importePostCCAA"/>
+                <property name="numDocumento"/>
+                <property name="proveedor" view="_minimal">
+                    <property name="persona" view="persona-view"/>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_TipoCoeficiente" name="tipoCoeficiente-view" extends="_local"/>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-list" extends="_local">
+        <property name="departamento" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="nombreDescriptivoCompleto"/>
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+            </property>
+        </property>
+        <property name="inquilino" view="_minimal">
+            <property name="nombre"/>
+            <property name="nifDni"/>
+            <property name="nombreCompleto"/>
+        </property>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-tree" extends="_minimal">
+        <property name="numeroContrato"/>
+        <property name="departamento" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="nombreDescriptivoCompleto"/>
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+            </property>
+            <property name="rm2id"/>
+        </property>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-genera-recibo-view" extends="_minimal">
+
+        <property name="inquilino" view="_base"/>
+        <property name="programacionRecibo" view="_minimal">
+            <property name="conceptosRecibo" view="_minimal">
+                <property name="concepto" view="_base"/>
+                <property name="importe"/>
+                <property name="vigencia"/>
+                <property name="activadoDesactivado"/>
+                <property name="fechaDesde"/>
+                <property name="fechaHasta"/>
+                <property name="numEmisiones"/>
+                <property name="fechaValor"/>
+                <property name="omitirEnProrrateo"/>
+                <property name="conceptosAdicionalesConceptoRecibo">
+                    <property name="conceptoAdicional" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="abreviacion"/>
+                        <property name="adicionSustraccion"/>
+                        <property name="rm2id"/>
+                    </property>
+                    <property name="porcentaje"/>
+                </property>
+            </property>
+            <property name="contratoInquilino">
+                <property name="formaDeCobro"/>
+                <property name="departamento" view="_minimal">
+                    <property name="piso"/>
+                    <property name="puerta"/>
+                    <property name="nombreDescriptivoCompleto"/>
+                    <property name="ubicacion" view="_minimal">
+                        <property name="nombre"/>
+                        <property name="abreviacionUbicacion"/>
+                    </property>
+                    <property name="rm2id"/>
+                </property>
+            </property>
+            <property name="definicionRemesa" view="_base"/>
+            <property name="desactivarProgramacion"/>
+            <property name="cuentaBancariaPagador"/>
+            <property name="prorrateoProximaEmision"/>
+        </property>
+    </view>
+    <view entity="test1_ContratoInquilino" name="contratoInquilino-cuadre-y-registro" extends="_minimal">
+        <property name="numeroContrato"/>
+        <property name="departamento" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="nombreDescriptivoCompleto"/>
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+            </property>
+
+            <property name="rm2id"/>
+        </property>
+        <property name="programacionRecibo" view="_base">
+            <property name="definicionRemesa" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_Fianza" name="fianza-list" extends="_local">
+        <property name="contratoInquilino" view="_minimal">
+            <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="nombreDescriptivoCompleto"/>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+                </property>
+            </property>
+            <property name="inquilino" view="_minimal">
+                <property name="nombre"/>
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+    </view>
+    <view entity="test1_CarpetaDocumentosFotograficos" name="carpetaDocumentosFotograficos-view" extends="_local">
+        <property name="ciclo" view="ciclo-view"/>
+        <property name="evento" view="_base"/>
+        <property name="fotos" view="_minimal">
+            <property name="descripcion"/>
+            <property name="extension"/>
+            <property name="mimeType"/>
+            <property name="nombreArchivo"/>
+            <property name="nombreArchivoOriginal"/>
+            <property name="tamano"/>
+            <property name="extId"/>
+            <property name="fotoThumbnail" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_Serie" name="serie-view" extends="_local">
+        <property name="masterSerie" view="_minimal"/>
+    </view>
+    <view entity="test1_OrdenPagoContratoInquilino" name="ordenPagoContratoInquilino-view" extends="_local">
+        <property name="contratoInquilino" view="_minimal">
+            <property name="inquilino" view="_base"/>
+            <property name="programacionRecibo" view="_minimal">
+                <property name="cuentaBancariaPagador" view="_base"/>
+            </property>
+        </property>
+        <property name="realizacionPago" view="_base"/>
+    </view>
+    <view entity="test1_Remesa" name="remesa-view-retrocesion" extends="_minimal">
+        <property name="ordenantesRemesa" view="_minimal">
+            <property name="recibos" view="_minimal">
+                <property name="ordenanteRemesa" view="_minimal"/>
+                <property name="ordenesCobro" view="_minimal">
+                    <property name="realizacionCobro" view="_minimal"/>
+                </property>
+            </property>
+        </property>
+    </view>
+</views>

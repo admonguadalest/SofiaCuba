@@ -1,0 +1,1 @@
+drop table if exists TEST1_CARPETA_DOCUMENTOS_FOTOGRAFICOS__U70478 cascade ;

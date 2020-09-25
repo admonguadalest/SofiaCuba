@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="conceptoReciboDc"
+                  class="com.company.test1.entity.recibos.ConceptoRecibo"
+                  view="conceptoRecibo-view" provided="true">
+
+        </instance>
+    </data>
+    <layout>
+        <form width="100%">
+            <groupBox orientation="horizontal" spacing="true" width="100%">
+                <dateField resolution="DAY" id="fechaDesdeField" property="fechaDesde" dataContainer="conceptoReciboDc"
+                           caption="Fecha Desde"/>
+                <dateField resolution="DAY" id="fechaHastaField" property="fechaHasta" dataContainer="conceptoReciboDc"
+                           caption="Fecha Hasta"/>
+            </groupBox>
+        </form>
+    </layout>
+</fragment>
+
