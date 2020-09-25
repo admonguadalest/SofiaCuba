@@ -22,7 +22,10 @@
         <filter id="filter"
                 applyTo="presupuestoesTable"
                 dataLoader="presupuestoesDl">
-            <properties include=".*"/>
+            <property name="proveedor.persona.nombreCompleto"/>
+            <property name="fechaEmision"/>
+            <property name="importeTotalBase"/>
+            <property name="realizadoPor"/>
         </filter>
         <table id="presupuestoesTable"
                width="100%"

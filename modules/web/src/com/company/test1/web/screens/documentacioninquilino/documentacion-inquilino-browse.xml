@@ -21,7 +21,10 @@
         <filter id="filter"
                 applyTo="documentacionInquilinoesTable"
                 dataLoader="documentacionInquilinoesDl">
-            <properties include=".*"/>
+            <property name="dni"/>
+            <property name="nombreCompleto"/>
+            <property name="objetoCandidado"/>
+            <property name="fechaRegistro"/>
         </filter>
         <table id="documentacionInquilinoesTable"
                width="100%"

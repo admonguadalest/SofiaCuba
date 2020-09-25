@@ -19,7 +19,11 @@
         <filter id="filter"
                 applyTo="facturaProveedorsTable"
                 dataLoader="facturaProveedorsDl">
-            <properties include=".*"/>
+            <property name="proveedor.persona.nombreCompleto"/>
+            <property name="fechaEmision"/>
+            <property name="importeTotalBase"/>
+            <property name="importePostCCAA"/>
+            <property name="numDocumento"/>
         </filter>
         <groupTable id="facturaProveedorsTable"
                     width="100%"

@@ -21,7 +21,9 @@
         <filter id="filter"
                 applyTo="conceptoAdicionalsTable"
                 dataLoader="conceptoAdicionalsDl">
-            <properties include=".*"/>
+            <property name="nombre"/>
+            <property name="abreviacion"/>
+            <property name="adicionSustraccion"/>
         </filter>
         <groupTable id="conceptoAdicionalsTable"
                     width="100%"

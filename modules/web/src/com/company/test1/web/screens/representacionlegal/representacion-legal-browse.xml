@@ -21,7 +21,9 @@
         <filter id="filter"
                 applyTo="representacionLegalsTable"
                 dataLoader="representacionLegalsDl">
-            <properties include=".*"/>
+            <property name="persona.nombreCompleto"/>
+            <property name="persona_representante.nombreCompleto"/>
+            <property name="enCalidadDe"/>
         </filter>
         <groupTable id="representacionLegalsTable"
                width="100%"
