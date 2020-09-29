@@ -214,6 +214,52 @@ public class RecibosServiceBean implements RecibosService {
         return identificador;
     }
 
+    @Override
+    public Recibo generaReciboIndividualizado(ContratoInquilino ci, Date fechaEmision, Boolean incluirEnRemesa, Serie serie, List<ImplementacionConcepto> l) throws Exception{
+        Recibo rbo = dataManager.create(Recibo.class);
+        String nuevoNumRecibo = generaNuevoNumeroReciboSegunUbicacionYAno(ci.getDepartamento().getUbicacion(), fechaEmision);
+        rbo.setNumRecibo(nuevoNumRecibo);
+        DefinicionRemesa dr = ci.getProgramacionRecibo().getDefinicionRemesa();
+        if (incluirEnRemesa){
+            Remesa r = dataManager.create(Remesa.class);
+            r.setDefinicionRemesa(dr);
+            r.setFechaAdeudo(fechaEmision);
+            r.setFechaRealizacion(fechaEmision);
+            r.setFechaValor(fechaEmision);
+            r.setTotalRemesa(rbo.getTotalReciboPostCCAA());
+            String nombreDefinicionRemesa = ci.getProgramacionRecibo().getDefinicionRemesa().getNombreRemesa();
+            String abrevUbicDepto = ci.getDepartamento().getUbicacion().getAbreviacionUbicacion() + ci.getDepartamento().getAbreviacionPisoPuerta();
+            String identificadorRemesa = generaIdentificadorRemesa(nombreDefinicionRemesa, fechaEmision, abrevUbicDepto);
+            r.setIdentificadorRemesa(identificadorRemesa);
+            OrdenanteRemesa or = dataManager.create(OrdenanteRemesa.class);
+            r.getOrdenantesRemesa().add(or);
+            rbo.setOrdenanteRemesa(or);
+
+        }
+        rbo.setFechaEmision(fechaEmision);
+        rbo.setAmpliacion("");
+        rbo.setGradoEstadoImpago(ReciboGradoImpago.ORDINARIO);
+        rbo.setSerie(serie);
+        rbo.setUtilitarioContratoInquilino(ci);
+        rbo.setUtilitarioInquilino(ci.getInquilino());
+        rbo.setImplementacionesConceptos(l);
+        return rbo;
+    }
+
+    private String generaIdentificadorRemesa(String nombreDefinicionRemesa, Date fechaEmision, String abrevUbicacionDepto) throws Exception{
+        String identificadorRemesa = nombreDefinicionRemesa + fechaEmision + abrevUbicacionDepto;
+        Remesa rem = devuelveRemesaDesdeIdentificador(identificadorRemesa);
+        Integer contador = 1;
+        while(rem!=null){
+            String nuevoIdentificadorRemesa = identificadorRemesa + "_" + contador.toString();
+            rem = devuelveRemesaDesdeIdentificador(nuevoIdentificadorRemesa);
+            if (rem==null){
+                identificadorRemesa = nuevoIdentificadorRemesa;
+            }
+        }
+        return identificadorRemesa;
+    }
+
     private Remesa devuelveRemesaDesdeIdentificador(String identificador) throws Exception{
         String sql = "SELECT r FROM test1_Remesa r WHERE r.identificadorRemesa LIKE :ir";
         Hashtable ht = new Hashtable();

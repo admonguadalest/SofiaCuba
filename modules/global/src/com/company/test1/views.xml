@@ -986,6 +986,7 @@
                 <property name="nifDni"/>
                 <property name="nombreCompleto"/>
             </property>
+            <property name="cuentaBancaria"/>
         </property>
         <property name="compensacionesOrdenesPagoProveedor" view="_base">
             <property name="ordenPagoProveedor" view="_minimal"/>

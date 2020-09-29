@@ -3,6 +3,7 @@ package com.company.test1.web.screens.recibos;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
+import com.company.test1.entity.recibos.Serie;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -10,12 +11,10 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
-import com.haulmont.cuba.gui.components.Action;
-import com.haulmont.cuba.gui.components.HasValue;
-import com.haulmont.cuba.gui.components.Table;
-import com.haulmont.cuba.gui.components.TextField;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
+import com.haulmont.cuba.gui.model.CollectionPropertyContainer;
 import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
@@ -31,10 +30,20 @@ import java.util.List;
 @EditedEntityContainer("reciboDc")
 @LoadDataBeforeShow
 public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
-
-
+    @Inject
+    private CollectionPropertyContainer<ImplementacionConcepto> implementacionConceptosDc;
+    @Inject
+    private LookupField<Serie> serieField;
+    @Inject
+    private LookupPickerField<ContratoInquilino> contratoField;
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private TextField<String> numReciboField;
+    @Inject
+    private DateField<Date> fechaValorField;
+    @Inject
+    private DateField<Date> fechaEmisionField;
     @Inject
     private DataContext dataContext;
     @Inject
@@ -157,7 +166,15 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
             notifications.create().withCaption("Por favor completar datos").show();
             return;
         }
-        this.closeWithCommit();
+        try {
+            dataManager.remove(r);
+            Recibo r2 = recibosService.generaReciboIndividualizado(contratoField.getValue(), fechaEmisionField.getValue(), null, serieField.getValue(), implementacionConceptosDc.getItems());
+            dataContext.merge(r2);
+            this.closeWithCommit();
+        }catch(Exception exc){
+            notifications.create().withCaption("Error").withDescription(exc.getMessage()).show();
+        }
+        notifications.create().withCaption("Recibo registrado correctamente").show();
     }
 
 }

@@ -61,4 +61,6 @@ public interface RecibosService {
 
     String calculaIdentificadorRemesa(DefinicionRemesa dr, Date fechaRealizacion) throws Exception;
 
+    Recibo generaReciboIndividualizado(ContratoInquilino ci, Date fechaEmision, Boolean incluirEnRemesa, Serie serie, List<ImplementacionConcepto> l) throws Exception;
+
 }
