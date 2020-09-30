@@ -2,8 +2,8 @@ package com.company.test1.web.screens.recibos;
 
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Ubicacion;
-import com.company.test1.entity.recibos.ImplementacionConcepto;
-import com.company.test1.entity.recibos.Serie;
+import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
+import com.company.test1.entity.recibos.*;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -18,7 +18,6 @@ import com.haulmont.cuba.gui.model.CollectionPropertyContainer;
 import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
-import com.company.test1.entity.recibos.Recibo;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -30,6 +29,9 @@ import java.util.List;
 @EditedEntityContainer("reciboDc")
 @LoadDataBeforeShow
 public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
+
+    @Inject
+    private CheckBox chkIncluirRemesa;
     @Inject
     private CollectionPropertyContainer<ImplementacionConcepto> implementacionConceptosDc;
     @Inject
@@ -82,12 +84,15 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
 
     @Subscribe("contratoField")
     private void onContratoFieldValueChange(HasValue.ValueChangeEvent<ContratoInquilino> event) {
+        if (!event.isUserOriginated()) return;
         ContratoInquilino ci = event.getValue();
         Ubicacion ub = ci.getDepartamento().getUbicacion();
         ub = dataManager.reload(ub, "_base");
+        ci = (ContratoInquilino) dataManager.reload(ci, "contratoInquilino-view");
         ci.getDepartamento().setUbicacion(ub);
         reciboDc.getItem().setUtilitarioInquilino(ci.getInquilino());
         inquilinoField.setValue(ci.getInquilino().getNombreCompleto());
+        contratoField.setValue(ci);
         try{
             String numRbo = recibosService.generaNuevoNumeroReciboSegunUbicacionYAno(ci.getDepartamento().getUbicacion(), reciboDc.getItem().getFechaValor());
             reciboDc.getItem().setNumRecibo(numRbo);
@@ -167,14 +172,39 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
             return;
         }
         try {
-            dataManager.remove(r);
-            Recibo r2 = recibosService.generaReciboIndividualizado(contratoField.getValue(), fechaEmisionField.getValue(), null, serieField.getValue(), implementacionConceptosDc.getItems());
-            dataContext.merge(r2);
+            ContratoInquilino ci = contratoField.getValue();
+            ProgramacionRecibo pr = contratoField.getValue().getProgramacionRecibo();
+            DefinicionRemesa dr = pr.getDefinicionRemesa();
+            if (chkIncluirRemesa.isChecked()) {
+                Remesa rem = dataManager.create(Remesa.class);
+                rem.setDefinicionRemesa(dr);
+                rem.setFechaAdeudo(fechaEmisionField.getValue());
+                rem.setFechaRealizacion(fechaEmisionField.getValue());
+                rem.setFechaValor(fechaEmisionField.getValue());
+                rem.setTotalRemesa(r.getTotalReciboPostCCAA());
+                String nombreDefinicionRemesa = ci.getProgramacionRecibo().getDefinicionRemesa().getNombreRemesa();
+                String abrevUbicDepto = ci.getDepartamento().getUbicacion().getAbreviacionUbicacion() + ci.getDepartamento().getAbreviacionPisoPuerta();
+                String identificadorRemesa = recibosService.generaIdentificadorRemesa(nombreDefinicionRemesa, fechaEmisionField.getValue(), abrevUbicDepto);
+                rem.setIdentificadorRemesa(identificadorRemesa);
+                OrdenanteRemesa or = dataManager.create(OrdenanteRemesa.class);
+                rem.getOrdenantesRemesa().add(or);
+                r.setOrdenanteRemesa(or);
+
+            }
+
+
+            r.setGradoEstadoImpago(ReciboGradoImpago.ORDINARIO);
+
+            r.setUtilitarioContratoInquilino(ci);
+            r.setUtilitarioInquilino(ci.getInquilino());
+
             this.closeWithCommit();
+            notifications.create().withCaption("Recibo registrado correctamente").show();
         }catch(Exception exc){
             notifications.create().withCaption("Error").withDescription(exc.getMessage()).show();
         }
-        notifications.create().withCaption("Recibo registrado correctamente").show();
     }
+
+
 
 }

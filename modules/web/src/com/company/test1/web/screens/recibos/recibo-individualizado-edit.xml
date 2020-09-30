@@ -34,8 +34,9 @@
                     <dateField resolution="DAY" id="fechaEmisionField" property="fechaEmision"/>
                     <dateField resolution="DAY" id="fechaValorField" property="fechaValor"/>
                     <lookupField id="serieField" optionsContainer="seriesDc" caption="Serie"
-                                 captionProperty="nombreSerie"/>
+                                 captionProperty="nombreSerie" property="serie"/>
                     <textArea width="100%" caption="Ampliacion" dataContainer="reciboDc" property="ampliacion"/>
+                    <checkBox width="100%" caption="Incluír Remesa" id="chkIncluirRemesa"/>
                     <textField editable="false" id="totalReciboField" dataContainer="reciboDc" property="totalRecibo"
                                caption="Total Recibo"/>
                     <table id="tableImplementacionesConceptos" width="100%" dataContainer="implementacionConceptosDc"

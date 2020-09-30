@@ -215,6 +215,9 @@ public class RecibosServiceBean implements RecibosService {
     }
 
     @Override
+    /**
+     * Metodo anulado, ejecutado en el GUI
+     */
     public Recibo generaReciboIndividualizado(ContratoInquilino ci, Date fechaEmision, Boolean incluirEnRemesa, Serie serie, List<ImplementacionConcepto> l) throws Exception{
         Recibo rbo = dataManager.create(Recibo.class);
         String nuevoNumRecibo = generaNuevoNumeroReciboSegunUbicacionYAno(ci.getDepartamento().getUbicacion(), fechaEmision);
@@ -246,7 +249,7 @@ public class RecibosServiceBean implements RecibosService {
         return rbo;
     }
 
-    private String generaIdentificadorRemesa(String nombreDefinicionRemesa, Date fechaEmision, String abrevUbicacionDepto) throws Exception{
+    public String generaIdentificadorRemesa(String nombreDefinicionRemesa, Date fechaEmision, String abrevUbicacionDepto) throws Exception{
         String identificadorRemesa = nombreDefinicionRemesa + fechaEmision + abrevUbicacionDepto;
         Remesa rem = devuelveRemesaDesdeIdentificador(identificadorRemesa);
         Integer contador = 1;
@@ -260,7 +263,7 @@ public class RecibosServiceBean implements RecibosService {
         return identificadorRemesa;
     }
 
-    private Remesa devuelveRemesaDesdeIdentificador(String identificador) throws Exception{
+    public Remesa devuelveRemesaDesdeIdentificador(String identificador) throws Exception{
         String sql = "SELECT r FROM test1_Remesa r WHERE r.identificadorRemesa LIKE :ir";
         Hashtable ht = new Hashtable();
         ht.put("ir", identificador);
