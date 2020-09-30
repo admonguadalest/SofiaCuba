@@ -845,8 +845,10 @@ public class JasperReportServiceBean implements JasperReportService {
         JRRenderable jrr = (JRRenderable) turnFileIntoJRRenderableObject("Recibo.svg");
         FlexReport fr = getFlexReportDesdeNombre("RECIBO PREVISUALIZACION");
         Hashtable ht = new Hashtable();
-        ht.put("FONDORECIBO", jrr);
         HelperRecibo hr = new HelperRecibo(r);
+        ht.put("FONDORECIBO", jrr);
+        ht.put("reciboBean", hr);
+
         byte[] bb = produceReport(fr, ht, Arrays.asList(hr));
         return bb;
     }

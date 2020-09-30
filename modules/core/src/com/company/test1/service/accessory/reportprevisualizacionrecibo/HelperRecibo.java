@@ -12,13 +12,13 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.AppBeans;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class HelperRecibo {
 
     Recibo r = null;
     Persistence persistence = null;
+    List<ImplementacionConcepto> licagg = new ArrayList<ImplementacionConcepto>();
 
     public HelperRecibo(Recibo r){
 
@@ -198,6 +198,49 @@ public class HelperRecibo {
 
         return r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador().getVersionIBAN();
 
+    }
+
+    public void setImplementacionesConceptosAgregadas(List<ImplementacionConcepto> icagg){
+        //nothing
+        Integer y = 2;
+    }
+
+    public List<ImplementacionConcepto> getImplementacionesConceptosAgregadas(){
+        if (licagg.size()>0) return licagg;
+        Hashtable ht = new Hashtable();
+        for (int i = 0; i < this.r.getImplementacionesConceptos().size(); i++) {
+            ImplementacionConcepto ic = this.r.getImplementacionesConceptos().get(i);
+            ImplementacionConcepto icagg = null;
+            if (ht.contains(ic.getConcepto().getAbreviacion())){
+                icagg = (ImplementacionConcepto)ht.get(ic.getConcepto().getAbreviacion());
+            }else{
+                icagg = new ImplementacionConcepto();
+                ht.put(ic.getConcepto().getAbreviacion(), icagg);
+            }
+            if ((icagg.getOverrideConcepto()==null)&&(icagg.getConcepto()==null)){
+                if (ic.getConcepto()!=null){
+                    icagg.setOverrideConcepto(ic.getConcepto());
+                }else{
+                    icagg.setOverrideConcepto(ic.getOverrideConcepto());
+                }
+            }
+
+            if (icagg.getImporte()==null){
+                icagg.setImporte(0.0);
+                icagg.setImportePostCCAA(0.0);
+            }
+            double importe = ic.getImporte();
+            double importePCCAA = ic.getImportePostCCAA();
+            icagg.setImporte(icagg.getImporte()+importe);
+            icagg.setImportePostCCAA(icagg.getImportePostCCAA()+importePCCAA);
+        }
+        Iterator iter = ht.keySet().iterator();
+        while(iter.hasNext()){
+            String k = (String) iter.next();
+            ImplementacionConcepto icagg = (ImplementacionConcepto) ht.get(k);
+            licagg.add(icagg);
+        }
+        return licagg;
     }
 
 
