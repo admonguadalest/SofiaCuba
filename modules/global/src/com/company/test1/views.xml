@@ -964,7 +964,14 @@
     <view entity="test1_OrdenPagoFacturaProveedor" name="ordenPagoFacturaProveedor-view" extends="_local">
         <property name="facturaProveedor" view="_base">
             <property name="proveedor" view="_base">
-                <property name="persona" view="_base"/>
+                <property name="persona" view="_base">
+                    <property name="cuentasBancarias" view="_base">
+                        <property name="persona" view="_minimal"/>
+                    </property>
+                </property>
+                <property name="cuentaBancariaDomiciliado">
+                    <property name="persona"/>
+                </property>
             </property>
         </property>
         <property name="compensaciones" view="_base">
@@ -986,7 +993,12 @@
                 <property name="nifDni"/>
                 <property name="nombreCompleto"/>
             </property>
-            <property name="cuentaBancaria"/>
+            <property name="cuentaBancaria">
+                <property name="persona" view="_minimal"/>
+            </property>
+            <property name="cuentaBancariaDomiciliado">
+                <property name="persona" view="_minimal"/>
+            </property>
         </property>
         <property name="compensacionesOrdenesPagoProveedor" view="_base">
             <property name="ordenPagoProveedor" view="_minimal"/>
@@ -1561,6 +1573,10 @@
             <property name="inquilino" view="_base"/>
             <property name="programacionRecibo" view="_minimal">
                 <property name="cuentaBancariaPagador" view="_base"/>
+                <property name="cuentaBancariaInquilino" view="_base">
+                    <property name="persona" view="_minimal"/>
+                </property>
+
             </property>
         </property>
         <property name="realizacionPago" view="_base"/>

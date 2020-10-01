@@ -3,6 +3,8 @@ package com.company.test1.service;
 import com.company.test1.StringUtils;
 import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.Persona;
+import com.company.test1.entity.PersonaFisica;
+import com.company.test1.entity.PersonaJuridica;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.extroles.Propietario;
@@ -137,24 +139,38 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     public RealizacionPago crearRealizacionPagoDesdeListaOrdenesPago(List<OrdenPago> oopp, CuentaBancaria cb) throws Exception{
         Double importe = 0.0;
         RealizacionPago rp = new RealizacionPago();
-        List<Persona> pp = new ArrayList<Persona>();
-        for (int i = 0; i < oopp.size(); i++) {
-            OrdenPago op = oopp.get(i);
-            Persona p = op.getCuentaBancariaOrdenPago().getPersona();
-            if (pp.indexOf(p)==-1){
-                pp.add(p);
-            }
-        }
-        if (pp.size()!=1){
-            throw new Exception("No se pueden lanzar Ordenes de Pago en un Realizacion Pago con más de un emisor");
-        }
-        Persona p = pp.get(0);
-        p = dataManager.reload(p, "persona-view");
-        String abrevPropietario = "";
-        if (p.getPropietario()!=null){
-            abrevPropietario = p.getPropietario().getAbreviacionContratos();
-        }
-        rp.setIdentificador(abrevPropietario + crearIdentificadorParaRealizacionPago(new Date()));
+//        List<Persona> pp = new ArrayList<Persona>();
+//        for (int i = 0; i < oopp.size(); i++) {
+//            OrdenPago op = oopp.get(i);
+//            if (op instanceof OrdenPagoFacturaProveedor){
+//                op = dataManager.reload(op, "ordenPagoFacturaProveedor-view");
+//            }
+//            if (op instanceof OrdenPagoProveedor){
+//                op = dataManager.reload(op, "ordenPagoProveedor-view");
+//            }
+//            if (op instanceof OrdenPagoContratoInquilino){
+//                op = dataManager.reload(op, "ordenPagoContratoInquilino-view");
+//            }
+//            Persona p = op.getCuentaBancariaOrdenPago().getPersona();
+//            if (p instanceof PersonaFisica){
+//                p = dataManager.reload(p, "personaFisica-view");
+//            }else if (p instanceof PersonaJuridica){
+//                p = dataManager.reload(p, "personaJuridica-view");
+//            }
+//
+//
+//            if (pp.indexOf(p)==-1){
+//                pp.add(p);
+//            }
+//        }
+//        if (pp.size()!=1){
+//            throw new Exception("No se pueden lanzar Ordenes de Pago en un Realizacion Pago con más de un emisor");
+//        }
+//        Persona p = pp.get(0);
+
+        String abrevEmisor = cb.getPersona().getPropietario().getAbreviacionContratos();
+
+        rp.setIdentificador(abrevEmisor + crearIdentificadorParaRealizacionPago(new Date()));
 
         for (int i = 0; i < oopp.size(); i++) {
             OrdenPago ordenPago =  oopp.get(i);
