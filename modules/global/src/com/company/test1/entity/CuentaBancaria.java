@@ -77,7 +77,7 @@ public class CuentaBancaria extends StandardEntity {
     @Transient
     @MetaProperty
     public String getVersionIBAN() {
-        String s = this.pais + this.digigosControlIBAN + this.oficina + this.entidad + this.digitosControl + this.numeroCuenta;
+        String s = this.pais + this.digigosControlIBAN + this.entidad + this.oficina + this.digitosControl + this.numeroCuenta;
         return s;
     }
 
