@@ -40,7 +40,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_IDENTIFICADOR}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="210" y="174" width="80" height="15"/>
 				<textElement>
 					<font size="8"/>
@@ -97,26 +97,12 @@
 				<text><![CDATA[DETALLE PAGO TELEMÁTICO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="106" width="160" height="15"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Entorno]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="300" y="106" width="160" height="15"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cuenta Debitora]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="30" y="124" width="160" height="15"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_ENTORNO}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="300" y="125" width="160" height="15"/>
 				<textElement>

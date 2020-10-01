@@ -6,7 +6,10 @@ package com.company.test1.service.accessory;
  */
 
 
+import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.ordenespago.OrdenPago;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.DataManager;
 
 import java.text.NumberFormat;
 
@@ -38,6 +41,8 @@ public class HlpOrdenPago {
 
     public String getCuentaDestino(){
 
-        return ordenPago.getCuentaBancariaOrdenPago().getTextoCuentaBancariaCompleta();
+        CuentaBancaria cb =  ordenPago.getCuentaBancariaOrdenPago();
+        cb = (CuentaBancaria) AppBeans.get(DataManager.class).reload(cb, "cuentaBancaria-view");
+        return cb.getVersionIBAN();
     }
 }
