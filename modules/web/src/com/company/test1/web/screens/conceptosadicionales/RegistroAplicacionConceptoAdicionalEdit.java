@@ -74,7 +74,7 @@ public class RegistroAplicacionConceptoAdicionalEdit extends StandardEditor<Regi
         }
         if (value instanceof ConceptosAdicionalesIRPF){
             ConceptosAdicionalesIRPF cairpf = (ConceptosAdicionalesIRPF)value;
-            perc = (cairpf.getId()/ 100);
+            perc = ((double)cairpf.getId()/ 100);
         }
         registroAplicacionConceptoAdicionalDc.getItem().setPorcentaje(perc);
         registroAplicacionConceptoAdicionalDc.getItem().setImporteAplicado(registroAplicacionConceptoAdicionalDc.getItem().getBase()*perc);

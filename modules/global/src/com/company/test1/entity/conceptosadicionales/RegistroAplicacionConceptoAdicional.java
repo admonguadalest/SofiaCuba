@@ -8,6 +8,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name = "RTRO_APP_CONCEPTO_ADICIONAL")
@@ -15,6 +16,7 @@ import java.util.Date;
 public class RegistroAplicacionConceptoAdicional extends StandardEntity {
     private static final long serialVersionUID = 7085195863135938262L;
 
+    @NotNull(message = "Especificar Concepto Adicional")
     @OnDeleteInverse(DeletePolicy.DENY)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,22 +29,28 @@ public class RegistroAplicacionConceptoAdicional extends StandardEntity {
     @JoinColumn(name = "DOCUMENTO_IMPUTABLE_ID")
     protected DocumentoImputable documentoImputable;
 
+    @NotNull(message = "Especificar Nif/Dni")
     @Column(name = "NIF_DNI", length = 50)
     protected String nifDni;
 
+    @NotNull(message = "Introducir Fecha de Valor")
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_VALOR")
     protected Date fechaValor;
 
+    @NotNull(message = "Inserir Número de Documento")
     @Column(name = "NUM_DOCUMENTO", length = 100)
     protected String numDocumento;
 
+    @NotNull(message = "Especificar Base")
     @Column(name = "BASE_")
     protected Double base;
 
+    @NotNull(message = "Especificar Porcentaje")
     @Column(name = "PORCENTAJE")
     protected Double porcentaje;
 
+    @NotNull(message = "Indicar Importe Aplicado")
     @Column(name = "IMPORTE_APLICADO")
     protected Double importeAplicado;
 

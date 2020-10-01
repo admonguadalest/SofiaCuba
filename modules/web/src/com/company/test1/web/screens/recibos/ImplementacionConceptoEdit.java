@@ -119,7 +119,12 @@ public class ImplementacionConceptoEdit extends StandardEditor<ImplementacionCon
         List<RegistroAplicacionConceptoAdicional> lraca = implementacionConceptoDc.getItem().getRegistroAplicacionesConceptosAdicionales();
         for (int i = 0; i < lraca.size(); i++) {
             RegistroAplicacionConceptoAdicional raca =  lraca.get(i);
-            basepca += raca.getImporteAplicado();
+            if (raca.getConceptoAdicional().getAdicionSustraccion()){
+                basepca += raca.getImporteAplicado();
+            }else{
+                basepca -= raca.getImporteAplicado();
+            }
+
         }
         importePostCCAAField.setValue(basepca);
 
@@ -132,7 +137,12 @@ public class ImplementacionConceptoEdit extends StandardEditor<ImplementacionCon
         List<RegistroAplicacionConceptoAdicional> lraca = implementacionConceptoDc.getItem().getRegistroAplicacionesConceptosAdicionales();
         for (int i = 0; i < lraca.size(); i++) {
             RegistroAplicacionConceptoAdicional raca =  lraca.get(i);
-            base -= raca.getImporteAplicado();
+            if (raca.getConceptoAdicional().getAdicionSustraccion()){
+                base -= raca.getImporteAplicado();
+            }else{
+                base += raca.getImporteAplicado();
+            }
+
         }
         importeField.setValue(base);
 
