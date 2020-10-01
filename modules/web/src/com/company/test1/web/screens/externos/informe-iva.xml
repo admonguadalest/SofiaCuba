@@ -20,12 +20,10 @@
                 <vbox spacing="true" width="100%">
                     <table id="tablePropietarios" height="300px" width="100%" dataContainer="propietariosDc" caption="Propietarios">
                         <columns>
-                            <column id="abreviacionContratos"/>
+                            <column id="persona.nombreCompleto"/>
                             <column id="codigoCliente"/>
                             <column id="exoneracionIrpf"/>
-                            <column id="gestionCaja"/>
-                            <column id="prospecto"/>
-                            <column id="rm2id"/>
+
                         </columns>
                         <buttonsPanel>
                             <button id="btnSeleccionarTodos" caption="Seleccionar Todos"/>

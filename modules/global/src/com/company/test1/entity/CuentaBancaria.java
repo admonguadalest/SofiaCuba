@@ -56,6 +56,7 @@ public class CuentaBancaria extends StandardEntity {
     @Column(name = "NOMBRE_ENTIDAD_BANCARIA")
     protected String nombreEntidadBancaria;
 
+    @Length(message = "La longitud del campo ha de ser de 2 caracteres", min = 2, max = 2)
     @NotNull(message = "Ingresar valor de pais")
     @Column(name = "PAIS", length = 50)
     protected String pais;
