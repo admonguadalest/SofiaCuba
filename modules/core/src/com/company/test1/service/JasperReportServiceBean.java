@@ -395,6 +395,10 @@ public class JasperReportServiceBean implements JasperReportService {
             cc.add(c);
 
             Recibo r = recibosService.generaReciboParaContrato(c, null, fechaValor, serie);
+            if (r !=null){
+                rr.add(r);
+            }
+
         }
 
 
