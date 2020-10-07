@@ -48,9 +48,7 @@ public class RecibosServiceBean implements RecibosService {
         Hashtable definicionesRemesaContratos = new Hashtable();
         for (int i = 0; i < contratos.size(); i++) {
             ContratoInquilino contratoInquilino = contratos.get(i);
-//            Transaction t = persistence.createTransaction();
-//            contratoInquilino = persistence.getEntityManager().reload(contratoInquilino, "contratoInquilino-view");
-//            t.close();
+            contratoInquilino = dataManager.reload(contratoInquilino, "contratoInquilino-view");
             DefinicionRemesa dr = contratoInquilino.getProgramacionRecibo().getDefinicionRemesa();
             if (tipoGiros.indexOf(dr.getTipoGiro().getId().toString())==-1){
                 tipoGiros+= dr.getTipoGiro().getId().toString() + ";";
@@ -354,8 +352,10 @@ public class RecibosServiceBean implements RecibosService {
          */
 
         recibo.setProgramacionRecibo(pr);
+        if (ordentanteRemesa!=null){
+            recibo.setOrdenanteRemesa(ordentanteRemesa);
+        }
 
-        recibo.setOrdenanteRemesa(ordentanteRemesa);
         recibo.setTotalRecibo(numberUtilsService.roundToNDecimals(totalRecibo, 2.0));
         recibo.setTotalReciboPostCCAA(numberUtilsService.roundToNDecimals(totalReciboPostCCAA, 2.0));
 
@@ -1085,7 +1085,7 @@ public class RecibosServiceBean implements RecibosService {
 
     public List<Recibo> getRecibosAsociadosAUbicacionEntreFechas(Date fechaDesde, Date fechaHasta, Ubicacion ub) throws Exception {
 
-        String sql = "SELECT r FROM Recibo r"
+        String sql = "SELECT r FROM test1_Recibo r"
                 + " JOIN r.utilitarioContratoInquilino c "
 
                 + " JOIN c.departamento dep"

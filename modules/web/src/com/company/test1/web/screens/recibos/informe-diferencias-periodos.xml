@@ -15,7 +15,7 @@
             </loader>
         </collection>
         <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie" view="_base">
-            <loader>
+            <loader id="seriesDl">
                 <query><![CDATA[select e from test1_Serie e ]]></query>
             </loader>
         </collection>
@@ -63,8 +63,8 @@
                         <treechildren captionProperty="userObjectText"/>
                     </tree>
                     <buttonsPanel>
-                        <button id="btnLimpiarSeleccionContratos" caption="Limpiar Seleccion"/>
-                        <button id="btnSeleccionarTodos" caption="Seleccionar Todos"/>
+                        <button id="btnLimpiarSeleccionContratos" caption="Limpiar Seleccion" invoke="onBtnLimpiarContratosClick"/>
+                        <button id="btnSeleccionarTodos" caption="Seleccionar Todos" invoke="onBtnSeleccionarTodosClick"/>
                     </buttonsPanel>
                 </vbox>
             </hbox>

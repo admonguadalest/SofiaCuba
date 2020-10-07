@@ -71,13 +71,17 @@ public class InformeDiferenciasPeriodos extends Screen {
     private DateField<Date> dteFechaCargo;
     @Inject
     private Notifications notifications;
-
+    @Inject
+    private CollectionLoader<Serie> seriesDl;
     boolean treeContratos_triggerSelectionEvents = true;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
         definicionRemesasDl.load();
         propietariosDl.load();
+        tblDefinicionesRemesa.setMultiSelect(true);
+        seriesDl.load();
+
     }
 
     @Subscribe("tblPropietarios")
@@ -202,8 +206,17 @@ public class InformeDiferenciasPeriodos extends Screen {
                     dtePeriodoAnteriorFechaDesde.getValue(), dtePeriodoAnteriorFechaHasta.getValue(), (Serie) lkpSerie.getValue());
             exportDisplay.show(new ByteArrayDataProvider(bb), "AnalisisDiferencias.pdf");
         }catch(Exception exc){
-            notifications.create().withCaption(exc.getMessage());
+            notifications.create().withCaption(exc.getMessage()).show();
+            exc.printStackTrace();
         }
 
+    }
+
+    public void onBtnLimpiarContratosClick(){
+        treeContratos.setSelected(new ArrayList());
+    }
+
+    public void onBtnSeleccionarTodosClick(){
+        treeContratos.setSelected(new ArrayList(treeItemsDc.getItems()));
     }
 }

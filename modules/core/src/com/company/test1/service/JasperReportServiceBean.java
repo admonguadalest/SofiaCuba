@@ -374,6 +374,8 @@ public class JasperReportServiceBean implements JasperReportService {
         ArrayList<Ubicacion> ubicaciones = new ArrayList<Ubicacion>();
         List<ContratoInquilino> contratos = ccii;
 
+        List<Recibo> rr = new ArrayList<Recibo>();
+
         //organizacion de contratos por definiciones remesa para producir una remesa
         Hashtable<DefinicionRemesa,List<ContratoInquilino>> htDDRRCC = new Hashtable<DefinicionRemesa,List<ContratoInquilino>>();
         for (int i = 0; i < contratos.size(); i++) {
@@ -391,60 +393,65 @@ public class JasperReportServiceBean implements JasperReportService {
                 ubicaciones.add(c.getDepartamento().getUbicacion());
             }
             cc.add(c);
+
+            Recibo r = recibosService.generaReciboParaContrato(c, null, fechaValor, serie);
         }
 
 
 
-        List<Remesa> remesas = new ArrayList<Remesa>();
 
-        try{
 
-            Enumeration<DefinicionRemesa> e = htDDRRCC.keys();
-            while(e.hasMoreElements()){
-                DefinicionRemesa dr = e.nextElement();
-                List<ContratoInquilino> cc = htDDRRCC.get(dr);
 
-                if (!contratos.isEmpty()){
-//                    Remesa r = Remesa.generaRemesaAcordeADatos(fR, fV, fC, cc, (Serie) selSerie.getValue(),SIApplication.getCurrent().getCurrentProcess().getSessionLayer());
-                    Remesa r = AppBeans.get(RecibosService.class).generaRemesaAcordeADatos(fR,fV,fC,contratos,serie);
-                    remesas.add(r);
-                }
-            }
+//        List<Remesa> remesas = new ArrayList<Remesa>();
+//
+//        try{
+//
+//            Enumeration<DefinicionRemesa> e = htDDRRCC.keys();
+//            while(e.hasMoreElements()){
+//                DefinicionRemesa dr = e.nextElement();
+//                List<ContratoInquilino> cc = htDDRRCC.get(dr);
+//
+//                if (!contratos.isEmpty()){
+////                    Remesa r = Remesa.generaRemesaAcordeADatos(fR, fV, fC, cc, (Serie) selSerie.getValue(),SIApplication.getCurrent().getCurrentProcess().getSessionLayer());
+//                    Remesa r = AppBeans.get(RecibosService.class).generaRemesaAcordeADatos(fR,fV,fC,contratos,serie);
+//
+//                    remesas.add(r);
+//                }
+//            }
+//
+//        }catch(Exception exc){
+//            throw exc;
+//        }
 
-        }catch(Exception exc){
-            throw exc;
-        }
-
-        try {
-            //antes de persistir las remesas se han de numerar los recibos
-//            Recibo.realizaNumeracionDeRecibosEnRemesas(remesas, fV, SIApplication.getCurrent().getCurrentProcess().getSessionLayer());
-            AppBeans.get(RecibosService.class).realizaNumeracionDeRecibosEnRemesas(remesas, fV);
-        } catch (Exception ex) {
-//            Logger.getLogger(UCCuadreYRegistroRemesas.class.getName()).log(Level.SEVERE, null, ex);
-//            Notification.show("No se pudieron generar las remesas para la seleccion dada: no se pudo numerar los recibos");
-            throw new Exception("No se pudieron generar las remesas para la selecciond dada: no se pudo numerar los recibos", ex);
-        }
+//        try {
+//            //antes de persistir las remesas se han de numerar los recibos
+////            Recibo.realizaNumeracionDeRecibosEnRemesas(remesas, fV, SIApplication.getCurrent().getCurrentProcess().getSessionLayer());
+//            AppBeans.get(RecibosService.class).realizaNumeracionDeRecibosEnRemesas(remesas, fV);
+//        } catch (Exception ex) {
+////            Logger.getLogger(UCCuadreYRegistroRemesas.class.getName()).log(Level.SEVERE, null, ex);
+////            Notification.show("No se pudieron generar las remesas para la seleccion dada: no se pudo numerar los recibos");
+//            throw new Exception("No se pudieron generar las remesas para la selecciond dada: no se pudo numerar los recibos", ex);
+//        }
         Hashtable<Ubicacion, Double> htProxEmision = new Hashtable<Ubicacion, Double>();
         TreeMap<Ubicacion, List<Recibo>> tmUbicacionesRecibosProxPeriodo = new TreeMap<Ubicacion, List<Recibo>>();
-        for (int i = 0; i < remesas.size(); i++) {
-            Remesa get = remesas.get(i);
-            List<Recibo> rr = getTodosLosRecibos(get);
-            for (int j = 0; j < rr.size(); j++) {
-                Recibo get1 = rr.get(j);
-                if (tmUbicacionesRecibosProxPeriodo.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion())==null){
-                    tmUbicacionesRecibosProxPeriodo.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), new ArrayList<Recibo>());
-                }
-                List<Recibo> recibos = tmUbicacionesRecibosProxPeriodo.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion());
-                recibos.add(get1);
-                //actualizando totales por ubicacion
-                if (htProxEmision.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion())==null){
-                    htProxEmision.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), 0.0);
-                }
-                Double d = htProxEmision.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion());
-                d+=get1.getTotalReciboPostCCAA();
-                htProxEmision.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), d);
+
+
+        for (int j = 0; j < rr.size(); j++) {
+            Recibo get1 = rr.get(j);
+            if (tmUbicacionesRecibosProxPeriodo.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion())==null){
+                tmUbicacionesRecibosProxPeriodo.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), new ArrayList<Recibo>());
             }
+            List<Recibo> recibos = tmUbicacionesRecibosProxPeriodo.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion());
+            recibos.add(get1);
+            //actualizando totales por ubicacion
+            if (htProxEmision.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion())==null){
+                htProxEmision.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), 0.0);
+            }
+            Double d = htProxEmision.get(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion());
+            d+=get1.getTotalReciboPostCCAA();
+            htProxEmision.put(get1.getUtilitarioContratoInquilino().getDepartamento().getUbicacion(), d);
         }
+
         //realizo la misma estructura de ubicaciones->recibos pero con los recibos emitidos entre las fechas seleccionadas
         //y calculando el total
 
@@ -452,7 +459,7 @@ public class JasperReportServiceBean implements JasperReportService {
         List<Recibo> recibos = null;
         try{
 //            recibos = Recibo.getRecibosAsociadosAUbicacionesEntreFechas(fechaDesdePA.getValue(), fechaHastaPA.getValue(), ubicaciones, sl);
-            AppBeans.get(RecibosService.class).getRecibosAsociadosAUbicacionesEntreFechas(fechaDesdePA, fechaHastaPA, ubicaciones);
+            recibos = recibosService.getRecibosAsociadosAUbicacionesEntreFechas(fechaDesdePA, fechaHastaPA, ubicaciones);
         }catch(Exception ex){
             throw new Exception("Error al extraer los recibos historicos", ex);
         }

@@ -67,7 +67,12 @@ public class ContratosServiceBean implements ContratosService {
         hql += " ) AND (";
         for (int i = 0; i < ddrr.size(); i++) {
             DefinicionRemesa dr = ddrr.get(i);
-            hql +=  " (dr = :dr"+i+")";
+            if (i == 0){
+                hql +=  " (dr = :dr"+i+")";
+            }else{
+                hql +=   " OR (dr = :dr"+i+")";
+            }
+
         }
         hql += ") ";
 
