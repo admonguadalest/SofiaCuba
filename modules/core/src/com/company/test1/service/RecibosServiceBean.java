@@ -534,7 +534,8 @@ public class RecibosServiceBean implements RecibosService {
                 }
             }
             if (serie!=null){
-                if (recibo.getSerie().getUuid().compareTo(serie.getUuid())!=0){
+                Serie s_ = (Serie) ((Object[])l.get(i))[3];
+                if (s_.getUuid().compareTo(serie.getUuid())!=0){
                     continue;
                 }
 

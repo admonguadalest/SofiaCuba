@@ -7,6 +7,7 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Resources;
 import com.haulmont.cuba.core.listener.AfterCompleteTransactionListener;
@@ -71,6 +72,9 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
         double importeIva = 0.0;
         double porcentajeIrpf = 0.0;
         double importeIrpf = 0.0;
+
+
+
         for (int i = 0; i < recibo.getImplementacionesConceptos().size(); i++) {
             ImplementacionConcepto ic = recibo.getImplementacionesConceptos().get(i);
             List<RegistroAplicacionConceptoAdicional> racas = ic.getRegistroAplicacionesConceptosAdicionales();
