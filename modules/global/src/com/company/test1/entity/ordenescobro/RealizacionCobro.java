@@ -1,5 +1,6 @@
 package com.company.test1.entity.ordenescobro;
 
+import com.company.test1.entity.CuentaBancaria;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
@@ -18,6 +19,12 @@ public class RealizacionCobro extends StandardEntity {
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_VALOR")
     protected Date fechaValor;
+
+    @OnDeleteInverse(DeletePolicy.CASCADE)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUENTA_BANCARIA_ID")
+    protected CuentaBancaria cuentaBancaria;
 
     @Lob
     @Column(name = "XSD")
@@ -40,6 +47,14 @@ public class RealizacionCobro extends StandardEntity {
 
     @Column(name = "RM2ID")
     protected Integer rm2id;
+
+    public CuentaBancaria getCuentaBancaria() {
+        return cuentaBancaria;
+    }
+
+    public void setCuentaBancaria(CuentaBancaria cuentaBancaria) {
+        this.cuentaBancaria = cuentaBancaria;
+    }
 
     public Integer getRm2id() {
         return rm2id;
