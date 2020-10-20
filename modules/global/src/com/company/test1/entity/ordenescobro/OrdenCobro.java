@@ -7,6 +7,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.Date;
 
 @Table(name = "TEST1_ORDEN_COBRO")
@@ -85,5 +86,35 @@ public class OrdenCobro extends StandardEntity {
 
     public void setFechaValor(Date fechaValor) {
         this.fechaValor = fechaValor;
+    }
+
+    public static Comparator comparadorOrdenCobroPorDato = new ComparadorOrdenCobroPorDato();
+
+    public String getDato(){
+        return getRecibo().getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString();
+//        return "";
+    }
+
+    public static Comparator getComparadorOrdenCobroPorDato(){
+        return comparadorOrdenCobroPorDato;
+    }
+
+    public static class ComparadorOrdenCobroPorDato implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            OrdenCobro oc1 = (OrdenCobro) o1;
+            OrdenCobro oc2 = (OrdenCobro) o2;
+
+            if ((oc1 == null) && (oc2 == null)) return 0;
+
+            if (oc1 == null) return 1;
+
+            if (oc2 == null) return -1;
+
+            // Terminar ya que existe otro orden de pisos (entresuelo, principal, etc)
+
+            return oc1.getDato().compareTo(oc2.getDato());
+        }
     }
 }

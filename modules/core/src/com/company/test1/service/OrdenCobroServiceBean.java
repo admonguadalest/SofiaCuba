@@ -126,6 +126,7 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
 
 
         RealizacionCobro rc = new RealizacionCobro();
+        rc.setCuentaBancaria(cuentaBancariaReceptora);
 
         rc.setFechaValor(fechaValor);
         String fechastr = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -250,7 +251,7 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
         return bdim.getXml();
     }
 
-    private CuentaBancaria getCuentaBancariaDebitora(OrdenCobro oc){
+    public CuentaBancaria getCuentaBancariaDebitora(OrdenCobro oc){
         CuentaBancaria cb = null;
 //        if (this instanceof OrdenCobroRecibo){
 //            cb = ((OrdenCobroRecibo) this).getRecibo().getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
