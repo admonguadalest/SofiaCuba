@@ -17,6 +17,7 @@ import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.ordenescobro.RealizacionCobro;
 
+
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,17 @@ public class RealizacionCobroBrowse extends StandardLookup<RealizacionCobro> {
         }
         String txt = rc.getSepa();
         exportDisplay.show(new ByteArrayDataProvider(txt.getBytes()), rc.getIdentificador()+".xml");
+    }
+
+    public void onBtnDescargarReportDetalleCobro(){
+        RealizacionCobro rc = realizacionCobroesTable.getSingleSelected();
+        if (rc==null){
+            notifications.create().withCaption("Seleccionar un archivo de pagos").show();
+            return;
+        }
+
+        byte[] bb = null;
+        exportDisplay.show(new ByteArrayDataProvider(bb), rc.getIdentificador()+".xml");
     }
 
     public void retrocederRealizacionCobro(){

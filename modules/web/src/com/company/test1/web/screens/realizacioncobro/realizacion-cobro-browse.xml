@@ -53,6 +53,7 @@
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>
             <button id="btnDescargarSepa" invoke="onBtnDescargarSepaClick"/>
+            <button id="btnDescargarReportDetalleCobro" invoke="onBtnDescargarReportDetalleCobro"/>
         </hbox>
     </layout>
 </window>
