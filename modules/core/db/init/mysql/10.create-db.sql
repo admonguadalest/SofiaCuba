@@ -168,7 +168,7 @@ create table NOTIFICACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONTENIDO_IMPLEMENTADO longtext,
     ENVIADO boolean,
@@ -429,7 +429,7 @@ create table DOCUMENTO_IMPUTABLE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     DESCRIPCION_DOCUMENTO longtext,
     FECHA_EMISION date,
@@ -534,7 +534,7 @@ create table INCREMENTO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONCEPTO_RECIBO_ATRASOS_ID varchar(32),
     FECHA_INCREMENTO date,
@@ -1109,6 +1109,7 @@ create table TEST1_REALIZACION_COBRO (
     DELETED_BY varchar(50),
     --
     FECHA_VALOR date,
+    CUENTA_BANCARIA_ID varchar(32),
     XSD longtext,
     SEPA longtext,
     IDENTIFICADOR varchar(255),
@@ -1437,7 +1438,7 @@ create table ORDEN_PAGO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     FECHA_VALOR date,
     IMPORTE double precision,
@@ -1511,7 +1512,7 @@ create table VALIDACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     PROPIETARIO_ID varchar(32),
     ESTADO_VALIDACION integer,

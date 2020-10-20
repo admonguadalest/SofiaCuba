@@ -22,4 +22,6 @@ public interface OrdenCobroService {
     RealizacionCobro generaRealizacionCobroParaOrdenes(List<OrdenCobro> oocc, Persona presentador, CuentaBancaria cuentaBancariaReceptora) throws Exception;
 
     public CuentaBancaria getCuentaBancariaDebitora(OrdenCobro oc);
+
+    public byte[] generaReportDetalleCobro(RealizacionCobro rc) throws Exception;
 }

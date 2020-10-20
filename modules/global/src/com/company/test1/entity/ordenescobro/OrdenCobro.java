@@ -88,20 +88,18 @@ public class OrdenCobro extends StandardEntity {
         this.fechaValor = fechaValor;
     }
 
-    public static Comparator comparadorOrdenCobroPorDato = new ComparadorOrdenCobroPorDato();
+
 
     public String getDato(){
         return getRecibo().getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString();
 //        return "";
     }
 
-    public static Comparator getComparadorOrdenCobroPorDato(){
-        return comparadorOrdenCobroPorDato;
-    }
 
-    public static class ComparadorOrdenCobroPorDato implements Comparator {
 
-        @Override
+    public static Comparator comparadorOrdenCobroPorDato =  new Comparator() {
+
+
         public int compare(Object o1, Object o2) {
             OrdenCobro oc1 = (OrdenCobro) o1;
             OrdenCobro oc2 = (OrdenCobro) o2;
@@ -116,5 +114,5 @@ public class OrdenCobro extends StandardEntity {
 
             return oc1.getDato().compareTo(oc2.getDato());
         }
-    }
+    };
 }

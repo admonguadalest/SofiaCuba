@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="realizacionPago" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="ireport.zoom" value="1.7715610000000013"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <parameter name="P_IMAGEN" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <parameter name="P_HORA" class="java.lang.String"/>
+    <parameter name="P_FECHA" class="java.lang.String"/>
+    <parameter name="P_INFORME_REALIZADO_POR" class="java.lang.String"/>
+    <parameter name="P_IDENTIFICADOR" class="java.lang.String"/>
+    <parameter name="P_FECHA_CREACION" class="java.lang.String"/>
+    <parameter name="P_FECHA_VALOR" class="java.lang.String"/>
+    <parameter name="P_IMPORTE" class="java.lang.String"/>
+    <parameter name="P_ENTORNO" class="java.lang.String"/>
+    <parameter name="P_CUENTA_DEBITORA" class="java.lang.String"/>
+    <field name="dato" class="java.lang.String"/>
+    <field name="importeEfectivo" class="java.lang.String"/>
+    <field name="cuentaDestino" class="java.lang.String"/>
+    <field name="tipoAbreviado" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="193" splitType="Stretch">
+            <textField>
+                <reportElement x="10" y="77" width="433" height="20" forecolor="#666666"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["Fecha: " +$P{P_FECHA} + "  Hora: " +$P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="373" y="6" width="157" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="30" y="174" width="160" height="15"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IDENTIFICADOR}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="210" y="174" width="80" height="15"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHA_CREACION}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="320" y="174" width="80" height="15"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHA_VALOR}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="420" y="174" width="80" height="15"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMPORTE}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="30" y="155" width="160" height="15"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Identificador]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="210" y="155" width="80" height="15"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Fecha CreaciÃ³n]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="320" y="155" width="80" height="15"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Fecha Valor]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="420" y="155" width="80" height="15"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe     ]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="10" y="47" width="520" height="20"/>
+                <textElement textAlignment="Left">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DETALLE COBRO TELEMÃTICO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="30" y="106" width="160" height="15"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Entorno]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="106" width="160" height="15"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cuenta Debitora]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="30" y="124" width="160" height="15"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_ENTORNO}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="125" width="160" height="15"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{P_CUENTA_DEBITORA}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="39">
+            <printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+            <image scaleImage="RetainShape" hAlign="Right">
+                <reportElement x="373" y="5" width="157" height="30"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{P_IMAGEN}]]></imageExpression>
+            </image>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="12" splitType="Stretch">
+            <rectangle>
+                <reportElement x="30" y="0" width="470" height="12" forecolor="#666666" backcolor="#666666"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="270" y="0" width="160" height="12" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cuenta Destino]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="70" y="0" width="200" height="12" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Dato]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="430" y="0" width="70" height="12" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe     ]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="30" y="0" width="40" height="12" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tipo]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="13" splitType="Stretch">
+            <textField>
+                <reportElement x="30" y="0" width="40" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{tipoAbreviado}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="70" y="0" width="200" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dato}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="430" y="0" width="70" height="12"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{importeEfectivo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="270" y="0" width="160" height="12"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{cuentaDestino}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

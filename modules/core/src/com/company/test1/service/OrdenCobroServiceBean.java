@@ -12,6 +12,7 @@ import com.company.test1.entity.ordenespago.OrdenPago;
 import com.company.test1.entity.ordenespago.RealizacionPago;
 import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.ReciboCobrado;
+import com.company.test1.service.accessory.ReportRealizacionCobro;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.DataManager;
@@ -308,6 +309,12 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
         }
 
         return c;
+    }
+
+    public byte[] generaReportDetalleCobro(RealizacionCobro rc) throws Exception{
+        ReportRealizacionCobro rrc = new ReportRealizacionCobro(rc);
+        byte[] bb = rrc.getReportAsByteArray();
+        return bb;
     }
 
 }

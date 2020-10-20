@@ -47,6 +47,7 @@
                 <button id="editBtn" action="realizacionCobroesTable.edit"/>
                 <button id="removeBtn" invoke="retrocederRealizacionCobro" caption="Retroceder"/>
                 <button id="btnSepa" invoke="onBtnDescargarSepaClick" caption="Descargar SEPA"/>
+                <button id="btnReportDetalle" invoke="onBtnDescargarReportDetalleCobro" caption="Report Detalle Cobro"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

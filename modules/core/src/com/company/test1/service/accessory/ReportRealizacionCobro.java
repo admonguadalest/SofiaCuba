@@ -72,7 +72,7 @@ public class ReportRealizacionCobro {
 
             List<HlpOrdenCobro> alHelpers = new ArrayList();
             List<OrdenCobro> oocc = realizacionCobro.getOrdenesCobro();
-            Collections.sort(oocc, OrdenCobro.getComparadorOrdenCobroPorDato());
+            Collections.sort(oocc, OrdenCobro.comparadorOrdenCobroPorDato);
 
             for (int i = 0; i < oocc.size(); i++) {
                 OrdenCobro oc = oocc.get(i);

@@ -48,7 +48,7 @@
                           alwaysVisible="true">
 
                 <button id="editBtn" action="remesasTable.edit"/>
-                <button id="removeBtn" caption="Retroceder" action="remesasTable.remove"/>
+                <button id="removeBtn" caption="Retroceder" invoke="onRemoveBtnClick"/>
                 <button id="btnReportDinamico" caption="Ver Report" invoke="onBtnReportDinamicoClick"/>
                 <button id="btnPdfRemesa" caption="Visualizar" invoke="onBtnPdfRemesaClick"/>
             </buttonsPanel>

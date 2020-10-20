@@ -4,6 +4,7 @@ import com.company.test1.entity.enums.recibos.ReciboCobradoModoIngreso;
 import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.ReciboCobrado;
+import com.company.test1.service.OrdenCobroService;
 import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.Dialogs;
@@ -40,7 +41,8 @@ public class RealizacionCobroBrowse extends StandardLookup<RealizacionCobro> {
     private ExportDisplay exportDisplay;
     @Inject
     private Dialogs dialogs;
-
+    @Inject
+    private OrdenCobroService ordenCobroService;
 
     public void onBtnDescargarSepaClick() {
         RealizacionCobro rc = realizacionCobroesTable.getSingleSelected();
@@ -58,9 +60,13 @@ public class RealizacionCobroBrowse extends StandardLookup<RealizacionCobro> {
             notifications.create().withCaption("Seleccionar un archivo de pagos").show();
             return;
         }
+        try{
+            byte[] bb = ordenCobroService.generaReportDetalleCobro(rc);
+            exportDisplay.show(new ByteArrayDataProvider(bb), rc.getIdentificador()+".xml");
+        }catch(Exception exc){
+            notifications.create().withDescription(exc.getMessage()).withCaption("Error").show();
+        }
 
-        byte[] bb = null;
-        exportDisplay.show(new ByteArrayDataProvider(bb), rc.getIdentificador()+".xml");
     }
 
     public void retrocederRealizacionCobro(){
