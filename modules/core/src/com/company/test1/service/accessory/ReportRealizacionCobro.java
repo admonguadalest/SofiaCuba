@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.company.test1.entity.ordenescobro.RealizacionCobro;
 import com.company.test1.service.JasperReportService;
 import com.google.common.io.Resources;
@@ -64,7 +65,7 @@ public class ReportRealizacionCobro {
             pams.put("P_CUENTA_DEBITORA", realizacionCobro.getCuentaBancaria());
             pams.put("P_ENTORNO", "N/D");
             pams.put("P_IDENTIFICADOR", realizacionCobro.getIdentificador());
-            pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaCreacion()));
+            pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getCreateTs()));
             pams.put("P_FECHA_VALOR", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaValor()));
             pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance().format(realizacionCobro.getImporteTotal()));
 
