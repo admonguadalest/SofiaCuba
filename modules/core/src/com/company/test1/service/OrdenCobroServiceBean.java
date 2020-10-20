@@ -133,7 +133,7 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
         rc.setImporteTotal(0.0);
         for (int i = 0; i < lInstaciados.size(); i++) {
             OrdenCobro ocr = lInstaciados.get(i);
-            ocr.setEntToEntId(new SimpleDateFormat("yyyyMMddHHmmss").format(rc.getFechaValor()) + " " +ocr.getId());
+            ocr.setEntToEntId(new SimpleDateFormat("yyyyMMddHHmmss").format(rc.getFechaValor()) + " " + new Integer(i+1).toString());
             double importe = numberUtilsService.roundTo2Decimals(ocr.getImporte());
             rc.setImporteTotal(rc.getImporteTotal() + importe);
             rc.getOrdenesCobro().add(ocr);
@@ -206,6 +206,9 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
                 spi.setAmount(oc.getImporte());
                 spi.setCurrency("EUR");
                 CuentaBancaria cb = getCuentaBancariaDebitora(oc);
+                if (cb == null){
+                    throw new Exception("La cuenta debitora es nula: " + oc.getRecibo().getUtilitarioContratoInquilino().getInquilino().getNombreCompleto());
+                }
                 spi.setDebitorBicCode(cb.getCodigoBIC());
                 spi.setDebitorIban(cb.getVersionIBAN());
                 spi.setDebitorName(calculaStringCaracteresPermitidos(getPersonaDebitora(oc).getNombreCompleto()));

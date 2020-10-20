@@ -117,7 +117,7 @@ public class OrdenCobroBrowse extends StandardLookup<OrdenCobro> {
             filter.getDataLoader().load();
         } catch (Exception e) {
             e.printStackTrace();
-            notifications.create().withCaption("Error").withDescription(e.getMessage());
+            notifications.create().withCaption("Error").withDescription(e.getMessage()).show();
         }
     }
 
