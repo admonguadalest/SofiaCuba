@@ -73,7 +73,7 @@
                 <textElement>
                     <font isBold="true"/>
                 </textElement>
-                <text><![CDATA[Fecha CreaciÃ³n]]></text>
+                <text><![CDATA[Fecha Creación]]></text>
             </staticText>
             <staticText>
                 <reportElement x="320" y="155" width="80" height="15"/>

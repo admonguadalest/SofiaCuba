@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://generacionOrdenCobroManualmente.caption"
+        messagesPack="com.company.test1.web.screens.ordencobro">
+    <data>
+        <instance id="remesaDc" class="com.company.test1.entity.recibos.Remesa"/>
+        <collection id="remesasDc" class="com.company.test1.entity.recibos.Remesa"/>
+    </data>
+    <layout>
+        <lookupPickerField id="remesaField" optionsContainer="remesasDc" captionProperty="identificadorRemesa">
+            <actions>
+                <action id="lookup" type="picker_lookup"/>
+            </actions>
+        </lookupPickerField>
+    </layout>
+</window>

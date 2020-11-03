@@ -160,6 +160,7 @@
         <menu id="cobros_">
             <item screen="test1_OrdenCobro.browse" id="filtradoCobros"/>
             <item screen="test1_RealizacionCobro.browse" id="filtradoRealizacionesCobro"/>
+            <item screen="test1_GeneracionOrdenCobroManualmente"/>
         </menu>
     </menu>
 </menu-config>

@@ -62,7 +62,7 @@ public class RealizacionCobroBrowse extends StandardLookup<RealizacionCobro> {
         }
         try{
             byte[] bb = ordenCobroService.generaReportDetalleCobro(rc);
-            exportDisplay.show(new ByteArrayDataProvider(bb), rc.getIdentificador()+".xml");
+            exportDisplay.show(new ByteArrayDataProvider(bb), rc.getIdentificador()+".pdf");
         }catch(Exception exc){
             notifications.create().withDescription(exc.getMessage()).withCaption("Error").show();
         }

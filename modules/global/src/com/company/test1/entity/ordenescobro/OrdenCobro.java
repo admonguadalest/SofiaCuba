@@ -91,7 +91,7 @@ public class OrdenCobro extends StandardEntity {
 
 
     public String getDato(){
-        return getRecibo().getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString();
+        return getRecibo().getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
 //        return "";
     }
 

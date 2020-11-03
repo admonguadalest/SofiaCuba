@@ -36,7 +36,7 @@ public class ReportRealizacionCobro {
     RealizacionCobro realizacionCobro;
 
 
-    String pathMaestro = "\\jasperreports\\realizacionesCobro\\realizacionCobro.jrxml";
+    String pathMaestro = "realizacionCobro.jrxml";
 
     public ReportRealizacionCobro(RealizacionCobro realizacionCobro){
 
@@ -62,10 +62,12 @@ public class ReportRealizacionCobro {
             JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
             pams.put("P_IMAGEN",jrr);
 
-            pams.put("P_CUENTA_DEBITORA", realizacionCobro.getCuentaBancaria());
+
+
+            pams.put("P_CUENTA_DEBITORA", realizacionCobro.getCuentaBancaria().getVersionIBAN());
             pams.put("P_ENTORNO", "N/D");
             pams.put("P_IDENTIFICADOR", realizacionCobro.getIdentificador());
-            pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getCreateTs()));
+            pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaValor()));
             pams.put("P_FECHA_VALOR", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaValor()));
             pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance().format(realizacionCobro.getImporteTotal()));
 

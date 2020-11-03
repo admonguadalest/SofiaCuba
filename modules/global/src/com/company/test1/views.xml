@@ -1097,6 +1097,7 @@
         <property name="ordenesCobro" fetch="AUTO" view="ordenCobro-view">
 
         </property>
+        <property name="cuentaBancaria" view="_base"/>
     </view>
     <view entity="test1_Recibo" name="recibo-detalle-view" extends="_base">
         <property name="ordenanteRemesa" view="_minimal">

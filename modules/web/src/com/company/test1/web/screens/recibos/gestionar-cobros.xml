@@ -21,7 +21,8 @@
         <filter id="filter"
                 applyTo="reciboesTable"
                 dataLoader="reciboesDl">
-            <properties include=".*"/>
+            <property caption="Fecha Valor" name="fechaEmision"/>
+            <property caption="Nombre Inquilino" name="utilitarioInquilino.nombreCompleto"/>
         </filter>
         <table id="reciboesTable"
                width="100%"
@@ -38,7 +39,7 @@
                 <column id="totalCobrado"/>
                 <column id="numRecibo"/>
                 <column id="fechaEmision"/>
-                <column id="rm2id"/>
+
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

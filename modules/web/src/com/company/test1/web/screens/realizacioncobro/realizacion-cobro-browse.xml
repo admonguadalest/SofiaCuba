@@ -6,7 +6,7 @@
     <data readOnly="true">
         <collection id="realizacionCobroesDc"
                     class="com.company.test1.entity.ordenescobro.RealizacionCobro"
-                    view="_base">
+                    view="realizacionCobro-view">
             <loader id="realizacionCobroesDl">
                 <query>
                     <![CDATA[select e from test1_RealizacionCobro e]]>
