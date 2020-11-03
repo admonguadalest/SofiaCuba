@@ -1,10 +1,12 @@
 package com.company.test1.service;
 
 import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
+import com.company.test1.NumberUtils;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.notificaciones.Notificacion;
 import com.company.test1.entity.notificaciones.NotificacionContratoInquilino;
+import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.reportsyplantillas.FlexReport;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -236,6 +238,59 @@ public class NotificacionServiceBean implements NotificacionService {
         t.close();
         return nnccii;
     }
+
+
+    /**
+     * Metodo accesorio a la notificacion de recibos pendientes. Deberia ubicarse en recibosService
+     * Pendiente dirimir
+     * @param ci
+     * @return
+     * @throws Exception
+     */
+    public List<Recibo> getRecibosPendientes(ContratoInquilino ci) throws Exception{
+
+        List res = new ArrayList();
+        String sql = "SELECT r.id, "
+                + " r.total_recibo_post_ccaa AS TR, "
+                + " SUM(CASE rc.modo_ingreso WHEN 1 THEN rc.total_ingreso ELSE 0 END) as IB, "
+                + " SUM(CASE rc.modo_ingreso WHEN 2 THEN rc.total_ingreso ELSE 0 END) as IA, "
+                + " SUM(CASE rc.modo_ingreso WHEN 3 THEN rc.total_ingreso ELSE 0 END) as D, "
+                + " SUM(CASE rc.modo_ingreso WHEN 4 THEN rc.total_ingreso ELSE 0 END) as P "
+                + " FROM recibo r LEFT JOIN recibo_cobrado rc on rc.recibo_id = r.id JOIN contrato_inquilino ci on r.utilitario_contrato_inquilino_id = ci.id " +
+                " WHERE ci.id = '" + ci.getId().toString().replace("-","") + "' GROUP BY r.id, r.total_recibo_post_ccaa";
+        Hashtable ht = new Hashtable();
+        ht.put("uci_id", ci.getId().toString().replace("-",""));
+        Transaction t = persistence.createTransaction();
+        List<Object[]> rrcc = persistence.getEntityManager().createNativeQuery(sql).getResultList();
+        t.close();
+        for (int i = 0; i < rrcc.size(); i++) {
+            Object[] oarr = (Object[]) rrcc.get(i);
+            double d = (Double) oarr[2] + (Double) oarr[3] - (Double) oarr[4] - (Double) oarr[5];
+            //pendiente eliminar despues de testeos
+            if (oarr[1]==null){
+                oarr[1] = 0.0;
+            }
+            double rci = (Double) oarr[1];
+
+            d = NumberUtils.roundToNDecimals(d, 2.0);
+
+            if (rci <= d){
+                continue;
+            }
+            t = persistence.createTransaction();
+//            Recibo recibo = (Recibo) sl.getInstance(Recibo.class, (Integer) oarr[0]);
+            String uuid = (String) oarr[0];
+            uuid = uuid.substring(0,8)+"-"+uuid.substring(8,12)+"-"+uuid.substring(12,16)+"-"+uuid.substring(16,20)+"-"+uuid.substring(20);
+            Recibo recibo = (Recibo) persistence.getEntityManager().find(Recibo.class, UUID.fromString(uuid), "recibo-view");
+            t.close();
+
+           res.add(recibo);
+
+        }
+        return res;
+    }
+
+
 
 
 

@@ -5,6 +5,7 @@ import com.company.test1.entity.TreeItem;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
+import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla;
 import com.company.test1.entity.notificaciones.HelperNotificacionesAumentos;
@@ -78,7 +79,7 @@ public class RecibosPendientes extends Screen {
     @Inject
     private ComponentsFactory componentsFactory;
 
-    boolean treeDepartamentos_triggerSelectionEvents = true;
+
     @Inject
     private CheckBox chkVerCamposVacios;
     @Inject
@@ -98,7 +99,7 @@ public class RecibosPendientes extends Screen {
 
     @Subscribe("treeDepartamentos")
     private void onTreeDepartamentosSelection(Tree.SelectionEvent<TreeItem> event) {
-        if (!treeDepartamentos_triggerSelectionEvents) return;
+        if (!event.isUserOriginated()) return;
         List<TreeItem> ttii = new ArrayList(event.getSelected());
         List<TreeItem> selection = new ArrayList();
         for (int i = 0; i < ttii.size(); i++) {
@@ -114,10 +115,16 @@ public class RecibosPendientes extends Screen {
                     }
                 }
             }
+            if (ti.getUserObject() instanceof Departamento){
+
+                    selection.add(ti);
+
+            }
+
         }
-        treeDepartamentos_triggerSelectionEvents = false;
+
         treeDepartamentos.setSelected(selection);
-        treeDepartamentos_triggerSelectionEvents = true;
+
     }
 
 
@@ -249,8 +256,9 @@ public class RecibosPendientes extends Screen {
                     ht_objetos.put("admin", c.getDepartamento().getPropietarioEfectivo().getPersona());
                     ht_objetos.put("prop", c.getDepartamento().getPropietarioEfectivo());
 //                ht_objetos.put("diradmin", c.getDepartamento().getPropietarioEfectivo().getPersona().getDireccionDesdeNombre(Direccion.NOMBRE_DIRECCION_PROPIETARIO_CONTRATO_N19));
-                    ht_objetos.put("diradmin", c.getDepartamento().getPropietarioEfectivo().getPersona().direccionDesdeNombre(Direccion.NOMBRE_DIRECCION_PROPIETARIO_CONTRATO_N19));
-                    ht_objetos.put("dirinqui", c.getInquilino().direccionDesdeNombre(Direccion.NOMBRE_DIRECCION_INQUILINO));//pendiente
+                    ht_objetos.put("diradmin", c.getDepartamento().getPropietarioEfectivo().getPersona().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_CONTRACTUAL.getId()));
+                    ht_objetos.put("dirinqui", c.getInquilino().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_INQUILINO.getId()));//pendiente
+
                     ht_objetos.put("inqui", c.getInquilino());
                     ht_objetos.put("contr", c);
 
@@ -270,7 +278,7 @@ public class RecibosPendientes extends Screen {
 
                     inputStreams.add(bb);
                 } catch (Exception ex) {
-                    notifications.create().withCaption(ex.getMessage());
+                    notifications.create().withCaption(ex.getMessage()).show();
                     return;
                 }
             }

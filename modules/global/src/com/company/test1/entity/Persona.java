@@ -184,7 +184,7 @@ public class Persona extends StandardEntity implements Comparable<Persona> {
     public Direccion direccionDesdeNombre(String nombre){
         for (int i = 0; i < direcciones.size(); i++) {
             Direccion d = direcciones.get(i);
-            if (d.getNombre().compareTo(nombre)==0){
+            if (d.getNombre().trim().toUpperCase().compareTo(nombre.trim().toUpperCase())==0){
                 return d;
             }
         }

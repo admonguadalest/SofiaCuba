@@ -14,14 +14,19 @@ import com.company.test1.entity.enums.UsoContratoEnum;
 import com.company.test1.entity.extroles.ComercialOfertas;
 import com.company.test1.entity.ordenespago.OrdenPagoContratoInquilino;
 import com.company.test1.entity.recibos.ProgramacionRecibo;
+import com.company.test1.entity.recibos.Recibo;
+import com.company.test1.service.NotificacionService;
 import com.company.test1.validations.contratos.ContratoInquilinoBean;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.*;
+import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.cuba.core.global.validation.groups.UiCrossFieldChecks;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -724,4 +729,36 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
         }
         throw new Exception("No se hallo un subrogador vigente");
     }
+
+    public int getNumRecibosPendientes() throws Exception{
+
+        List l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+        return l.size();
+    }
+
+    public String getTextoRecibosPendientes() throws Exception{
+        List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        String texto = "<p>";
+        for (int i = 0; i < l.size(); i++) {
+            Recibo recibo = l.get(i);
+            texto += df.format(recibo.getFechaEmision()) + " " + nf.format(recibo.getTotalPendiente() - recibo.getTotalCobrado()) + "<br/>";
+        }
+        texto += "</p>";
+        return texto;
+    }
+
+    public String getImporteTotalPendienteFormateado() throws Exception{
+        List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        double total = 0.0;
+        for (int i = 0; i < l.size(); i++) {
+            Recibo recibo = l.get(i);
+            total += recibo.getTotalPendiente();
+        }
+
+        return nf.format(total);
+    }
+
 }

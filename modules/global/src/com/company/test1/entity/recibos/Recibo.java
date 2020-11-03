@@ -265,4 +265,50 @@ public class Recibo extends StandardEntity {
     public void setAmpliacion(String ampliacion) {
         this.ampliacion = ampliacion;
     }
+
+
+    public double getTotalPendiente(){
+        double pendiente = this.totalReciboPostCCAA + this.getTotalCobranzas() - this.getTotalCobrado() - this.getTotalCompensado();
+        return pendiente;
+    }
+
+    public double getTotalCompensado(){
+        double d = 0;
+        for (int i = 0; i < recibosCobrados.size(); i++) {
+            ReciboCobrado rc = recibosCobrados.get(i);
+            if (rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
+                d += rc.getTotalIngreso();
+            }
+        }
+        return d;
+    }
+
+    public double getTotalCobranzas(){
+        double cobranzas = 0;
+        for (int i = 0; i < recibosCobrados.size(); i++) {
+            ReciboCobrado rc = recibosCobrados.get(i);
+            if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)){
+                //no afecta
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+                if (rc.getCobranzas()==null){
+                    rc.setCobranzas(0.0);
+                }
+                cobranzas += rc.getCobranzas();
+            }
+        }
+        return cobranzas;
+    }
+
+//    public double getTotalCobrad_o(){
+//        double d = 0;
+//        for (int i = 0; i < recibosCobrados.size(); i++) {
+//            ReciboCobrado rc = recibosCobrados.get(i);
+//            if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
+//                d += rc.getTotalIngreso();
+//            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+//                d -= rc.getTotalIngreso();
+//            }
+//        }
+//        return d;
+//    }
 }
