@@ -3,6 +3,7 @@ package com.company.test1.web.screens.recibos;
 import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.company.test1.entity.recibos.OrdenanteRemesa;
 import com.company.test1.entity.recibos.Recibo;
+import com.company.test1.entity.recibos.ReciboCobrado;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
 import com.company.test1.web.screens.DynamicReportHelper;
@@ -14,6 +15,7 @@ import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
+import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.Remesa;
 import com.haulmont.cuba.gui.screen.LookupComponent;
@@ -46,6 +48,14 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
     private Filter filter;
     @Inject
     private Dialogs dialogs;
+    @Inject
+    private CollectionLoader<Remesa> remesasDl;
+
+    @Subscribe(id = "remesasDl", target = Target.DATA_LOADER)
+    public void onRemesasDlPreLoad(CollectionLoader.PreLoadEvent event) {
+        remesasDl.setMaxResults(20);
+    }
+
 
 
     public void onBtnPdfRemesaClick() {
@@ -75,6 +85,8 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
     private void realizaRetrocesionRemesa(){
         ArrayList toupdate = new ArrayList();
         ArrayList toremove = new ArrayList();
+        //pendiente: quitar y ajustar cuando se solucione el procedimiento de registro en z_helper
+        ArrayList recibos = new ArrayList();
         Remesa r = remesasTable.getSingleSelected();
         if (r == null){
             notifications.create().withCaption("Seleccionar una remesa a retroceder").show();
@@ -87,7 +99,14 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
             toremove.add(or);
             for (int j = 0; j < or.getRecibos().size(); j++) {
                 Recibo rbo = or.getRecibos().get(j);
+                if (rbo.getRecibosCobrados().size()>0){
+                    for (int k = 0; k <rbo.getRecibosCobrados().size() ; k++) {
+                        ReciboCobrado rc = rbo.getRecibosCobrados().get(k);
+                        toremove.add(rc);
+                    }
+                }
                 toremove.add(rbo);
+                recibos.add(rbo);
                 if (rbo.getOrdenesCobro().size()>0){
                     for (int k = 0; k < rbo.getOrdenesCobro().size(); k++) {
                         OrdenCobro oc = rbo.getOrdenesCobro().get(k);
@@ -104,5 +123,11 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
         }
         dataManager.commit(new CommitContext(toupdate,toremove));
         filter.getDataLoader().load();
+        try {
+            recibosService.retrocedeRecibosEnZHelper(recibos);
+        }catch(Exception exc){
+            notifications.create().withCaption("Error").withDescription("No se pudieron borrar los registros en z_helper: " + exc.getMessage()).show();
+
+        }
     }
 }

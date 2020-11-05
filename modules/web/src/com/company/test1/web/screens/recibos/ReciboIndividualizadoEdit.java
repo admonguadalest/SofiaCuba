@@ -176,7 +176,7 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
             ProgramacionRecibo pr = contratoField.getValue().getProgramacionRecibo();
             DefinicionRemesa dr = pr.getDefinicionRemesa();
             if (chkIncluirRemesa.isChecked()) {
-                Remesa rem = dataManager.create(Remesa.class);
+                Remesa rem = dataContext.create(Remesa.class);
                 rem.setDefinicionRemesa(dr);
                 rem.setFechaAdeudo(fechaEmisionField.getValue());
                 rem.setFechaRealizacion(fechaEmisionField.getValue());
@@ -186,7 +186,7 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
                 String abrevUbicDepto = ci.getDepartamento().getUbicacion().getAbreviacionUbicacion() + ci.getDepartamento().getAbreviacionPisoPuerta();
                 String identificadorRemesa = recibosService.generaIdentificadorRemesa(nombreDefinicionRemesa, fechaEmisionField.getValue(), abrevUbicDepto);
                 rem.setIdentificadorRemesa(identificadorRemesa);
-                OrdenanteRemesa or = dataManager.create(OrdenanteRemesa.class);
+                OrdenanteRemesa or = dataContext.create(OrdenanteRemesa.class);
                 rem.getOrdenantesRemesa().add(or);
                 r.setOrdenanteRemesa(or);
 
@@ -200,6 +200,9 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
 
             this.closeWithCommit();
             notifications.create().withCaption("Recibo registrado correctamente").show();
+
+            recibosService.registraReciboEnTablaZHelper(r);
+
         }catch(Exception exc){
             notifications.create().withCaption("Error").withDescription(exc.getMessage()).show();
         }

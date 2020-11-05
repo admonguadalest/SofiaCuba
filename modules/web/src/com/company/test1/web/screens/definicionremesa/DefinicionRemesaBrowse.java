@@ -3,6 +3,7 @@ package com.company.test1.web.screens.definicionremesa;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
@@ -14,6 +15,7 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.DefinicionRemesa;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @UiController("test1_DefinicionRemesa.browse")
 @UiDescriptor("definicion-remesa-browse.xml")
@@ -29,6 +31,10 @@ public class DefinicionRemesaBrowse extends StandardLookup<DefinicionRemesa> {
     private ExportDisplay exportDisplay;
     @Inject
     private Notifications notifications;
+
+
+
+
 
     @Subscribe("definicionRemesasTable.edit")
     private void onDefinicionRemesasTableEdit(Action.ActionPerformedEvent event) {

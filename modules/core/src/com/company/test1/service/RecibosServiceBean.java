@@ -1,5 +1,6 @@
 package com.company.test1.service;
 
+import com.company.test1.core.HelperRecibosInformeIva;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
@@ -157,6 +158,9 @@ public class RecibosServiceBean implements RecibosService {
 
     public boolean persisteRemesas(List<Remesa> rr) throws Exception{
         Transaction t = persistence.createTransaction();
+
+        List<Recibo> rbos = new ArrayList<Recibo>();
+
         for (int i = 0; i < rr.size(); i++) {
             persistence.getEntityManager().merge(rr.get(i));
             Remesa r = rr.get(i);
@@ -166,7 +170,7 @@ public class RecibosServiceBean implements RecibosService {
                 for (int k = 0; k < or.getRecibos().size(); k++) {
                     Recibo rbo = or.getRecibos().get(k);
                     persistence.getEntityManager().merge(rbo);
-
+                    rbos.add(rbo);
                     for (int l = 0; l < rbo.getImplementacionesConceptos().size(); l++) {
                         ImplementacionConcepto ic = rbo.getImplementacionesConceptos().get(l);
                         persistence.getEntityManager().merge(ic);
@@ -189,6 +193,35 @@ public class RecibosServiceBean implements RecibosService {
         }
         t.commit();
         t.close();
+
+        //generando los registros de iva: pendiente reubicar
+        for (int i = 0; i < rbos.size(); i++) {
+            new HelperRecibosInformeIva().procesaRecibo(rbos.get(i), persistence);
+
+        }
+
+        return true;
+    }
+
+    //pendiente: eliminar este metodo por una solucino unificada de creeacion
+    //de registros en tabla helper. Idealmente en el entitylistener de recibo
+    public boolean registraReciboEnTablaZHelper(Recibo r) throws Exception{
+        new HelperRecibosInformeIva().procesaRecibo(r, persistence);
+        return true;
+    }
+
+    //pendiente: eliminar por el mismo motivo que el metodo anterior
+    //solucionar el metodo unificado de escritura retrocesion en z_helper
+    public boolean retrocedeRecibosEnZHelper(List<Recibo> rr) throws Exception{
+        Transaction t = persistence.createTransaction();
+        for (int i = 0; i < rr.size() ; i++) {
+            UUID id = rr.get(i).getUuid();
+            String iddelete = id.toString().replace("-", "");
+            String deleteSql = "delete from z_helper_proceso_recibos_informeiva WHERE recibo_id = '" + iddelete + "'";
+            int res = persistence.getEntityManager().createNativeQuery(deleteSql).executeUpdate();
+
+        }
+        t.commit();
         return true;
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
 @PublishEntityChangedEvents
 @Table(name = "RECIBO")
 @Entity(name = "test1_Recibo")
-@Listeners("test1_ReciboEntityListener")
+//@Listeners("test1_ReciboEntityListener")
 public class Recibo extends StandardEntity {
     private static final long serialVersionUID = -8484099048421269202L;
 

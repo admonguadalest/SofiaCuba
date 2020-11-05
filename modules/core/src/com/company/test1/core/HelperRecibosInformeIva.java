@@ -61,8 +61,8 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
         t.commit();
     }
 
-    public void procesaRecibo(Recibo recibo){
-        retrocedeReciboEnTablaZHelper(recibo.getId());
+    public void procesaRecibo(Recibo recibo, Persistence persistence){
+        retrocedeReciboEnTablaZHelper(recibo.getId(), persistence);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Transaction t = persistence.createTransaction();
 
@@ -82,11 +82,22 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
                 RegistroAplicacionConceptoAdicional raca = racas.get(j);
                 if (raca.getConceptoAdicional().getAbreviacion().compareTo("IVA")==0){
                     porcentajeIva = raca.getPorcentaje().doubleValue();
-                    importeIva += raca.getImporteAplicado();
+                    if (ic.getConcepto().getAdicionSustraccion()){
+                        importeIva += raca.getImporteAplicado();
+                    }else{
+                        importeIva -= raca.getImporteAplicado();
+                    }
+
                 }
                 if (raca.getConceptoAdicional().getAbreviacion().compareTo("IRPF")==0){
                     porcentajeIrpf = raca.getPorcentaje().doubleValue();
                     importeIrpf += raca.getImporteAplicado();
+                    if (ic.getConcepto().getAdicionSustraccion()){
+                        //se alteran los signos porque irpf es tipo sustraccion
+                        importeIrpf -= raca.getImporteAplicado();
+                    }else{
+                        importeIrpf += raca.getImporteAplicado();
+                    }
                 }
             }
 
@@ -144,7 +155,7 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
         t.close();
     }
 
-    public void retrocedeReciboEnTablaZHelper(UUID id){
+    public void retrocedeReciboEnTablaZHelper(UUID id, Persistence persistence){
         Transaction t = persistence.createTransaction();
         String iddelete = id.toString().replace("-", "");
         String deleteSql = "delete from z_helper_proceso_recibos_informeiva WHERE recibo_id = '" + iddelete + "'";

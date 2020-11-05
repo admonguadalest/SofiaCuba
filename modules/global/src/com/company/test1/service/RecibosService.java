@@ -66,4 +66,8 @@ public interface RecibosService {
     public Remesa devuelveRemesaDesdeIdentificador(String identificador) throws Exception;
 
     public String generaIdentificadorRemesa(String nombreDefinicionRemesa, Date fechaEmision, String abrevUbicacionDepto) throws Exception;
+
+    public boolean registraReciboEnTablaZHelper(Recibo r) throws Exception;
+
+    public boolean retrocedeRecibosEnZHelper(List<Recibo> rr) throws Exception;
 }

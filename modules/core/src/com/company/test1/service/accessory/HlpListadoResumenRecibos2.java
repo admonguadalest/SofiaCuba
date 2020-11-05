@@ -163,9 +163,9 @@ public class HlpListadoResumenRecibos2 {
 
 
     public class MapsReport{
-        TreeMap pams;
-        TreeMap recibosFincas;
-        TreeMap totalesAgregado;
+        public TreeMap pams;
+        public TreeMap recibosFincas;
+        public TreeMap totalesAgregado;
 
         public MapsReport(TreeMap pams, TreeMap recibosFincas, TreeMap totalesAgregado) {
             this.pams = pams;

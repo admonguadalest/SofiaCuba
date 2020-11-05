@@ -12,6 +12,7 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.AppBeans;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class HelperRecibo {
@@ -51,8 +52,9 @@ public class HelperRecibo {
         return r.getUtilitarioContratoInquilino().getLugarRealizacion();
     }
 
-    public Date getVencimiento(){
-        return r.getUtilitarioContratoInquilino().getFechaVencimientoPrevisto();
+    public String getVencimiento(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(this.r.getFechaEmision());
     }
 
     public String getReferenciaCatastral(){

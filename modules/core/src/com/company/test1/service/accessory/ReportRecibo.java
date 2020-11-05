@@ -6,6 +6,7 @@ package com.company.test1.service.accessory;
  */
 
 
+import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.Direccion;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.departamentos.Departamento;
@@ -125,14 +126,15 @@ public class ReportRecibo {
             this.did = d.getId().toString();
             this.numRecibo = r.getNumRecibo();
             this.totalRecibo = r.getTotalRecibo();
-            this.fechaEmision = r.getFechaEmision();
+            this.fechaEmision =  r.getFechaEmision();
             this.poblacionExpedicion = r.getUtilitarioContratoInquilino().getLugarRealizacion();
             this.direccionEntornoNombre = "PENDIENTE";
-            if (r.getUtilitarioContratoInquilino().getFechaVencimientoPrevisto()!=null){
-                this.vencimiento = new SimpleDateFormat("dd/MM/yyyy").format(r.getUtilitarioContratoInquilino().getFechaVencimientoPrevisto());
-            }else{
-                this.vencimiento = "";
-            }
+            this.vencimiento = new SimpleDateFormat("dd/MM/yyyy").format(r.getFechaEmision());
+//            if (r.getUtilitarioContratoInquilino().getFechaVencimientoPrevisto()!=null){
+//
+//            }else{
+//                this.vencimiento = "";
+//            }
 
             String rc = "";
             if (d.getReferenciaCatastral()!=null){
@@ -175,7 +177,11 @@ public class ReportRecibo {
 
 
             this.totalReciboPostCCAA = r.getTotalReciboPostCCAA();
-            this.cuentaIban = "TEXTO CUENTA IBAN";//pendinte
+            CuentaBancaria cb = r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
+            if (cb == null){
+                cb = r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaInquilino();
+            }
+            this.cuentaIban = cb.getVersionIBAN();//pendinte
 
             getImplementacionesConceptosAgregadas();
 

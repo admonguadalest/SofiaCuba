@@ -96,7 +96,7 @@ public class HlpListadoResumenRecibos implements Comparable{
 
             CuentaBancaria cb = recibo.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
             if (cb!=null){
-                s = cb.getTextoCuentaBancariaCompleta();
+                s = cb.getVersionIBAN();
             }else{
                 //si no tengo cuenta bancaria pagador las he de cargar
                 //no lo hago de forma generica pues en la Sofia de CUBA la cta del pagador se ha de poner
@@ -105,7 +105,7 @@ public class HlpListadoResumenRecibos implements Comparable{
                 List<CuentaBancaria> ccbb = inquilino.getCuentasBancarias();
                 if (ccbb.size()>0){
                     cb = ccbb.get(0);
-                    s = cb.getTextoCuentaBancariaCompleta();
+                    s = cb.getVersionIBAN();
                 }
             }
         }

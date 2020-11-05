@@ -5,12 +5,33 @@
     <data>
         <instance id="remesaDc" class="com.company.test1.entity.recibos.Remesa"/>
         <collection id="remesasDc" class="com.company.test1.entity.recibos.Remesa"/>
+        <collection id="recibosDc" class="com.company.test1.entity.recibos.Recibo"/>
     </data>
-    <layout>
-        <lookupPickerField id="remesaField" optionsContainer="remesasDc" captionProperty="identificadorRemesa">
-            <actions>
-                <action id="lookup" type="picker_lookup"/>
-            </actions>
-        </lookupPickerField>
+    <layout >
+        <vbox spacing="true">
+            <lookupPickerField caption="Selección de Remesa" id="remesaField" optionsContainer="remesasDc" captionProperty="identificadorRemesa" width="100%">
+                <actions>
+                    <action id="lookup" type="picker_lookup"/>
+                </actions>
+            </lookupPickerField>
+            <table dataContainer="recibosDc" id="tableRecibos" multiselect="true" width="100%" height="500px">
+                <columns>
+                    <column id="ordenanteRemesa.remesa.identificadorRemesa" caption="Id. Remesa"></column>
+                    <column id="fechaEmision" caption="Fecha Emisión"></column>
+                    <column id="utilitarioInquilino.nombreCompleto" caption="Inquilino"></column>
+                    <column caption="Departamento" id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"></column>
+                    <column caption="Total Recibo" id="totalRecibo"></column>
+                    <column caption="Total Recibo PCCAA" id="totalReciboPostCCAA"></column>
+                    <column caption="Total Cobrado" id="totalCobrado"></column>
+                </columns>
+                <rows/>
+            </table>
+            <hbox spacing="true" align="BOTTOM_LEFT">
+                <dateField caption="Fecha Valor" id="fechaValorField" resolution="DAY"/>
+                <button id="btnRealizar" caption="Generar OC" align="BOTTOM_LEFT" invoke="onBtnRealizarClick"/>
+            </hbox>
+
+
+        </vbox>
     </layout>
 </window>

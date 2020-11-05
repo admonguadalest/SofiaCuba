@@ -18,23 +18,23 @@ import java.util.UUID;
 @Component("test1_ReciboEntityListener")
 public class ReciboEntityListener implements AfterUpdateEntityListener<Recibo>, AfterInsertEntityListener<Recibo>, AfterDeleteEntityListener<Recibo> {
 
-    public static boolean activated = true;
+    public static boolean activated = false;
 
     @Override
     public void onAfterDelete(Recibo entity, Connection connection) {
-        if (activated)
-            AppBeans.get(HelperRecibosInformeIva.class).retrocedeReciboEnTablaZHelper(entity.getId());
+//        if (activated)
+//            AppBeans.get(HelperRecibosInformeIva.class).retrocedeReciboEnTablaZHelper(entity.getId());
     }
 
     @Override
     public void onAfterInsert(Recibo entity, Connection connection) {
-        if (activated)
-            AppBeans.get(HelperRecibosInformeIva.class).procesaRecibo(entity);
+//        if (activated)
+//            AppBeans.get(HelperRecibosInformeIva.class).procesaRecibo(entity);
     }
 
     @Override
     public void onAfterUpdate(Recibo entity, Connection connection) {
-        if (activated)
-            AppBeans.get(HelperRecibosInformeIva.class).procesaRecibo(entity);
+//        if (activated)
+//            AppBeans.get(HelperRecibosInformeIva.class).procesaRecibo(entity);
     }
 }

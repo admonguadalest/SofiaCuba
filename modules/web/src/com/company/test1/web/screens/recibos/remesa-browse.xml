@@ -7,7 +7,7 @@
         <collection id="remesasDc"
                     class="com.company.test1.entity.recibos.Remesa"
                     view="remesa-view">
-            <loader id="remesasDl">
+            <loader id="remesasDl" >
                 <query>
                     <![CDATA[select e from test1_Remesa e]]>
                 </query>
