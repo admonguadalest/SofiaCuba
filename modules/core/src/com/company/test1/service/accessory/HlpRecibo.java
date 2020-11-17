@@ -146,7 +146,10 @@ public class HlpRecibo {
                 //dice que no hay security context bound al thread que ejecuta los subreports
                 //toca hacerlo manual
                 AppContext.setSecurityContext(securityContext);
-                double devuelto = AppBeans.get(RecibosService.class).getTotalDevuelto(recibo);
+                //se llama a recibo getTotalPendiente / getTotalDevuelto me devuelve solo los movmientos devuelto, pero en el listado de
+                //pendientes y devueltos hay que poner el total de cantidades pendientes, y no solo aquellas uqe han sido devueltas
+                //caso: cuando hay devolucion bancaria e ingreso parcial por administradcion
+                double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
 
 
                 String devueltoNombre = nf.format(devuelto);
