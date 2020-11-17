@@ -36,7 +36,9 @@ public class Recibos {
         String sql = "CREATE TABLE `z_helper_proceso_recibos_informeiva` (\n" +
                 "  `id` int(11) NOT NULL AUTO_INCREMENT,\n" +
                 "  `entorno_id` varchar(32) DEFAULT NULL,\n" +
+                "  `ubicacion_rm2id` varchar(32) DEFAULT NULL,\n" +
                 "  `ubicacion_id` varchar(32) NOT NULL DEFAULT '0',\n" +
+                "  `departamento_rm2id` varchar(32) DEFAULT NULL,\n" +
                 "  `departamento_id` varchar(32) NOT NULL DEFAULT '0',\n" +
                 "  `recibo_id` varchar(32) NOT NULL DEFAULT '0',\n" +
                 "  `inquilino_id` varchar(32) NOT NULL DEFAULT '0',\n" +

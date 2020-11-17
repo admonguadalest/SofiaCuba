@@ -286,6 +286,7 @@ public class CicloEdit extends StandardEditor<Ciclo> {
                     cicloDc.getItem().getEventos().add(ev);
                     ev.setCiclo(cicloDc.getItem());
                     eventosDc.getMutableItems().add(ev);
+                    dataContext.merge(ev);
                 });
     }
 

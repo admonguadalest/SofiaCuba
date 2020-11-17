@@ -115,13 +115,12 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
         }
     }
 
-    @Subscribe("importeTotalBaseField")
-    private void onImporteTotalBaseFieldValueChange(HasValue.ValueChangeEvent<Double> event) {
+    private void actualizaImportePostCCAA(double importeTotalBase){
         List<RegistroAplicacionConceptoAdicional> items = registroAplicacionConceptosAdicionalesDc.getMutableItems();
-        double importeTotal = event.getValue();
+        double importeTotal = importeTotalBase;
         for(int i = 0;i < items.size();i++){
             RegistroAplicacionConceptoAdicional raca = items.get(i);
-            raca.setBase(event.getValue());
+            raca.setBase(importeTotalBase);
             if (raca.getPorcentaje()!=null){
                 raca.setImporteAplicado(raca.getPorcentaje()*raca.getBase());
             }
@@ -133,6 +132,11 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
 
         }
         presupuestoDc.getItem().setImportePostCCAA(importeTotal);
+    }
+
+    @Subscribe("importeTotalBaseField")
+    private void onImporteTotalBaseFieldValueChange(HasValue.ValueChangeEvent<Double> event) {
+        actualizaImportePostCCAA(event.getValue());
 
 
     }
@@ -151,15 +155,20 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
 
         Double[] options = null;
         if (raca.getConceptoAdicional().getAbreviacion().compareTo("IVA")==0){
-            options = new Double[]{0.04, 0.1, 0.21};
+            options = new Double[]{0.00, 0.04, 0.1, 0.21};
         }
         if (raca.getConceptoAdicional().getAbreviacion().compareTo("IRPF")==0){
-            options = new Double[]{0.01, 0.2, 0.15};
+            options = new Double[]{0.00, 0.01, 0.2, 0.15};
         }
         lkf.setOptionsList(Arrays.asList(options));
 
         InstanceContainer<RegistroAplicacionConceptoAdicional> ici = dataComponents.createInstanceContainer(RegistroAplicacionConceptoAdicional.class);
         ici.setItem(raca);
+
+        lkf.addValueChangeListener(e->{
+            ici.getItem().setImporteAplicado(ici.getItem().getBase() * e.getValue());
+            actualizaImportePostCCAA(presupuestoDc.getItem().getImporteTotalBase());
+        });
 
         lkf.setValueSource(new ContainerValueSource(ici, "porcentaje"));
 

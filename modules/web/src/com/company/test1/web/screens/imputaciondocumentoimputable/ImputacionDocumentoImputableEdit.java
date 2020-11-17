@@ -4,7 +4,9 @@ import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.ciclos.Evento;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
+import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.documentoproveedor.DocumentoProveedorBrowse;
+import com.company.test1.web.screens.evento.EventoEdit;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
@@ -13,6 +15,7 @@ import com.haulmont.cuba.gui.components.HasValue;
 import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.model.InstanceLoader;
 import com.haulmont.cuba.gui.model.impl.InstanceLoaderImpl;
@@ -51,6 +54,8 @@ public class ImputacionDocumentoImputableEdit extends StandardEditor<ImputacionD
     String fromScreen = null;
     @Inject
     private Notifications notifications;
+    @Inject
+    private DataContext dataContext;
 
     @Subscribe
     public void onAfterInit(AfterInitEvent event) {
@@ -73,7 +78,33 @@ public class ImputacionDocumentoImputableEdit extends StandardEditor<ImputacionD
     }
 
 
-    
+    public void onBtnNuevoEventoClick(){
+
+        ImputacionDocumentoImputable idi = imputacionDocumentoImputableDc.getItem();
+        if (idi.getCiclo()==null){
+            notifications.create().withDescription("Seleccionar previamente un ciclo").show();
+            return;
+        }
+        StandardEditor<Evento> se = (StandardEditor<Evento>)screenBuilders.editor(Evento.class, this).newEntity().withParentDataContext(dataContext).withOpenMode(OpenMode.DIALOG).build();
+        se.addAfterCloseListener(e->{
+            StandardCloseAction sca = (StandardCloseAction) e.getCloseAction();
+            if (sca.getActionId().compareTo("commit")==0){
+                StandardEditor<Evento> see = (StandardEditor<Evento>) e.getScreen();
+                Evento ev = see.getEditedEntity();
+                if (ev != null){
+                    ev.setCiclo(idi.getCiclo());
+                    dataContext.merge(ev);
+                    idi.getCiclo().getEventos().add(ev);
+                    eventoesLc.load();
+
+                }
+            }
+
+
+        });
+        se.show();
+
+    }
     
     
     @Subscribe
@@ -95,6 +126,8 @@ public class ImputacionDocumentoImputableEdit extends StandardEditor<ImputacionD
         if (event.getValue()!=null){
             eventoesLc.load();
         }
+        ImputacionDocumentoImputable idi = imputacionDocumentoImputableDc.getItem();
+        imputacionDocumentoImputableDc.getItem().setDescripcionImputacion(idi.getDocumentoImputable().getDescripcionDocumento());
     }
 
     @Subscribe("porcentajeImputacionField")

@@ -34,14 +34,17 @@
                         <action id="clear" type="picker_clear"/>
                     </actions>
                 </pickerField>
-                <lookupPickerField id="eventoField" optionsContainer="eventoesDc" width="512px"
-                                   dataContainer="imputacionDocumentoImputableDc"
-                                   property="evento" captionProperty="nombre">
-                    <actions>
-                        <action id="lookup" type="picker_lookup"/>
-                    </actions>
-                </lookupPickerField>
-                <hbox caption="Porcentaje Imp." spacing="true" width="100%" >
+                <hbox spacing="true">
+                    <lookupPickerField id="eventoField" optionsContainer="eventoesDc"
+                                       dataContainer="imputacionDocumentoImputableDc"
+                                       property="evento" captionProperty="nombre" caption="Eventos" box.expandRatio="60">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                        </actions>
+                    </lookupPickerField>
+                    <button align="BOTTOM_LEFT" id="btnNuevoEvento" invoke="onBtnNuevoEventoClick" caption="Nuevo Evento" box.expandRatio="40"/>
+                </hbox>
+                <hbox caption="Porcentaje Imp." spacing="true" >
                     <textField id="porcentajeImputacionField" box.expandRatio="55"
                                dataContainer="imputacionDocumentoImputableDc" property="porcentajeImputacion"/>
                     <button caption="100%" align="MIDDLE_RIGHT" box.expandRatio="15" invoke="btn100"/>

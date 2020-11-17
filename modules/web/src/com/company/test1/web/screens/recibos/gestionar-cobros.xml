@@ -21,8 +21,8 @@
         <filter id="filter"
                 applyTo="reciboesTable"
                 dataLoader="reciboesDl">
-            <property caption="Fecha Valor" name="fechaEmision"/>
-            <property caption="Nombre Inquilino" name="utilitarioInquilino.nombreCompleto"/>
+            <property caption="Fecha Emision" name="fechaEmision"/>
+            <property caption="Nombre Inquilino" name="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
         </filter>
         <table id="reciboesTable"
                width="100%"

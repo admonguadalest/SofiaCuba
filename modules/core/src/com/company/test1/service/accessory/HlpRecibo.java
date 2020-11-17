@@ -7,6 +7,7 @@ package com.company.test1.service.accessory;
 
 
 import com.company.test1.entity.Persona;
+import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.enums.recibos.DefinicionRemesaTipoGiroEnum;
 import com.company.test1.entity.enums.recibos.ReciboCobradoModoIngreso;
@@ -138,19 +139,23 @@ public class HlpRecibo {
     }
 
     public String getDevuelto() {
-
-        if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro()== DefinicionRemesaTipoGiroEnum.BANCARIA){
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        if (this.recibo.getOrdenanteRemesa()!=null) {
+            if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA) {
 //            double devuelto = recibosService.getTotalDevuelto(recibo); //pendiente no consigo usar recibosService aqui, me da una exception
-            //dice que no hay security context bound al thread que ejecuta los subreports
-            //toca hacerlo manual
-            AppContext.setSecurityContext(securityContext);
-            double devuelto = AppBeans.get(RecibosService.class).getTotalDevuelto(recibo);
+                //dice que no hay security context bound al thread que ejecuta los subreports
+                //toca hacerlo manual
+                AppContext.setSecurityContext(securityContext);
+                double devuelto = AppBeans.get(RecibosService.class).getTotalDevuelto(recibo);
 
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
-            String devueltoNombre = nf.format(devuelto);
-            return devueltoNombre;
+
+                String devueltoNombre = nf.format(devuelto);
+                return devueltoNombre;
+            } else {
+                return "";
+            }
         }else{
-            return "";
+            return nf.format(0.0);
         }
 
 
@@ -158,19 +163,26 @@ public class HlpRecibo {
     }
 
     public String getPendiente() {
-
-        if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro()==DefinicionRemesaTipoGiroEnum.ADMINISTRACION){
+        if (this.recibo.getOrdenanteRemesa()!=null) {
+            if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.ADMINISTRACION) {
+                double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
+                NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+                String devueltoNombre = nf.format(devuelto);
+                return devueltoNombre;
+            } else {
+                return "";
+            }
+        }else{
             double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
             NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
             String devueltoNombre = nf.format(devuelto);
             return devueltoNombre;
-        }else{
-            return "";
         }
     }
 
     public String getNombreDepartamento(){
-        return recibo.getUtilitarioContratoInquilino().getDepartamento().getNombreDescriptivoCompleto();
+        Departamento d = recibo.getUtilitarioContratoInquilino().getDepartamento();
+        return d.getPiso() + " " + d.getPuerta();
     }
 
     public String getNombreTitularRecibo(){
@@ -183,9 +195,14 @@ public class HlpRecibo {
     }
 
     public String getTipoGasto(){
-        if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro()==DefinicionRemesaTipoGiroEnum.BANCARIA) return "BANCARIO";
+        if (this.recibo.getOrdenanteRemesa()!=null) {
+            if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA)
+                return "BANCARIO";
 
-        return "ADMIN.";
+            return "ADMIN.";
+        }else{
+            return "ADMIN.";
+        }
     }
 
 

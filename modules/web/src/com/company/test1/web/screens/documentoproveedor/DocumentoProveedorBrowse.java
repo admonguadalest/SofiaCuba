@@ -1,9 +1,11 @@
 package com.company.test1.web.screens.documentoproveedor;
 
 import com.company.test1.entity.ArchivoAdjunto;
+import com.company.test1.entity.ArchivoAdjuntoExt;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
+import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.service.OrdenPagoService;
 import com.company.test1.service.PdfService;
 import com.company.test1.web.screens.DynamicReportHelper;
@@ -22,6 +24,7 @@ import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @UiController("test1_DocumentoProveedor.browse")
@@ -44,6 +47,8 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private PdfService pdfService;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
 
     public Component getOrdenPagoColumn(DocumentoProveedor dp){
         HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
@@ -79,9 +84,14 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
                 dp = dataManager.reload(dp, "presupuesto-view");
             }
             ArchivoAdjunto aa = dp.getColeccionArchivosAdjuntos().getArchivos().get(0);
+            ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
             /* PENDIENTE IMPLEMENTAR OTRAS EXTENSIONES */
-            if (aa.getExtension().compareTo("pdf")==0){
-                documentos.add(aa.getRepresentacionSerial());
+            if (aaext.getExtension().compareTo("pdf")==0){
+                byte[] bb = aaext.getRepresentacionSerial();
+                bb = Base64.getMimeDecoder().decode(bb);
+                bb = Base64.getMimeDecoder().decode(bb);
+                documentos.add(bb);
+
             }
         }
         byte[] bb = pdfService.concatPdfs(documentos, false);

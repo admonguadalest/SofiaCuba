@@ -872,6 +872,10 @@ public class RecibosServiceBean implements RecibosService {
                 ReciboCobrado rc = r.getRecibosCobrados().get(i);
                 if (rc.getModoIngreso() == ReciboCobradoModoIngreso.DEVUELTO) {
                     d += rc.getTotalIngreso();
+                    if (rc.getCobranzas()!=null){
+                        d += rc.getCobranzas();
+                    }
+
                 }
             }
             return d;

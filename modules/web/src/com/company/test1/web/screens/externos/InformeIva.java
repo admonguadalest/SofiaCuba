@@ -11,23 +11,23 @@ import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
-import com.haulmont.cuba.gui.components.DateField;
-import com.haulmont.cuba.gui.components.LookupField;
-import com.haulmont.cuba.gui.components.Table;
-import com.haulmont.cuba.gui.components.Tree;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
+import freemarker.template.utility.DateUtil;
+import org.apache.http.client.utils.DateUtils;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Calendar;
 
 @UiController("test1_InformeIva")
 @UiDescriptor("informe-iva.xml")
@@ -206,4 +206,15 @@ public class InformeIva extends Screen {
 
 
     }
+
+    @Subscribe("dteFechaDesde")
+    public void onDteFechaDesdeValueChange(HasValue.ValueChangeEvent<Date> event) {
+        Date d = event.getValue();
+        Calendar c = GregorianCalendar.getInstance();
+        c.setTime(d);
+        c.set(Calendar.DAY_OF_MONTH, c.getMaximum(Calendar.DAY_OF_MONTH));
+        dteFechaHasta.setValue(c.getTime());
+    }
+
+
 }

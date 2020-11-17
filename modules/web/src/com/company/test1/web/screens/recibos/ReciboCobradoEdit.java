@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.recibos;
 
 import com.company.test1.entity.enums.recibos.ReciboCobradoModoIngreso;
+import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.components.DateField;
 import com.haulmont.cuba.gui.components.HasValue;
 import com.haulmont.cuba.gui.components.LookupField;
@@ -28,7 +29,10 @@ public class ReciboCobradoEdit extends StandardEditor<ReciboCobrado> {
     @Subscribe("modoIngresoField")
     private void onModoIngresoFieldValueChange(HasValue.ValueChangeEvent<ReciboCobradoModoIngreso> event) {
         reciboCobradoDc.getItem().setTotalIngreso(this.getEditedEntity().getRecibo().getTotalReciboPostCCAA());
-        fechaCobroField.setValue(new Date());
+        if (PersistenceHelper.isNew(reciboCobradoDc.getItem())){
+            fechaCobroField.setValue(new Date());
+        }
+
     }
     
     

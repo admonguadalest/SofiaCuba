@@ -109,7 +109,9 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
         nombreInquilino = nombreInquilino.replace("'","`");
 
         String sql = "insert into z_helper_proceso_recibos_informeiva\n" +
-                "(ubicacion_id, " +
+                "(ubicacion_rm2id," +
+                "ubicacion_id, " +
+                "departamento_rm2id, " +
                 "departamento_id, " +
                 "recibo_id, " +
                 "inquilino_id, " +
@@ -130,7 +132,9 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
                 "porcentajeIRPF, " +
                 "importeAplicadoIRPF) " +
                 "values " +
-                "('" + r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getId().toString().replace("-","") +"', " +
+                "(" + r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getRm2id().toString() + "," +
+                "'" + r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getId().toString().replace("-","") +"', " +
+                r.getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString() + "," +
                 "'" + r.getUtilitarioContratoInquilino().getDepartamento().getId().toString().replace("-","") +"', " +
                 "'" + r.getId().toString().replace("-","") +"', " +
                 "'" + r.getUtilitarioInquilino().getId().toString().replace("-","") +"', " +
