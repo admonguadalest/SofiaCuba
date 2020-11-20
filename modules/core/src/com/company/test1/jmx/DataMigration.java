@@ -48,6 +48,10 @@ public class DataMigration implements DataMigrationMBean {
         new IPCs().realizaImportaciones(persistence);
     }
 
+    public void doImportParteDocumentacionesInquilinos() throws Exception{
+        new DocumentacionesInquilinos().realizaImportacion(dataManager, persistence);
+    }
+
 
     @Authenticated
     @Override

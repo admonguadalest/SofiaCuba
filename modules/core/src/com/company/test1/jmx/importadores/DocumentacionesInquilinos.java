@@ -4,6 +4,7 @@ import com.company.test1.entity.ColeccionArchivosAdjuntos;
 import com.company.test1.entity.documentacionesinquilinos.DocumentacionInquilino;
 import com.company.test1.jmx.Rentamaster2DB;
 import com.company.test1.jmx.importadores.contratosinquilinos.ContratosInquilinos;
+import com.company.test1.listeners.ArchivoAdjuntoEntityListener;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
@@ -15,6 +16,7 @@ import java.util.List;
 public class DocumentacionesInquilinos {
 
     public void realizaImportacion(DataManager dataManager, Persistence persistence) throws Exception{
+        ArchivoAdjuntoEntityListener.activated=false;
         String sql = "select * from documentaciones_candidaturas_inquilinos";
         ResultSet r = Rentamaster2DB.getResultSet(sql);
         List entitiesToPersist = new ArrayList();
@@ -32,6 +34,7 @@ public class DocumentacionesInquilinos {
             dataManager.commit(new CommitContext(entitiesToPersist));
             entitiesToPersist.clear();
         }
+        ArchivoAdjuntoEntityListener.activated = true;
 
     }
 

@@ -5,6 +5,7 @@ import com.company.test1.entity.Persona;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
+import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
 import com.company.test1.entity.recibos.Recibo;
@@ -73,7 +74,8 @@ public class HelperRecibo {
     public String getDirprop1(){
         try {
             Propietario prop = r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo();
-            Direccion dir = prop.getPersona().getDirecciones().get(0); //pendiente solventar
+            Direccion dir = Direccion.getDireccionDesdeEnum(prop.getPersona(), NombreTipoDireccion.DOMICILIO_ADMINISTRADOR);
+
             return dir.getVia() + " " + dir.getNombreVia() + " " + dir.getNumeroVia();
         }catch(Exception exc){
             return "Datos de direccion linea 1 invalidos";

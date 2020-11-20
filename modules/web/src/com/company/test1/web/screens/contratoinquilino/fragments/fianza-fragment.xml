@@ -59,7 +59,12 @@
                                      property="escaneoFianza" dataContainer="fianzaDc"
                                      width="100%"/>
             <label value="Documentaciones de Inquilino Asociadas"/>
-            <table id="tblDocumentacionesInquilinos" height="200px" width="100%"
+            <buttonsPanel >
+                <button id="btnAnadir" caption="Anadir" invoke="onBtnAnadirClick"/>
+                <button id="btnSuprimir" caption="Suprimir" invoke="onBtnSuprimirClick"/>
+                <button id="btnVer" caption="Ver" invoke="onBtnVerClick"/>
+            </buttonsPanel>
+            <table id="tblDocumentacionesInquilinos" width="100%" height="250px"
                    dataContainer="documentacionInquilinoesDc">
                 <columns>
                     <column id="dni"/>
@@ -69,11 +74,7 @@
                     <column id="presentacion"/>
                     <column id="fechaRegistro"/>
                 </columns>
-                <buttonsPanel caption="Ver">
-                    <button id="btnAnadir" caption="Anadir" invoke="onBtnAnadirClick"/>
-                    <button id="btnSuprimir" caption="Suprimir" invoke="onBtnSuprimirClick"/>
-                    <button id="btnVer" caption="Ver" invoke="onBtnVerClick"/>
-                </buttonsPanel>
+
             </table>
         </form>
     </layout>

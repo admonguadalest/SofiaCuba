@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 3.7.4  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="realizacionPago" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.7715610000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -24,7 +25,7 @@
 		<band height="193" splitType="Stretch">
 			<textField>
 				<reportElement x="10" y="77" width="433" height="20" forecolor="#666666"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Fecha: " +$P{P_FECHA} + "  Hora: " +$P{P_HORA} + "  Informe Realizado por: " +  $P{P_INFORME_REALIZADO_POR}]]></textFieldExpression>
@@ -35,77 +36,77 @@
 			</image>
 			<textField>
 				<reportElement x="30" y="174" width="160" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_IDENTIFICADOR}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy">
+			<textField>
 				<reportElement x="210" y="174" width="80" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHA_CREACION}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="320" y="174" width="80" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_FECHA_VALOR}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="420" y="174" width="80" height="15"/>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_IMPORTE}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="30" y="155" width="160" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Identificador]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="210" y="155" width="80" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha Creación]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="320" y="155" width="80" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha Valor]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="420" y="155" width="80" height="15"/>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" lineSpacing="Single">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Importe     ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="47" width="520" height="20"/>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" lineSpacing="Single">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DETALLE PAGO TELEMÁTICO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="300" y="106" width="160" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cuenta Debitora]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="300" y="125" width="160" height="15"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_CUENTA_DEBITORA}]]></textFieldExpression>
@@ -128,28 +129,28 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="270" y="0" width="160" height="12" forecolor="#FFFFFF"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cuenta Destino]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="70" y="0" width="200" height="12" forecolor="#FFFFFF"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dato]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="430" y="0" width="70" height="12" forecolor="#FFFFFF"/>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" lineSpacing="Single">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Importe     ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="30" y="0" width="40" height="12" forecolor="#FFFFFF"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tipo]]></text>
@@ -160,28 +161,28 @@
 		<band height="13" splitType="Stretch">
 			<textField>
 				<reportElement x="30" y="0" width="40" height="12"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipoAbreviado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="70" y="0" width="200" height="12"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{dato}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="430" y="0" width="70" height="12"/>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{importeEfectivo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="270" y="0" width="160" height="12"/>
-				<textElement>
+				<textElement lineSpacing="Single">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cuentaDestino}]]></textFieldExpression>

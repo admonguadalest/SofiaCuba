@@ -7,6 +7,8 @@ import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
@@ -115,7 +117,9 @@ public class OrdenPago extends StandardEntity {
         }
         if (this instanceof OrdenPagoContratoInquilino){
             OrdenPagoContratoInquilino opci = (OrdenPagoContratoInquilino) this;
-            opci.getContratoInquilino().getNumeroContrato();
+            ContratoInquilino ci = opci.getContratoInquilino();
+            ci = AppBeans.get(DataManager.class).reload(ci, "contratoInquilino-view");
+            return ci.getInquilino().getNombreCompleto() + " " + ci.getDepartamento().getUbicacion().getAbreviacionUbicacion() + ci.getDepartamento().getAbreviacionPisoPuerta();
         }
         return "N/D";
     }
@@ -125,15 +129,24 @@ public class OrdenPago extends StandardEntity {
     public CuentaBancaria getCuentaBancariaOrdenPago() {
         if (this instanceof OrdenPagoFacturaProveedor){
             OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) this;
+            opfp = AppBeans.get(DataManager.class).reload(opfp, "ordenPagoFacturaProveedor-view");
             return opfp.getFacturaProveedor().getProveedor().getCuentaBancaria();
         }
         if (this instanceof OrdenPagoProveedor){
             OrdenPagoProveedor opp = (OrdenPagoProveedor) this;
+            opp = AppBeans.get(DataManager.class).reload(opp, "ordenPagoProveedor-view");
             return opp.getProveedor().getCuentaBancaria();
         }
         if (this instanceof OrdenPagoContratoInquilino){
             OrdenPagoContratoInquilino opci = (OrdenPagoContratoInquilino) this;
-            return opci.getContratoInquilino().getProgramacionRecibo().getCuentaBancariaInquilino();
+            ContratoInquilino ci = opci.getContratoInquilino();
+            ci = AppBeans.get(DataManager.class).reload(ci, "contratoInquilino-view");
+            if (ci.getProgramacionRecibo().getCuentaBancariaInquilino()==null){
+                return ci.getProgramacionRecibo().getCuentaBancariaPagador();
+            }else{
+                return ci.getProgramacionRecibo().getCuentaBancariaInquilino();
+            }
+
         }
         return null;
     }

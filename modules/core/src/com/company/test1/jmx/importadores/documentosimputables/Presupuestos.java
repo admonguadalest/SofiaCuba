@@ -10,6 +10,7 @@ import com.company.test1.jmx.importadores.ColeccionesAdjuntos;
 import com.company.test1.jmx.importadores.conceptosadicionales.ConceptosAdicionales;
 import com.company.test1.jmx.importadores.personasyroles.Personas;
 import com.haulmont.cuba.core.Persistence;
+import com.haulmont.cuba.core.Transaction;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -76,6 +77,14 @@ public class Presupuestos {
                 "di.id = dp.id where p.id = " + id;
         Integer nor = Rentamaster2DB.getNumberOfRecords(sql);
         return nor == 1;
+    }
+
+    public Presupuesto devuelvePresupuestoDesdeSofiaId(Integer sofiaPresupuestoId, Persistence persistence) throws Exception{
+        Transaction t = persistence.createTransaction();
+        String hql = "SELECT p FROM test1_Presupuesto p WHERE p.rm2id = " + sofiaPresupuestoId;
+        Presupuesto p = (Presupuesto) persistence.getEntityManager().createQuery(hql).getFirstResult();
+        t.commit();
+        return p;
     }
 
 }

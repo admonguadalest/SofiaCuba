@@ -3,6 +3,7 @@
         caption="Recio Individualizado"
         focusComponent="form"
         messagesPack="com.company.test1.web.screens.recibos">
+
     <data>
         <instance id="reciboDc"
                   class="com.company.test1.entity.recibos.Recibo"
@@ -64,7 +65,7 @@
         </scrollBox>
         <hbox id="editActions" spacing="true">
             <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
-            <button action="windowClose" caption="Cancelar"/>
+            <button caption="Cancelar" invoke="onBtnCancelarClick"/>
             <button id="btnImprimir" invoke="onBtnImprimirClick" caption="Previsualizar"/>
         </hbox>
     </layout>

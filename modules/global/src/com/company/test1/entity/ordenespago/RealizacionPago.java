@@ -17,7 +17,6 @@ public class RealizacionPago extends StandardEntity {
     private static final long serialVersionUID = 2931477070508162197L;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.CASCADE)
     @OneToMany(mappedBy = "realizacionPago")
     protected List<OrdenPago> ordenesPago = new ArrayList<OrdenPago>();
 

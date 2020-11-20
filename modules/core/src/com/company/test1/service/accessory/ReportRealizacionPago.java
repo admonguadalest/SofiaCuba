@@ -69,7 +69,7 @@ public class ReportRealizacionPago {
             pams.put("P_CUENTA_DEBITORA", realizacionPago.getCuentaBancaria().getVersionIBAN());
             pams.put("P_ENTORNO", "");
             pams.put("P_IDENTIFICADOR", realizacionPago.getIdentificador());
-            pams.put("P_FECHA_CREACION", new Date());//pendiente hacer fetch del createTs
+            pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(new Date()));//pendiente hacer fetch del createTs
             pams.put("P_FECHA_VALOR", new SimpleDateFormat("dd/MM//yyyy").format(realizacionPago.getFechaValor()));
             pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance().format(realizacionPago.getImporteTotal()));
 

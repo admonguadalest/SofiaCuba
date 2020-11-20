@@ -2,7 +2,7 @@
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
 
 
-        caption="msg://caption"
+        caption="Gestión de Validaciones"
         messagesPack="com.company.test1.web.screens.validaciones">
     <data>
         <collection id="validacionesDc" class="com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable"
@@ -37,7 +37,7 @@
                              optionsEnum="com.company.test1.entity.enums.TipoCiclo"/>
             </hbox>
             <scrollBox height="100%">
-                <table id="tableValidaciones" height="600px" width="100%" dataContainer="validacionesDc">
+                <table id="tableValidaciones" height="400px" width="100%" dataContainer="validacionesDc">
 
 
                     <columns>
@@ -46,6 +46,7 @@
                         <column id="imputacionDocumentoImputable.documentoImputable.fechaEmision" caption="Emision"/>
                         <column id="imputacionDocumentoImputable.documentoImputable.numDocumento" caption="No. Docto."/>
                         <column id="imputacionDocumentoImputable.ciclo.departamento.nombreDescriptivoCompleto" caption="Depto."/>
+                        <column id="imputacionDocumentoImputable.importeImputacion" caption="Imputable (S/IVA)"/>
                         <column id="imputacionDocumentoImputable.documentoImputable.importePostCCAA" caption="Importe"/>
                         <column id="estadoValidacion" generator="getColumnEstadoValidacion" caption="Estado"/>
 
@@ -66,11 +67,12 @@
 
 
             </scrollBox>
+            <buttonsPanel align="BOTTOM_LEFT">
+                <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+                <button id="btnReport" caption="Hacer Report"/>
+                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+            </buttonsPanel>
         </vbox>
-        <buttonsPanel align="BOTTOM_LEFT">
-            <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
-            <button id="btnReport" caption="Hacer Report"/>
-            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
-        </buttonsPanel>
+
     </layout>
 </window>

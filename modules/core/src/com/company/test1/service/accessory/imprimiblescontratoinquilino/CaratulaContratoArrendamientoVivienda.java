@@ -213,7 +213,7 @@ public class CaratulaContratoArrendamientoVivienda extends CaratulaContratoArren
         if (jrr != null) {
             this.getParameters().put("IMAGEN_MARGEN_IZQUIERDO", jrr);
         }
-        if (EstadoContratoInquilinoEnum.compare(this.contratoInquilino.getEstadoContrato(), EstadoContratoInquilinoEnum.AUTORIZADO)>0){
+        if (EstadoContratoInquilinoEnum.compare(this.contratoInquilino.getEstadoContrato(), EstadoContratoInquilinoEnum.AUTORIZADO)>=0){
             this.getParameters().put("ES_BORRADOR",false);
         }else{
             this.getParameters().put("ES_BORRADOR",true);

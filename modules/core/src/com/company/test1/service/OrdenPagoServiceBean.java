@@ -80,7 +80,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
             Object[] objects =  results.get(i);
             Double importe = (Double) objects[1];
             Double sum = (Double) objects[2];
-            if ((importe - sum)>0){
+            if ((importe - sum)>0.00001){
                 ids.add((String) objects[0]);
             }
         }

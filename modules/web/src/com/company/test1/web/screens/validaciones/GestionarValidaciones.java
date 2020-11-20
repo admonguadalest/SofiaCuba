@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.validaciones;
 
 import com.company.test1.entity.ArchivoAdjunto;
+import com.company.test1.entity.ArchivoAdjuntoExt;
 import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
@@ -12,6 +13,7 @@ import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.ordenespago.OrdenPago;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.service.OrdenPagoService;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -41,10 +43,8 @@ import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
 import java.awt.*;
-import java.util.Date;
+import java.util.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @UiController("test1_GestionarValidaciones")
@@ -101,6 +101,8 @@ public class GestionarValidaciones extends Screen {
 
 
     private HashMap<DocumentoImputable, List<Component>> documentosToListColumnsEstadoValidacion = new HashMap<DocumentoImputable, List<Component>>();
+    @Inject
+    private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
 
     public void onBtnCerrarClick() {
         this.closeWithDefaultAction();
@@ -173,19 +175,29 @@ public class GestionarValidaciones extends Screen {
         l.add(hbx);
         //final registro de columnas
 
+
+        boolean imprimirLabel = true;
         ValidacionEstado ve = null;
         try{
             ve = validacionesService.devuelveEstadoValidacionDocumentoImputable(vidi.getImputacionDocumentoImputable().getDocumentoImputable());
             if (ve == ValidacionEstado.VALIDADO){
                 Label linfo = uiComponents.create(Label.NAME);
                 if (vidi.getImputacionDocumentoImputable().getDocumentoImputable() instanceof FacturaProveedor){
-                    linfo.setValue("Validado - Existe Orden de Pago");
+                    OrdenPagoFacturaProveedor opfp = ordenPagoService.devuelveOrdenPagoFacturaProveedor((FacturaProveedor) vidi.getImputacionDocumentoImputable().getDocumentoImputable());
+                    if (opfp!=null) {
+                        linfo.setValue("Validado - Existe Orden de Pago");
+                    }else{
+                        //no hay orden de pago
+                        imprimirLabel = false;
+                    }
                 }else{
                     linfo.setValue("Validado");
                 }
+                if (imprimirLabel){
+                    hbx.add(linfo);
+                    return hbx;
+                }
 
-                hbx.add(linfo);
-                return hbx;
             }
 
         }catch(Exception exc){
@@ -255,7 +267,11 @@ public class GestionarValidaciones extends Screen {
             }
 
             ArchivoAdjunto aa =di.getColeccionArchivosAdjuntos().getArchivos().get(0);
-            byte[] bytes = aa.getRepresentacionSerial();
+
+            ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
+            byte[] bytes = aaext.getRepresentacionSerial();
+            bytes = Base64.getMimeDecoder().decode(bytes);
+            bytes = Base64.getMimeDecoder().decode(bytes);
             exportDisplay.show(new ByteArrayDataProvider(bytes), aa.getNombreArchivo(), ExportFormat.getByExtension(aa.getExtension()));
         }catch(Exception exc){
             notifications.create().withCaption("Error").withDescription("No se pudo descargar el archivo").show();
@@ -357,6 +373,10 @@ public class GestionarValidaciones extends Screen {
 
 
             }
+            dataManager.commit(vidi);
+        }else{
+            vidi.setEstadoValidacion(e.getValue());
+            vidi.setFechaAprobacionRechazo(new Date());
             dataManager.commit(vidi);
         }
     }

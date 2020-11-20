@@ -1,5 +1,6 @@
 package com.company.test1.entity;
 
+import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.CaseConversion;
@@ -17,7 +18,7 @@ import java.util.List;
 public class Direccion extends StandardEntity {
     private static final long serialVersionUID = -2220600454605324077L;
 
-    public static final String NOMBRE_DIRECCION_PROPIETARIO_CONTRATO_N19 = "Domicilio Contractual";
+    /*public static final String NOMBRE_DIRECCION_PROPIETARIO_CONTRATO_N19 = "Domicilio Contractual";
 
     public static final String NOMBRE_DIRECCION_INQUILINO = "DOMICILIO ";
 
@@ -25,7 +26,7 @@ public class Direccion extends StandardEntity {
 
     public static final String NOMBRE_DIRECCION_UBICACION = "Domicilio Ubicación";
 
-    public static final String NOMBRE_DIRECCION_PERSONALIZADA = "Personalizada";
+    public static final String NOMBRE_DIRECCION_PERSONALIZADA = "Personalizada";*/
 
     @NotNull(message = "Aportar Codigo Postal")
     @Column(name = "CODIGO_POSTAL", length = 25)
@@ -237,6 +238,17 @@ public class Direccion extends StandardEntity {
             }
         }
         throw new Exception("Direccion con nombre '" + nombre + "' no encontrada");
+    }
+
+    public static Direccion getDireccionDesdeEnum(Persona p, NombreTipoDireccion ntd) throws Exception{
+        List<Direccion> l = p.getDirecciones();
+        for (int i = 0; i < l.size(); i++) {
+            Direccion d = l.get(i);
+            if (d.getNombre().compareTo(ntd.getId().toString())==0){
+                return d;
+            }
+        }
+        throw new Exception("Direccion con nombre '" + ntd.toString() + "' no encontrada");
     }
 
 

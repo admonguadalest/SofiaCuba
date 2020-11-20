@@ -21,6 +21,7 @@ import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.enums.EstadoContratoInquilinoEnum;
+import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.company.test1.entity.enums.UsoContratoEnum;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.accessory.SIJRBeanDataSource;
@@ -148,8 +149,8 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
                 representanteArrendataria = (PersonaFisica)inquilino;
             }
         }
-        Direccion domicilioArrendador = Direccion.getDireccionDesdeNombre(this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona(),Direccion.NOMBRE_DIRECCION_PROPIETARIO_CONTRATO_N19);
-        Direccion domicilioInquilino = Direccion.getDireccionDesdeNombre(this.contratoInquilino.getInquilino(),Direccion.NOMBRE_DIRECCION_INQUILINO);
+        Direccion domicilioArrendador = Direccion.getDireccionDesdeEnum(this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona(),NombreTipoDireccion.DOMICILIO_ADMINISTRADOR);
+        Direccion domicilioInquilino = Direccion.getDireccionDesdeEnum(this.contratoInquilino.getInquilino(), NombreTipoDireccion.DOMICILIO_INQUILINO);
         Departamento departamentoLocal = this.contratoInquilino.getDepartamento();
         //CedulaHabitabilidad cedulaHabitabilidad = departamentoVivienda.getEscogeCedulaHabitabilidadMasVigente();
         Direccion dirLocal = departamentoLocal.getUbicacion().getDireccion();

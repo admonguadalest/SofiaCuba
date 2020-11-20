@@ -31,6 +31,7 @@ public class HlpOrdenPago {
     }
 
     public String getDato(){
+
         return ordenPago.getDato();
     }
 

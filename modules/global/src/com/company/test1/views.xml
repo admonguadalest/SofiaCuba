@@ -973,6 +973,9 @@
                 <property name="cuentaBancariaDomiciliado">
                     <property name="persona"/>
                 </property>
+                <property name="cuentaBancaria">
+                    <property name="persona"/>
+                </property>
             </property>
         </property>
         <property name="compensaciones" view="_base">
@@ -1596,5 +1599,14 @@
                 </property>
             </property>
         </property>
+    </view>
+    <view entity="test1_ConceptoAdicionalConceptoRecibo" name="conceptoAdicionalConceptoRecibo-view">
+        <property name="conceptoAdicional" view="_minimal">
+            <property name="nombre"/>
+            <property name="abreviacion"/>
+            <property name="adicionSustraccion"/>
+        </property>
+        <property name="conceptoRecibo" view="_minimal"/>
+        <property name="porcentaje"/>
     </view>
 </views>

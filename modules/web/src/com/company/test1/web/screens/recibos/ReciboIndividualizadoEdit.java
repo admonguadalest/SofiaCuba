@@ -147,6 +147,10 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
         totalReciboPostCCAA.setValue(totalrbopca);
     }
 
+    public void onBtnCancelarClick(){
+        this.closeWithDiscard();
+    }
+
 
 
 
@@ -189,6 +193,7 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
                 OrdenanteRemesa or = dataContext.create(OrdenanteRemesa.class);
                 rem.getOrdenantesRemesa().add(or);
                 r.setOrdenanteRemesa(or);
+                or.setRemesa(rem);
 
             }
 

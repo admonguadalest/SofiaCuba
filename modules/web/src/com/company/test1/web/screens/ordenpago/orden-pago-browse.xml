@@ -25,10 +25,7 @@
         <filter id="filter"
                 applyTo="ordenPagosTable"
                 dataLoader="ordenPagoesDl">
-            <property name="dni"/>
-            <custom name="fechadesde" paramClass="java.util.Date" caption="Fecha Valor Desde" paramView="">
-                {E}.fechaValor >= ?
-            </custom>
+            <properties include=".*"/>
         </filter>
         <table id="ordenPagosTable"
                width="100%"

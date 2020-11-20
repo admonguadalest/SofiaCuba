@@ -64,13 +64,14 @@ public class ImplementacionConceptoEdit extends StandardEditor<ImplementacionCon
         }
 
     }
-    
-    
-    
-    
+
+
+
+
+
 
     @Subscribe("tableRACA.create")
-    private void onTableRACAreate(Action.ActionPerformedEvent event) {
+    private void onTableRACACreate(Action.ActionPerformedEvent event) {
 
         if (implementacionConceptoDc.getItem().getImporte()==null){
             notifications.create().withCaption("Importe Requerido").withDescription("Aportar Importe para ejecutar esta accion").show();

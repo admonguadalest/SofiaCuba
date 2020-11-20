@@ -259,11 +259,19 @@ public class Ciclos {
                 //cargando el documento
                 Integer did = ridi.getInt("documento_imputable_id");
                 if (new FacturasProveedores().esIdCorrespondienteAFacturaProveedor(did, persistence)){
-                    FacturaProveedor fp = new FacturasProveedores().realizaImportacion(did, persistence, entitiesToPersist);
+                    FacturasProveedores ffpp = new FacturasProveedores();
+                    FacturaProveedor fp = ffpp.devuelveFacturaProveedorDesdeSofiaId(did, persistence);
+                    if (fp == null) {
+                        fp = ffpp.realizaImportacion(did, persistence, entitiesToPersist);
+                    }
                     idi.setDocumentoImputable(fp);
                 }
                 if (new Presupuestos().esIdCorrespondienteAPresupuesto(did, persistence)){
-                    Presupuesto p = new Presupuestos().realizaImportacion(did, persistence, entitiesToPersist);
+                    Presupuestos pp = new Presupuestos();
+                    Presupuesto p = pp.devuelvePresupuestoDesdeSofiaId(did, persistence);
+                    if (p==null) {
+                        p = pp.realizaImportacion(did, persistence, entitiesToPersist);
+                    }
                     idi.setDocumentoImputable(p);
                 }
 
