@@ -32,6 +32,7 @@ public class Departamentos {
             entitiesToPersist.clear();
             Integer id = r.getInt("id");
             Ubicacion ub = new Ubicaciones().getUbicacionFromSofiaId(r.getInt("ubicacion_id"), persistence);
+            ub = dataManager.reload(ub, "ubicacion-with-direcciones");
             Departamento d = realizaImportacion(id, ub, persistence);
             dataManager.commit(new CommitContext(entitiesToPersist));
 

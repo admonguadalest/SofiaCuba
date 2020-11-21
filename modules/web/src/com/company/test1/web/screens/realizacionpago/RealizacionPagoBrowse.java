@@ -3,13 +3,18 @@ package com.company.test1.web.screens.realizacionpago;
 import com.company.test1.entity.ordenespago.*;
 import com.company.test1.service.JasperReportService;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.components.Action;
+import com.haulmont.cuba.gui.components.DialogAction;
+import com.haulmont.cuba.gui.components.Filter;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @UiController("test1_RealizacionPago.browse")
 @UiDescriptor("realizacion-pago-browse.xml")
@@ -28,6 +33,10 @@ public class RealizacionPagoBrowse extends StandardLookup<RealizacionPago> {
     private DataManager dataManager;
     @Inject
     private JasperReportService jasperReportService;
+    @Inject
+    private Dialogs dialogs;
+    @Inject
+    private Filter filter;
 
     public void onBtnDownloadSepaClick() {
         RealizacionPago rp = realizacionPagoesTable.getSingleSelected();
@@ -70,4 +79,33 @@ public class RealizacionPagoBrowse extends StandardLookup<RealizacionPago> {
 
 
     }
+
+    public void onBtnRetrocederClick(){
+        RealizacionPago rp = realizacionPagoesTable.getSingleSelected();
+        if (rp==null){
+            notifications.create().withCaption("Seleccionar Pago Bancario a eliminar").show();
+            return;
+        }
+
+        dialogs.createOptionDialog(Dialogs.MessageType.CONFIRMATION).withCaption("Confirmar Acción")
+                .withMessage("¿Está seguro que quiere borrar el Pago Bancario Seleccionado?")
+                .withActions(
+                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e -> {
+                            List<OrdenPago> oopp = rp.getOrdenesPago();
+                            for (int i = 0; i < oopp.size(); i++) {
+                                OrdenPago op = oopp.get(i);
+                                op.setRealizacionPago(null);
+                                dataManager.commit(op);
+                            }
+                            dataManager.remove(rp);
+                            filter.getDataLoader().load();
+                        }),
+                        new DialogAction(DialogAction.Type.NO)
+                )
+                .show();
+
+
+    }
+
+
 }

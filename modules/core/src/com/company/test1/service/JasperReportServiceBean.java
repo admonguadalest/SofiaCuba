@@ -231,10 +231,23 @@ public class JasperReportServiceBean implements JasperReportService {
     public Object turnFileIntoJRRenderableObject(String fileName) throws Exception{
         Transaction t = persistence.createTransaction();
         String hql = "select fd FROM sys$FileDescriptor fd WHERE fd.name = :n";
-        FileDescriptor fd = (FileDescriptor) persistence.getEntityManager().createQuery(hql).setParameter("n", fileName).getFirstResult();
 
+        //con sucesivas correcciones y migraciones de la bbdd es posible que se deba recargar los archivos. Con este script
+        //salvo la excepcion hasta que encuentro uno valido. Sino halla ninguno valido saltará despues la excepcion
+        //por tanto es correcto
+        List<FileDescriptor> ffdd = persistence.getEntityManager().createQuery(hql).setParameter("n", fileName).getResultList();
+        FileDescriptor fd = null;
+        InputStream bais = null;
+        for (int i = 0; i < ffdd.size(); i++) {
+            fd = ffdd.get(i);
+            try{
+                bais = fileLoader.openStream(fd);
+            }catch(Exception exc){
 
-        InputStream bais  = fileLoader.openStream(fd);
+            }
+
+        }
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         org.apache.commons.io.IOUtils.copy(bais, baos);
         JRRenderable jrr = null;

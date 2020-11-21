@@ -38,7 +38,9 @@
             <columns>
                 <column id="emisor" generator="EmisorColumn"/>
                 <column id="nombreTipo"/>
+                <!--
                 <column id="beneficiario" generator="getBeneficiarioColumn" caption="Beneficiario"/>
+                -->
                 <column id="fechaValor"/>
                 <column id="importe"/>
                 <column id="importeEfectivo"/>

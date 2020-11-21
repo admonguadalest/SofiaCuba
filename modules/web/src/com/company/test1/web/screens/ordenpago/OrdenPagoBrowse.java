@@ -19,6 +19,7 @@ import com.haulmont.cuba.gui.screen.LookupComponent;
 import javafx.scene.layout.HBox;
 
 import javax.inject.Inject;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,19 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
 
     @Subscribe("ordenPagosTable.remove")
     private void onOrdenPagosTableRemove(Action.ActionPerformedEvent event) {
-        notifications.create().withCaption("Desarrollo Pendiente").show();
+        OrdenPago op = ordenPagosTable.getSingleSelected();
+        if (op==null){
+            notifications.create().withDescription("Seleccionar la Orden de Pago que desea eliminar").show();
+            return;
+        }
+        if (op.getRealizacionPago()!=null){
+            notifications.create().withDescription("La Orden de Pago seleccionada tiene un Pago Bancario asociado. Por favor retroceda éste primero.").show();
+            return;
+        }
+        dataManager.remove(op);
+        filter.getDataLoader().load();
+
+        notifications.create().withDescription("La orden de pago por importe " + new DecimalFormat("#,##0.00").format(op.getImporteEfectivo()) + " fue eliminada satisfactoriamente").show();
     }
     
     

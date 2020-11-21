@@ -13,7 +13,7 @@
                   view="ordenPagoFacturaProveedor-view"/>
     </data>
     <dialogMode resizable="true" width="AUTO"/>
-    <layout >
+    <layout spacing="true">
         <groupBox orientation="horizontal" spacing="true" width="100%" height="120px">
             <textField id="txtProveedor" caption="Proveedor" width="350px" editable="false"
                        dataContainer="ordenPagoFacturaProveedorDc" property="facturaProveedor.proveedor.persona.nombreCompleto"/>

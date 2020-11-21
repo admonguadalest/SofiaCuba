@@ -13,7 +13,7 @@ import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.ConceptoRecibo;
-import com.sun.xml.bind.api.impl.NameConverter;
+
 
 import javax.inject.Inject;
 

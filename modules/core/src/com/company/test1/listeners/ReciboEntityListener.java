@@ -18,7 +18,7 @@ import java.util.UUID;
 @Component("test1_ReciboEntityListener")
 public class ReciboEntityListener implements AfterUpdateEntityListener<Recibo>, AfterInsertEntityListener<Recibo>, AfterDeleteEntityListener<Recibo> {
 
-    public static boolean activated = true;
+    public static boolean activated = false;
 
     @Override
     public void onAfterDelete(Recibo entity, Connection connection) {

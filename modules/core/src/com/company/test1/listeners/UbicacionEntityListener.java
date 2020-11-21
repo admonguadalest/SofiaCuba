@@ -15,12 +15,14 @@ import java.util.UUID;
 @Component("test1_UbicacionEntityListener")
 public class UbicacionEntityListener implements BeforeInsertEntityListener<Ubicacion>, BeforeUpdateEntityListener<Ubicacion> {
 
-
+    boolean activated = false;
     @Override
     public void onBeforeInsert(Ubicacion ubicacion, EntityManager entityManager) {
         /**
          * generate new rm2id
          */
+        if (!activated) return;
+
         String sql = "SELECT max(RM2ID) as maxrm2id FROM cubatest1.ubicacion;";
         Number n = (Number) entityManager.createNativeQuery(sql).getFirstResult();
         ubicacion.setRm2id(n.intValue() + 1);

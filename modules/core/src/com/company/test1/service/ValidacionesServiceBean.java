@@ -70,6 +70,7 @@ public class ValidacionesServiceBean implements ValidacionesService {
         }
         if (nombreProveedorNoDocto!=null){
             hql += " AND CONCAT(pers.nombreCompleto, ' ',di.numDocumento) like :npnd";
+            nombreProveedorNoDocto = nombreProveedorNoDocto.replace(" ", "%");
             q.setParameter("npnd", "%" + nombreProveedorNoDocto + "%");
         }
         if(tipoCiclo!=null){

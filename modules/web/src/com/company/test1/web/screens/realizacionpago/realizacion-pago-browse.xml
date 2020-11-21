@@ -46,7 +46,7 @@
                           alwaysVisible="true">
                 <button id="createBtn" action="realizacionPagoesTable.create"/>
                 <button id="editBtn" action="realizacionPagoesTable.edit"/>
-                <button id="removeBtn" action="realizacionPagoesTable.remove"/>
+                <button id="removeBtn" caption="Retroceder" invoke="onBtnRetrocederClick"/>
                 <button id="btnDetalle" caption="Detalle RP" invoke="onBtnDetalleRp"/>
                 <button id="btnDownloadSepa" caption="Descargar SEPA" invoke="onBtnDownloadSepaClick"/>
             </buttonsPanel>

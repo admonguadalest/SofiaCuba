@@ -98,11 +98,30 @@ public class GestionarValidaciones extends Screen {
     private OrdenPagoService ordenPagoService;
     @Inject
     private Dialogs dialogs;
-
-
+    @Inject
+    private Button btnCerrar;
     private HashMap<DocumentoImputable, List<Component>> documentosToListColumnsEstadoValidacion = new HashMap<DocumentoImputable, List<Component>>();
     @Inject
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
+
+    @Subscribe
+    public void onAfterShow(AfterShowEvent event) {
+        addEnterKeyListeners();
+    }
+
+
+
+    private void addEnterKeyListeners(){
+        txtProveedor.addEnterPressListener(e->{onBtnBuscarClick();});
+        txtDireccion.addEnterPressListener(e->{onBtnBuscarClick();});
+        datFechaDesde.addValueChangeListener(e->{onBtnBuscarClick();});
+        datFechaHasta.addValueChangeListener(e->{onBtnBuscarClick();});
+        lkpVaciosOcupados.addValueChangeListener(e->{onBtnBuscarClick();});
+        lkpTipoDepartamento.addValueChangeListener(e->{onBtnBuscarClick();});
+        lkpTipoCiclo.addValueChangeListener(e->{onBtnBuscarClick();});
+
+    }
+
 
     public void onBtnCerrarClick() {
         this.closeWithDefaultAction();
@@ -330,20 +349,10 @@ public class GestionarValidaciones extends Screen {
 
                             ordenPagoService.guardaOrdenPagoFacturaProveedor(opfp);
 
-//                            //actualizo el contenidodel box para informar que ya existe orden de pago
-//                            List<Component> columns = this.documentosToListColumnsEstadoValidacion.get(vidi.getImputacionDocumentoImputable().getDocumentoImputable());
-//                            for (int i = 0; i < columns.size(); i++) {
-//                                HBoxLayout hbx_ = (HBoxLayout) columns.get(i);
-//                                hbx_.removeAll();
-//                                Label l_ = uiComponents.create(Label.NAME);
-//                                l_.setValue("Validado - Existe Orden de Pago");
-//                                hbx_.add(l_);
-//                            }
-
-
                             vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
                             vidi.setFechaAprobacionRechazo(new Date());
 
+                            dataManager.commit(vidi);
 
                         }
                     });
@@ -380,4 +389,8 @@ public class GestionarValidaciones extends Screen {
             dataManager.commit(vidi);
         }
     }
+
+
+
+
 }

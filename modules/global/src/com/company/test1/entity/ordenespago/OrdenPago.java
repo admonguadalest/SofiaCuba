@@ -35,8 +35,8 @@ public class OrdenPago extends StandardEntity {
     @Column(name = "DESCRIPCION")
     protected String descripcion;
 
-    @OnDeleteInverse(DeletePolicy.CASCADE)
-    @OnDelete(DeletePolicy.UNLINK)
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REALIZACION_PAGO_ID")
     protected RealizacionPago realizacionPago;

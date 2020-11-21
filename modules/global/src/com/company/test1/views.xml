@@ -983,10 +983,11 @@
             <property name="ordenPagoAbono" view="_base"/>
             <property name="ordenPagoFacturaProveedor" view="_minimal"/>
         </property>
-        <property name="realizacionPago" view="_minimal"/>
+        <property name="realizacionPago" view="_base"/>
     </view>
     <view entity="test1_OrdenPago" name="ordenPago-view" extends="_local">
         <property name="realizacionPago" view="_base">
+            <property name="identificador" />
             <property name="cuentaBancaria" view="_base"/>
         </property>
     </view>

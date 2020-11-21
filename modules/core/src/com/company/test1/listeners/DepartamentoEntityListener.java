@@ -17,6 +17,8 @@ import java.util.UUID;
 @Component("test1_DepartamentoEntityListener")
 public class DepartamentoEntityListener implements BeforeInsertEntityListener<Departamento>, BeforeUpdateEntityListener<Departamento> {
 
+    boolean activated = false;
+
     @Inject
     Persistence persistence;
     @Override
@@ -24,6 +26,9 @@ public class DepartamentoEntityListener implements BeforeInsertEntityListener<De
         /**
          * generate new rm2id
          */
+
+        if (!activated) return;
+
         String sql = "SELECT max(RM2ID) as maxrm2id FROM cubatest1.departamento;";
         Number n = (Number) entityManager.createNativeQuery(sql).getFirstResult();
         departamento.setRm2id(n.intValue() + 1);

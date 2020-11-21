@@ -57,7 +57,7 @@ public class DataMigration implements DataMigrationMBean {
     @Override
     public void doImportRentamaster2() throws Exception{
 
-        ArchivoAdjuntoEntityListener.activated = false;
+        ArchivoAdjuntoEntityListener  .activated = false;
         ReciboEntityListener.activated = false;
 
         printTime("START ConceptosAdicionales");
