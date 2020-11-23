@@ -15,7 +15,7 @@
             <textArea caption="Observaciones Texto Renuncia" width="100%" dataContainer="contratoInquilinoDc"
                       property="observacionesRenuncia"/>
             <buttonsPanel>
-                <button caption="Ver Modelo de Renuncia"/>
+                <button caption="Ver Modelo de Renuncia" invoke="OnBtnVerModeloRenuncia"/>
             </buttonsPanel>
             <app:WebArchivoAdjuntoField id="aaEscaneoContrato" caption="Documento de Renuncia"
                                      property="archivoAdjuntoRenuncia" dataContainer="contratoInquilinoDc"

@@ -50,4 +50,6 @@ public interface JasperReportService {
     byte[] realizaInformeIva(Date fechaDesde, Date fechaHasta, Propietario propietario, List<Departamento> departamentos, boolean anadirInfoTrimestral, boolean anadirInfoGlobal) throws Exception;
 
     byte[] realizaReportRealizacionPago(RealizacionPago rp) throws Exception;
+
+    public byte[] generaReportModeloRenunciaContratoInquilino(ContratoInquilino ci) throws Exception;
 }

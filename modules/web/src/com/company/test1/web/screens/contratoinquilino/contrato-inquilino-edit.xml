@@ -177,7 +177,12 @@
                     <fragment screen="test1_ColeccionArchivosAdjuntosFragment"/>
                 </tab>
                 <tab id="tabRenuncia" caption="Renuncia" margin="true,false,false,false" spacing="true">
-                    <fragment screen="test1_RenunciaFragment"/>
+                    <fragment screen="test1_RenunciaFragment" >
+                        <properties>
+                            <property name="contratoInquilinoDataContainer" ref="contratoInquilinoDc"/>
+
+                        </properties>
+                    </fragment>
                 </tab>
                 <tab id="tabPagosInquilino" caption="Pagos a Inquilino" margin="true, false, false, false" spacing="true">
                     <table id="tablePagosInquilino" height="200px" width="100%" dataContainer="pagosInquilinoDc">

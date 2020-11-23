@@ -83,12 +83,38 @@ public class JasperReportServiceBean implements JasperReportService {
         try{
             JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(fr.getContenidoJrxml().getBytes()));
             JasperReport jr = JasperCompileManager.compileReport(designMaestro);
-            HashMap hm = new HashMap();
+            Hashtable hm = new Hashtable();
             hm.put("backgroundSvg", turnFileIntoJRRenderable("carta.svg"));
 
             hm.put("contenidoNotificacion", "Pruebas de produccion de report sencillo");
-            ArrayList al = new ArrayList();al.add("0");
-            byte[] bb = JasperRunManager.runReportToPdf(jr, hm, Rentamaster2DB.getConnection());
+
+            byte[] bb = produceReport(fr, hm, new ArrayList(), Cubatest1DB.getConnection());
+            return bb;
+        }catch(Exception exc){
+            throw new Exception("El report JRXML no compilo exitósamente: " + fr.getNombre() + ". " + exc.getMessage());
+        }
+
+
+    }
+
+    public byte[] generaReportModeloRenunciaContratoInquilino(ContratoInquilino ci) throws Exception{
+        FlexReport fr = getFlexReportDesdeNombre("RENUNCIA_CONTRATO_INQUILINO");
+        try{
+            JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(fr.getContenidoJrxml().getBytes()));
+            JasperReport jr = JasperCompileManager.compileReport(designMaestro);
+            JRRenderable jrr = null;
+            try{
+                jrr = turnFileIntoJRRenderable("carta.svg");
+            }catch(Exception exc){
+
+            }
+            Hashtable ht = new Hashtable();
+            ht.put("contratoInquilinoId", ci.getId().toString().replace("-",""));
+            ht.put("PLANTILLA_PAGINA_REPORT_PORTRAIT", jrr);
+            String observaciones = ci.getObservacionesRenuncia();
+            if (observaciones==null) observaciones = "";
+            ht.put("observaciones", observaciones);
+            byte[] bb = produceReport(fr, ht, new ArrayList(), Cubatest1DB.getConnection());
             return bb;
         }catch(Exception exc){
             throw new Exception("El report JRXML no compilo exitósamente: " + fr.getNombre() + ". " + exc.getMessage());
