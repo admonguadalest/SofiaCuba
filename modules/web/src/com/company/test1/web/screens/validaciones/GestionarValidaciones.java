@@ -327,7 +327,9 @@ public class GestionarValidaciones extends Screen {
                         break;
                     }
                 }
+
                 if (existenImputacionesPendientesDeValidacion){
+
                     return;
                 }
 
@@ -349,10 +351,10 @@ public class GestionarValidaciones extends Screen {
 
                             ordenPagoService.guardaOrdenPagoFacturaProveedor(opfp);
 
-                            vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
-                            vidi.setFechaAprobacionRechazo(new Date());
-
-                            dataManager.commit(vidi);
+//                            vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
+//                            vidi.setFechaAprobacionRechazo(new Date());
+//
+//                            dataManager.commit(vidi);
 
                         }
                     });
@@ -369,9 +371,9 @@ public class GestionarValidaciones extends Screen {
                                         opfp.setImporteEfectivo(fp2.getImportePostCCAA());
                                         opfp.setDescripcion("");
                                         dataManager.commit(opfp);
-                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
-                                        vidi.setFechaAprobacionRechazo(new Date());
-                                        dataManager.commit(vidi);
+//                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
+//                                        vidi.setFechaAprobacionRechazo(new Date());
+//                                        dataManager.commit(vidi);
 
 
                                     }),
@@ -382,12 +384,11 @@ public class GestionarValidaciones extends Screen {
 
 
             }
-            dataManager.commit(vidi);
-        }else{
-            vidi.setEstadoValidacion(e.getValue());
-            vidi.setFechaAprobacionRechazo(new Date());
-            dataManager.commit(vidi);
+
         }
+        vidi.setEstadoValidacion(e.getValue());
+        vidi.setFechaAprobacionRechazo(new Date());
+        dataManager.commit(vidi);
     }
 
 

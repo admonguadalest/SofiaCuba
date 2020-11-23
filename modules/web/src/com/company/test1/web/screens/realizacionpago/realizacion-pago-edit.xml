@@ -33,7 +33,7 @@
                 <textField id="importeTotalField" property="importeTotal"/>
                 <tabSheet>
                     <tab id="tabOrdenes" caption="Ordenes" margin="true,false,false,false" spacing="true">
-                        <table height="400px" width="100%" dataContainer="ordenPagosDc">
+                        <table height="400px" width="100%" dataContainer="ordenPagosDc" id="tableOrdenes">
                             <columns>
                                 <column id="nombreTipo"/>
                                 <column id="fechaValor"/>
@@ -43,6 +43,12 @@
 
 
                             </columns>
+                            <actions>
+                                <action id="edit" type="edit"/>
+                            </actions>
+                            <buttonsPanel>
+                                <button id="btnEdit" action="tableOrdenes.edit" caption="Edit"/>
+                            </buttonsPanel>
                         </table>
                     </tab>
                     <tab id="tabSepa" caption="Sepa" margin="true,false,false,false" spacing="true">

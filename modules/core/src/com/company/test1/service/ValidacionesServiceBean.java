@@ -10,6 +10,7 @@ import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputa
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Query;
 import com.haulmont.cuba.core.Transaction;
+import com.haulmont.cuba.core.global.DataManager;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -23,6 +24,8 @@ public class ValidacionesServiceBean implements ValidacionesService {
 
     @Inject
     Persistence persistence;
+    @Inject
+    private DataManager dataManager;
 
     public void guardaCambiosEnValidacion(Validacion v){
 
@@ -136,6 +139,7 @@ public class ValidacionesServiceBean implements ValidacionesService {
         ArrayList<ValidacionEstado> estados = new ArrayList<ValidacionEstado>();
         for (int i = 0; i < l.size(); i++) {
             ImputacionDocumentoImputable idi = l.get(i);
+            idi = dataManager.reload(idi, "imputacionDocumentoImputable-comprobacionValidaciones-view");
             ValidacionImputacionDocumentoImputable vidi = idi.getValidacionImputacion();
             if (estados.indexOf(vidi.getEstadoValidacion())==-1){
                 estados.add(vidi.getEstadoValidacion());

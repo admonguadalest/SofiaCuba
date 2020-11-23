@@ -342,6 +342,9 @@
             </property>
         </property>
     </view>
+    <view entity="test1_ImputacionDocumentoImputable" name="imputacionDocumentoImputable-comprobacionValidaciones-view" extends="_local">
+        <property name="validacionImputacion" view="_base"/>
+    </view>
     <view entity="test1_ImputacionDocumentoImputable" name="imputacionDocumentoImputable-view" extends="_local">
         <property name="validacionImputacion" view="_base">
             <property name="imputacionDocumentoImputable" view="_minimal"/>
