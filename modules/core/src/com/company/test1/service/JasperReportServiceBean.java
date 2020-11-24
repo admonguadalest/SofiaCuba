@@ -1084,13 +1084,10 @@ public class JasperReportServiceBean implements JasperReportService {
         return bb;
     }
 
-    public byte[] realizaImprimiblesContratoInquilino(Boolean[] bools, ContratoInquilino ci){
-        try{
+    public byte[] realizaImprimiblesContratoInquilino(Boolean[] bools, ContratoInquilino ci) throws Exception{
+
             byte[] bb = AsistenteImpresionContrato.realizaImpresion(bools, ci);
             return bb;
-        }catch(Exception exc){
-            return null;
-        }
 
     }
 

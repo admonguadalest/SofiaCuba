@@ -9,6 +9,7 @@ import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.TextArea;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 
@@ -33,6 +34,12 @@ public class SelectorVersionClausula extends Screen {
     @Inject
     private TextArea<String> txtPreviewVersionClausula;
 
+    private DataContext dataContext;
+
+    public void setDatacontext(DataContext dataContext){
+        this.dataContext = dataContext;
+    }
+
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
 
@@ -42,11 +49,12 @@ public class SelectorVersionClausula extends Screen {
             try {
                 overrideClausula = OverrideClausula.getOverrideClausula(implementacionModelo, clausula);
                 if (overrideClausula==null){
-                    overrideClausula = new OverrideClausula();
+                    overrideClausula = dataContext.create(OverrideClausula.class);
                     overrideClausula.setClausula(clausula);
                     overrideClausula.setVersionAplicada(Clausula.getVersionPredeterminada(clausula));
                     versionClausulasTable.setSelected(overrideClausula.getVersionAplicada());
                     implementacionModelo.getOverrideClausulas().add(overrideClausula);
+                    overrideClausula.setImplementacionModelo(implementacionModelo);
                 }else{
                     versionClausulasTable.setSelected(overrideClausula.getVersionAplicada());
                 }

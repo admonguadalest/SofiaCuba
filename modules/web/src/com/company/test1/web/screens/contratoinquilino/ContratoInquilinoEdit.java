@@ -290,7 +290,13 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     public void onBtnImprimirSeleccionadosClicked() {
         Boolean[] bools = new Boolean[]{chkContrato.getValue(), chkLiqInicial.getValue(), chkCedula.getValue(), chkLiqFinal.getValue(), chkDocumBancaria.getValue(),
                                             chkEntregaLlaves.getValue(), chkDoctoFotografico.getValue(), chkCertCalifEnerg.getValue()};
-        byte[] bb = jasperReportService.realizaImprimiblesContratoInquilino(bools, contratoInquilinoDc.getItem());
+        byte[] bb = new byte[0];
+        try {
+            bb = jasperReportService.realizaImprimiblesContratoInquilino(bools, contratoInquilinoDc.getItem());
+        } catch (Exception e) {
+            notifications.create().withCaption("Error").withDescription(e.getMessage()).show();
+            e.printStackTrace();
+        }
         exportDisplay.show(new ByteArrayDataProvider(bb), "Imprimibles.pdf");
 
     }

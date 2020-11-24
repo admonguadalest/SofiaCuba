@@ -112,8 +112,10 @@ public class ImplementacionModeloFragment extends ScreenFragment {
     @Subscribe("pickerClausula")
     public void onPickerClausulaValueChange(HasValue.ValueChangeEvent<Clausula> event) {
         Clausula c = event.getValue();
-        Screen s = screenBuilders.screen(this).withScreenClass(SelectorVersionClausula.class).withOpenMode(OpenMode.DIALOG).build();
+        Screen s = screenBuilders.screen(this).withScreenClass(SelectorVersionClausula.class).withOpenMode(OpenMode.DIALOG)
+        .build();
         SelectorVersionClausula svc = (SelectorVersionClausula) s;
+        svc.setDatacontext(dataContext);
         svc.implementacionModelo = implementacionModeloDc.getItem();
         svc.clausula = c;
         svc.clausulaDc.setItem(c);

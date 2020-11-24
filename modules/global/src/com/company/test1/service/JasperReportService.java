@@ -43,7 +43,7 @@ public interface JasperReportService {
 
     byte[] produceReport(FlexReport fr, Hashtable baseEntrantes, List beans) throws Exception;
 
-    byte[] realizaImprimiblesContratoInquilino(Boolean[] bools, ContratoInquilino ci);
+    byte[] realizaImprimiblesContratoInquilino(Boolean[] bools, ContratoInquilino ci) throws Exception;
 
     byte[] realizaImpresionAnexo(Anexo a) throws Exception;
 

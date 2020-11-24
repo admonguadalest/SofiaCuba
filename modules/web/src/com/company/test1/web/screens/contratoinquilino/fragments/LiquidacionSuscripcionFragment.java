@@ -2,6 +2,7 @@ package com.company.test1.web.screens.contratoinquilino.fragments;
 
 import com.company.test1.entity.contratosinquilinos.LiquidacionSuscripcion;
 import com.haulmont.cuba.gui.components.HasValue;
+import com.haulmont.cuba.gui.components.TextArea;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.ScreenFragment;
@@ -31,6 +32,8 @@ public class LiquidacionSuscripcionFragment extends ScreenFragment {
     private InstanceContainer<LiquidacionSuscripcion> liquidacionSuscripcionDc;
     @Inject
     private TextField<Double> cantidadesEntregadasEnReservaField;
+    @Inject
+    private TextArea<String> detalleField;
 
     @Subscribe("cantidadesEntregadasEnReservaField")
     private void onCantidadesEntregadasEnReservaFieldValueChange(HasValue.ValueChangeEvent<Double> event) {
@@ -67,7 +70,7 @@ public class LiquidacionSuscripcionFragment extends ScreenFragment {
         try {
             total += fianzaContratoField.getValue() + garantiasEnEfectivoField.getValue() + cantidadesEntregadasEnReservaField.getValue() +
                     gastosContratoField.getValue() + recibosACuentaField.getValue() + otrosConceptosField.getValue();
-            liquidacionSuscripcionDc.getItem().setTotalLiquidacion(total);
+            totalLiquidacionField.setValue(total);
         }catch(Exception e){
             liquidacionSuscripcionDc.getItem().setTotalLiquidacion(0.0);
         }
