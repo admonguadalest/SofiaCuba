@@ -3,10 +3,7 @@ package com.company.test1.service;
 import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.extroles.Proveedor;
-import com.company.test1.entity.ordenespago.CompensacionOrdenPagoProveedor;
-import com.company.test1.entity.ordenespago.OrdenPago;
-import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
-import com.company.test1.entity.ordenespago.RealizacionPago;
+import com.company.test1.entity.ordenespago.*;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 
 import javax.inject.Inject;
@@ -27,6 +24,7 @@ public interface OrdenPagoService {
     void guardaRealizacionPago(RealizacionPago rp);
     String crearIdentificadorParaRealizacionPago(Date fecha);
     OrdenPagoFacturaProveedor devuelveOrdenPagoFacturaProveedor(FacturaProveedor fp);
+    OrdenPagoAbono devuelveOrdenPagoAbono(FacturaProveedor fp);
     String getNombreEmisor(OrdenPago op);
 
 }

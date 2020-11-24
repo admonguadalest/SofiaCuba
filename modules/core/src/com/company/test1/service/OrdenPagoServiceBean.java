@@ -70,8 +70,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
         String provId = prov.getId().toString().replace("-", "");
         String nativeSql = "SELECT OP.ID, OP.IMPORTE, coalesce(sum(COPP.importe), 0) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
                 "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
-                "inner join cubatest1.PROVEEDOR P on OP.PROVEEDOR_ID = P.ID\n" +
-                "WHERE P.ID = '" + provId + "' group by OP.ID, OP.IMPORTE";
+                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' group by OP.ID, OP.IMPORTE";
         ArrayList<String> ids = new ArrayList<String>();
         Transaction t = persistence.createTransaction();
         List<Object[]> results = persistence.getEntityManager().createNativeQuery(nativeSql).getResultList();
@@ -396,6 +395,18 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
             String hql = "SELECT opfp FROM test1_OrdenPagoFacturaProveedor opfp JOIN opfp.facturaProveedor fp WHERE fp.id = :fpid";
             Transaction t = persistence.createTransaction();
             OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) persistence.getEntityManager().createQuery(hql).setParameter("fpid", fp.getId()).getSingleResult();
+            t.close();
+            return opfp;
+        }catch(Exception exc){
+            return null;
+        }
+    }
+
+    public OrdenPagoAbono devuelveOrdenPagoAbono(FacturaProveedor fp) {
+        try {
+            String hql = "SELECT opa FROM test1_OrdenPagoAbono opa JOIN opa.facturaProveedor fp WHERE fp.id = :fpid";
+            Transaction t = persistence.createTransaction();
+            OrdenPagoAbono opfp = (OrdenPagoAbono) persistence.getEntityManager().createQuery(hql).setParameter("fpid", fp.getId()).getSingleResult();
             t.close();
             return opfp;
         }catch(Exception exc){

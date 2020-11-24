@@ -11,6 +11,7 @@ import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.enums.*;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.ordenespago.OrdenPago;
+import com.company.test1.entity.ordenespago.OrdenPagoAbono;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
@@ -203,11 +204,24 @@ public class GestionarValidaciones extends Screen {
                 Label linfo = uiComponents.create(Label.NAME);
                 if (vidi.getImputacionDocumentoImputable().getDocumentoImputable() instanceof FacturaProveedor){
                     OrdenPagoFacturaProveedor opfp = ordenPagoService.devuelveOrdenPagoFacturaProveedor((FacturaProveedor) vidi.getImputacionDocumentoImputable().getDocumentoImputable());
-                    if (opfp!=null) {
-                        linfo.setValue("Validado - Existe Orden de Pago");
-                    }else{
-                        //no hay orden de pago
-                        imprimirLabel = false;
+                    OrdenPagoAbono opa = ordenPagoService.devuelveOrdenPagoAbono((FacturaProveedor) vidi.getImputacionDocumentoImputable().getDocumentoImputable());
+                    if ((opfp!=null) && (opa==null)) {
+                        if (opfp != null) {
+                            linfo.setValue("Validado - Existe Orden de Pago");
+
+                        } else {
+                            //no hay orden de pago
+                            imprimirLabel = false;
+                        }
+                    }
+                    if ((opfp==null) && (opa!=null)) {
+                        if (opa != null) {
+                            linfo.setValue("Validado - Existe Orden de Abono");
+                            imprimirLabel = true;
+                        } else {
+                            //no hay orden de abono
+                            imprimirLabel = false;
+                        }
                     }
                 }else{
                     linfo.setValue("Validado");
@@ -310,6 +324,11 @@ public class GestionarValidaciones extends Screen {
 
 
     private void lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
+        vidi.setEstadoValidacion(e.getValue());
+        vidi.setFechaAprobacionRechazo(new Date());
+        vidi = dataManager.commit(vidi);
+        vidi = dataManager.reload(vidi, "validacionImputacionDocumentoImputable-view");
+
         if (e.getValue() == ValidacionEstado.VALIDADO){
 
             DocumentoImputable di = vidi.getImputacionDocumentoImputable().getDocumentoImputable();
@@ -338,6 +357,7 @@ public class GestionarValidaciones extends Screen {
 
 
                 final FacturaProveedor fp2 = fp;
+                final ValidacionImputacionDocumentoImputable vidi2 = vidi;
                 ScreenBuilder sb = screenBuilders.screen(GestionarValidaciones.this);
                 if (oopppc.size()>0){
                     Screen s = sb.withScreenId("test1_GeneracionOrdenPagoFacturaProveedor").withOpenMode(OpenMode.DIALOG).build();
@@ -360,25 +380,47 @@ public class GestionarValidaciones extends Screen {
                     });
                     s.show();
                 }else if(oopppc.size()==0){
-                    String importe = new DecimalFormat("#,##0.00").format(fp.getImportePostCCAA());
-                    dialogs.createOptionDialog().withCaption("Confirmar la accion").withMessage("Desea crear una Orden Pago FP por importe de " + importe + "?")
-                            .withActions(
-                                    new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(ev -> {
-                                        OrdenPagoFacturaProveedor opfp = new OrdenPagoFacturaProveedor();
-                                        opfp.setFacturaProveedor(fp2);
-                                        opfp.setFechaValor(new Date());
-                                        opfp.setImporte(fp2.getImportePostCCAA());
-                                        opfp.setImporteEfectivo(fp2.getImportePostCCAA());
-                                        opfp.setDescripcion("");
-                                        dataManager.commit(opfp);
+                    if (fp.getImportePostCCAA()>=0) {
+                        String importe = new DecimalFormat("#,##0.00").format(fp.getImportePostCCAA());
+                        dialogs.createOptionDialog().withCaption("Confirmar la accion").withMessage("Desea crear una Orden Pago FP por importe de " + importe + "?")
+                                .withActions(
+                                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(ev -> {
+                                            OrdenPagoFacturaProveedor opfp = new OrdenPagoFacturaProveedor();
+                                            opfp.setFacturaProveedor(fp2);
+                                            opfp.setFechaValor(new Date());
+                                            opfp.setImporte(fp2.getImportePostCCAA());
+                                            opfp.setImporteEfectivo(fp2.getImportePostCCAA());
+                                            opfp.setDescripcion("");
+                                            dataManager.commit(opfp);
 //                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
 //                                        vidi.setFechaAprobacionRechazo(new Date());
 //                                        dataManager.commit(vidi);
 
 
-                                    }),
-                                    new DialogAction(DialogAction.Type.NO)
-                            ).show();
+                                        }),
+                                        new DialogAction(DialogAction.Type.NO)
+                                ).show();
+                    }else{
+                        //orden de pago abono
+                        String importe = new DecimalFormat("#,##0.00").format(fp.getImportePostCCAA());
+                        dialogs.createOptionDialog().withCaption("Confirmar la accion").withMessage("Desea crear una Orden Pago Abono por importe de " + importe + "?")
+                                .withActions(
+                                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(ev -> {
+                                            OrdenPagoAbono opa = new OrdenPagoAbono();
+                                            opa.setFacturaProveedor(fp2);
+                                            opa.setProveedor(fp2.getProveedor());
+                                            opa.setDescripcion(fp2.getDescripcionDocumento());
+                                            opa.setFechaValor(new Date());
+                                            opa.setImporte(-fp2.getImportePostCCAA());//
+                                            opa.setImporteEfectivo(0.0);
+                                            dataManager.commit(opa);
+//
+
+
+                                        }),
+                                        new DialogAction(DialogAction.Type.NO)
+                                ).show();
+                    }
                 }
 
 
@@ -386,9 +428,7 @@ public class GestionarValidaciones extends Screen {
             }
 
         }
-        vidi.setEstadoValidacion(e.getValue());
-        vidi.setFechaAprobacionRechazo(new Date());
-        dataManager.commit(vidi);
+
     }
 
 
