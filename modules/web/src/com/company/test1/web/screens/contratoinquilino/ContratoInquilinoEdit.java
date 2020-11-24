@@ -261,6 +261,7 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     @Subscribe("tabContratoVarios")
     public void onTabContratoVariosSelectedTabChange(TabSheet.SelectedTabChangeEvent event) {
         if (event.getSelectedTab().getName().compareTo("tabClausuladoContrato")==0){
+            vbClausuladoFragment.removeAll();
             if (contratoInquilinoDc.getItem().getImplementacionModelo()==null){
                 ImplementacionModelo im = dataContext.create(ImplementacionModelo.class);
                 im.setContratoInquilino(contratoInquilinoDc.getItem());

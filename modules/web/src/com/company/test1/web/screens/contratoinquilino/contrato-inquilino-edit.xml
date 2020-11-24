@@ -55,7 +55,7 @@
                 </column>
             </form>
             <groupBox spacing="true" caption="Cotitulares">
-                <table id="tableCotitulares" height="100px" width="100%" dataContainer="cotitularesDc">
+                <table id="tableCotitulares" height="200px" width="100%" dataContainer="cotitularesDc">
                     <columns>
                         <column id="cotitular.nombreCompleto"/>
                         <column id="cotitular.nifDni"/>

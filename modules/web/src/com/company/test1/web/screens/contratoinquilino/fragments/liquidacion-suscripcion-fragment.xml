@@ -29,7 +29,7 @@
                            caption="Fecha Ingreso ITP"/>
             </flowBox>
             <textField id="totalLiquidacionField" property="totalLiquidacion" dataContainer="liquidacionSuscripcionDc"
-                       width="100%" caption="Total Liquidacion" editable="false"/>
+                       width="100%" caption="Total Liquidacion" editable="true"/>
             <textArea id="detalleField" property="detalle" dataContainer="liquidacionSuscripcionDc" width="100%"
                       caption="Detalle"/>
             <app:WebArchivoAdjuntoField caption="Escaneo Liquidacion"
