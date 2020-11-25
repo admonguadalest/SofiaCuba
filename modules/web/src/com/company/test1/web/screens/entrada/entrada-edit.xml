@@ -24,12 +24,13 @@
     <layout expand="editActions" spacing="true" width="1000px">
         <form id="form" dataContainer="entradaDc" width="100%">
             <column width="100%">
-                <lookupPickerField id="eventoField" optionsContainer="eventoesDc"
-                                   dataContainer="entradaDc" property="evento" captionProperty="nombre">
-                    <actions>
-                        <action id="lookup" type="picker_lookup"/>
-                    </actions>
-                </lookupPickerField>
+                <hbox caption="Evento" spacing="true">
+                    <lookupField id="eventoField" optionsContainer="eventoesDc" width="100%"
+                                       dataContainer="entradaDc" property="evento" captionProperty="nombre" box.expandRatio="50">
+
+                    </lookupField>
+                    <button id="btnNuevoEvento" invoke="OnBtnNuevoEventoClick" caption="Nuevo Evento" box.expandRatio="50" align="BOTTOM_LEFT"/>
+                </hbox>
                 <dateField resolution="DAY" id="fechaEntradaField" property="fechaEntrada" width="190px"/>
                 <richTextArea id="contenidoEntradaField" property="contenidoEntrada" rows="5" width="100%"/>
                 <checkBox id="chkActivarOrdenTrabajo" caption="Activar Orden de Trabajo"/>

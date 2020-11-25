@@ -71,7 +71,7 @@ public class ReportRealizacionPago {
             pams.put("P_IDENTIFICADOR", realizacionPago.getIdentificador());
             pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(new Date()));//pendiente hacer fetch del createTs
             pams.put("P_FECHA_VALOR", new SimpleDateFormat("dd/MM//yyyy").format(realizacionPago.getFechaValor()));
-            pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance().format(realizacionPago.getImporteTotal()));
+            pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance(Locale.GERMANY).format(realizacionPago.getImporteTotal()));
 
 
             List<HlpOrdenPago> alHelpers = new ArrayList();

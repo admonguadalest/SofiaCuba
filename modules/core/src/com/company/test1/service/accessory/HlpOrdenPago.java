@@ -12,6 +12,7 @@ import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 
 /**
@@ -36,7 +37,7 @@ public class HlpOrdenPago {
     }
 
     public String getImporteEfectivo(){
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         return nf.format(ordenPago.getImporteEfectivo());
     }
 

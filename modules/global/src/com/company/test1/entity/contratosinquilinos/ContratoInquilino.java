@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @PublishEntityChangedEvents
 @Table(name = "CONTRATO_INQUILINO")
@@ -739,7 +740,7 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     public String getTextoRecibosPendientes() throws Exception{
         List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         String texto = "<p>";
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = l.get(i);
@@ -751,7 +752,7 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
 
     public String getImporteTotalPendienteFormateado() throws Exception{
         List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         double total = 0.0;
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = l.get(i);

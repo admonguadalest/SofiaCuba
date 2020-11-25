@@ -69,7 +69,7 @@ public class ReportRealizacionCobro {
             pams.put("P_IDENTIFICADOR", realizacionCobro.getIdentificador());
             pams.put("P_FECHA_CREACION", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaValor()));
             pams.put("P_FECHA_VALOR", new SimpleDateFormat("dd/MM//yyyy").format(realizacionCobro.getFechaValor()));
-            pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance().format(realizacionCobro.getImporteTotal()));
+            pams.put("P_IMPORTE", NumberFormat.getCurrencyInstance(Locale.GERMANY).format(realizacionCobro.getImporteTotal()));
 
 
             List<HlpOrdenCobro> alHelpers = new ArrayList();

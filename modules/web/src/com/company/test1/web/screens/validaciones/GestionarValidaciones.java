@@ -15,6 +15,7 @@ import com.company.test1.entity.ordenespago.OrdenPagoAbono;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
+import com.company.test1.service.JasperReportService;
 import com.company.test1.service.OrdenPagoService;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -104,6 +105,8 @@ public class GestionarValidaciones extends Screen {
     private HashMap<DocumentoImputable, List<Component>> documentosToListColumnsEstadoValidacion = new HashMap<DocumentoImputable, List<Component>>();
     @Inject
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
+    @Inject
+    private JasperReportService jasperReportService;
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
@@ -429,6 +432,16 @@ public class GestionarValidaciones extends Screen {
 
         }
 
+    }
+
+    public void onBtnHacerReportClick(){
+        List<ValidacionImputacionDocumentoImputable> validaciones = validacionesDc.getItems();
+        try{
+            byte[] bb = jasperReportService.generaReportValidacionesIdis(validaciones, lkpTipoValidacion.getValue(), datFechaDesde.getValue(), datFechaHasta.getValue());
+            exportDisplay.show(new ByteArrayDataProvider(bb), "report_validaciones.pdf");
+        }catch(Exception exc){
+
+        }
     }
 
 

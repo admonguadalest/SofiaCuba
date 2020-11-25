@@ -9,6 +9,7 @@ import com.company.test1.entity.contratosinquilinos.Fianza;
 import com.company.test1.entity.contratosinquilinos.ParametroValorAnexo;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
+import com.company.test1.entity.enums.DocumentoImputableTipoEnum;
 import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla;
@@ -17,6 +18,7 @@ import com.company.test1.entity.ordenespago.RealizacionPago;
 import com.company.test1.entity.recibos.*;
 import com.company.test1.entity.reportsyplantillas.FlexReport;
 import com.company.test1.entity.reportsyplantillas.Plantilla;
+import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.company.test1.jmx.Cubatest1DB;
 import com.company.test1.jmx.Rentamaster2DB;
 import com.company.test1.jmx.importadores.reports.FlexReports;
@@ -76,6 +78,19 @@ public class JasperReportServiceBean implements JasperReportService {
     RecibosService recibosService;
     @Inject
     NotificacionService notificacionService;
+
+    public byte[] generaReportValidacionesIdis(List<ValidacionImputacionDocumentoImputable> l, DocumentoImputableTipoEnum tipo, Date fechaInicial, Date fechaFinal) throws Exception{
+        if (fechaInicial == null){
+            fechaInicial = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+        }
+        if (fechaFinal==null){
+            fechaFinal = new Date();
+        }
+
+        ReportValidacionesImputacionDocumentoImputable rvidi = new ReportValidacionesImputacionDocumentoImputable(l, tipo, fechaInicial, fechaFinal);
+        byte[] bb = rvidi.getReportAsByteArray();
+        return bb;
+    }
 
 
     public byte[] createReport() throws Exception{

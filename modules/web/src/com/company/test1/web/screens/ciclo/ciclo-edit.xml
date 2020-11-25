@@ -4,13 +4,14 @@
         focusComponent="form"
         messagesPack="com.company.test1.web.screens.ciclo">
     <data>
+        <collection id="eventosDc" class="com.company.test1.entity.ciclos.Evento" view="evento-view">
+            <loader id="eventosDl"/>
+        </collection>
         <instance id="cicloDc"
                   class="com.company.test1.entity.ciclos.Ciclo"
                   view="ciclo-view">
-            <loader/>
-            <collection id="eventosDc"   property="eventos">
+            <loader id="cicloDl"/>
 
-            </collection>
             <instance id="coleccionArchivosAdjuntosDc" property="coleccionAdjuntos"/>
         </instance>
         <instance id="eventoDc" class="com.company.test1.entity.ciclos.Evento"/>
@@ -68,7 +69,7 @@
             </form>
             <form width="100%">
                 <column width="100%">
-                    <groupBox orientation="horizontal" width="100%" outerMargin="true" caption="Eventos">
+                    <groupBox orientation="horizontal" width="100%" outerMargin="true" caption="Eventos" spacing="true">
                         <lookupField id="lkpEventos" width="100%"
                                      optionsContainer="eventosDc" captionProperty="nombre"/>
                         <button id="btnNuevoEvento" align="BOTTOM_LEFT" width="174px" caption="Nuevo Evento"

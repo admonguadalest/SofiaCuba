@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.incrementos.IncrementoIndice;
@@ -50,7 +51,7 @@ public class HlpIndiceReferencia {
         IncrementoIndice ii = (IncrementoIndice) cr.getIncremento();
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
 
         ContratoInquilino contratoInquilino = cr.getProgramacionRecibo().getContratoInquilino();
 

@@ -35,10 +35,7 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.ciclos.Ciclo;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @UiController("test1_Ciclo.edit")
 @UiDescriptor("ciclo-edit.xml")
@@ -51,7 +48,7 @@ public class CicloEdit extends StandardEditor<Ciclo> {
     @Inject
     private InstanceContainer<Ciclo> cicloDc;
     @Inject
-    private CollectionPropertyContainer<Evento> eventosDc;
+    private CollectionContainer<Evento> eventosDc;
     @Inject
     private DataContext dataContext;
     @Inject
@@ -90,6 +87,10 @@ public class CicloEdit extends StandardEditor<Ciclo> {
     private ExportDisplay exportDisplay;
     @Inject
     private UiComponents uiComponents;
+    @Inject
+    private InstanceLoader<Ciclo> cicloDl;
+    @Inject
+    private CollectionLoader<Evento> eventosDl;
 
 
     @Subscribe
@@ -246,6 +247,34 @@ public class CicloEdit extends StandardEditor<Ciclo> {
 
         }
     }
+
+    @Install(to = "eventosDl", target = Target.DATA_LOADER)
+    private List<Evento> eventosDlLoadDelegate(LoadContext<Evento> loadContext) {
+        ArrayList al = new ArrayList(cicloDc.getItem().getEventos());
+        Collections.sort(al, new Comparator<Evento>(){
+
+            public int compare(Evento ev1, Evento ev2){
+                try {
+                    /**
+                     * Existe un error de datos en la tabla evento. Hay 206 registros sin fecha asignada.
+                     * Se debería corregir
+                     * PENDIENTE
+                     */
+                    if ((ev1.getFecha() == null)||(ev2.getFecha()==null)){
+                        return 0;
+                    }
+                    return -1 * ev1.getFecha().compareTo(ev2.getFecha());
+                }catch(Exception exc){
+                    int y = 2;
+                }
+                return 0;
+            }
+
+        });
+        return al;
+    }
+
+
     
     
 
@@ -292,13 +321,41 @@ public class CicloEdit extends StandardEditor<Ciclo> {
 
     @Subscribe("tableEntradas.create")
     private void onTableEntradasCreate(Action.ActionPerformedEvent event) {
-        Entrada e = dataContext.create(Entrada.class);
-        e.setCiclo(cicloDc.getItem());
-        if (lkpEventos.getValue()!=null){
-            e.setEvento(lkpEventos.getValue());
-        }
-        ScreenLaunchUtil.launchEditEntityScreen(e, null, tableEntradas, screenBuilders, this, OpenMode.DIALOG, dataContext, null);
-        
+//        Entrada e = dataContext.create(Entrada.class);
+//        e.setCiclo(cicloDc.getItem());
+//        if (lkpEventos.getValue()!=null){
+//            e.setEvento(lkpEventos.getValue());
+//        }
+//        ScreenLaunchUtil.launchEditEntityScreen(e, null, tableEntradas, screenBuilders, this, OpenMode.DIALOG, dataContext,
+//                ev->{
+//                    eventosDl.load();
+//                });
+        Screen s = screenBuilders.editor(Entrada.class, this)
+                .withLaunchMode(OpenMode.DIALOG)
+                .withListComponent(tableEntradas)
+                .withParentDataContext(dataContext)
+                .newEntity()
+                .withInitializer(entrada->{
+                    entrada.setCiclo(cicloDc.getItem());
+                    if (lkpEventos.getValue()!=null){
+                        entrada.setEvento(lkpEventos.getValue());
+                    }
+                })
+                .build();
+        s.addAfterCloseListener(ev->{
+            //por si se ha creado un nuevo evento
+            StandardCloseAction dca = (StandardCloseAction) ev.getCloseAction();
+            if (dca.getActionId().compareTo("commit")==0){
+                EntradaEdit ee = (EntradaEdit) ev.getScreen();
+                eventosDl.load();
+                if (cicloDc.getItem().getEntradas().indexOf(ee.getEditedEntity())==-1){
+                    cicloDc.getItem().getEntradas().add(ee.getEditedEntity());
+                    entradasDl.load();
+                }
+            }
+
+        });
+        s.show();
     }
 
     @Subscribe("tableEntradas.edit")
@@ -308,9 +365,12 @@ public class CicloEdit extends StandardEditor<Ciclo> {
                 .withLaunchMode(OpenMode.DIALOG)
                 .withListComponent(tableEntradas)
                 .withParentDataContext(dataContext)
+
                 .editEntity(tableEntradas.getSingleSelected())
                 .build();
-
+        s.addAfterCloseListener(e->{
+            eventosDl.load();
+        });
         s.show();
     }
 

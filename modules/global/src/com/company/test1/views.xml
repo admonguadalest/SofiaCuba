@@ -249,8 +249,8 @@
         </property>
         <property name="escaneoCedula" view="_base"/>
     </view>
-    <view entity="test1_Ciclo" name="ciclo-view" extends="_local">
-        <property name="eventos" view="_base"/>
+    <view entity="test1_Ciclo" name="ciclo-view" extends="_local" systemProperties="true">
+        <property name="eventos" view="evento-view"/>
         <property name="imputacionesDocumentoImputable" view="_base">
             <property name="documentoImputable" view="_base"/>
             <property name="ciclo" view="_base">
@@ -321,7 +321,9 @@
             </property>
         </property>
     </view>
-    <view entity="test1_Evento" name="evento-view" extends="_local"/>
+    <view entity="test1_Evento" name="evento-view" extends="_local" systemProperties="true">
+        <property name="ciclo" view="_minimal"/>
+    </view>
     <view entity="test1_Entrada" name="entrada-view" extends="_local">
         <property name="ciclo" view="ciclo-view">
             <property name="eventos" view="_base"/>

@@ -69,7 +69,7 @@
             </scrollBox>
             <buttonsPanel align="BOTTOM_LEFT">
                 <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
-                <button id="btnReport" caption="Hacer Report"/>
+                <button id="btnReport" caption="Hacer Report" invoke="onBtnHacerReportClick"/>
                 <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
             </buttonsPanel>
         </vbox>
