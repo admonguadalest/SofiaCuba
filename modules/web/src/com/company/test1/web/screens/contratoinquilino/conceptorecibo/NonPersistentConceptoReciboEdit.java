@@ -41,6 +41,7 @@ public class NonPersistentConceptoReciboEdit extends StandardEditor<NonPersisten
                     ConceptoReciboEdit cre = (ConceptoReciboEdit) s;
                     ConceptoRecibo cr = cre.getEditedEntity();
                     cr.setProgramacionRecibo(programacionReciboDc.getItem());
+                    dataContext.merge(cr);
                     conceptosRecibosDc.getMutableItems().add(cr);
                     programacionReciboDc.getItem().getConceptosRecibo().add(cr);
 

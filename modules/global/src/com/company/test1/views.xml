@@ -512,9 +512,14 @@
         <property name="inquilino" view="_base">
             <property name="direcciones" view="_base"/>
             <property name="cuentasBancarias" view="_base"/>
+            <property name="representacionesLegales" view="_base"/>
         </property>
-        <property name="representanteArrendador" view="_base"/>
-        <property name="representanteArrendatario" view="_base"/>
+        <property name="representanteArrendador" view="_base">
+            <property name="representacionesLegales" view="_base"/>
+        </property>
+        <property name="representanteArrendatario" view="_base">
+            <property name="representacionesLegales" view="_base"/>
+        </property>
         <property name="comercialOfertas" view="_base"/>
         <property name="oferta" view="_base"/>
         <property name="archivoAdjuntoRenuncia" view="_base"/>

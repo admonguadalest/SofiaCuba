@@ -9,6 +9,7 @@ import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicion
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.extroles.Proveedor;
+import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.imputaciondocumentoimputable.ImputacionDocumentoImputableEdit;
@@ -116,9 +117,13 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
             this.getEditedEntityContainer().setItem(fp);
             //anadimos al contexto para que gestione el guardado de las validaciones
             dataContext.merge(fp);
-            dataContext.merge(fp.getImputacionesDocumentoImputable());
+
             for (int i = 0; i < fp.getImputacionesDocumentoImputable().size(); i++) {
                 ImputacionDocumentoImputable idi = fp.getImputacionesDocumentoImputable().get(i);
+                dataContext.merge(idi);
+                ValidacionImputacionDocumentoImputable vidi = idi.getValidacionImputacion();
+                idi.setValidacionImputacion(null);
+                idi.setValidacionImputacion(vidi);
                 if (idi.getValidacionImputacion()!=null){
                     dataContext.merge(idi.getValidacionImputacion());
                 }

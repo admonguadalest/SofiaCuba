@@ -27,6 +27,7 @@ import com.company.test1.service.JasperReportService;
 import com.company.test1.service.accessory.SIJRBeanDataSource;
 import com.google.common.io.Resources;
 import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.DataManager;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -139,16 +140,18 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
         Persona arrendador = this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona();
         Persona inquilino = this.contratoInquilino.getInquilino();
         RepresentacionEnCalidadDe enCalidadDe = null;
-        try{
-            enCalidadDe = RepresentacionLegal.getTipoRepresentacion(this.contratoInquilino.getInquilino(), representanteArrendataria);
-        }catch(Exception exc){
-            throw exc;
-        }
-        if (representanteArrendataria == null){
-            if (inquilino instanceof PersonaFisica){
-                representanteArrendataria = (PersonaFisica)inquilino;
+        if (representanteArrendataria!=null) {
+            try {
+                enCalidadDe = RepresentacionLegal.getTipoRepresentacion(this.contratoInquilino.getInquilino(), representanteArrendataria);
+            } catch (Exception exc) {
+                throw exc;
             }
         }
+//        if (representanteArrendataria == null){
+//            if (inquilino instanceof PersonaFisica){
+//                representanteArrendataria = (PersonaFisica)inquilino;
+//            }
+//        }
         Direccion domicilioArrendador = Direccion.getDireccionDesdeEnum(this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona(),NombreTipoDireccion.DOMICILIO_ADMINISTRADOR);
         Direccion domicilioInquilino = Direccion.getDireccionDesdeEnum(this.contratoInquilino.getInquilino(), NombreTipoDireccion.DOMICILIO_INQUILINO);
         Departamento departamentoLocal = this.contratoInquilino.getDepartamento();
@@ -174,6 +177,10 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
         this.getParameters().put("domicilio_arrendador", domicilioArrendador.getDireccionParaDocumento());
 
         this.getParameters().put("edad_representante_arrendador", "0");
+        if (representanteArrendador instanceof PersonaFisica){
+            representanteArrendador = AppBeans.get(DataManager.class).reload(representanteArrendador, "_base");
+        }
+
         this.getParameters().put("estado_representante_arrendador", representanteArrendador.getEstadoCivil());
         this.getParameters().put("dni_representante_arrendador", representanteArrendador.getNifDni());
         this.getParameters().put("razon_social_sociedad_arrendadora", arrendador.getNombreCompleto());
@@ -185,7 +192,7 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
         this.getParameters().put("local", departamentoLocal.getPiso() + " " + departamentoLocal.getPuerta());
         this.getParameters().put("calle", dirLocal.getNombreVia() + " " + dirLocal.getNumeroVia() + " " + dirLocal.getEscalera());
         this.getParameters().put("ciudad", dirLocal.getPoblacion());
-        this.getParameters().put("ref_catastral", departamentoLocal.getReferenciaCatastral());
+        this.getParameters().put("ref_catastral", departamentoLocal.getReferenciaCatastralEfectiva());
         this.getParameters().put("cp", dirLocal.getCodigoPostal());
         this.getParameters().put("provincia", dirLocal.getProvincia());
         this.getParameters().put("no_contrato", this.contratoInquilino.getNumeroContrato());
@@ -207,7 +214,7 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
         String textoCedula = "(N/D)";
 
         this.getParameters().put("no_cedula_habitabilidad", textoCedula);
-        nf = NumberFormat.getNumberInstance();
+        nf = NumberFormat.getNumberInstance(Locale.GERMANY);
         nf.setMinimumFractionDigits(0);
         String superficie = nf.format(this.contratoInquilino.getDepartamento().getSuperficie());
         String vecindad_arrendataria = this.contratoInquilino.getDepartamento().getUbicacion().getDireccion().getPoblacion();

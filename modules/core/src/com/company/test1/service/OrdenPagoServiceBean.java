@@ -47,7 +47,6 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
                 return ci.getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto();
             }
             if (op instanceof OrdenPagoFacturaProveedor){
-
                 Transaction t = persistence.createTransaction();
                 OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) persistence.getEntityManager().reload(op, "ordenPagoFacturaProveedor-view");
                 FacturaProveedor fp = persistence.getEntityManager().reload(opfp.getFacturaProveedor(), "facturaProveedor-view");

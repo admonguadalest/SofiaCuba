@@ -15,8 +15,8 @@ import java.util.List;
 public class OrdenPagoProveedor extends OrdenPago {
     private static final long serialVersionUID = 8214727093318651098L;
 
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.DENY)
+    @OnDeleteInverse(DeletePolicy.DENY)
+    @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROVEEDOR_ID")
     protected Proveedor proveedor;

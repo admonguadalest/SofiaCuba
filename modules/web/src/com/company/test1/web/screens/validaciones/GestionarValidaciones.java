@@ -205,6 +205,7 @@ public class GestionarValidaciones extends Screen {
             ve = validacionesService.devuelveEstadoValidacionDocumentoImputable(vidi.getImputacionDocumentoImputable().getDocumentoImputable());
             if (ve == ValidacionEstado.VALIDADO){
                 Label linfo = uiComponents.create(Label.NAME);
+
                 if (vidi.getImputacionDocumentoImputable().getDocumentoImputable() instanceof FacturaProveedor){
                     OrdenPagoFacturaProveedor opfp = ordenPagoService.devuelveOrdenPagoFacturaProveedor((FacturaProveedor) vidi.getImputacionDocumentoImputable().getDocumentoImputable());
                     OrdenPagoAbono opa = ordenPagoService.devuelveOrdenPagoAbono((FacturaProveedor) vidi.getImputacionDocumentoImputable().getDocumentoImputable());
@@ -216,8 +217,7 @@ public class GestionarValidaciones extends Screen {
                             //no hay orden de pago
                             imprimirLabel = false;
                         }
-                    }
-                    if ((opfp==null) && (opa!=null)) {
+                    }else if ((opfp==null) && (opa!=null)) {
                         if (opa != null) {
                             linfo.setValue("Validado - Existe Orden de Abono");
                             imprimirLabel = true;
@@ -225,6 +225,8 @@ public class GestionarValidaciones extends Screen {
                             //no hay orden de abono
                             imprimirLabel = false;
                         }
+                    }else{
+                        imprimirLabel = false;
                     }
                 }else{
                     linfo.setValue("Validado");
@@ -326,8 +328,8 @@ public class GestionarValidaciones extends Screen {
     }
 
 
-    private void lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
-        vidi.setEstadoValidacion(e.getValue());
+    private void   lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
+         vidi.setEstadoValidacion(e.getValue());
         vidi.setFechaAprobacionRechazo(new Date());
         vidi = dataManager.commit(vidi);
         vidi = dataManager.reload(vidi, "validacionImputacionDocumentoImputable-view");
