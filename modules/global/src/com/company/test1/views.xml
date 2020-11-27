@@ -976,7 +976,10 @@
         </property>
     </view>
     <view entity="test1_OrdenPagoFacturaProveedor" name="ordenPagoFacturaProveedor-view" extends="_local">
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
         <property name="facturaProveedor" view="_base">
+
             <property name="proveedor" view="_base">
                 <property name="persona" view="_base">
                     <property name="cuentasBancarias" view="_base">
@@ -1003,8 +1006,12 @@
             <property name="identificador" />
             <property name="cuentaBancaria" view="_base"/>
         </property>
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
     </view>
     <view entity="test1_OrdenPagoProveedor" name="ordenPagoProveedor-view" extends="_base">
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
         <property name="proveedor" view="_minimal">
             <property name="persona" view="_minimal">
                 <property name="nombre"/>
@@ -1443,6 +1450,8 @@
         <property name="contratoInquilino" view="_minimal"/>
     </view>
     <view entity="test1_OrdenPagoAbono" name="ordenPagoAbono-view" extends="_local">
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
         <property name="compensaciones" view="_local">
             <property name="ordenPagoProveedor" view="_minimal"/>
             <property name="ordenPagoAbono" view="_minimal"/>
@@ -1592,6 +1601,8 @@
         <property name="masterSerie" view="_minimal"/>
     </view>
     <view entity="test1_OrdenPagoContratoInquilino" name="ordenPagoContratoInquilino-view" extends="_local">
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
         <property name="contratoInquilino" view="_minimal">
             <property name="inquilino" view="_base"/>
             <property name="programacionRecibo" view="_minimal">

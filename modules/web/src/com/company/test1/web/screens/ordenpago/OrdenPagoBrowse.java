@@ -123,23 +123,23 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
         return chb;
     }
 
-    public Component getBeneficiarioColumn(OrdenPago op) {
-        HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
-        String t = "";
-        if (op instanceof OrdenPagoFacturaProveedor){
-            op = dataManager.reload(op, "ordenPagoFacturaProveedor-view");
-            t = ((OrdenPagoFacturaProveedor)op).getFacturaProveedor().getProveedor().getPersona().getNombreCompleto();
-        }
-        if (op instanceof OrdenPagoProveedor){
-            op = dataManager.reload(op, "ordenPagoProveedor-view");
-            t = ((OrdenPagoProveedor)op).getProveedor().getPersona().getNombreCompleto();
-        }
-        if (op instanceof OrdenPagoContratoInquilino){
-            op = dataManager.reload(op, "ordenPagoContratoInquilino-view");
-            t = ((OrdenPagoContratoInquilino)op).getContratoInquilino().getInquilino().getNombreCompleto();
-        }
-        return hbx;
-    }
+//    public Component getBeneficiarioColumn(OrdenPago op) {
+//        HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
+//        String t = "";
+//        if (op instanceof OrdenPagoFacturaProveedor){
+//            op = dataManager.reload(op, "ordenPagoFacturaProveedor-view");
+//            t = ((OrdenPagoFacturaProveedor)op).getFacturaProveedor().getProveedor().getPersona().getNombreCompleto();
+//        }
+//        if (op instanceof OrdenPagoProveedor){
+//            op = dataManager.reload(op, "ordenPagoProveedor-view");
+//            t = ((OrdenPagoProveedor)op).getProveedor().getPersona().getNombreCompleto();
+//        }
+//        if (op instanceof OrdenPagoContratoInquilino){
+//            op = dataManager.reload(op, "ordenPagoContratoInquilino-view");
+//            t = ((OrdenPagoContratoInquilino)op).getContratoInquilino().getInquilino().getNombreCompleto();
+//        }
+//        return hbx;
+//    }
 
     @Install(to = "cuentaBancariasDl", target = Target.DATA_LOADER)
     private List<CuentaBancaria> cuentaBancariasDlLoadDelegate(LoadContext<CuentaBancaria> loadContext) {
@@ -225,11 +225,11 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
 
     }
 
-    public Component EmisorColumn(OrdenPago op){
-
-        String s = ordenPagoService.getNombreEmisor(op);
-        Label l = uiComponents.create(Label.NAME);
-        l.setValue(s);
-        return l;
-    }
+//    public Component EmisorColumn(OrdenPago op){
+//
+//        String s = ordenPagoService.getNombreEmisor(op);
+//        Label l = uiComponents.create(Label.NAME);
+//        l.setValue(s);
+//        return l;
+//    }
 }

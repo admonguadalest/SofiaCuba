@@ -1,15 +1,12 @@
 package com.company.test1.entity.ordenespago;
 
 import com.company.test1.entity.CuentaBancaria;
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
-import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
-import com.haulmont.cuba.core.entity.annotation.OnDelete;
-import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +16,16 @@ import java.util.Date;
 @Entity(name = "test1_OrdenPago")
 public class OrdenPago extends StandardEntity {
     private static final long serialVersionUID = 7846178937176600804L;
+
+    @NotNull(message = "el valor de Emisor no puede ser nulo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EMISOR_PERSONA_ID")
+    protected Persona emisor;
+
+    @NotNull(message = "el valor Beneficiario no puede ser nulo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BENEFICIARIO_PERSONA_ID")
+    protected Persona beneficiario;
 
     @NotNull(message = "Aportar fecha de valor")
     @Temporal(TemporalType.DATE)
@@ -36,7 +43,6 @@ public class OrdenPago extends StandardEntity {
     protected String descripcion;
 
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REALIZACION_PAGO_ID")
     protected RealizacionPago realizacionPago;
@@ -44,6 +50,21 @@ public class OrdenPago extends StandardEntity {
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
+    public Persona getBeneficiario() {
+        return beneficiario;
+    }
+
+    public void setBeneficiario(Persona beneficiario) {
+        this.beneficiario = beneficiario;
+    }
+
+    public Persona getEmisor() {
+        return emisor;
+    }
+
+    public void setEmisor(Persona emisor) {
+        this.emisor = emisor;
+    }
 
 
     @Transient

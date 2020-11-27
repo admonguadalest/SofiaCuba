@@ -15,6 +15,7 @@
     <layout expand="editActions" spacing="true">
         <form id="frm" dataContainer="ordenPagoProveedorDc">
             <column width="250px">
+                <pickerField id="emisorField" property="emisor" captionProperty="nombreCompleto"/>
                 <pickerField id="proveedorField" property="proveedor" width="659px"
                              captionProperty="persona.nombreCompleto">
                     <actions>

@@ -15,8 +15,13 @@
         </instance>
     </data>
     <dialogMode height="600"
-                width="800"/>
+                width="800" resizable="true"/>
     <layout expand="editActions" spacing="true">
+        <label value="Temporalmente los campos Emisor y Beneficiario serán editables. Usar con cuidado!"/>
+        <form id="form_" dataContainer="ordenPagoFacturaProveedorDc">
+            <pickerField caption="Emisor" id="emisor" dataContainer="ordenPagoFacturaProveedorDc" property="emisor" captionProperty="nombreCompleto"/>
+            <pickerField caption="Beneficiario" id="beneficiario" dataContainer="ordenPagoFacturaProveedorDc" property="beneficiario" captionProperty="nombreCompleto"/>
+        </form>
         <form id="form" dataContainer="ordenPagoFacturaProveedorDc">
             <column width="500px">
                 <pickerField id="facturaProveedorField" editable="false"
@@ -48,6 +53,7 @@
             </column>
         </form>
         <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
             <button action="windowClose"/>
         </hbox>
     </layout>

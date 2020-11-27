@@ -383,6 +383,8 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
 
     public void actionCreatePagoInquilino(){
         OrdenPagoContratoInquilino opci = dataContext.create(OrdenPagoContratoInquilino.class);
+        opci.setEmisor(contratoInquilinoDc.getItem().getDepartamento().getPropietarioEfectivo().getPersona());
+        opci.setBeneficiario(contratoInquilinoDc.getItem().getInquilino());
         opci.setContratoInquilino(contratoInquilinoDc.getItem());
         Screen s = screenBuilders.editor(OrdenPagoContratoInquilino.class, this).editEntity(opci).withOpenMode(OpenMode.DIALOG).withListComponent(tablePagosInquilino).withParentDataContext(dataContext).build();
         s.show();

@@ -1,9 +1,15 @@
 package com.company.test1.web.screens.ordenpago;
 
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.ordenespago.CompensacionOrdenPagoProveedor;
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.HasValue;
 import com.haulmont.cuba.gui.components.Label;
+import com.haulmont.cuba.gui.components.PickerField;
+import com.haulmont.cuba.gui.model.DataContext;
+import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import freemarker.template.SimpleDate;
@@ -20,6 +26,35 @@ public class OrdenPagoFacturaProveedorEdit extends StandardEditor<OrdenPagoFactu
 
     @Inject
     private UiComponents uiComponents;
+    @Inject
+    private InstanceContainer<OrdenPagoFacturaProveedor> ordenPagoFacturaProveedorDc;
+    @Inject
+    private DataManager dataManager;
+    @Inject
+    private DataContext dataContext;
+
+    //PENDIENTE: Eliminar cuando hayamos resuelto el problema de los emisores/beneficiarios de las ordenes de pago
+    @Subscribe("beneficiario")
+    public void onBeneficiarioValueChange(HasValue.ValueChangeEvent<Persona> event) {
+        ordenPagoFacturaProveedorDc.getItem().setBeneficiario(event.getValue());
+        dataManager.commit(ordenPagoFacturaProveedorDc.getItem());
+        OrdenPagoFacturaProveedor opfp = dataManager.reload(ordenPagoFacturaProveedorDc.getItem(), "ordenPagoFacturaProveedor-view");
+        dataContext.merge(opfp);
+
+    }
+    //PENDIENTE: Eliminar cuando hayamos resuelto el problema de los emisores/beneficiarios de las ordenes de pago
+    @Subscribe("emisor")
+    public void onEmisorValueChange(HasValue.ValueChangeEvent<Persona> event) {
+        ordenPagoFacturaProveedorDc.getItem().setEmisor(event.getValue());
+        dataManager.commit(ordenPagoFacturaProveedorDc.getItem());
+        OrdenPagoFacturaProveedor opfp = dataManager.reload(ordenPagoFacturaProveedorDc.getItem(), "ordenPagoFacturaProveedor-view");
+        dataContext.merge(opfp);
+
+    }
+    @Inject
+    private PickerField<Persona> emisor;
+    @Inject
+    private PickerField<Persona> beneficiario;
 
     public Component getColumnOrdenPagoCompensacion(CompensacionOrdenPagoProveedor copp){
         Label l = uiComponents.create(Label.NAME);
@@ -34,4 +69,6 @@ public class OrdenPagoFacturaProveedorEdit extends StandardEditor<OrdenPagoFactu
         l.setValue(t);
         return l;
     }
+
+
 }

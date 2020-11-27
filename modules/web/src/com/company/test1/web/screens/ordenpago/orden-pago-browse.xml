@@ -36,7 +36,8 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="emisor" generator="EmisorColumn"/>
+                <column id="emisor" captionProperty="emisor.nombreCompleto"/>
+                <column id="beneficiario" captionProperty="beneficiario.nombreCompleto"/>
                 <column id="nombreTipo"/>
                 <!--
                 <column id="beneficiario" generator="getBeneficiarioColumn" caption="Beneficiario"/>

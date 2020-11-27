@@ -1441,6 +1441,8 @@ create table ORDEN_PAGO (
     DELETED_BY varchar(50),
     DTYPE varchar(100),
     --
+    EMISOR_PERSONA_ID varchar(32),
+    BENEFICIARIO_PERSONA_ID varchar(32),
     FECHA_VALOR date,
     IMPORTE double precision,
     IMPORTE_EFECTIVO double precision,

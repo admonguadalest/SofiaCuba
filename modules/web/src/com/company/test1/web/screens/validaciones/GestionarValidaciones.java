@@ -373,7 +373,8 @@ public class GestionarValidaciones extends Screen {
 
                         OrdenPagoFacturaProveedor opfp = gopfp.getOrdenPagoFacturaProveedor();
                         if (opfp!=null) {
-
+                            opfp.setEmisor(opfp.getFacturaProveedor().getTitular());
+                            opfp.setBeneficiario(opfp.getFacturaProveedor().getProveedor().getPersona());
                             ordenPagoService.guardaOrdenPagoFacturaProveedor(opfp);
 
 //                            vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
@@ -414,6 +415,8 @@ public class GestionarValidaciones extends Screen {
                                             OrdenPagoAbono opa = new OrdenPagoAbono();
                                             opa.setFacturaProveedor(fp2);
                                             opa.setProveedor(fp2.getProveedor());
+                                            opa.setEmisor(fp2.getTitular());
+                                            opa.setBeneficiario(fp2.getProveedor().getPersona());
                                             opa.setDescripcion(fp2.getDescripcionDocumento());
                                             opa.setFechaValor(new Date());
                                             opa.setImporte(-fp2.getImportePostCCAA());//

@@ -7,4 +7,10 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 public interface AjustesMBean {
 
     public void realizaAjustePoblarTitularDocumentosProveedor() throws Exception;
+
+    public void realizaAjustePoblarTitularDocumentosProveedorAsociadosCicloR216Guadalest() throws Exception;
+
+    public void realizaAjustePoblarTitularDocumentosProveedorAsociadosCicloR216Marvallos() throws Exception;
+
+    public void realizaAjustePoblarEmisorBeneficiarioOrdenesPago() throws Exception;
 }
