@@ -23,6 +23,8 @@
             <form id="form" dataContainer="facturaProveedorDc" width="100%">
                 <column width="50%">
                     <vbox spacing="true">
+                        <pickerField id="titularField" dataContainer="facturaProveedorDc" property="titular" captionProperty="nombreCompleto"
+                                     caption="Titular"/>
                         <pickerField id="proveedorField" dataContainer="facturaProveedorDc" property="proveedor"
                                      captionProperty="persona.nombreCompleto" caption="Proveedor" width="100%">
                             <actions>

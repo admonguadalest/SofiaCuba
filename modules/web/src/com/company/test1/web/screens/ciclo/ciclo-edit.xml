@@ -96,7 +96,7 @@
                             </table>
                         </tab>
                         <tab id="tabImputaciones" caption="Imputaciones" margin="true,false,false,false" spacing="true">
-                            <table id="tableImputaciones" height="279px" width="100%" dataContainer="imputacionesDc">
+                            <table id="tableImputaciones" height="279px" width="100%" dataContainer="imputacionesDc" sortable="true">
                                 <columns>
                                     <column id="documentoImputable.tipoEnum" caption="Tipo"/>
                                     <column id="nombreProveedor" caption="Proveedor" generator="getColumnNombreProveedor"/>

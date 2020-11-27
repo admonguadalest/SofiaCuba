@@ -1,5 +1,6 @@
 package com.company.test1.entity.documentosImputables;
 
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.extroles.Proveedor;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
@@ -20,6 +21,19 @@ public class DocumentoProveedor extends DocumentoImputable {
     @JoinColumn(name = "PROVEEDOR_ID")
     protected Proveedor proveedor;
 
+    @NotNull(message = "Registrar un Titular")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TITULAR_PERSONA_ID")
+    protected Persona titular;
+
+    public Persona getTitular() {
+        return titular;
+    }
+
+    public void setTitular(Persona titular) {
+        this.titular = titular;
+    }
+
     public Proveedor getProveedor() {
         return proveedor;
     }
@@ -27,4 +41,6 @@ public class DocumentoProveedor extends DocumentoImputable {
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
+
+
 }

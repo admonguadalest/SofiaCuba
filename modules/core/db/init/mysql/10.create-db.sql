@@ -168,7 +168,7 @@ create table NOTIFICACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     CONTENIDO_IMPLEMENTADO longtext,
     ENVIADO boolean,
@@ -429,7 +429,7 @@ create table DOCUMENTO_IMPUTABLE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     DESCRIPCION_DOCUMENTO longtext,
     FECHA_EMISION date,
@@ -445,6 +445,7 @@ create table DOCUMENTO_IMPUTABLE (
     --
     -- from test1_DocumentoProveedor
     PROVEEDOR_ID varchar(32),
+    TITULAR_PERSONA_ID varchar(32),
     --
     -- from test1_FacturaProveedor
     FECHA_DEVENGO date,
@@ -534,7 +535,7 @@ create table INCREMENTO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     CONCEPTO_RECIBO_ATRASOS_ID varchar(32),
     FECHA_INCREMENTO date,
@@ -1438,7 +1439,7 @@ create table ORDEN_PAGO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     FECHA_VALOR date,
     IMPORTE double precision,

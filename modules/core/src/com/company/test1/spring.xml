@@ -19,5 +19,14 @@
         <property name="dataSource" ref="cubaDataSource_rentamasterdocs"/>
         <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="rentamasterdocs"/>
     </bean>
+    <bean id="test1_MBeanExporter" lazy-init="false"
+          class="com.haulmont.cuba.core.sys.jmx.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="${cuba.webContextName}.test1:type=Ajustes"
+                       value-ref="test1_Ajustes"/>
+            </map>
+        </property>
+    </bean>
 
 </beans>
