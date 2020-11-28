@@ -17,4 +17,6 @@ public interface DataMigrationMBean {
 
     @ManagedOperation(description="data migration for DocumentacionInquilino")
     public void doImportParteDocumentacionesInquilinos() throws Exception;
+
+
 }

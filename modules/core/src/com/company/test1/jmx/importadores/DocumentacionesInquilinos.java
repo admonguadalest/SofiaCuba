@@ -30,7 +30,8 @@ public class DocumentacionesInquilinos {
             dci.setInformacionDeContacto(r.getString("informacionDeContacto"));
             dci.setPresentacion(r.getString("presentacion"));
             dci.setContratoInquilino(new ContratosInquilinos().devuelveContratoInquilinoDesdeSofiaId(r.getInt("contrato_inquilino_id"), persistence));
-            new ColeccionesAdjuntos().realizaImportacionColeccion(r.getInt("coleccionAdjuntos_id"), null, entitiesToPersist);
+            ColeccionArchivosAdjuntos caa = new ColeccionesAdjuntos().realizaImportacionColeccion(r.getInt("coleccionAdjuntos_id"), null, entitiesToPersist);
+            dci.setColeccionArchivosAdjuntos(caa);
             dataManager.commit(new CommitContext(entitiesToPersist));
             entitiesToPersist.clear();
         }
