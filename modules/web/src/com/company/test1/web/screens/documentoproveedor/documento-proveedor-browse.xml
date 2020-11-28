@@ -34,6 +34,7 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
+<!--                <column id="titular.nombreCompleto"/>-->
                 <column id="proveedor.persona.nombreCompleto"/>
                 <column id="tipo"/>
                 <column id="fechaEmision"/>

@@ -32,6 +32,7 @@
                         <button caption="Borrar"/>
                         <button id="showUploadDialogButton" invoke="onShowUploadDialogButtonClick"
                                 caption="Cargar Archivo"/>
+                        <button id="btnDescargarColeccion" invoke="OnBtnDescargarColeccion" caption="Descargar Coleccion"/>
                     </buttonsPanel>
                 </tree>
                 <table id="tableArchivos" height="250px" width="100%" dataContainer="archivosAdjuntosDc">

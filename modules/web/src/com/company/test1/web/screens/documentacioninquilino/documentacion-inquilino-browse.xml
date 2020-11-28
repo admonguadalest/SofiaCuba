@@ -28,19 +28,19 @@
         </filter>
         <table id="documentacionInquilinoesTable"
                width="100%"
-               dataContainer="documentacionInquilinoesDc">
+               dataContainer="documentacionInquilinoesDc" sortable="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
+                <column id="fechaRegistro"/>
                 <column id="dni"/>
                 <column id="nombreCompleto"/>
                 <column id="objetoCanidado"/>
                 <column id="informacionDeContacto"/>
-                <column id="presentacion"/>
-                <column id="fechaRegistro"/>
+
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

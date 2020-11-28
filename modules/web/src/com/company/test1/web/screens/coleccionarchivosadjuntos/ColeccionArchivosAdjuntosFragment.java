@@ -27,9 +27,10 @@ import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import org.apache.poi.util.IOUtils;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @UiController("test1_ColeccionArchivosAdjuntosFragment")
 @UiDescriptor("coleccion-archivos-adjuntos-fragment.xml")
@@ -172,7 +173,44 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
 
     }
 
+    public void OnBtnDescargarColeccion(){
+        try {
+            String nombre = coleccionArchivosAdjuntosDc.getItem().getNombre();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ZipOutputStream zipOut = new ZipOutputStream(baos);
+            for (int i = 0; i < coleccionArchivosAdjuntosDc.getItem().getArchivos().size(); i++) {
+                ArchivoAdjunto aa = coleccionArchivosAdjuntosDc.getItem().getArchivos().get(i);
+                ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
+                byte[] bb = null;
+                if (aaext==null){
+                    bb = aa.getRepresentacionSerial();
+                    bb = Base64.getMimeDecoder().decode(bb);
+//                    bb = Base64.getMimeDecoder().decode(bb);
+                }else{
+                    bb = aaext.getRepresentacionSerial();
+                    bb = Base64.getMimeDecoder().decode(bb);
+//                    bb = Base64.getMimeDecoder().decode(bb);
+                }
 
+                ByteArrayInputStream bais = new ByteArrayInputStream(bb);
+                ZipEntry zipEntry = new ZipEntry(aa.getNombreArchivo());
+                zipOut.putNextEntry(zipEntry);
+                byte[] bytes = new byte[1024];
+                int length;
+                while((length = bais.read(bytes)) >= 0) {
+                    zipOut.write(bytes, 0, length);
+                }
+                bais.close();
+            }
+            zipOut.close();
+            baos.close();
+            byte[] bb = baos.toByteArray();
+            exportDisplay.show(new ByteArrayDataProvider(bb), nombre + ".zip");
+
+        }catch(Exception exc){
+            notifications.create().withCaption("Error").withDescription(exc.getMessage()).show();
+        }
+    }
 
 
     public void onBtnDescargarClick() {
