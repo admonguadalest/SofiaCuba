@@ -28,7 +28,7 @@
         </filter>
         <table id="documentacionInquilinoesTable"
                width="100%"
-               dataContainer="documentacionInquilinoesDc" sortable="true">
+               dataContainer="documentacionInquilinoesDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>

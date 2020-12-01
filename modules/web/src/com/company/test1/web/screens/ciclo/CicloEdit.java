@@ -261,7 +261,7 @@ public class CicloEdit extends StandardEditor<Ciclo> {
                      * PENDIENTE
                      */
                     if ((ev1.getFecha() == null)||(ev2.getFecha()==null)){
-                        return 0;
+                        return -1;
                     }
                     return -1 * ev1.getFecha().compareTo(ev2.getFecha());
                 }catch(Exception exc){
