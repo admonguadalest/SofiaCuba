@@ -82,7 +82,7 @@ public class Impagados extends Screen {
         fechaDesde.setValue(Date.valueOf("2000-01-01"));
         fechaHasta.setValue(Date.valueOf(LocalDate.now()));
 
-        lkpContratos.setOptionsList(Arrays.asList(EstadoContratoInquilinoEnum.VIGENTE, EstadoContratoInquilinoEnum.RENUNCIADO));
+        lkpContratos.setOptionsList(Arrays.asList(EstadoContratoInquilinoEnum.VIGENTE, "NO VIGENTE"));
     }
     
     

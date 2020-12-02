@@ -23,6 +23,9 @@
                 dataLoader="reciboesDl">
             <property caption="Fecha Emision" name="fechaEmision"/>
             <property caption="Nombre Inquilino" name="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
+            <property caption="Ubicacion" name="utilitarioContratoInquilino.departamento.ubicacion.nombre"/>
+            <property caption="Piso" name="utilitarioContratoInquilino.departamento.piso"/>
+            <property caption="Puerta" name="utilitarioContratoInquilino.departamento.puerta"/>
         </filter>
         <table id="reciboesTable"
                width="100%"

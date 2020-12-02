@@ -555,10 +555,20 @@ public class RecibosServiceBean implements RecibosService {
             ReciboCobrado rc = (ReciboCobrado) ((Object[])l.get(i))[1];
             ContratoInquilino ci = (ContratoInquilino) ((Object[])l.get(i))[2];
             if (estadoContrato!=null){
-                EstadoContratoInquilinoEnum estado = EstadoContratoInquilinoEnum.valueOf(estadoContrato);
-                if (ci.getEstadoContrato().compareTo(estado)!=0){
-                    continue;
+                if (estadoContrato.compareTo("VIGENTE")==0){
+                    if (ci.getEstadoContrato().compareTo(EstadoContratoInquilinoEnum.VIGENTE)!=0){
+                        continue;
+                    }
                 }
+                if (estadoContrato.compareTo("NO VIGENTE")==0){
+                    if (ci.getEstadoContrato().compareTo(EstadoContratoInquilinoEnum.VIGENTE)==0){
+                        continue;
+                    }
+                }
+//                EstadoContratoInquilinoEnum estado = EstadoContratoInquilinoEnum.valueOf(estadoContrato);
+//                if (ci.getEstadoContrato().compareTo(estado)!=0){
+//                    continue;
+//                }
             }
             if (incobrables!=null){
                 ReciboGradoImpago gi = ReciboGradoImpago.valueOf(incobrables);
