@@ -1622,6 +1622,7 @@
                 <property name="ordenesCobro" view="_minimal">
                     <property name="realizacionCobro" view="_minimal"/>
                 </property>
+                <property name="recibosCobrados" view="_minimal"/>
             </property>
         </property>
     </view>
