@@ -329,10 +329,17 @@ public class GestionarValidaciones extends Screen {
 
 
     private void   lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
-         vidi.setEstadoValidacion(e.getValue());
+        vidi.setEstadoValidacion(e.getValue());
         vidi.setFechaAprobacionRechazo(new Date());
         vidi = dataManager.commit(vidi);
         vidi = dataManager.reload(vidi, "validacionImputacionDocumentoImputable-view");
+
+        //al reemplazar la instancia en el dataContainer puedo cambiar el estado de la validacion a través de varias transacciones
+        //SOLUCION al error que me obligaba a recargar la tabla para cambiar mas de una vez el estado de una validacion
+        int iofvidi = validacionesDc.getMutableItems().indexOf(vidi);
+        if (iofvidi!=-1){
+            validacionesDc.getMutableItems().set(iofvidi, vidi);
+        }
 
         if (e.getValue() == ValidacionEstado.VALIDADO){
 
@@ -377,6 +384,8 @@ public class GestionarValidaciones extends Screen {
                             opfp.setBeneficiario(opfp.getFacturaProveedor().getProveedor().getPersona());
                             ordenPagoService.guardaOrdenPagoFacturaProveedor(opfp);
 
+                            tableValidaciones.refresh();
+
 //                            vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
 //                            vidi.setFechaAprobacionRechazo(new Date());
 //
@@ -400,6 +409,8 @@ public class GestionarValidaciones extends Screen {
                                             opfp.setEmisor(fp2.getTitular());
                                             opfp.setBeneficiario(fp2.getProveedor().getPersona());
                                             dataManager.commit(opfp);
+
+                                            tableValidaciones.refresh();
 //                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
 //                                        vidi.setFechaAprobacionRechazo(new Date());
 //                                        dataManager.commit(vidi);
@@ -439,6 +450,7 @@ public class GestionarValidaciones extends Screen {
 
         }
 
+        tableValidaciones.refresh();
     }
 
     public void onBtnHacerReportClick(){
