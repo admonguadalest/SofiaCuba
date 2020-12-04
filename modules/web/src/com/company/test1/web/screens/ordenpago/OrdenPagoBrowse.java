@@ -180,7 +180,7 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
         ArrayList al = new ArrayList();
         for (int i = 0; i < ordenesParaCreacionRealizacionPago.size(); i++) {
             OrdenPago op = ordenesParaCreacionRealizacionPago.get(i);
-            String nombreEmisor = ordenPagoService.getNombreEmisor(op);
+            String nombreEmisor = op.getEmisor().getNombreCompleto();
             if (nombreEmisor.compareTo("N/D")==0){
                 continue;
             }

@@ -25,6 +25,6 @@ public interface OrdenPagoService {
     String crearIdentificadorParaRealizacionPago(Date fecha);
     OrdenPagoFacturaProveedor devuelveOrdenPagoFacturaProveedor(FacturaProveedor fp);
     OrdenPagoAbono devuelveOrdenPagoAbono(FacturaProveedor fp);
-    String getNombreEmisor(OrdenPago op);
+//    String getNombreEmisor(OrdenPago op);
 
 }

@@ -162,5 +162,6 @@
             <item screen="test1_RealizacionCobro.browse" id="filtradoRealizacionesCobro"/>
             <item screen="test1_GeneracionOrdenCobroManualmente"/>
         </menu>
+        <item screen="test1_ArchivoAdjunto.browse" openType="NEW_TAB"/>
     </menu>
 </menu-config>

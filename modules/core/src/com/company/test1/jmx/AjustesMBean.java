@@ -13,4 +13,6 @@ public interface AjustesMBean {
     public void realizaAjustePoblarTitularDocumentosProveedorAsociadosCicloR216Marvallos() throws Exception;
 
     public void realizaAjustePoblarEmisorBeneficiarioOrdenesPago() throws Exception;
+
+    public void rellenaTablaArchivoAdjuntoCorreccionHelper() throws Exception;
 }

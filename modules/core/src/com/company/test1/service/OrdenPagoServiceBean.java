@@ -36,33 +36,33 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     @Inject
     private DataManager dataManager;
 
-    public String getNombreEmisor(OrdenPago op){
-        try{
-            if (op instanceof OrdenPagoContratoInquilino){
-
-                Transaction t = persistence.createTransaction();
-                OrdenPagoContratoInquilino opci = (OrdenPagoContratoInquilino) persistence.getEntityManager().reload(op, "ordenPagoContratoInquilino-view");
-                ContratoInquilino ci = persistence.getEntityManager().reload(opci.getContratoInquilino(), "contratoInquilino-view");
-                t.close();
-                return ci.getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto();
-            }
-            if (op instanceof OrdenPagoFacturaProveedor){
-                Transaction t = persistence.createTransaction();
-                OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) persistence.getEntityManager().reload(op, "ordenPagoFacturaProveedor-view");
-                FacturaProveedor fp = persistence.getEntityManager().reload(opfp.getFacturaProveedor(), "facturaProveedor-view");
-                t.close();
-                return fp.getImputacionesDocumentoImputable().get(0).getCiclo().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto();
-            }
-            if (op instanceof OrdenPagoProveedor){
-                return "N/D";
-            }
-            return "N/D";
-        }catch(Exception exc){
-            return "N/D";
-        }
-
-
-    }
+//    public String getNombreEmisor(OrdenPago op){
+//        try{
+//            if (op instanceof OrdenPagoContratoInquilino){
+//
+//                Transaction t = persistence.createTransaction();
+//                OrdenPagoContratoInquilino opci = (OrdenPagoContratoInquilino) persistence.getEntityManager().reload(op, "ordenPagoContratoInquilino-view");
+//                ContratoInquilino ci = persistence.getEntityManager().reload(opci.getContratoInquilino(), "contratoInquilino-view");
+//                t.close();
+//                return ci.getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto();
+//            }
+//            if (op instanceof OrdenPagoFacturaProveedor){
+//                Transaction t = persistence.createTransaction();
+//                OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) persistence.getEntityManager().reload(op, "ordenPagoFacturaProveedor-view");
+//                FacturaProveedor fp = persistence.getEntityManager().reload(opfp.getFacturaProveedor(), "facturaProveedor-view");
+//                t.close();
+//                return fp.getImputacionesDocumentoImputable().get(0).getCiclo().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto();
+//            }
+//            if (op instanceof OrdenPagoProveedor){
+//                return "N/D";
+//            }
+//            return "N/D";
+//        }catch(Exception exc){
+//            return "N/D";
+//        }
+//
+//
+//    }
 
     @Override
     public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov) {

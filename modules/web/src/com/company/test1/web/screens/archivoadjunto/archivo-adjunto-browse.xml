@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://browseCaption"
+        focusComponent="archivoAdjuntoesTable"
+        messagesPack="com.company.test1.web.screens.archivoadjunto">
+    <data readOnly="true">
+        <collection id="archivoAdjuntoesDc"
+                    class="com.company.test1.entity.ArchivoAdjunto"
+                    view="_local">
+            <loader id="archivoAdjuntoesDl">
+                <query>
+                    <![CDATA[select e from test1_ArchivoAdjunto e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="archivoAdjuntoesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="archivoAdjuntoesTable"
+                dataLoader="archivoAdjuntoesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="archivoAdjuntoesTable"
+               width="100%"
+               dataContainer="archivoAdjuntoesDc">
+
+            <columns>
+                <column id="extId"/>
+                <column id="nombreArchivo"/>
+                <column id="nombreArchivoOriginal"/>
+                <column id="descripcion"/>
+                <column id="extension"/>
+                <column id="mimeType"/>
+                <column id="tamano"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+
+                <button id="correctBtn" caption="Corregir"/>
+                <button id="visualize1Btn" invoke="OnVisualizeBtn1Decode" caption="Visualizar1Decode"/>
+                <button id="visualize2Btn" invoke="OnVisualizeBtn2Decode" caption="Visualizar2Decode"/>
+                <button id="check1Btn" invoke="doCheck1D" caption="Check1Decode"/>
+                <button id="check2Btn" invoke="doCheck2D" caption="Check2Decode"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

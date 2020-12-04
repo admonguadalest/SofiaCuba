@@ -1,18 +1,25 @@
 package com.company.test1.jmx;
 
-import com.company.test1.entity.CuentaBancaria;
-import com.company.test1.entity.Persona;
-import com.company.test1.entity.PersonaJuridica;
+import com.company.test1.entity.*;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.ordenespago.*;
+import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
+import com.itextpdf.text.pdf.PdfReader;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.List;
 
@@ -148,6 +155,101 @@ public class Ajustes implements AjustesMBean {
                 t.close();
             }
 
+        }
+    }
+
+    private boolean isPdfFile(byte[] bb){
+        try{
+            PdfReader pdfr = new PdfReader(bb);
+            int n = pdfr.getNumberOfPages();
+            return true;
+        }catch(Exception exc){
+            return false;
+        }
+
+    }
+
+    private boolean isImage(byte[] bb){
+        try{
+            BufferedImage im = ImageIO.read(new ByteArrayInputStream(bb));
+            if ((im.getWidth()>0) && (im.getHeight()>0)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception exc){
+            return false;
+        }
+
+    }
+
+    public void rellenaTablaArchivoAdjuntoCorreccionHelper() throws Exception{
+
+        Transaction t = AppBeans.get(Persistence.class).createTransaction();
+        List<UUID> aa = AppBeans.get(Persistence.class).getEntityManager().createQuery("select aa.id from test1_ArchivoAdjunto aa").getResultList();
+        t.close();
+        for (int i = 0; i < aa.size(); i++) {
+            int doTransfer = 0;
+            int numberDecodeLeves = 0;
+            UUID id = aa.get(i);
+            t = AppBeans.get(Persistence.class).createTransaction();
+            ArchivoAdjunto a = AppBeans.get(Persistence.class).getEntityManager().find(ArchivoAdjunto.class, id, "_base");
+            t.close();
+            t = AppBeans.get(Persistence.class).createTransaction("rentamasterdocs");
+            ArchivoAdjuntoExt aaext = (ArchivoAdjuntoExt) AppBeans.get(Persistence.class).getEntityManager("rentamasterdocs").createQuery("select aa FROM test1_ArchivosAdjuntos aa WHERE aa.id = :extid")
+                    .setParameter("extid", a.getExtId()).getFirstResult();
+            t.close();
+            if (aaext == null){
+                Connection c = Cubatest1DB.getConnection();
+                String sql = "insert into archivos_adjuntos_correction_helper (archivo_adjunto_id, ext_id, decodelevels, dbtransfer) values ('" + a.getId().toString().replace("-","") + "'," + a.getExtId().toString() + ",NULL,NULL)";
+                PreparedStatement s = c.prepareStatement(sql);
+                s.execute();
+                continue;
+            }
+            byte[] bb = aaext.getRepresentacionSerial();
+            if (bb==null){
+                bb = a.getRepresentacionSerial();
+                doTransfer = 1;
+            }
+            String extension = a.getExtension();
+            if (bb==null){
+                Connection c = Cubatest1DB.getConnection();
+                String sql = "insert into archivos_adjuntos_correction_helper (archivo_adjunto_id, ext_id, decodelevels, dbtransfer) values ('" + a.getId().toString().replace("-","") + "'," + a.getExtId().toString() + ",NULL,NULL)";
+                PreparedStatement s = c.prepareStatement(sql);
+                s.execute();
+                continue;
+            }
+            if (extension.toLowerCase().compareTo("pdf")==0){
+                bb = Base64.getMimeDecoder().decode(bb);
+                if (isPdfFile(bb)){
+                    numberDecodeLeves = 1;
+                }else{
+                    bb = Base64.getMimeDecoder().decode(bb);
+                    if (isPdfFile(bb)){
+                        numberDecodeLeves = 2;
+                    }else{
+                        numberDecodeLeves = -1;
+                    }
+                }
+            }
+            if ("jpg jpeg png bmp gif ".indexOf(extension.toLowerCase())!=-1){
+                bb = Base64.getMimeDecoder().decode(bb);
+                if (isImage(bb)){
+                    numberDecodeLeves = 1;
+                }else{
+                    bb = Base64.getMimeDecoder().decode(bb);
+                    if (isImage(bb)){
+                        numberDecodeLeves = 2;
+                    }else{
+                        numberDecodeLeves = -1;
+                    }
+                }
+            }
+            Connection c = Cubatest1DB.getConnection();
+            String sql = "insert into archivos_adjuntos_correction_helper (archivo_adjunto_id, ext_id, decodelevels, dbtransfer) values ('" + a.getId().toString().replace("-","") + "'," + a.getExtId().toString() + "," + numberDecodeLeves + "," + doTransfer + ")";
+            PreparedStatement s = c.prepareStatement(sql);
+            s.execute();
         }
     }
 
