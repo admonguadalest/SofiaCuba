@@ -71,6 +71,8 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
+        //PENDIENTE: esto debería cambiarse a dataContext.create(), pero como funciona de momento
+        //aun no lo cambio
         this.setEntityToEdit(new Recibo());
     }
 

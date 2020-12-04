@@ -397,6 +397,8 @@ public class GestionarValidaciones extends Screen {
                                             opfp.setImporte(fp2.getImportePostCCAA());
                                             opfp.setImporteEfectivo(fp2.getImportePostCCAA());
                                             opfp.setDescripcion("");
+                                            opfp.setEmisor(fp2.getTitular());
+                                            opfp.setBeneficiario(fp2.getProveedor().getPersona());
                                             dataManager.commit(opfp);
 //                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
 //                                        vidi.setFechaAprobacionRechazo(new Date());

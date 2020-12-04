@@ -665,8 +665,8 @@ public class RecibosServiceBean implements RecibosService {
         String sql = "SELECT DISTINCT r.numRecibo FROM test1_Recibo r"
 
                 //"SELECT MAX(CONVERT(INTEGER, r.numRecibo)) FROM Recibo r"
-                + " JOIN r.programacionRecibo pr"
-                + " JOIN pr.contratoInquilino c"
+//                + " JOIN r.programacionRecibo pr"
+                + " JOIN r.utilitarioContratoInquilino c"
                 + " JOIN c.departamento dep"
                 + " JOIN dep.ubicacion ub"
                 + " WHERE FUNCTION('YEAR',r.fechaEmision) = " + anno.toString()
