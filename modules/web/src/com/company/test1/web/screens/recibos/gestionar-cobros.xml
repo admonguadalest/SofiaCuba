@@ -6,7 +6,7 @@
     <data readOnly="true">
         <collection id="reciboesDc"
                     class="com.company.test1.entity.recibos.Recibo"
-                    view="recibo-view">
+                    view="recibo-browse-view">
             <loader id="reciboesDl">
                 <query>
                     <![CDATA[select e from test1_Recibo e]]>

@@ -108,6 +108,19 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
         String nombreInquilino = r.getUtilitarioInquilino().getNombreCompleto();
         nombreInquilino = nombreInquilino.replace("'","`");
 
+        String ubicacionRm2Id = "";
+        try{
+            ubicacionRm2Id = r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getRm2id().toString();
+        }catch(Exception exc){
+            ubicacionRm2Id = "0";
+        }
+        String departamentoRm2Id = "";
+        try{
+            departamentoRm2Id = r.getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString();
+        }catch(Exception exc){
+            departamentoRm2Id = "0";
+        }
+
         String sql = "insert into z_helper_proceso_recibos_informeiva\n" +
                 "(ubicacion_rm2id," +
                 "ubicacion_id, " +
@@ -132,9 +145,9 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
                 "porcentajeIRPF, " +
                 "importeAplicadoIRPF) " +
                 "values " +
-                "(" + r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getRm2id().toString() + "," +
+                "(" + ubicacionRm2Id + "," +
                 "'" + r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getId().toString().replace("-","") +"', " +
-                r.getUtilitarioContratoInquilino().getDepartamento().getRm2id().toString() + "," +
+                departamentoRm2Id + "," +
                 "'" + r.getUtilitarioContratoInquilino().getDepartamento().getId().toString().replace("-","") +"', " +
                 "'" + r.getId().toString().replace("-","") +"', " +
                 "'" + r.getUtilitarioInquilino().getId().toString().replace("-","") +"', " +

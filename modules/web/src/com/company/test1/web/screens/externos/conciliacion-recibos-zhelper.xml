@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.externos">
+    <data>
+        <collection id="recibos" class="com.company.test1.entity.recibos.Recibo" view="recibo-browse-view">
+            <loader id="recibosDl"/>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true" box.expandRatio="1" >
+            <label value="Recibos Pendientes de Conciliación"/>
+            <hbox spacing="true">
+                <dateField id="fechaDesdeField" caption="Fecha Desde" resolution="DAY"/>
+                <dateField id="fechaHastaField" caption="Fecha Hasta" resolution="DAY"/>
+                <button invoke="buscar" caption="Buscar" align="BOTTOM_LEFT"/>
+            </hbox>
+            <table id="tableRecibos" dataContainer="recibos" multiselect="true" width="100%">
+                <columns>
+                    <column id="ordenanteRemesa.remesa.identificadorRemesa"/>
+                    <column id="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
+                    <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                    <column id="totalReciboPostCCAA"/>
+                    <column id="totalCobrado"/>
+                    <column id="numRecibo"/>
+                    <column id="fechaEmision"/>
+
+                </columns>
+
+                <rowsCount/>
+            </table>
+            <buttonsPanel>
+                <button caption="Conciliar Seleccionados" invoke="onBtnConciliarSeleccionados"/>
+            </buttonsPanel>
+        </vbox>
+
+    </layout>
+</window>

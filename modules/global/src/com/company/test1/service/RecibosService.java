@@ -13,6 +13,7 @@ import java.util.List;
 public interface RecibosService {
     String NAME = "test1_RecibosService";
 
+    List<Recibo> devuelveRecibosPendientesDeConciliacionZHelper(Date fechaDesde, Date fechaHasta) throws Exception;
 
     Recibo generaReciboParaContrato(ContratoInquilino contratoInquilino, OrdenanteRemesa ordentanteRemesa, Date fechaValorP, Serie serie) throws Exception;
     Remesa generaRemesaAcordeADatos(Date fechaRealizacion, Date fechaValor, Date fechaCargo, List<ContratoInquilino> contratos, Serie serie) throws Exception;

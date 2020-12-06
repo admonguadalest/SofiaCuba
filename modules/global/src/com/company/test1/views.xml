@@ -843,6 +843,30 @@
         <property name="ordenesCobro" view="_base"/>
         <property name="recibosCobrados" view="reciboCobrado-view"/>
     </view>
+    <view entity="test1_Recibo" name="recibo-browse-view" extends="_base" systemProperties="true">
+
+        <property name="ordenanteRemesa" view="_minimal">
+            <property name="remesa" view="_base"/>
+        </property>
+        <property name="utilitarioContratoInquilino" view="_minimal">
+            <property name="numeroContrato"/>
+            <property name="inquilino" view="_base"/>
+            <property name="departamento" view="_minimal">
+                <property name="rm2id"/>
+                <property name="piso"/>
+                <property name="puerta"/>
+                <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
+
+                </property>
+
+            </property>
+        </property>
+        <property name="utilitarioInquilino" view="_minimal">
+            <property name="nombreCompleto"/>
+        </property>
+        <property name="recibosCobrados" view="_base"/>
+    </view>
     <view entity="test1_ReciboCobrado" name="reciboCobrado-view" extends="_local">
         <property name="recibo" view="_base"/>
     </view>
@@ -1165,7 +1189,9 @@
             </property>
             <property name="overrideConcepto" view="_local"/>
             <property name="registroAplicacionesConceptosAdicionales" view="_base">
-                <property name="conceptoAdicional" view="_minimal"/>
+                <property name="conceptoAdicional" view="_minimal">
+                    <property name="abreviacion"/>
+                </property>
                 <property name="implementacionConcepto" view="_minimal"/>
             </property>
         </property>
@@ -1537,8 +1563,10 @@
                     <property name="piso"/>
                     <property name="puerta"/>
                     <property name="nombreDescriptivoCompleto"/>
+
                     <property name="ubicacion" view="_minimal">
                         <property name="nombre"/>
+                        <property name="rm2id"/>
                         <property name="abreviacionUbicacion"/>
                     </property>
                     <property name="rm2id"/>

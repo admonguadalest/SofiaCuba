@@ -109,6 +109,7 @@
         <menu id="externos">
             <item screen="test1_InformeIva" id="informe-iva" openType="NEW_TAB"/>
             <item screen="test1_Mod347" id="mod-347"/>
+            <item screen="test1_ConciliacionRecibosZhelper"/>
         </menu>
         <item screen="test1_Fianzas" id="fianzas"/>
         <menu id="aumentos">

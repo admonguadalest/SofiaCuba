@@ -42,6 +42,25 @@ public class RecibosServiceBean implements RecibosService {
     NumberUtilsService numberUtilsService;
 
 
+
+    public List<Recibo> devuelveRecibosPendientesDeConciliacionZHelper(Date fechaDesde, Date fechaHasta) throws Exception{
+        List<Recibo> al = new ArrayList<Recibo>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String sql = "SELECT r.id FROM recibo r LEFT JOIN z_helper_proceso_recibos_informeiva z on z.recibo_id = r.id WHERE z.id is null and " +
+                "r.FECHA_EMISION >= '" + sdf.format(fechaDesde) + "' and r.FECHA_EMISION <= '" + sdf.format(fechaHasta) + "'";
+        Transaction t = persistence.createTransaction();
+        List<String> ids = persistence.getEntityManager().createNativeQuery(sql).getResultList();
+        for (int i = 0; i < ids.size(); i++) {
+            UUID id = com.company.test1.StringUtils.toUUID(ids.get(i));
+            Recibo r = persistence.getEntityManager().find(Recibo.class, id);
+            if (r == null) continue;
+            al.add(r);
+        }
+        t.close();
+        return al;
+    }
+
+
     public Remesa generaRemesaAcordeADatos(Date fechaRealizacion, Date fechaValor, Date fechaCargo, List<ContratoInquilino> contratos, Serie serie) throws Exception{
 
         String tipoGiros = "";
