@@ -328,7 +328,7 @@ public class GestionarValidaciones extends Screen {
     }
 
 
-    private void   lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
+    private void    lkpValidacion_ValueChanged(HasValue.ValueChangeEvent<ValidacionEstado> e, ValidacionImputacionDocumentoImputable vidi){
         vidi.setEstadoValidacion(e.getValue());
         vidi.setFechaAprobacionRechazo(new Date());
         vidi = dataManager.commit(vidi);

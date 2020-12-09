@@ -229,7 +229,7 @@ public class JasperReportServiceBean implements JasperReportService {
 
         FlexReport fr = getFlexReportDesdeNombre("INFORME REMESAS DETALLE");
         try{
-            JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(fr.getContenidoJrxml().getBytes()));
+             JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(fr.getContenidoJrxml().getBytes()));
             JasperReport jr = JasperCompileManager.compileReport(designMaestro);
 
             //patch: PENDIENTE ARREGLAR

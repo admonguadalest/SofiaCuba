@@ -31,8 +31,8 @@
         <filter id="filter"
                 applyTo="ordenCobroesTable"
                 dataLoader="ordenCobroesDl">
-            <property name="recibo.utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
-            <property name="recibo.ordenanteRemesa.remesa.identificadorRem  esa"/>
+            <property name="recibo.utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto" caption="Departamento"/>
+            <property name="recibo.ordenanteRemesa.remesa.identificadorRemesa" caption="Identificador de Remesa"/>
             <property name="recibo.ordenanteRemesa.remesa.definicionRemesa.tipoGiro" caption="Tipo Giro"/>
             <property name="fechaValor" caption="Fecha Valor"/>
             <property name="recibo.utilitarioInquilino.nombreCompleto" caption="Nombre Inquilino"/>

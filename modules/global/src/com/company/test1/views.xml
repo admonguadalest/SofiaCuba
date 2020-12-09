@@ -1622,7 +1622,11 @@
             <property name="nombreArchivoOriginal"/>
             <property name="tamano"/>
             <property name="extId"/>
+            <property name="representacionSerial"/>
             <property name="fotoThumbnail" view="_base"/>
+        </property>
+        <property name="fotosThumbnail" view="_base">
+
         </property>
     </view>
     <view entity="test1_Serie" name="serie-view" extends="_local">
