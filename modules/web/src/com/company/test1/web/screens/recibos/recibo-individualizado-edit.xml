@@ -13,6 +13,11 @@
 
             </collection>
         </instance>
+        <collection id="definicionesRemesasDc" class="com.company.test1.entity.recibos.DefinicionRemesa" view="_base">
+            <loader>
+                <query><![CDATA[select e from test1_DefinicionRemesa e ]]></query>
+            </loader>
+        </collection>
         <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie" view="_base">
             <loader>
                 <query><![CDATA[select e from test1_Serie e ]]></query>
@@ -37,7 +42,11 @@
                     <lookupField id="serieField" optionsContainer="seriesDc" caption="Serie"
                                  captionProperty="nombreSerie" property="serie"/>
                     <textArea width="100%" caption="Ampliacion" dataContainer="reciboDc" property="ampliacion"/>
-                    <checkBox width="100%" caption="Incluír Remesa" id="chkIncluirRemesa"/>
+                    <hbox caption="Incluir Remesa">
+                        <checkBox width="100%" id="chkIncluirRemesa" />
+                        <lookupField id="remesaField" optionsContainer="definicionesRemesasDc" captionProperty="nombreRemesa"/>
+                    </hbox>
+
                     <textField editable="false" id="totalReciboField" dataContainer="reciboDc" property="totalRecibo"
                                caption="Total Recibo"/>
                     <table id="tableImplementacionesConceptos" width="100%" dataContainer="implementacionConceptosDc"

@@ -3,6 +3,7 @@ package com.company.test1.web.screens.recibos;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
+import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.recibos.*;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
@@ -29,6 +30,7 @@ import java.util.List;
 @EditedEntityContainer("reciboDc")
 @LoadDataBeforeShow
 public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
+
 
     @Inject
     private CheckBox chkIncluirRemesa;
@@ -68,6 +70,21 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
     private ExportDisplay exportDisplay;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private LookupField<DefinicionRemesa> remesaField;
+
+
+
+    @Subscribe("chkIncluirRemesa")
+    public void onChkIncluirRemesaValueChange(HasValue.ValueChangeEvent<Boolean> event) {
+        if (event.getValue()){
+            remesaField.setEditable(true);
+        }else{
+            remesaField.setValue(null);
+            remesaField.setEditable(false);
+        }
+    }
+
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -80,6 +97,8 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
     private void onAfterShow(AfterShowEvent event) {
         reciboDc.getItem().setFechaValor(new Date());
         reciboDc.getItem().setFechaEmision(new Date());
+        remesaField.setValue(null);
+        remesaField.setEditable(false);
     }
     
     
@@ -181,7 +200,13 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
             ContratoInquilino ci = contratoField.getValue();
             ProgramacionRecibo pr = contratoField.getValue().getProgramacionRecibo();
             DefinicionRemesa dr = pr.getDefinicionRemesa();
+
             if (chkIncluirRemesa.isChecked()) {
+                if (remesaField.getValue()==null){
+                    notifications.create().withCaption("Por favor seleccionar una definición de remesa").show();
+                    return;
+                }
+                dr = remesaField.getValue();
                 Remesa rem = dataContext.create(Remesa.class);
                 rem.setDefinicionRemesa(dr);
                 rem.setFechaAdeudo(fechaEmisionField.getValue());

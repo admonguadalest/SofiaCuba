@@ -300,7 +300,9 @@ public class RecibosServiceBean implements RecibosService {
     }
 
     public String generaIdentificadorRemesa(String nombreDefinicionRemesa, Date fechaEmision, String abrevUbicacionDepto) throws Exception{
-        String identificadorRemesa = nombreDefinicionRemesa + fechaEmision + abrevUbicacionDepto;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String strFechaEmision = sdf.format(fechaEmision);
+        String identificadorRemesa = nombreDefinicionRemesa + strFechaEmision + abrevUbicacionDepto;
         Remesa rem = devuelveRemesaDesdeIdentificador(identificadorRemesa);
         Integer contador = 1;
         while(rem!=null){
