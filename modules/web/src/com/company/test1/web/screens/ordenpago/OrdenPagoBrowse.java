@@ -1,9 +1,11 @@
 package com.company.test1.web.screens.ordenpago;
 
 import com.company.test1.entity.CuentaBancaria;
+import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.ordenespago.*;
 import com.company.test1.service.OrdenPagoService;
+import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -11,6 +13,8 @@ import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
+import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.DataContext;
@@ -53,6 +57,8 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
     private DataContext dataContext;
     @Inject
     private Filter filter;
+    @Inject
+    private ExportDisplay exportDisplay;
 
 
     @Subscribe("ordenPagosTable.create")
@@ -223,6 +229,11 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
         }
 
 
+    }
+
+    public void OnBtnVerReportClick(){
+        byte[] bb = DynamicReportHelper.getReportDinamico("Listado Ordenes Pago", OrdenPago.class, ordenPagosTable);
+        exportDisplay.show(new ByteArrayDataProvider(bb), "Listado Ordenes Pago.pdf");
     }
 
 //    public Component EmisorColumn(OrdenPago op){
