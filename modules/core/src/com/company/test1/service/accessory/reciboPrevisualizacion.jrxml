@@ -87,6 +87,8 @@
     <field name="cuentaIban" class="java.lang.String">
         <fieldDescription><![CDATA[cuentaIban]]></fieldDescription>
     </field>
+    <field name="totalReciboMasCobranzas" class="java.lang.Double"/>
+    <field name="totalCobranzas" class="java.lang.Double"/>
     <background>
         <band height="802" splitType="Stretch">
             <printWhenExpression><![CDATA[$V{PAGE_NUMBER} < 2]]></printWhenExpression>
@@ -110,7 +112,7 @@
                 <textElement textAlignment="Right" lineSpacing="Single">
                     <font fontName="Calibri" size="10" isBold="true"/>
                 </textElement>
-                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
             <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
                 <reportElement x="187" y="140" width="100" height="20" forecolor="#666666" backcolor="#666666"/>
@@ -222,7 +224,7 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="187" y="366" width="136" height="16" forecolor="#333333" backcolor="#333333"/>
@@ -453,116 +455,172 @@
                 <textFieldExpression class="java.lang.String"><![CDATA[$F{nifDniInquilino}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="269" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="249" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[IVA]]></text>
             </staticText>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="247" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="227" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalRecibo}]]></textFieldExpression>
             </textField>
             <textField pattern="#,##0.00">
-                <reportElement x="453" y="280" width="75" height="12" forecolor="#333333"/>
+                <reportElement x="453" y="260" width="75" height="12" forecolor="#333333"/>
                 <textElement textAlignment="Right" lineSpacing="Single">
                     <font fontName="Calibri" size="8"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
             </textField>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="269" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="249" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{IVA}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="247" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="227" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[Total Base]]></text>
             </staticText>
             <staticText>
-                <reportElement x="375" y="280" width="75" height="12" forecolor="#333333"/>
+                <reportElement x="375" y="260" width="75" height="12" forecolor="#333333"/>
                 <textElement lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Total]]></text>
             </staticText>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="258" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="238" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{IRPF}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement x="375" y="258" width="38" height="12" forecolor="#333333"/>
+                <reportElement x="375" y="238" width="38" height="12" forecolor="#333333"/>
                 <textElement textAlignment="Right" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true"/>
                 </textElement>
                 <text><![CDATA[IRPF]]></text>
             </staticText>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="556" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="526" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{IRPF}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="556" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="526" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[IRPF]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="567" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="537" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[IVA]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="545" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="515" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[Total Base]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Transparent" x="375" y="578" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="375" y="548" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <text><![CDATA[Total]]></text>
             </staticText>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="545" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="515" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalRecibo}]]></textFieldExpression>
             </textField>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="567" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="537" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{IVA}]]></textFieldExpression>
             </textField>
             <textField pattern="#,##0.00" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="453" y="578" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <reportElement mode="Transparent" x="453" y="548" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="272" width="38" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="272" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="286" width="75" height="12" forecolor="#333333"/>
+                <textElement lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total+Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="286" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="559" width="38" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="559" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="573" width="75" height="12" forecolor="#333333"/>
+                <textElement lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total+Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="573" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
         </band>
     </detail>

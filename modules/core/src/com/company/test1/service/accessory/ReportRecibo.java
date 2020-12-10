@@ -89,6 +89,7 @@ public class ReportRecibo {
         String did = null;
         String numRecibo = null;
         Double totalRecibo = null;
+        Double totalCobranzas = 0.0;
         Date fechaEmision = null;
         String poblacionExpedicion = null;
         String direccionEntornoNombre = null;
@@ -107,6 +108,7 @@ public class ReportRecibo {
         Double IRPF = null;
         Double IVA = null;
         Double totalReciboPostCCAA = null;
+        Double totalReciboMasCobranzas = 0.0;
         String cuentaIban = null;
 
         List<ImplementacionConcepto> iccAgregados = null;
@@ -177,6 +179,12 @@ public class ReportRecibo {
 
 
             this.totalReciboPostCCAA = r.getTotalReciboPostCCAA();
+            Double cobr = r.getTotalCobranzas();
+            if (cobr == null){
+                cobr = 0.0;
+            }
+            this.totalCobranzas = cobr;
+            this.totalReciboMasCobranzas = r.getTotalReciboPostCCAA() + this.totalCobranzas;
             CuentaBancaria cb = r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
             if (cb == null){
                 cb = r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaInquilino();
@@ -240,6 +248,8 @@ public class ReportRecibo {
         public Double getTotalRecibo() {
             return totalRecibo;
         }
+
+
 
         public Date getFechaEmision() {
             return fechaEmision;
@@ -316,5 +326,9 @@ public class ReportRecibo {
         public String getCuentaIban() {
             return cuentaIban;
         }
+
+        public Double getTotalCobranzas(){return totalCobranzas;};
+
+        public Double getTotalReciboMasCobranzas(){return totalReciboMasCobranzas;}
     }
 }
