@@ -192,6 +192,19 @@ public class InformeIva extends Screen {
             notifications.create().withCaption("Seleccionar Departamentos").show();
             return;
         }
+        boolean anadirInfoTrimestral = false;
+        try{
+            anadirInfoTrimestral = (lkpAnadirInfoTrimestral.getValue().toString().compareTo("SI")==0);
+        }catch(Exception exc){
+
+        }
+        boolean anadirInfoGlobal = false;
+        try{
+            anadirInfoGlobal = (lkpAnadirInfoGlobal.getValue().toString().compareTo("SI")==0);
+        }catch(Exception exc){
+
+        }
+
 
         Collections.sort(deptos, new Comparator<Departamento>() {
             @Override
@@ -200,9 +213,7 @@ public class InformeIva extends Screen {
             }
         });
 
-        boolean anadirInfoTrimestral = (lkpAnadirInfoTrimestral.getValue().toString().compareTo("SI")==0);
-        boolean anadirInfoGlobal = (lkpAnadirInfoGlobal.getValue().toString().compareTo("SI")==0);
-        try{
+       try{
             byte[] bb = jasperReportService.realizaInformeIva(dteFechaDesde.getValue(), dteFechaHasta.getValue(),
                     tablePropietarios.getSingleSelected(), deptos, anadirInfoTrimestral, anadirInfoGlobal);
             exportDisplay.show(new ByteArrayDataProvider(bb), "Informe IVA.pdf");
