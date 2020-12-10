@@ -192,6 +192,14 @@ public class InformeIva extends Screen {
             notifications.create().withCaption("Seleccionar Departamentos").show();
             return;
         }
+
+        Collections.sort(deptos, new Comparator<Departamento>() {
+            @Override
+            public int compare(Departamento o1, Departamento o2) {
+                return o1.getRm2id().compareTo(o2.getRm2id());
+            }
+        });
+
         boolean anadirInfoTrimestral = (lkpAnadirInfoTrimestral.getValue().toString().compareTo("SI")==0);
         boolean anadirInfoGlobal = (lkpAnadirInfoGlobal.getValue().toString().compareTo("SI")==0);
         try{
