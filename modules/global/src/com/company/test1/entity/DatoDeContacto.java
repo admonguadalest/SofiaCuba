@@ -12,6 +12,7 @@ import com.haulmont.cuba.core.global.DeletePolicy;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Table(name = "DATO_DE_CONTACTO")
@@ -91,6 +92,52 @@ public class DatoDeContacto extends StandardEntity {
         }
 
         return al;
+    }
+
+    public static String getTelefonosDeContacto(Persona p){
+
+        List<DatoDeContacto> telefonosFijos = getDatosDeContactoDeTipoDeterminado(p, TipoDeDatoDeContactoEnum.TELEFONO);
+        List<DatoDeContacto> telefonosMoviles = getDatosDeContactoDeTipoDeterminado( p, TipoDeDatoDeContactoEnum.MOBIL);
+
+        List ddc = new ArrayList();
+        for (int i = 0; i < telefonosFijos.size(); i++) {
+            ddc.add(telefonosFijos.get(i));
+        }
+        for (int i = 0; i < telefonosMoviles.size(); i++) {
+            ddc.add(telefonosMoviles.get(i));
+        }
+
+        return getDatosDeContactoAString(ddc);
+    }
+
+    public static List<DatoDeContacto> getDatosDeContactoDeTipoDeterminado(Persona p, TipoDeDatoDeContactoEnum tipoDato){
+        List<DatoDeContacto> l = p.getDatosDeContacto();
+        List<DatoDeContacto> datosDeContactoARetornar = new ArrayList<DatoDeContacto>();
+
+        for (int i = 0; i < l.size(); i++) {
+            DatoDeContacto ddc = l.get(i);
+            if (ddc.getTipoDeDato().compareTo(tipoDato) == 0){
+                datosDeContactoARetornar.add(ddc);
+            }
+
+        }
+        return datosDeContactoARetornar;
+    }
+
+    public static String  getDatosDeContactoAString(List<DatoDeContacto> listaDDC){
+
+        if (listaDDC.isEmpty()) return "";
+
+        String s = "";
+
+        for (int i = 0; i < listaDDC.size(); i++) {
+            DatoDeContacto ddc = listaDDC.get(i);
+            s += ddc.getDato() + " / ";
+        }
+
+        s = s.substring(0,s.length()-3);
+
+        return s;
     }
 
 

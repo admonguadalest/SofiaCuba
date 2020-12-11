@@ -55,7 +55,7 @@ public class Mod347 extends Screen {
             return;
         }
         try{
-            String s = serializacionService.reportMod347(lkpPropietarios.getValue(), dteFechaDesde.getValue(), dteFechaHasta.getValue());
+            String s = serializacionService.importableMod347(lkpPropietarios.getValue(), dteFechaDesde.getValue(), dteFechaHasta.getValue());
             exportDisplay.show(new ByteArrayDataProvider(s.getBytes()), "Mod347.txt");
         }catch(Exception exc){
             notifications.create().withCaption("No se pudo generar descargable - " + exc.getMessage());

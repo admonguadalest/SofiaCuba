@@ -221,6 +221,7 @@
             <property name="departamento" view="_base">
                 <property name="ubicacion" view="_minimal">
                     <property name="nombre"/>
+
                 </property>
                 <property name="planoDepartamento" view="_base"/>
             </property>
@@ -239,6 +240,7 @@
                     <property name="nombreCompleto"/>
                 </property>
             </property>
+            <property name="direccion" view="_base"/>
         </property>
         <property name="planoDepartamento" view="_base"/>
     </view>
