@@ -206,12 +206,7 @@ public class InformeIva extends Screen {
         }
 
 
-        Collections.sort(deptos, new Comparator<Departamento>() {
-            @Override
-            public int compare(Departamento o1, Departamento o2) {
-                return o1.getRm2id().compareTo(o2.getRm2id());
-            }
-        });
+
 
        try{
             byte[] bb = jasperReportService.realizaInformeIva(dteFechaDesde.getValue(), dteFechaHasta.getValue(),

@@ -1196,12 +1196,7 @@ public class JasperReportServiceBean implements JasperReportService {
         //MJOntaje del list que servira como base para el datasource y
         //el hashtable que me contendra los departamentos ids en csv's por ubicacion para el query del dataset incluido
         //en el report
-        Collections.sort(departamentosSeleccionados, new Comparator<Departamento>() {
-            @Override
-            public int compare(Departamento o1, Departamento o2) {
-                return o1.getRm2id().compareTo(o2.getRm2id());
-            }
-        });
+
         for (int i = 0; i < departamentosSeleccionados.size(); i++) {
             Departamento dep = departamentosSeleccionados.get(i);
             Ubicacion ub = dep.getUbicacion();
