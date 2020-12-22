@@ -68,6 +68,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov) {
         String provId = prov.getId().toString().replace("-", "");
         String nativeSql = "SELECT OP.ID, OP.IMPORTE, coalesce(sum(COPP.importe), 0) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
+                "INNER join cubatest1.realizacion_pago RP on OP.REALIZACION_PAGO_ID = RP.id \n" +
                 "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
                 "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' group by OP.ID, OP.IMPORTE";
         ArrayList<String> ids = new ArrayList<String>();
