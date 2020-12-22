@@ -1,10 +1,13 @@
 package com.company.test1.web.screens.contratoinquilino;
 
+import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Filter;
 import com.haulmont.cuba.gui.components.GroupTable;
+import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
+import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 
@@ -22,6 +25,8 @@ public class ContratoInquilinoBrowse extends StandardLookup<ContratoInquilino> {
 
     @Inject
     private Filter filter;
+    @Inject
+    private ExportDisplay exportDisplay;
 
     @Subscribe("contratoInquilinoesTable.edit")
     private void onContratoInquilinoesTableEdit(Action.ActionPerformedEvent event) {
@@ -33,6 +38,11 @@ public class ContratoInquilinoBrowse extends StandardLookup<ContratoInquilino> {
     private void onContratoInquilinoesTableCreate(Action.ActionPerformedEvent event) {
         ScreenLaunchUtil.launchNewEntityStreen(ContratoInquilino.class, null, null,
                 screenBuilders, this, OpenMode.NEW_TAB, null, null);
+    }
+
+    public void OnBtnPrintClicked(){
+        byte[] bb = DynamicReportHelper.getReportDinamico("Contratos", ContratoInquilino.class, contratoInquilinoesTable);
+        exportDisplay.show(new ByteArrayDataProvider(bb), "contratos.pdf");
     }
 
     
