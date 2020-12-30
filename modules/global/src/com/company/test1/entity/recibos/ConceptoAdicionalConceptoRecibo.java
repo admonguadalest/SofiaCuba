@@ -7,12 +7,14 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "CONCEPTO_ADICIONAL_CONCEPTO_RECIBO")
 @Entity(name = "test1_ConceptoAdicionalConceptoRecibo")
 public class ConceptoAdicionalConceptoRecibo extends StandardEntity {
     private static final long serialVersionUID = 2356029786747929885L;
 
+    @NotNull(message = "Especificar Concepto Adicional")
     @OnDeleteInverse(DeletePolicy.DENY)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,6 +27,7 @@ public class ConceptoAdicionalConceptoRecibo extends StandardEntity {
     @JoinColumn(name = "CONCEPTO_RECIBO_ID")
     protected ConceptoRecibo conceptoRecibo;
 
+    @NotNull(message = "Indicar porcentaje")
     @Column(name = "PORCENTAJE")
     protected Double porcentaje;
 
