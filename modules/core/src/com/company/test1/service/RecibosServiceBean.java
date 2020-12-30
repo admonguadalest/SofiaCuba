@@ -131,7 +131,7 @@ public class RecibosServiceBean implements RecibosService {
                     }
                     totalesRemesa += rbo.getTotalReciboPostCCAA();
                 }catch(Exception exc){
-                    int y = 2;
+                    throw exc;
                 }
             }
             r.getOrdenantesRemesa().add(or);
