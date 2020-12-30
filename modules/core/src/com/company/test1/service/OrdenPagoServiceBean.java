@@ -67,17 +67,24 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     @Override
     public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov) {
         String provId = prov.getId().toString().replace("-", "");
-        String nativeSql = "SELECT OP.ID, OP.IMPORTE, coalesce(sum(COPP.importe), 0) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
+        String nativeSql = "SELECT OP.ID, OP.DTYPE, OP.REALIZACION_PAGO_ID, OP.IMPORTE, coalesce(sum(COPP.importe), 0) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
                 "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
-                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' group by OP.ID, OP.IMPORTE";
+                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' " +
+                "group by OP.ID, OP.DTYPE, OP.IMPORTE";
         ArrayList<String> ids = new ArrayList<String>();
         Transaction t = persistence.createTransaction();
         List<Object[]> results = persistence.getEntityManager().createNativeQuery(nativeSql).getResultList();
 
         for (int i = 0; i < results.size(); i++) {
             Object[] objects =  results.get(i);
-            Double importe = (Double) objects[1];
-            Double sum = (Double) objects[2];
+            String dtype = (String) objects[1];
+            String realizacionPagoId = (String) objects[2];
+            if ((dtype.compareTo("OPP")==0) && (realizacionPagoId==null)){
+                //se omite
+                continue;
+            }
+            Double importe = (Double) objects[3];
+            Double sum = (Double) objects[4];
             if ((importe - sum)>0.00001){
                 ids.add((String) objects[0]);
             }

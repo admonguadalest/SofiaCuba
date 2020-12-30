@@ -371,6 +371,34 @@ public class GestionarValidaciones extends Screen {
                 final FacturaProveedor fp2 = fp;
                 final ValidacionImputacionDocumentoImputable vidi2 = vidi;
                 ScreenBuilder sb = screenBuilders.screen(GestionarValidaciones.this);
+
+                //primero verificamos si es factura con importes negativos, pues si es un abono, el que
+                //existan compensaciones pendientes o no es irrelevante
+                if (fp.getImportePostCCAA()<0.0) {
+                    //orden de pago abono
+                    String importe = new DecimalFormat("#,##0.00").format(fp.getImportePostCCAA());
+                    dialogs.createOptionDialog().withCaption("Confirmar la accion").withMessage("Desea crear una Orden Pago Abono por importe de " + importe + "?")
+                            .withActions(
+                                    new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(ev -> {
+                                        OrdenPagoAbono opa = new OrdenPagoAbono();
+                                        opa.setFacturaProveedor(fp2);
+                                        opa.setProveedor(fp2.getProveedor());
+                                        opa.setEmisor(fp2.getTitular());
+                                        opa.setBeneficiario(fp2.getProveedor().getPersona());
+                                        opa.setDescripcion(fp2.getDescripcionDocumento());
+                                        opa.setFechaValor(new Date());
+                                        opa.setImporte(-fp2.getImportePostCCAA());//
+                                        opa.setImporteEfectivo(0.0);
+                                        dataManager.commit(opa);
+                                        tableValidaciones.refresh();
+
+
+                                    }),
+                                    new DialogAction(DialogAction.Type.NO)
+                            ).show();
+                    return;
+                }
+
                 if (oopppc.size()>0){
                     Screen s = sb.withScreenId("test1_GeneracionOrdenPagoFacturaProveedor").withOpenMode(OpenMode.DIALOG).build();
 
@@ -414,28 +442,6 @@ public class GestionarValidaciones extends Screen {
 //                                        vidi.setEstadoValidacion(ValidacionEstado.VALIDADO);
 //                                        vidi.setFechaAprobacionRechazo(new Date());
 //                                        dataManager.commit(vidi);
-
-
-                                        }),
-                                        new DialogAction(DialogAction.Type.NO)
-                                ).show();
-                    }else{
-                        //orden de pago abono
-                        String importe = new DecimalFormat("#,##0.00").format(fp.getImportePostCCAA());
-                        dialogs.createOptionDialog().withCaption("Confirmar la accion").withMessage("Desea crear una Orden Pago Abono por importe de " + importe + "?")
-                                .withActions(
-                                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(ev -> {
-                                            OrdenPagoAbono opa = new OrdenPagoAbono();
-                                            opa.setFacturaProveedor(fp2);
-                                            opa.setProveedor(fp2.getProveedor());
-                                            opa.setEmisor(fp2.getTitular());
-                                            opa.setBeneficiario(fp2.getProveedor().getPersona());
-                                            opa.setDescripcion(fp2.getDescripcionDocumento());
-                                            opa.setFechaValor(new Date());
-                                            opa.setImporte(-fp2.getImportePostCCAA());//
-                                            opa.setImporteEfectivo(0.0);
-                                            dataManager.commit(opa);
-//
 
 
                                         }),

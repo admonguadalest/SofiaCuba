@@ -60,26 +60,30 @@ public class EntradaEdit extends StandardEditor<Entrada> {
     private List<Evento> eventoesLcLoadDelegate(LoadContext<Evento> loadContext) {
 //        return entradaDc.getItem().getCiclo().getEventos();
         ArrayList al = new ArrayList(entradaDc.getItem().getCiclo().getEventos());
-        Collections.sort(al, new Comparator<Evento>(){
+        try {
+            Collections.sort(al, new Comparator<Evento>() {
 
-            public int compare(Evento ev1, Evento ev2){
-                try {
-                    /**
-                     * Existe un error de datos en la tabla evento. Hay 206 registros sin fecha asignada.
-                     * Se debería corregir
-                     * PENDIENTE
-                     */
-                    if ((ev1.getFecha() == null)||(ev2.getFecha()==null)){
-                        return 0;
+                public int compare(Evento ev1, Evento ev2) {
+                    try {
+                        /**
+                         * Existe un error de datos en la tabla evento. Hay 206 registros sin fecha asignada.
+                         * Se debería corregir
+                         * PENDIENTE
+                         */
+                        if ((ev1.getFecha() == null) || (ev2.getFecha() == null)) {
+                            return -1;
+                        }
+                        return -1 * ev1.getFecha().compareTo(ev2.getFecha());
+                    } catch (Exception exc) {
+                        int y = 2;
                     }
-                    return -1 * ev1.getFecha().compareTo(ev2.getFecha());
-                }catch(Exception exc){
-                    int y = 2;
+                    return -1;
                 }
-                return 0;
-            }
 
-        });
+            });
+        }catch(Exception exc){
+            int y = 2;
+        }
         return al;
     }
 

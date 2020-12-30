@@ -54,11 +54,15 @@ public class ProgramacionReciboFragment extends ScreenFragment {
     @Subscribe(target = Target.PARENT_CONTROLLER)
     private void onAfterShow(Screen.AfterShowEvent event) {
 
-        updateNonPersistentConceptosRecibosTable();
+        updateNonPersistentConceptosRecibosTable(null);
     }
     
-    private void updateNonPersistentConceptosRecibosTable(){
+    private void updateNonPersistentConceptosRecibosTable(Screen.AfterCloseEvent acl){
         try {
+            if (acl!=null){
+                NonPersistentConceptoReciboEdit cre = (NonPersistentConceptoReciboEdit) acl.getScreen();
+                int y = 2;
+            }
             List<NonPersistentConceptoRecibo> l = programacionReciboService.resumeConceptosRecibo(programacionReciboDc.getItem());
             nonPersistentConceptoReciboesDc.getMutableItems().clear();
             nonPersistentConceptoReciboesDc.getMutableItems().addAll(l);
@@ -87,7 +91,9 @@ public class ProgramacionReciboFragment extends ScreenFragment {
         NonPersistentConceptoReciboEdit npcre = (NonPersistentConceptoReciboEdit) s;
         npcre.setProgramacionReciboDc(programacionReciboDc);
 
-        s.addAfterCloseListener(acl->{updateNonPersistentConceptosRecibosTable();});
+        s.addAfterCloseListener(acl->{
+            updateNonPersistentConceptosRecibosTable(acl);
+        });
 
         s.show();
     }
@@ -115,14 +121,14 @@ public class ProgramacionReciboFragment extends ScreenFragment {
         npcre.setProgramacionReciboDc(programacionReciboDc);
         npcre.setConceptosRecibosDc(conceptosReciboDc);
 
-        s.addAfterCloseListener(acl->{updateNonPersistentConceptosRecibosTable();});
+        s.addAfterCloseListener(acl->{updateNonPersistentConceptosRecibosTable(null);});
         s.show();
     }
 
-    @Install(to = "nonPersistentConceptoReciboesDl", target = Target.DATA_LOADER)
-    private List<NonPersistentConceptoRecibo> nonPersistentConceptoReciboesDlLoadDelegate(LoadContext<NonPersistentConceptoRecibo> loadContext) {
-        return null;
-    }
+//    @Install(to = "nonPersistentConceptoReciboesDl", target = Target.DATA_LOADER)
+//    private List<NonPersistentConceptoRecibo> nonPersistentConceptoReciboesDlLoadDelegate(LoadContext<NonPersistentConceptoRecibo> loadContext) {
+//        return null;
+//    }
 
 
     /* De momento estos metodos los coloco aqui*/

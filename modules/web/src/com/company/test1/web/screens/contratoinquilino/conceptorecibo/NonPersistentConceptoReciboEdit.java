@@ -44,6 +44,7 @@ public class NonPersistentConceptoReciboEdit extends StandardEditor<NonPersisten
                     dataContext.merge(cr);
                     conceptosRecibosDc.getMutableItems().add(cr);
                     programacionReciboDc.getItem().getConceptosRecibo().add(cr);
+                    dataContext.merge(programacionReciboDc.getItem());
 
 
 

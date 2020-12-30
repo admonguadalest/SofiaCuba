@@ -167,10 +167,20 @@ public class ReportRecibo {
                 for (int j = 0; j < racal.size(); j++) {
                     RegistroAplicacionConceptoAdicional raca =  racal.get(j);
                     if (raca.getConceptoAdicional().getAbreviacion().compareTo("IVA")==0){
-                        this.IVA += raca.getImporteAplicado();
+                        if (ic.getConcepto().getAdicionSustraccion()){
+                            this.IVA += raca.getImporteAplicado();
+                        }else{
+                            this.IVA -= raca.getImporteAplicado();
+                        }
+
                     }
                     if (raca.getConceptoAdicional().getAbreviacion().compareTo("IRPF")==0){
                         this.IRPF += raca.getImporteAplicado();
+                        if (ic.getConcepto().getAdicionSustraccion()){
+                            this.IRPF += raca.getImporteAplicado();
+                        }else{
+                            this.IRPF -= raca.getImporteAplicado();
+                        }
                     }
 
                 }

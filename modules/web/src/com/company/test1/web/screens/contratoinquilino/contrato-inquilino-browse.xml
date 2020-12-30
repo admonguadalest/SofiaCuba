@@ -30,6 +30,7 @@
             <property name="fechaRealizacion" caption="Fecha de Contrato"/>
             <property name="fechaDesocupacion" caption="Fecha Desocupacion"/>
             <property name="fechaVencimientoPrevisto" caption="Fecha Vencimiento Previsto"/>
+            <property name="tipoContrato" caption="Tipo Contrato"/>
         </filter>
         <groupTable id="contratoInquilinoesTable"
                     width="100%"
@@ -38,6 +39,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+
             </actions>
             <columns>
 
@@ -49,7 +51,9 @@
                 <column id="fechaVencimientoPrevisto"/>
                 <column id="fechaDesocupacion"/>
                 <column id="inquilino.nombreCompleto"/>
+                <column id="inquilino.nifDni"/>
                 <column id="rentaContractual"/>
+                <column id="tipoContrato"/>
 
             </columns>
             <rowsCount/>
@@ -58,6 +62,7 @@
                 <button id="createBtn" action="contratoInquilinoesTable.create"/>
                 <button id="editBtn" action="contratoInquilinoesTable.edit"/>
                 <button id="removeBtn" action="contratoInquilinoesTable.remove"/>
+                <button id="printBtn" invoke="OnBtnPrintClicked" caption="Ver Report"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
