@@ -106,7 +106,20 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
     @Subscribe("contratoField")
     private void onContratoFieldValueChange(HasValue.ValueChangeEvent<ContratoInquilino> event) {
         if (!event.isUserOriginated()) return;
-        ContratoInquilino ci = event.getValue();
+        generaNumeracionDeRecibo();
+        
+    }
+
+    @Subscribe("fechaEmisionField")
+    public void onFechaEmisionFieldValueChange(HasValue.ValueChangeEvent<Date> event) {
+        if (!event.isUserOriginated()) return;
+        generaNumeracionDeRecibo();
+    }
+
+
+
+    private void generaNumeracionDeRecibo(){
+        ContratoInquilino ci = contratoField.getValue();
         Ubicacion ub = ci.getDepartamento().getUbicacion();
         ub = dataManager.reload(ub, "_base");
         ci = (ContratoInquilino) dataManager.reload(ci, "contratoInquilino-view");
@@ -115,12 +128,12 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
         inquilinoField.setValue(ci.getInquilino().getNombreCompleto());
         contratoField.setValue(ci);
         try{
-            String numRbo = recibosService.generaNuevoNumeroReciboSegunUbicacionYAno(ci.getDepartamento().getUbicacion(), reciboDc.getItem().getFechaValor());
+            Date fechaEmision = reciboDc.getItem().getFechaEmision();
+            String numRbo = recibosService.generaNuevoNumeroReciboSegunUbicacionYAno(ci.getDepartamento().getUbicacion(), fechaEmision);
             reciboDc.getItem().setNumRecibo(numRbo);
         }catch(Exception exc){
             notifications.create().withDescription(exc.getMessage()).show();
         }
-        
     }
 
 

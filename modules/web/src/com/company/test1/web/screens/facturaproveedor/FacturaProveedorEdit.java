@@ -14,6 +14,7 @@ import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.imputaciondocumentoimputable.ImputacionDocumentoImputableEdit;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
@@ -62,6 +63,8 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
     private Notifications notifications;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -69,8 +72,7 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
             MapScreenOptions mso = (MapScreenOptions) event.getOptions();
             if (mso.getParams().containsKey("newEntity")){
                 FacturaProveedor fp = dataContext.create(FacturaProveedor.class);
-                ColeccionArchivosAdjuntos caa = dataContext.create(ColeccionArchivosAdjuntos.class);
-                fp.setColeccionArchivosAdjuntos(caa);
+
                 this.setEntityToEdit(fp);
             }
         }
@@ -78,6 +80,13 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
+        if (PersistenceHelper.isNew(facturaProveedorDc.getItem())) {
+            ColeccionArchivosAdjuntos caa = dataContext.create(ColeccionArchivosAdjuntos.class);
+            coleccionArchivosAdjuntosDc.setItem(caa);
+            caa.setNombre("Factura");
+            FacturaProveedor fp = facturaProveedorDc.getItem();
+            fp.setColeccionArchivosAdjuntos(caa);
+        }
         int y = 2;
     }
     

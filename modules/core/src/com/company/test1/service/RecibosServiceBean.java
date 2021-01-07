@@ -1135,7 +1135,7 @@ public class RecibosServiceBean implements RecibosService {
             String noRboString = arr[1];
             Integer i = Integer.parseInt(noRboString);
             i++;
-            return arr[0] + "-" + i;
+            return arr[0] + "-" + StringUtils.repeat("0", 4 - i.toString().length()) + i;
         }else{
             throw new Exception("Error al incrementar la numeracion de recibo");
         }

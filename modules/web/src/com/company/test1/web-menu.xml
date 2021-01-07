@@ -96,7 +96,10 @@
             <item screen="test1_InformeDiferenciasPeriodos" id="informe-diferencias-periodos" openType="NEW_TAB"/>
             <item screen="test1_CuadreYRegistro" id="cuadreYRegistro"/>
             <item screen="test1_Impagados" id="impagados"/>
-            <item screen="test1_ReciboIndividualizado.edit" id="reciboIndividualizado"/>
+<!--            <item screen="test1_ReciboIndividualizado.edit" id="reciboIndividualizado">-->
+<!--                <param name="newEntity" value="true"/>-->
+<!--            </item>-->
+            <item bean="test1_MenuLauncherBean" beanMethod="launchNuevoReciboIndividualizado" id="nuevo-recibo-individualizado"/>
         </menu>
         <menu id="incrementos">
             <item screen="test1_IncrementosGenerales"/>
