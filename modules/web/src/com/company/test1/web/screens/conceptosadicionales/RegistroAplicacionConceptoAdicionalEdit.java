@@ -106,11 +106,13 @@ public class RegistroAplicacionConceptoAdicionalEdit extends StandardEditor<Regi
 
     @Subscribe
     private void onAfterShow(AfterShowEvent event) {
-        ContratoInquilino ci = recibo.getUtilitarioContratoInquilino();
-        ci = dataManager.reload(ci, "contratoInquilino-view");
-        numDocumentoField.setValue(recibo.getNumRecibo());
-        nifDniField.setValue(ci.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni());
-        baseField.setValue(implementacionConcepto.getImporte());
+        if (recibo!=null) {
+            ContratoInquilino ci = recibo.getUtilitarioContratoInquilino();
+            ci = dataManager.reload(ci, "contratoInquilino-view");
+            numDocumentoField.setValue(recibo.getNumRecibo());
+            nifDniField.setValue(ci.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni());
+            baseField.setValue(implementacionConcepto.getImporte());
+        }
 
     }
 

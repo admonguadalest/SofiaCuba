@@ -66,14 +66,20 @@
                 </column>
             </form>
             <groupBox orientation="horizontal" spacing="true" width="100%">
-                <table id="tableRegistrosAplicacionesCCAA" height="100px" width="100%"
+                <table id="tableRegistrosAplicacionesCCAA" height="250px" width="100%"
                        dataContainer="registroAplicacionConceptosAdicionalesDc" caption="Conceptos Adicionales" editable="true">
                     <columns>
                         <column id="conceptoAdicional.abreviacion" caption="Concepto"/>
-                        <column id="base" caption="Base" editable="true" />
-                        <column id="porcentaje" editable="true" generator="generateCellPorcentajeRACA"/>
-                        <column id="importeAplicado" editable="true"/>
+                        <column id="base" caption="Base" />
+                        <column id="porcentaje" />
+                        <column id="importeAplicado" />
                     </columns>
+
+                    <buttonsPanel>
+                        <button caption="Nuevo" invoke="OnBtnNuevoRCA"/>
+                        <button caption="Editar" invoke="OnBtnEditarRCA"/>
+                        <button caption="Eliminar" invoke="OnBtnEliminarRCA"/>
+                    </buttonsPanel>
                 </table>
             </groupBox>
             <form width="100%" caption="Importe Post CCAA">

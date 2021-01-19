@@ -12,6 +12,7 @@ import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.company.test1.web.screens.conceptosadicionales.RegistroAplicacionConceptoAdicionalEdit;
 import com.company.test1.web.screens.imputaciondocumentoimputable.ImputacionDocumentoImputableEdit;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
@@ -172,12 +173,42 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
         }
     }
 
+    private void actualizaInformacionRegistrosConceptosAdicionales(){
+        Proveedor prov = facturaProveedorDc.getItem().getProveedor();
+        if (prov == null){
+            return;
+        }
+        List<RegistroAplicacionConceptoAdicional> rraaccaa = facturaProveedorDc.getItem().getRegistroAplicacionConceptosAdicionales();
+        for(int i = 0;i < rraaccaa.size();i++) {
+            RegistroAplicacionConceptoAdicional raca = rraaccaa.get(i);
+            raca.setNifDni(prov.getPersona().getNifDni());
+            raca.setDocumentoImputable(this.getEditedEntity());
+            raca.setFechaValor(this.getEditedEntity().getFechaEmision());
+            raca.setNumDocumento(this.getEditedEntity().getNumDocumento());
+
+        }
+    }
+
+    @Subscribe("fechaEmisionField")
+    public void onFechaEmisionFieldValueChange1(HasValue.ValueChangeEvent<Date> event) {
+        if (!event.isUserOriginated()) return;
+        actualizaInformacionRegistrosConceptosAdicionales();
+    }
+
+    @Subscribe("numDocumentoField")
+    public void onNumDocumentoFieldValueChange(HasValue.ValueChangeEvent<String> event) {
+        if (!event.isUserOriginated()) return;
+        actualizaInformacionRegistrosConceptosAdicionales();
+    }
+
     private void actualizaImportePostCCAA(double importeTotalBase){
         List<RegistroAplicacionConceptoAdicional> items = registroAplicacionConceptosAdicionalesDc.getMutableItems();
         double importeTotal = importeTotalBase;
         for(int i = 0;i < items.size();i++){
             RegistroAplicacionConceptoAdicional raca = items.get(i);
-            raca.setBase(importeTotalBase);
+            //en 18012021 acordamos con Isabel uqe al actualizar el importe total base no se actualicen los importes de los
+            //conceptos adicionales
+//            raca.setBase(importeTotalBase);
             if (raca.getPorcentaje()!=null){
                 raca.setImporteAplicado(raca.getPorcentaje()*raca.getBase());
             }
@@ -269,7 +300,45 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
                 dataContext, null);
     }
     
-    
+    public void OnBtnNuevoRCA(){
+        StandardEditor se = (StandardEditor) screenBuilders.editor(RegistroAplicacionConceptoAdicional.class, this).newEntity()
+                .withInitializer(e->{
+                    e.setDocumentoImputable(facturaProveedorDc.getItem());
+                    e.setNifDni(facturaProveedorDc.getItem().getProveedor().getPersona().getNifDni());
+                    e.setNumDocumento(facturaProveedorDc.getItem().getNumDocumento());
+                    e.setFechaValor(facturaProveedorDc.getItem().getFechaEmision());
+
+                }).withListComponent(tableRegistrosAplicacionesCCAA).withOpenMode(OpenMode.DIALOG).withParentDataContext(dataContext).build();
+        se.addAfterCloseListener(e->{
+            //table refresh
+            actualizaImportePostCCAA(facturaProveedorDc.getItem().getImporteTotalBase());
+        });
+        se.show();
+    }
+
+    public void OnBtnEditarRCA(){
+        RegistroAplicacionConceptoAdicional raca = tableRegistrosAplicacionesCCAA.getSingleSelected();
+        if (raca == null){
+            notifications.create().withDescription("Seleccionar un registro de conceptos adicionales").show();
+            return;
+        }
+        StandardEditor se = (StandardEditor) screenBuilders.editor(RegistroAplicacionConceptoAdicional.class, this).editEntity(raca)
+                .withListComponent(tableRegistrosAplicacionesCCAA).withOpenMode(OpenMode.DIALOG).withParentDataContext(dataContext).build();
+        se.addAfterCloseListener(e->{
+            actualizaImportePostCCAA(facturaProveedorDc.getItem().getImporteTotalBase());
+
+        });
+        se.show();
+    }
+
+
+
+    public void OnBtnEliminarRCA(){
+        RegistroAplicacionConceptoAdicional raca = tableRegistrosAplicacionesCCAA.getSingleSelected();
+        raca.setDocumentoImputable(null);
+        facturaProveedorDc.getItem().getRegistroAplicacionConceptosAdicionales().remove(raca);
+        dataContext.remove(raca);
+    }
 
 
     
