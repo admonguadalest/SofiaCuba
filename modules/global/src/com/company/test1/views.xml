@@ -387,6 +387,7 @@
     <view entity="test1_AsignacionTarea" name="asignacionTarea-view" extends="_local">
         <property name="proveedor" view="_base"/>
     </view>
+
     <view entity="test1_FacturaProveedor" name="facturaProveedor-view" extends="_local">
         <property name="titular" view="_base">
 
@@ -1077,6 +1078,7 @@
         <property name="ordenesPago" view="_base">
             <property name="realizacionPago" view="_minimal"/>
             <property name="nombreTipo"/>
+            <property name="beneficiario" view="_base"/>
         </property>
         <property name="cuentaBancaria" view="_base">
             <property name="persona" view="_minimal">

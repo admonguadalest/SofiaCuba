@@ -23,6 +23,9 @@
 
             <loader id="imputacionDocumentoImputablesDl"/>
         </collection>
+        <collection id="proveedoresImputacionesDc" class="com.company.test1.entity.extroles.Proveedor" view="proveedor-view">
+            <loader id="proveedoresImputacionesDl"/>
+        </collection>
         <collection id="carpetaDocumentosFotograficosDc"
                     class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos" view="_local">
             <loader id="carpetaDocumentosFotograficosDl">
@@ -96,15 +99,15 @@
                             </table>
                         </tab>
                         <tab id="tabImputaciones" caption="Imputaciones" margin="true,false,false,false" spacing="true">
+                            <lookupField id="lkpProveedoresImputaciones" caption="Filtrar por Proveedor" optionsContainer="proveedoresImputacionesDc" captionProperty="persona.nombreCompleto"/>
                             <table id="tableImputaciones" height="279px" width="100%" dataContainer="imputacionesDc" sortable="true">
                                 <columns>
                                     <column id="documentoImputable.tipoEnum" caption="Tipo"/>
                                     <column id="nombreProveedor" caption="Proveedor" generator="getColumnNombreProveedor"/>
                                     <column id="documentoImputable.numDocumento"/>
-
+                                    <column id="documentoImputable.fechaEmision"/>
                                     <column id="importeImputacion"/>
                                     <column id="porcentajeImputacion"/>
-                                    <column id="imputacionIndefinidos"/>
                                     <column id="colVer" generator="VerColumn" caption="Ver"/>
                                 </columns>
                                 <buttonsPanel>

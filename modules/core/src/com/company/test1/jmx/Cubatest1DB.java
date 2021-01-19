@@ -9,7 +9,15 @@ public class Cubatest1DB {
     static Connection conn = null;
 
     public static Connection getConnection(){
+        try {
+            if (conn.isClosed()) {
+                conn = null;
+            }
+        }catch(Exception exc){
+            conn = null;
+        }
         if (conn!=null){
+
             return conn;
         }
         try {

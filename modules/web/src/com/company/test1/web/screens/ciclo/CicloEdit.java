@@ -9,9 +9,11 @@ import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
+import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos;
+import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.service.CicloService;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -42,6 +44,7 @@ import java.util.*;
 @EditedEntityContainer("cicloDc")
 @LoadDataBeforeShow
 public class CicloEdit extends StandardEditor<Ciclo> {
+
 
     @Inject
     private DataManager dataManager;
@@ -92,6 +95,8 @@ public class CicloEdit extends StandardEditor<Ciclo> {
     @Inject
     private CollectionLoader<Evento> eventosDl;
 
+    @Inject
+    private LookupField<Proveedor> lkpProveedoresImputaciones;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -117,6 +122,35 @@ public class CicloEdit extends StandardEditor<Ciclo> {
             caa.setNombre("(Nombre Coleccion)");
             cicloDc.getItem().setColeccionAdjuntos(caa);
         }
+    }
+
+    @Install(to = "proveedoresImputacionesDl", target = Target.DATA_LOADER)
+    private List<Proveedor> proveedoresImputacionesDlLoadDelegate(LoadContext<Proveedor> loadContext) {
+        List<ImputacionDocumentoImputable> idis = cicloDc.getItem().getImputacionesDocumentoImputable();
+        ArrayList<Proveedor> provs = new ArrayList<Proveedor>();
+        for (int i = 0; i < idis.size(); i++) {
+            ImputacionDocumentoImputable idi = idis.get(i);
+            DocumentoImputable di = idi.getDocumentoImputable();
+            if(di instanceof DocumentoProveedor){
+                DocumentoProveedor dp = (DocumentoProveedor) di;
+                if (dp instanceof FacturaProveedor){
+                    dp = dataManager.reload(dp, "facturaProveedor-view");
+                }
+                if (dp instanceof Presupuesto){
+                    dp = dataManager.reload(dp, "presupuesto-view");
+                }
+                Proveedor pr = dp.getProveedor();
+                if (provs.indexOf(pr)==-1){
+                    provs.add(pr);
+                }
+            }
+        }
+        Collections.sort(provs, new Comparator<Proveedor>(){
+            public int compare(Proveedor p1, Proveedor p2){
+                return p1.getPersona().getNombreCompleto().compareTo(p2.getPersona().getNombreCompleto());
+            }
+        });
+        return provs;
     }
 
 
@@ -197,7 +231,15 @@ public class CicloEdit extends StandardEditor<Ciclo> {
                         di = (Presupuesto) dataManager.reload(di, "presupuesto-view");
                         idi.setDocumentoImputable(di);
                     }
-                    al.add(idi);
+                    //si hay un proveedor seleccionado filtrar por él, sino no filtrar
+                    if (lkpProveedoresImputaciones.getValue()==null){
+                        al.add(idi);
+                    }else{
+                        if (((DocumentoProveedor)idi.getDocumentoImputable()).getProveedor().getId().compareTo(lkpProveedoresImputaciones.getValue().getId())==0){
+                            al.add(idi);
+                        }
+                    }
+
                 }
             }
             return al;
@@ -215,7 +257,14 @@ public class CicloEdit extends StandardEditor<Ciclo> {
                         di = (Presupuesto) dataManager.reload(di, "presupuesto-view");
                         idi.setDocumentoImputable(di);
                     }
-                    al.add(idi);
+                    //si hay un proveedor seleccionado filtrar por él, sino no filtrar
+                    if (lkpProveedoresImputaciones.getValue()==null){
+                        al.add(idi);
+                    }else{
+                        if (((DocumentoProveedor)idi.getDocumentoImputable()).getProveedor().getId().compareTo(lkpProveedoresImputaciones.getValue().getId())==0){
+                            al.add(idi);
+                        }
+                    }
                 }
                 return al;
             }else{
@@ -294,6 +343,8 @@ public class CicloEdit extends StandardEditor<Ciclo> {
         imputacionDocumentoImputablesDl.load();
         carpetaDocumentosFotograficosDl.load();
     }
+
+
     
     
     
@@ -483,8 +534,11 @@ public class CicloEdit extends StandardEditor<Ciclo> {
         l.setValue(nombreProveedor);
         return l;
     }
-    
-    
+
+    @Subscribe("lkpProveedoresImputaciones")
+    public void onLkpProveedoresImputacionesValueChange(HasValue.ValueChangeEvent<Proveedor> event) {
+        imputacionDocumentoImputablesDl.load();
+    }
 
 
     

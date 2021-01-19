@@ -79,8 +79,18 @@ public class SelectorVersionClausula extends Screen {
                 overrideClausula.setImplementacionModelo(null);
                 //quitar override de la lista de overrides de implementacionModelo
                 implementacionModelo.getOverrideClausulas().remove(overrideClausula);
+                dataContext.remove(overrideClausula);
             }
+            //guardo referencia de los parametros valores antiguos para eliminarlos luego,
+            //sino me salen duplicados al volver a entrar en el caso de usuario
+            ParametroValor[] ppvv = implementacionModelo.getParametrosValores().toArray(new ParametroValor[0]);
             ImplementacionModelo.inicializaParametrosValores(implementacionModelo);
+            //ahora los borro desde el dataContext
+            for (int i = 0; i < ppvv.length; i++) {
+                ParametroValor pv = ppvv[i];
+                pv.setImplementacionModelo(null);
+                dataContext.remove(pv);
+            }
 
         }catch(Exception exc){
 

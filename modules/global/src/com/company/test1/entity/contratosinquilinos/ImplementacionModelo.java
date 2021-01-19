@@ -135,38 +135,6 @@ public class ImplementacionModelo extends StandardEntity {
                                 } catch (Exception ex) {
                                     int x = 2;
                                 }
-
-
-
-
-                            /*if (evd.trim().length()>0){
-                                if (evd.indexOf("@")!=-1){
-                                    Object base = null;
-                                    String strBase;
-                                    if (evd.indexOf(".")!=-1){
-                                        strBase = evd.substring(0,evd.indexOf("."));
-                                    }else{
-                                        strBase = evd;
-                                    }
-
-                                    if (strBase.indexOf("@contrato")!=-1){
-                                        base = im.getContratoInquilino();
-                                    }else if(strBase.indexOf("@helperContrato")!=-1){
-                                        base = helperContrato;
-                                    }
-                                    String val;
-                                    String expresion = evd.substring(evd.indexOf(".") + ".".length());
-                                    try {
-                                        Object o = MyBeanUtils.readBeanPath(base, expresion);
-                                        val = o.toString();
-                                    } catch (Exception e) {
-                                        val = "";
-                                    }
-                                    pv.setValor(val);
-                                }else{
-                                    pv.setValor(evd);
-                                }
-                            }*/
                                 pv.setImplementacionModelo(im);
                                 im.parametrosValores.add(pv);
                             }

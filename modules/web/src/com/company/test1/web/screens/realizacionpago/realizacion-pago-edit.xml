@@ -36,6 +36,7 @@
                         <table height="400px" width="100%" dataContainer="ordenPagosDc" id="tableOrdenes">
                             <columns>
                                 <column id="nombreTipo"/>
+                                <column id="beneficiario.nombreCompleto"/>
                                 <column id="fechaValor"/>
                                 <column id="importe"/>
                                 <column id="importeEfectivo"/>

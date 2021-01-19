@@ -198,7 +198,7 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     @Subscribe
     private void onAfterShow(AfterShowEvent event) {
         if (contratoInquilinoDc.getItem().getColeccionArchivosAdjuntos()==null){
-            contratoInquilinoDc.getItem().setColeccionArchivosAdjuntos(dataManager.create(ColeccionArchivosAdjuntos.class));
+            contratoInquilinoDc.getItem().setColeccionArchivosAdjuntos(dataContext.create(ColeccionArchivosAdjuntos.class));
             contratoInquilinoDc.getItem().getColeccionArchivosAdjuntos().setNombre("Contrato");
 
         }else{

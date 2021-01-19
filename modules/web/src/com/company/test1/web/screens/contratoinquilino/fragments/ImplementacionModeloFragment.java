@@ -7,12 +7,11 @@ import com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato;
 import com.company.test1.web.screens.contratoinquilino.clausulado.SelectorVersionClausula;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.actions.list.EditAction;
-import com.haulmont.cuba.gui.components.HasValue;
-import com.haulmont.cuba.gui.components.PickerField;
-import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
@@ -46,6 +45,8 @@ public class ImplementacionModeloFragment extends ScreenFragment {
     private CollectionLoader<ModeloContrato> modeloContratoesDl;
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private Dialogs dialogs;
 
     @Subscribe
     public void onAfterInit(AfterInitEvent event) {
@@ -61,16 +62,29 @@ public class ImplementacionModeloFragment extends ScreenFragment {
 
     @Subscribe("pickerModeloContrato")
     public void onPickerModeloContratoValueChange(HasValue.ValueChangeEvent<ModeloContrato> event) {
-        ImplementacionModelo im = implementacionModeloDc.getItem();
-        im.setModeloContrato(pickerModeloContrato.getValue());
-        try{
-            ImplementacionModelo.inicializaParametrosValores(im);
-        }catch(Exception exc){
-            notifications.create().withCaption("No se pudo incializar los parametros para el modelo seleccionado").show();
 
-        }
-        clausulasDl.load();
-        parametroValorsDl.load();
+        if (!event.isUserOriginated()) return;
+
+        dialogs.createOptionDialog(Dialogs.MessageType.CONFIRMATION).withCaption("Confirmar Acción")
+                .withMessage("¿Está seguro que quiere cambiar el modelo de clausulado? Los cambios serán irreversibles")
+                .withActions(
+                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e -> {
+                            ImplementacionModelo im = implementacionModeloDc.getItem();
+                            im.setModeloContrato(pickerModeloContrato.getValue());
+                            try{
+                                ImplementacionModelo.inicializaParametrosValores(im);
+                            }catch(Exception exc){
+                                notifications.create().withCaption("No se pudo incializar los parametros para el modelo seleccionado").show();
+
+                            }
+                            clausulasDl.load();
+                            parametroValorsDl.load();
+                        }),
+                        new DialogAction(DialogAction.Type.NO).withHandler(e ->{pickerModeloContrato.setValue(event.getPrevValue());})
+                )
+                .show();
+
+
     }
 
 
