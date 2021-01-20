@@ -17,9 +17,13 @@ public interface NotificacionService {
 
     Notificacion implementaContenido(Notificacion n, Hashtable ht, boolean verCamposVacios) throws Exception;
 
+    public String implementaContenido(String contenido, Hashtable ht, boolean verCamposVacios) throws Exception;
+
     Notificacion implementaContenidoManual(Notificacion n, String contenido, Hashtable ht, boolean verCamposVacios) throws Exception;
 
     Notificacion implementaVersionPdfVersionFlexReport(Notificacion n) throws Exception;
+
+    byte[] implementaVersionPdfVersionFlexReport(String contenido) throws Exception;
 
     List<NotificacionContratoInquilino> devuelveNotificacionesAsociadasAContrato(ContratoInquilino ci) throws Exception;
 

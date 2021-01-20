@@ -8,7 +8,7 @@
                   class="com.company.test1.entity.contratosinquilinos.Anexo"
                   view="anexo-view">
             <loader/>
-            <collection id="parametrosValoresAnexoDc" property="parametrosValores"/>
+            <collection id="parametrosValoresAnexoDc" property="parametrosValores" />
         </instance>
     </data>
     <dialogMode height="600"
@@ -25,7 +25,7 @@
                             <action id="clear" type="picker_clear"/>
                         </actions>
                     </pickerField>
-                    <richTextArea id="rtaContenidoAnexo" width="100%" caption="Contenido Anexo"/>
+                    <richTextArea id="rtaContenidoAnexo" width="100%" caption="Contenido Anexo" dataContainer="anexoDc" property="contenido"/>
                     <label value="Parametros"/>
                     <table id="tableParametrosValor" width="100%" dataContainer="parametrosValoresAnexoDc" height="200px">
                         <columns>

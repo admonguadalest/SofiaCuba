@@ -10,7 +10,7 @@
             <loader/>
         </instance>
     </data>
-    <dialogMode height="600"
+    <dialogMode height="350"
                 width="800"/>
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="parametroValorAnexoDc">

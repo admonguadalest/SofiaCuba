@@ -1118,11 +1118,70 @@ public class JasperReportServiceBean implements JasperReportService {
         }
         try {
             List<ContratoInquilino> l = Arrays.asList(new ContratoInquilino[]{a.getContratoInquilino()});
-            byte[] pdf = realizaPrevisualizacionesNotificacionesContratos(a.getPlantilla(), l, iipp);
+            byte[] pdf = realizaPrevisualizacionesNotificacionesContratos(a.getContenido(), l, iipp);
             return pdf;
         } catch (Exception exception) {
             throw new Exception("No se pudo completar la impresion del Anexo");
         }
+    }
+
+    private byte[] realizaPrevisualizacionesNotificacionesContratos(String contenido, List<ContratoInquilino> cc, List<HelperInyeccionPlantilla> hhii)
+            throws Exception{
+
+
+        if (cc.isEmpty()) return null;
+
+
+
+
+        Hashtable objetosNotificacion = new Hashtable();
+
+        Hashtable hti = new Hashtable();
+        for (int i = 0; i < hhii.size(); i++) {
+            HelperInyeccionPlantilla helperInyeccion = hhii.get(i);
+            objetosNotificacion.put(helperInyeccion.getTitulo(), helperInyeccion.getValor());
+        }
+        List<InputStream> inputStreams = new ArrayList<InputStream>();
+        for (int i = 0; i < cc.size(); i++) {
+            ContratoInquilino c = cc.get(i);
+
+            objetosNotificacion.put("contr", c);
+            objetosNotificacion.put("admin", c.getDepartamento().getPropietarioEfectivo().getPersona());
+            objetosNotificacion.put("prop", c.getDepartamento().getPropietarioEfectivo().getPersona());
+            objetosNotificacion.put("diradmin", c.getDepartamento().getPropietarioEfectivo().getPersona().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_ADMINISTRADOR.getId()));
+            objetosNotificacion.put("dirinqui",c.getInquilino().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_INQUILINO.getId()));
+            objetosNotificacion.put("inqui",c.getInquilino());
+
+            String contenidoImplmentado = notificacionService.implementaContenido(contenido, objetosNotificacion, true);
+
+
+//            ArchivoAdjunto aacabecera = null;
+//            if (nc instanceof NotificacionContratoInquilino){
+//                entornoParaCabecera = ((NotificacionContratoInquilino)nc).getContratoInquilino().getDepartamento().getEntornos().get(0);
+//                RecursoEntornoPropietario reCabecera = RecursoEntornoPropietario.obtenerRecursoEntornoPropietario(entornoParaCabecera, RecursoEntornoPropietario.NCABECERA_DOCS);
+//
+//                if (reCabecera != null){
+//                    aacabecera = reCabecera.getArchivoAdjunto();
+//                }
+//            }
+//            ArchivoAdjunto aaestampa = SIApplication.getCurrent().getUsuarioActivo().getPersona().getImagenFirma();
+//
+//            if (!nc.getImplementado()){
+//
+//            }
+
+            byte[] bb = notificacionService.implementaVersionPdfVersionFlexReport(contenidoImplmentado);
+
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(bb);
+            inputStreams.add(bais);
+
+        }
+
+        ByteArrayOutputStream concatenated = new ByteArrayOutputStream();
+        PdfUtils.concatPdfs(inputStreams, concatenated, false);
+        byte[] bb = concatenated.toByteArray();
+        return bb;
     }
 
     private byte[] realizaPrevisualizacionesNotificacionesContratos(Plantilla p, List<ContratoInquilino> cc, List<HelperInyeccionPlantilla> hhii)
@@ -1185,6 +1244,67 @@ public class JasperReportServiceBean implements JasperReportService {
         byte[] bb = concatenated.toByteArray();
         return bb;
     }
+
+//    private byte[] realizaPrevisualizacionesNotificacionContenidoManual(String s, List<ContratoInquilino> cc, List<HelperInyeccionPlantilla> hhii)
+//            throws Exception{
+//
+//
+//        if (cc.isEmpty()) return null;
+//
+//
+//
+//
+//        Hashtable objetosNotificacion = new Hashtable();
+//
+//        Hashtable hti = new Hashtable();
+//        for (int i = 0; i < hhii.size(); i++) {
+//            HelperInyeccionPlantilla helperInyeccion = hhii.get(i);
+//            objetosNotificacion.put(helperInyeccion.getTitulo(), helperInyeccion.getValor());
+//        }
+//        List<InputStream> inputStreams = new ArrayList<InputStream>();
+//        for (int i = 0; i < cc.size(); i++) {
+//            ContratoInquilino c = cc.get(i);
+//
+//            objetosNotificacion.put("contr", c);
+//            objetosNotificacion.put("admin", c.getDepartamento().getPropietarioEfectivo().getPersona());
+//            objetosNotificacion.put("prop", c.getDepartamento().getPropietarioEfectivo().getPersona());
+//            objetosNotificacion.put("diradmin", c.getDepartamento().getPropietarioEfectivo().getPersona().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_ADMINISTRADOR.getId()));
+//            objetosNotificacion.put("dirinqui",c.getInquilino().direccionDesdeNombre(NombreTipoDireccion.DOMICILIO_INQUILINO.getId()));
+//            objetosNotificacion.put("inqui",c.getInquilino());
+//            NotificacionContratoInquilino nc = new NotificacionContratoInquilino();
+//
+//            nc.setContratoInquilino(c);
+//            nc  = (NotificacionContratoInquilino) notificacionService.implementaContenido(nc, objetosNotificacion, true);
+//
+//
+////            ArchivoAdjunto aacabecera = null;
+////            if (nc instanceof NotificacionContratoInquilino){
+////                entornoParaCabecera = ((NotificacionContratoInquilino)nc).getContratoInquilino().getDepartamento().getEntornos().get(0);
+////                RecursoEntornoPropietario reCabecera = RecursoEntornoPropietario.obtenerRecursoEntornoPropietario(entornoParaCabecera, RecursoEntornoPropietario.NCABECERA_DOCS);
+////
+////                if (reCabecera != null){
+////                    aacabecera = reCabecera.getArchivoAdjunto();
+////                }
+////            }
+////            ArchivoAdjunto aaestampa = SIApplication.getCurrent().getUsuarioActivo().getPersona().getImagenFirma();
+////
+////            if (!nc.getImplementado()){
+////
+////            }
+//
+//            notificacionService.implementaVersionPdfVersionFlexReport(nc);
+//
+//            byte[] bb = nc.getVersionPdf();
+//            ByteArrayInputStream bais = new ByteArrayInputStream(bb);
+//            inputStreams.add(bais);
+//
+//        }
+//
+//        ByteArrayOutputStream concatenated = new ByteArrayOutputStream();
+//        PdfUtils.concatPdfs(inputStreams, concatenated, false);
+//        byte[] bb = concatenated.toByteArray();
+//        return bb;
+//    }
 
     public byte[] realizaInformeIva(Date fechaDesde, Date fechaHasta, Propietario propietario, List<Departamento> departamentos, boolean anadirInfoTrimestral, boolean anadirInfoGlobal) throws Exception{
         List<Departamento> departamentosSeleccionados = departamentos;

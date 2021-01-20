@@ -254,8 +254,17 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
 
     @Subscribe("tableAnexos.edit")
     private void onTableAnexosEdit(Action.ActionPerformedEvent event) {
-        ScreenLaunchUtil.launchEditEntityScreen(tableAnexos.getSingleSelected(), null, tableAnexos,screenBuilders, this, OpenMode.DIALOG,
-                dataContext, null);
+        Anexo anexo = tableAnexos.getSingleSelected();
+        if (anexo == null){
+            notifications.create().withDescription("Seleccionar un anexo").show();
+            return;
+        }
+        Screen s = screenBuilders.editor(Anexo.class, this).editEntity(anexo)
+                .withLaunchMode(OpenMode.DIALOG)
+                .withParentDataContext(dataContext)
+                .withListComponent(tableAnexos)
+                .build();
+        s.show();
     }
 
     @Subscribe("tabContratoVarios")

@@ -8,6 +8,7 @@ import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,11 @@ public class Anexo extends StandardEntity {
 
     @Column(name = "NOMBRE_ANEXO")
     protected String nombreAnexo;
+
+    @NotNull(message = "Aportar contenido")
+    @Lob
+    @Column(name = "CONTENIDO")
+    protected String contenido;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.CASCADE)
@@ -36,6 +42,14 @@ public class Anexo extends StandardEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTRATO_INQUILINO_ID")
     protected ContratoInquilino contratoInquilino;
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
 
     public List<ParametroValorAnexo> getParametrosValores() {
         return parametrosValores;

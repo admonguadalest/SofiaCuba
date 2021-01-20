@@ -72,6 +72,28 @@ public class NotificacionServiceBean implements NotificacionService {
 
     }
 
+    private Hashtable getListaParametrosPlantilla(String contenido, Hashtable objetos) throws Exception{
+        Hashtable ht = new Hashtable();
+        int currPos0;
+
+        currPos0 = contenido.indexOf("@[");
+        while(currPos0!=-1){
+            int pos1 = contenido.indexOf("]",currPos0);
+            String nombrePam = contenido.substring(currPos0+2,pos1);
+            Object valorPam = resuelveParametro(nombrePam, objetos);
+            if (!(valorPam instanceof Date)){
+                valorPam = valorPam.toString();
+            }
+            ht.put(nombrePam, valorPam);
+            currPos0 = contenido.indexOf("@[",currPos0+2);
+        }
+        return ht;
+
+
+
+
+    }
+
     private Object resuelveParametro(String nombreParametro, Hashtable objetos)throws Exception{
         String[] elementosParametro = nombreParametro.split("\\.");
         Object currBase;
@@ -116,6 +138,44 @@ public class NotificacionServiceBean implements NotificacionService {
                 return "";
             }
         }
+    }
+
+    public String implementaContenido(String contenido, Hashtable ht, boolean verCamposVacios) throws Exception{
+
+        Hashtable objetos = getListaParametrosPlantilla(contenido, ht);
+        Iterator iter = objetos.keySet().iterator();
+        while(iter.hasNext()){
+            String k = (String) iter.next();
+            ht.put(k, objetos.get(k));
+        }
+        Enumeration e = ht.keys();
+        String contenidoImplementado = contenido;
+        while(e.hasMoreElements()){
+            String s = (String) e.nextElement();
+            String np = "@[" + s + "]";
+            String v = null;
+            try{
+                Object ov = ht.get(s);
+                if (ov instanceof Date){
+                    v = new SimpleDateFormat("dd-MM-yyyy").format(ov);
+                }else{
+                    v = (String) ov;
+                }
+
+                if (verCamposVacios) {
+                    if (v.trim().length() > 0) {
+                        contenidoImplementado = contenidoImplementado.replace(np, v);
+                    }
+                }else{
+                    contenidoImplementado = contenidoImplementado.replace(np, v);
+                }
+
+            }catch(Exception exc){
+
+            }
+
+        }
+        return contenidoImplementado;
     }
 
     public Notificacion implementaContenido(Notificacion n, Hashtable ht, boolean verCamposVacios) throws Exception{
@@ -195,6 +255,36 @@ public class NotificacionServiceBean implements NotificacionService {
         n.setContenidoImplementado(contenidoImplementado);
         n.setImplementado(true);
         return n;
+    }
+
+    public byte[] implementaVersionPdfVersionFlexReport(String contenido)
+            throws Exception{
+
+
+
+
+            JRRenderable jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
+
+            Hashtable ht = new Hashtable();
+//            ht.put("propietarioId", p.getId());
+            ht.put("contenidoNotificacion", contenido);
+            ht.put("CARTA", jrr);
+
+            //este metodo ha dejado de funcionar
+            //byte[] bb = com.sofia.model.reports.flexreports.Productor.produceReport(llp, ht, sl, slExtDocs);
+
+            //probamos esta variante
+
+            FlexReport fr = AppBeans.get(JasperReportService.class).getFlexReportDesdeNombre("CARTA");
+            ArrayList al = new ArrayList();
+            if (fr.getForzarReportDeUnSoloRegistroVacio()){
+                al.add(" ");
+            }
+            byte[] bb = AppBeans.get(JasperReportService.class).produceReport(fr, ht, al);
+
+            return bb;
+
+
     }
 
     public Notificacion implementaVersionPdfVersionFlexReport(Notificacion n)
