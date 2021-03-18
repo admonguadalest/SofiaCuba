@@ -46,6 +46,8 @@
                                    dataContainer="presupuestoDc" property="realizadoPor"/>
                         <textArea id="observacionesField" property="observaciones" rows="5" caption="Observaciones"
                                   width="100%"/>
+                        <textArea id="marcajesProvisionalField" dataContainer="presupuestoDc" property="marcajesProvisional"
+                                  caption="Marcajes Provisional" width="100%"/>
                     </vbox>
                 </column>
                 <column>

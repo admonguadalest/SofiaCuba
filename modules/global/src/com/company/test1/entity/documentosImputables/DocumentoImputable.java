@@ -28,6 +28,9 @@ public class DocumentoImputable extends StandardEntity {
     @Column(name = "DESCRIPCION_DOCUMENTO")
     protected String descripcionDocumento;
 
+    @Column(name = "MARCAJES_PROVISIONAL")
+    protected String marcajesProvisional;
+
     @Transient
     @MetaProperty
     protected String textoDescriptivoDocumento;
@@ -85,6 +88,14 @@ public class DocumentoImputable extends StandardEntity {
     @NotNull(message = "Especificar Tipo de Documento Imputable")
     @Column(name = "TIPO_ENUM")
     protected String tipoEnum;
+
+    public String getMarcajesProvisional() {
+        return marcajesProvisional;
+    }
+
+    public void setMarcajesProvisional(String marcajesProvisional) {
+        this.marcajesProvisional = marcajesProvisional;
+    }
 
     @Transient
     @MetaProperty

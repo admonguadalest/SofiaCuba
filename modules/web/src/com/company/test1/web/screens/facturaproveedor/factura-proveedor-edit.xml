@@ -52,8 +52,10 @@
                                 <action id="clear" type="picker_clear"/>
                             </actions>
                         </pickerField>
-                        <textArea id="observacionesField" property="observaciones" rows="5" caption="Observaciones"
+                        <textArea id="observacionesField" dataContainer="facturaProveedorDc" property="observaciones" rows="5" caption="Observaciones"
                                   width="100%"/>
+                        <textArea dataContainer="facturaProveedorDc" id="marcajesProvisionalField" property="marcajesProvisional" rows="5"
+                                  caption="Marcajes Provisional" width="100%"/>
                     </vbox>
                 </column>
                 <column>
