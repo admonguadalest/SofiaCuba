@@ -2,10 +2,7 @@ package com.company.test1.service;
 
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.enums.recibos.ConceptoReciboVigenciaEnum;
-import com.company.test1.entity.recibos.Concepto;
-import com.company.test1.entity.recibos.ConceptoRecibo;
-import com.company.test1.entity.recibos.NonPersistentConceptoRecibo;
-import com.company.test1.entity.recibos.ProgramacionRecibo;
+import com.company.test1.entity.recibos.*;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.thoughtworks.xstream.security.NoPermission;
@@ -20,6 +17,16 @@ public class ProgramacionReciboServiceBean implements ProgramacionReciboService 
 
     @Inject
     private Persistence persistence;
+
+    public int getNumRecibosEnQueConceptoReciboHaSidoAplicado(ConceptoRecibo cr) throws Exception{
+        String hql = "SELECT icr FROM test1_ImplementacionConcepto icr JOIN icr.conceptoRecibo cr WHERE " +
+                "cr.id = :crid";
+        Transaction t = persistence.createTransaction();
+        List<ImplementacionConcepto> l = persistence.getEntityManager().createQuery(hql)
+                .setParameter("crid", cr.getId()).getResultList();
+        t.close();
+        return l.size();
+    }
 
     public List<ConceptoRecibo> getConceptosReciboAgregado(ProgramacionRecibo pr){
 

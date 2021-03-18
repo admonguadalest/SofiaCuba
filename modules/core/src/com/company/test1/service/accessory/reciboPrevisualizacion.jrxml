@@ -112,7 +112,7 @@
                 <textElement textAlignment="Right" lineSpacing="Single">
                     <font fontName="Calibri" size="10" isBold="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
             <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
                 <reportElement x="187" y="140" width="100" height="20" forecolor="#666666" backcolor="#666666"/>
@@ -224,10 +224,10 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="187" y="366" width="136" height="16" forecolor="#333333" backcolor="#333333"/>
+                <reportElement x="110" y="366" width="212" height="16" forecolor="#333333" backcolor="#333333"/>
                 <textElement lineSpacing="Single">
                     <font fontName="Calibri" size="9" isBold="true"/>
                 </textElement>
@@ -241,14 +241,14 @@
                 <textFieldExpression class="java.lang.String"><![CDATA[$F{dirprop2}]]></textFieldExpression>
             </textField>
             <textField pattern="" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="187" y="403" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <reportElement mode="Transparent" x="110" y="403" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
                 <textFieldExpression class="java.lang.String"><![CDATA[$F{dirinquilino2}]]></textFieldExpression>
             </textField>
             <textField pattern="" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="187" y="392" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <reportElement mode="Transparent" x="110" y="392" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
@@ -427,7 +427,7 @@
                 <textFieldExpression class="java.lang.String"><![CDATA[$F{cuentaIban}]]></textFieldExpression>
             </textField>
             <textField pattern="" isBlankWhenNull="false">
-                <reportElement mode="Transparent" x="187" y="381" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <reportElement mode="Transparent" x="110" y="381" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
                 <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
@@ -578,7 +578,7 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="375" y="286" width="75" height="12" forecolor="#333333"/>
@@ -592,7 +592,7 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="375" y="559" width="38" height="12" forecolor="#333333"/>
@@ -606,7 +606,7 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="375" y="573" width="75" height="12" forecolor="#333333"/>
@@ -620,7 +620,7 @@
                 <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
                     <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
             </textField>
         </band>
     </detail>

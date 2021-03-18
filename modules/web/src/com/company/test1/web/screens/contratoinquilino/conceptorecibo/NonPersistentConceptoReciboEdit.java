@@ -2,7 +2,10 @@ package com.company.test1.web.screens.contratoinquilino.conceptorecibo;
 
 import com.company.test1.entity.recibos.ConceptoRecibo;
 import com.company.test1.entity.recibos.ProgramacionRecibo;
+import com.company.test1.service.ProgramacionReciboService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Table;
@@ -20,6 +23,7 @@ import javax.inject.Inject;
 @EditedEntityContainer("nonPersistentConceptoReciboDc")
 @LoadDataBeforeShow
 public class NonPersistentConceptoReciboEdit extends StandardEditor<NonPersistentConceptoRecibo> {
+
     InstanceContainer<ProgramacionRecibo> programacionReciboDc = null;
 
     @Inject
@@ -32,6 +36,12 @@ public class NonPersistentConceptoReciboEdit extends StandardEditor<NonPersisten
     private ScreenBuilders screenBuilders;
     @Inject
     private DataContext dataContext;
+    @Inject
+    private DataManager dataManager;
+    @Inject
+    private ProgramacionReciboService programacionReciboService;
+    @Inject
+    private Notifications notifications;
 
     @Subscribe("tableConceptosRecibo.create")
     private void onTableConceptosReciboCreate(Action.ActionPerformedEvent event) {
@@ -55,6 +65,27 @@ public class NonPersistentConceptoReciboEdit extends StandardEditor<NonPersisten
     private void onTableConceptosReciboEdit(Action.ActionPerformedEvent event) {
         ScreenLaunchUtil.launchEditEntityScreen(tableConceptosRecibo.getSingleSelected(), null, tableConceptosRecibo, screenBuilders, this,
                 OpenMode.DIALOG, dataContext, null);
+    }
+
+    @Subscribe("tableConceptosRecibo.remove")
+    public void onTableConceptosReciboRemove(Action.ActionPerformedEvent event) {
+        ConceptoRecibo cr = tableConceptosRecibo.getSingleSelected();
+        try {
+
+            int n = programacionReciboService.getNumRecibosEnQueConceptoReciboHaSidoAplicado(cr);
+            if (n > 0){
+                notifications.create().withDescription("No se puede eliminar un concepto aplicado en recibos emitidos").show();
+                return;
+            }
+        }catch(Exception exc){
+            notifications.create().withDescription("Error al comprobar si este concepto recibo ya ha sido aplicado en recibos").show();
+            return;
+        }
+        dataContext.remove(cr);
+        conceptosRecibosDc.getMutableItems().remove(cr);
+        notifications.create().withDescription("El concepto recibo seleccionado será eliminado al guardar el contrato").show();
+        return;
+
     }
 
 

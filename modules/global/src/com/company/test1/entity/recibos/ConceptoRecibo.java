@@ -50,7 +50,7 @@ public class ConceptoRecibo extends StandardEntity {
     protected Integer vigencia;
 
     @Column(name = "ACTIVADO_DESACTIVADO")
-    protected Boolean activadoDesactivado;
+    protected Boolean activadoDesactivado = false;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_DESDE")

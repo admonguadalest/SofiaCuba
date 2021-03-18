@@ -310,6 +310,8 @@ public class RecibosServiceBean implements RecibosService {
             rem = devuelveRemesaDesdeIdentificador(nuevoIdentificadorRemesa);
             if (rem==null){
                 identificadorRemesa = nuevoIdentificadorRemesa;
+            }else{
+                contador += 1;
             }
         }
         return identificadorRemesa;

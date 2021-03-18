@@ -121,7 +121,7 @@ public class HelperRecibo {
         try {
             Persona pers = r.getUtilitarioContratoInquilino().getInquilino();
             Direccion dir = pers.getDirecciones().get(0); //pendiente solventar
-            return dir.getVia() + " " + dir.getNombreVia() + " " + dir.getNumeroVia();
+            return dir.getVia() + " " + dir.getNombreVia() + " " + dir.getNumeroVia() + " " + dir.getPiso() + " " + dir.getPuerta();
         }catch(Exception exc){
             return "Datos de direccion linea 1 invalidos";
         }

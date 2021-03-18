@@ -53,7 +53,6 @@ public class ProgramacionReciboFragment extends ScreenFragment {
 
     @Subscribe(target = Target.PARENT_CONTROLLER)
     private void onAfterShow(Screen.AfterShowEvent event) {
-
         updateNonPersistentConceptosRecibosTable(null);
     }
     

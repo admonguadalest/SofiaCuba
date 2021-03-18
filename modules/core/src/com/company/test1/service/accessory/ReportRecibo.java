@@ -175,7 +175,7 @@ public class ReportRecibo {
 
                     }
                     if (raca.getConceptoAdicional().getAbreviacion().compareTo("IRPF")==0){
-                        this.IRPF += raca.getImporteAplicado();
+
                         if (ic.getConcepto().getAdicionSustraccion()){
                             this.IRPF += raca.getImporteAplicado();
                         }else{

@@ -1,5 +1,6 @@
 package com.company.test1.core;
 
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
 import com.company.test1.entity.recibos.Recibo;
@@ -105,7 +106,13 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
 
         String nombreUbicacion = r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getNombre();
         nombreUbicacion = nombreUbicacion.replace("'","`");
-        String nombreInquilino = r.getUtilitarioInquilino().getNombreCompleto();
+        Persona inquilino = r.getUtilitarioInquilino();
+        if (inquilino == null){
+            //PENDIENTE: REPASAR PORQUE ALGUNAS VECES SE ADJUNTA EL UTILITARIO_INQUILINO CUANDO
+            //REGISTRO UN RECIBO INDIVIDUALIZADO Y OTRAS VECES NO!
+            inquilino = r.getUtilitarioContratoInquilino().getInquilino();
+        }
+        String nombreInquilino = inquilino.getNombreCompleto();
         nombreInquilino = nombreInquilino.replace("'","`");
 
         String ubicacionRm2Id = "";
@@ -150,10 +157,10 @@ public class HelperRecibosInformeIva implements AfterCompleteTransactionListener
                 departamentoRm2Id + "," +
                 "'" + r.getUtilitarioContratoInquilino().getDepartamento().getId().toString().replace("-","") +"', " +
                 "'" + r.getId().toString().replace("-","") +"', " +
-                "'" + r.getUtilitarioInquilino().getId().toString().replace("-","") +"', " +
+                "'" + inquilino.getId().toString().replace("-","") +"', " +
                 "'" + sdf.format(r.getFechaEmision()) +"', " +
                 "'" + r.getNumRecibo() +"', " +
-                "'" + r.getUtilitarioInquilino().getNifDni() +"', " +
+                "'" + inquilino.getNifDni() +"', " +
                 "'" + nombreInquilino +"', " +
                 "'" + nombreUbicacion +"', " +
                 "'" + r.getUtilitarioContratoInquilino().getDepartamento().getPiso() +"', " +

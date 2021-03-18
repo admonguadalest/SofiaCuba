@@ -286,7 +286,13 @@ public class IncrementosIndiceReferencia extends Screen {
 
                 String mesAnnoIpc = contratoInquilino.getMesAnyoAplicacionIPC();
                 String mes = mesAnnoIpc.substring(0,2);
-                Integer mes_ = Integer.valueOf(mes);
+                Integer mes_ = null;
+                try {
+                    mes_ = Integer.valueOf(mes);
+                }catch(Exception exc){
+                    notifications.create().withCaption("Error").withDescription("No se pudieron cargar los conceptios recibos para incrementos índice de referencia:  " + departamento.getNombreDescriptivoCompleto() + " " + exc.getMessage()).show();
+                    return;
+                }
                 if (!(lkpMes.getValue().intValue()==mes_.intValue())){
                     continue;
                 }
@@ -304,7 +310,7 @@ public class IncrementosIndiceReferencia extends Screen {
             }
 
         }catch(Exception ex){
-            notifications.create().withCaption("Error").withDescription("No se pudieron cargar los conceptios recibos para incrementos índice de referencia").show();
+            notifications.create().withCaption("Error").withDescription("No se pudieron cargar los conceptios recibos para incrementos índice de referencia:  " + ex.getMessage()).show();
             return;
         }
 
@@ -351,13 +357,16 @@ public class IncrementosIndiceReferencia extends Screen {
 
     private List<Departamento> devuelveDepartamentosDeTreeUbicacionesDepartamentos(){
         List<Departamento> dd = new ArrayList<Departamento>();
-        TreeItems<TreeItem> c = treeUbicacionesDepartamentos.getItems();
-        List<TreeItem> ttii = new ArrayList<TreeItem>();
-        Stream<TreeItem> stream = c.getItems();
-        Object[] oo =  stream.toArray();
-        List l = Arrays.asList(oo);
+        Set s = treeUbicacionesDepartamentos.getSelected();
+        List l = new ArrayList(s);
+//        TreeItems<TreeItem> c = treeUbicacionesDepartamentos.getItems();
+//        List<TreeItem> ttii = new ArrayList<TreeItem>();
+//        Stream<TreeItem> stream = c.getItems();
+//        Object[] oo =  stream.toArray();
+//        List l = Arrays.asList(oo);
         for (int i = 0; i < l.size(); i++) {
             TreeItem o =  (TreeItem) l.get(i);
+
             if (o.getUserObject() instanceof Departamento){
                 dd.add((Departamento) o.getUserObject());
             }

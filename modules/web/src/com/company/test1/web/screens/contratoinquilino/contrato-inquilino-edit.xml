@@ -50,8 +50,14 @@
                                  captionProperty="nombreDescriptivoCompleto"/>
                 </column>
                 <column>
-                    <pickerField id="pickerCiclo" caption="Ciclo" dataContainer="contratoInquilinoDc"
-                                       property="ciclo" captionProperty="codigoCiclo"/>
+
+                        <pickerField id="pickerCiclo" caption="Ciclo" dataContainer="contratoInquilinoDc"
+                                           property="ciclo" captionProperty="codigoCiclo"/>
+
+
+                </column>
+                <column>
+                    <button caption="Ir a Ciclo Asociado" invoke="irCicloAsociado"/>
                 </column>
             </form>
             <groupBox spacing="true" caption="Cotitulares">

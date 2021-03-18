@@ -292,7 +292,12 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     }
 
     
-
+    public void irCicloAsociado(){
+        Ciclo c = contratoInquilinoDc.getItem().getCiclo();
+        Screen s = screenBuilders.editor(Ciclo.class, this).withOpenMode(OpenMode.NEW_TAB).editEntity(c)
+                .build();
+        s.show();
+    }
 
 
 

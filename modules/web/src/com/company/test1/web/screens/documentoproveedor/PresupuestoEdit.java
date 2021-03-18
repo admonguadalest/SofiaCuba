@@ -8,11 +8,13 @@ import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.departamentos.Ubicacion;
+import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.imputaciondocumentoimputable.ImputacionDocumentoImputableEdit;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.builders.EditorBuilder;
@@ -55,6 +57,8 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
     private DataComponents dataComponents;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -66,6 +70,17 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
                 p.setColeccionArchivosAdjuntos(caa);
                 this.setEntityToEdit(p);
             }
+        }
+    }
+
+    @Subscribe
+    public void onAfterShow(AfterShowEvent event) {
+        if (PersistenceHelper.isNew(presupuestoDc.getItem())) {
+            ColeccionArchivosAdjuntos caa = dataContext.create(ColeccionArchivosAdjuntos.class);
+            coleccionArchivosAdjuntosDc.setItem(caa);
+            caa.setNombre("Presupuesto");
+            Presupuesto fp = presupuestoDc.getItem();
+            fp.setColeccionArchivosAdjuntos(caa);
         }
     }
 
