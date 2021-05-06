@@ -808,7 +808,7 @@
         <property name="ordenanteRemesa" view="_minimal">
             <property name="remesa" view="_base"/>
         </property>
-        <property name="serie" view="_minimal"/>
+        <property name="serie" view="_base"/>
         <property name="utilitarioContratoInquilino" view="_minimal">
             <property name="numeroContrato"/>
             <property name="inquilino" view="_base"/>
@@ -1671,4 +1671,18 @@
         <property name="conceptoRecibo" view="_minimal"/>
         <property name="porcentaje"/>
     </view>
+    <view entity="test1_CedulaHabitabilidad" name="cedulaHabitabilidad-browseView">
+        <property name="fechaEmision"/>
+        <property name="fechaVencimiento"/>
+        <property name="numeroCedula"/>
+        <property name="observaciones"/>
+        <property name="departamento" view="_minimal">
+            <property name="piso"/>
+            <property name="puerta"/>
+            <property name="ubicacion" view="_minimal">
+                <property name="nombre"/>
+            </property>
+        </property>
+    </view>
+
 </views>

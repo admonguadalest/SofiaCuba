@@ -70,6 +70,7 @@
         <separator/>
         <menu id="certificados">
             <item screen="test1_CertificadoCalificacionEnergetica.browse" id="consultar"/>
+            <item screen="test1_CedulaHabitabilidad.browse"/>
         </menu>
         <item screen="test1_Proveedor.browse"/>
         <item screen="test1_Propietario.browse"/>
@@ -117,7 +118,7 @@
         <item screen="test1_Fianzas" id="fianzas"/>
         <menu id="aumentos">
             <menu id="IPC">
-                <item screen="inputDialog" id="registrar-indice-referencia" openType="NEW_TAB"/>
+                <item screen="test1_IncrementosIndiceReferencia" id="registrar-indice-referencia" openType="NEW_TAB"/>
                 <item screen="test1_RegistroIndiceReferencia.browse" id="registro-indice-referencia-browse"
                       openType="NEW_TAB"/>
             </menu>

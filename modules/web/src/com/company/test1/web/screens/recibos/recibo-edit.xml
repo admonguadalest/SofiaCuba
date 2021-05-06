@@ -21,6 +21,7 @@
                 <column width="100%">
                     <textField editable="false" property="ordenanteRemesa.remesa.identificadorRemesa"/>
                     <textField id="numReciboField" property="numRecibo" editable="false"/>
+                    <textField id="nombreSerieField" property="serie.nombreSerie" editable="false"/>
                     <textField id="numContratoField" dataContainer="reciboDc"
                                property="utilitarioContratoInquilino.numeroContrato" editable="false"/>
                     <textField id="inquilinoField" dataContainer="reciboDc"

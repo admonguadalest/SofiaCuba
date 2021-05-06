@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Table(name = "CUENTA_BANCARIA")
 @Entity(name = "test1_CuentaBancaria")
-public class CuentaBancaria extends StandardEntity {
+public class  CuentaBancaria extends StandardEntity {
     private static final long serialVersionUID = 9102866434063904804L;
 
     @Transient

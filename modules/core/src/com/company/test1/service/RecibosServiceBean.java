@@ -215,7 +215,7 @@ public class RecibosServiceBean implements RecibosService {
 
         //generando los registros de iva: pendiente reubicar
         for (int i = 0; i < rbos.size(); i++) {
-            new HelperRecibosInformeIva().procesaRecibo(rbos.get(i), persistence);
+           registraReciboEnTablaZHelper(rbos.get(i));
 
         }
 
@@ -225,6 +225,10 @@ public class RecibosServiceBean implements RecibosService {
     //pendiente: eliminar este metodo por una solucino unificada de creeacion
     //de registros en tabla helper. Idealmente en el entitylistener de recibo
     public boolean registraReciboEnTablaZHelper(Recibo r) throws Exception{
+        if (r.getSerie().getNombreSerie().compareTo("REGULARIZACIONES")==0){
+            //los recibos de la serie de regularizaciones no se comtabilizan en el iva
+            return false;
+        }
         new HelperRecibosInformeIva().procesaRecibo(r, persistence);
         return true;
     }
@@ -1233,6 +1237,19 @@ public class RecibosServiceBean implements RecibosService {
         Concepto c = (Concepto) persistence.getEntityManager().createQuery(sql).setParameter("ab", abreviacion).getFirstResult();
         t.close();
         return c;
+    }
+
+    public List<Concepto> getConceptosDesdeAbreviacion(String abreviacion) throws Exception{
+        String sql = "SELECT c FROM test1_Concepto c WHERE c.abreviacion LIKE :ab ";
+        Hashtable pams = new Hashtable();
+        pams.put("ab",abreviacion);
+
+        Transaction t = persistence.createTransaction();
+//        ConceptoBean c = (ConceptoBean ) sl.executeNamedDynamicQuerySingleResult(sql, pams);
+
+        List<Concepto> cc = (List<Concepto>) persistence.getEntityManager().createQuery(sql).setParameter("ab", abreviacion).getResultList();
+        t.close();
+        return cc;
     }
 
     public Integer getValorOrdenacionParaNuevoConcepto(){

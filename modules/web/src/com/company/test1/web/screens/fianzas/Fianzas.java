@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.fianzas;
 
 import com.company.test1.entity.contratosinquilinos.Fianza;
+import com.company.test1.entity.enums.EstadoFianzaEnum;
 import com.company.test1.web.screens.DynamicReportHelper;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -14,6 +15,7 @@ import com.haulmont.cuba.gui.screen.*;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @UiController("test1_Fianzas")
@@ -74,7 +76,7 @@ public class Fianzas extends Screen {
     private List<Fianza> fianzasDlLoadDelegate(LoadContext<Fianza> loadContext) {
         String hql = "select distinct f from test1_Fianza f JOIN f.contratoInquilino ci JOIN ci.departamento d JOIN d.ubicacion u WHERE " +
                 "concat(u.nombre,' ', d.piso, ' ', d.puerta) like :direccion ";
-
+        HashMap parameters = new HashMap();
         String vigencia = lkpVigencia.getValue();
         if (vigencia == null) vigencia = "TODOS";
         if (vigencia.compareTo("VIGENTES")==0){
@@ -107,14 +109,23 @@ public class Fianzas extends Screen {
         if(chbNoIngresadaAdmon.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efnoingresadaadmon ) ";
+            parameters.put("efnoingresadaadmon", EstadoFianzaEnum.NO_INGRESADA_EN_ADMON);
+        }else{
+            parameters.remove("efnoingresadaadmon");
         }
         if(chbFianzaEnCamara.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efcamara ) ";
+            parameters.put("efcamara", EstadoFianzaEnum.EN_CAMARA);
+        }else{
+            parameters.remove("efcamara");
         }
         if(chbFianzaDevuelta.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efdevuelta ) ";
+            parameters.put("efdevuelta", EstadoFianzaEnum.DEVUELTA);
+        }else{
+            parameters.remove("efdevuelta");
         }
         if (hqlF.trim().length()>0)
             hql += " AND (" + hqlF + ") ";
@@ -123,15 +134,21 @@ public class Fianzas extends Screen {
         String hql3 = "";
         if (chbFianzaEnAdmon.getValue()){
             hql3 += "(f.estadoFianza = :efenadmon ) ";
+            parameters.put("efenadmon", EstadoFianzaEnum.EN_ADMON);
+        }else{
+            parameters.remove("efenadmon");
         }
         if (chbSolicitadaDevolucion.getValue()){
             if (hql3.trim().length()>0) hql3 += " OR ";
             hql3 += "(f.estadoFianza = :efsolicdev ) ";
+            parameters.put("efsolicdev", EstadoFianzaEnum.SOLICITADA_DEVOLUCION);
+        }else{
+            parameters.remove("efsolicdev");
         }
         if (hql3.trim().length()>0)
             hql += "AND (" + hql3 + ")";
-
-        List<Fianza> ff = dataManager.loadValue(hql, Fianza.class).parameter("direccion", direccion).list();
+        parameters.put("direccion", direccion);
+        List<Fianza> ff = dataManager.loadValue(hql, Fianza.class).setParameters(parameters).list();
         for (int i = 0; i < ff.size(); i++) {
             Fianza f = ff.get(i);
             f = dataManager.reload(f, "fianza-list");

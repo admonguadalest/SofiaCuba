@@ -226,9 +226,9 @@ public class NotificacionesAumentosIpc extends Screen {
                 return;
             }
 
-            Concepto concIrta = recibosService.getConceptoDesdeAbreviacion("IRTA");
-            List<Concepto> conceptos = new ArrayList<Concepto>();
-            conceptos.add(concIrta);
+            List<Concepto> concIrta = recibosService.getConceptosDesdeAbreviacion("IRTA");
+            List<Concepto> conceptos = new ArrayList<Concepto>(concIrta);
+
             Hashtable<ContratoInquilino, List<ConceptoRecibo>> ht = contratosService.getConceptosRecibosGeneradosEntreFechasParaConceptos(ccii, dteFechaDesde.getValue(), dteFechaHasta.getValue(), conceptos);
 
             Hashtable hti = new Hashtable();

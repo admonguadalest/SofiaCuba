@@ -58,6 +58,12 @@ public interface RecibosService {
 
     Concepto getConceptoDesdeAbreviacion(String abreviacion) throws Exception;
 
+    /*PENDIENTE: Metodo habilitado para la generacion de notificaciones de aumentos de ipc pues el concepto
+    esta duplicado en el historico. Para una misma abreviacion hay dos conceptos, y ello implica que si no
+    selecciona exáctamnete el qeu toca no le salen las norificaciones por no encontrar conceptos de recibo.
+    El día que se elimine esa duplicidad se puede elimiinar este metodo*/
+    List<Concepto> getConceptosDesdeAbreviacion(String abreviacion) throws Exception;
+
     Integer getValorOrdenacionParaNuevoConcepto();
 
     String calculaIdentificadorRemesa(DefinicionRemesa dr, Date fechaRealizacion) throws Exception;

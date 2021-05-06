@@ -147,7 +147,11 @@ public class CicloEdit extends StandardEditor<Ciclo> {
         }
         Collections.sort(provs, new Comparator<Proveedor>(){
             public int compare(Proveedor p1, Proveedor p2){
-                return p1.getPersona().getNombreCompleto().compareTo(p2.getPersona().getNombreCompleto());
+                try {
+                    return p1.getPersona().getNombreCompleto().compareTo(p2.getPersona().getNombreCompleto());
+                }catch(Exception exc){
+                    return 0;
+                }
             }
         });
         return provs;
