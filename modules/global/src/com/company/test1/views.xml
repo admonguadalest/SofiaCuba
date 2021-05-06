@@ -584,6 +584,7 @@
             <property name="conceptosAdicionalesConceptoRecibo" view="_base">
                 <property name="conceptoAdicional" view="_base"/>
             </property>
+            <property name="actualizableIPC"/>
         </property>
         <property name="programacionConceptosAdicionales" view="programacionConceptoAdicional-view"/>
         <property name="cuentaBancariaInquilino" view="_base"/>

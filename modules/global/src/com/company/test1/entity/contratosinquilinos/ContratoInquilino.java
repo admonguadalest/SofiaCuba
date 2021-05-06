@@ -319,6 +319,10 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
         return fechaVencimientoPrevisto;
     }
 
+    public String getFechaVencimientoPrevistoNombre(){
+        return new SimpleDateFormat("dd-MM-yyyy").format(this.fechaVencimientoPrevisto);
+    }
+
     public void setFechaMandato(Date fechaMandato) {
         this.fechaMandato = fechaMandato;
     }
