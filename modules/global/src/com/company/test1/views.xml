@@ -1445,6 +1445,8 @@
                 </property>
             </property>
             <property name="rm2id"/>
+            <property name="piso"/>
+            <property name="puerta"/>
         </property>
         <property name="inquilino" view="_minimal">
             <property name="direcciones" view="_base"/>

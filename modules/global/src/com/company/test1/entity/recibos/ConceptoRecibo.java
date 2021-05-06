@@ -80,7 +80,7 @@ public class ConceptoRecibo extends StandardEntity {
     protected Integer estadoNotificacion;
 
     @Column(name = "ACTUALIZABLE_IPC")
-    protected Boolean actualizableIPC;
+    protected Boolean actualizableIPC = false;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.CASCADE)

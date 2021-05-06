@@ -296,17 +296,22 @@ public class IncrementosIndiceReferencia extends Screen {
                 if (!(lkpMes.getValue().intValue()==mes_.intValue())){
                     continue;
                 }
+                try{
+                    ConceptoRecibo[] arr_ccrr = incrementosService.creaConceptosReciboParaIncrementosIndiceReferencia(
+                            lkpConcepto.getValue(),
+                            contratoInquilino,
+                            lkpMes.getValue(),
+                            lkpAnno.getValue(),
+                            dteFechaAplicacion.getValue(),
+                            lkpConceptoAtrasos.getValue(),
+                            0
+                    );
+                    al.add(arr_ccrr);
+                }catch(Exception exc){
+                    notifications.create().withCaption("Error").withDescription("Error al cargar información Incr.Ind.Referencia para " + contratoInquilino.getNumeroContrato() + ":  " + exc.getMessage()).show();
+                    return;
+                }
 
-                ConceptoRecibo[] arr_ccrr = incrementosService.creaConceptosReciboParaIncrementosIndiceReferencia(
-                        lkpConcepto.getValue(),
-                        contratoInquilino,
-                        lkpMes.getValue(),
-                        lkpAnno.getValue(),
-                        dteFechaAplicacion.getValue(),
-                        lkpConceptoAtrasos.getValue(),
-                        0
-                );
-                al.add(arr_ccrr);
             }
 
         }catch(Exception ex){
