@@ -35,6 +35,7 @@ public class ReportDinamico {
     List<List<String>> rows;
     List<Integer> anchosDeColumna;
     Hashtable<String,Object> camposDeBusqueda;
+    Hashtable<String,Object> camposFooter;
 
     Integer numeroColumnas = 2;
 
@@ -45,6 +46,10 @@ public class ReportDinamico {
         this.rows = rows;
         this.anchosDeColumna = anchosDeColumna;
         this.camposDeBusqueda = camposDeBusqueda;
+    }
+
+    public void setCamposFooter(Hashtable<String,Object> camposFooter){
+        this.camposFooter = camposFooter;
     }
 
     public byte[] runReport() throws Exception {
@@ -73,6 +78,7 @@ public class ReportDinamico {
 
 
         DynamicReportBuilder reportBuilder = new DynamicReportBuilder(jasperReportDesign, columnHeaders.size(),anchosDeColumna);
+        reportBuilder.setCamposFooter(this.camposFooter);
         reportBuilder.setNumColumns(numeroColumnas);
         reportBuilder.addTitleSection(tituloReport,nombreUsuario,hora,fecha,camposDeBusqueda,anchoImagen,altoImagen);
         reportBuilder.addPageHeaderSection(anchoImagen,altoImagen);

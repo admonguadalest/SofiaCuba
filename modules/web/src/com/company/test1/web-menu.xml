@@ -34,6 +34,7 @@
         <menu id="reports_">
             <item screen="test1_FlexReport.browse" id="definicionElementos"/>
         </menu>
+        <item screen="test1_ComercialOfertas.browse"/>
 
     </menu>
     <menu id="application-test1" icon="font-icon:BUILDING_O">

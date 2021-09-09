@@ -46,6 +46,7 @@
         <table id="fotoDocumentoFotograficoesTable" height="250px" width="100%"
                dataContainer="fotoDocumentoFotograficoesDc">
             <buttonsPanel>
+
                 <multiUpload id="multiUploadField" caption="Upload Many"/>
                 <button id="btnRemove" caption="eliminar" invoke="removeSelected"/>
             </buttonsPanel>

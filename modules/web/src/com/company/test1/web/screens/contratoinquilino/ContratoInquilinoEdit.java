@@ -170,7 +170,9 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
 
     @Subscribe
     private void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
-
+        if (contratoInquilinoDc.getItem().getNombreTipoIndiceIncrementos()==null){
+            contratoInquilinoDc.getItem().setNombreTipoIndiceIncrementos("IPC");
+        }
         int y = 2;
     }
 

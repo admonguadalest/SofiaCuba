@@ -361,7 +361,7 @@ public class NotificacionGenericaManual extends Screen {
                         ht_objetos.put(k, hti.get(k));
                     }
 
-                    nc = (NotificacionContratoInquilino) notificacionService.implementaContenido(nc, ht_objetos, false);
+                    nc = (NotificacionContratoInquilino) notificacionService.implementaContenidoManual(nc,rtaContenido.getValue(), ht_objetos, false);
                     nc = (NotificacionContratoInquilino) notificacionService.implementaVersionPdfVersionFlexReport(nc);
                     nc.setFechaRealizacion(new java.util.Date());
                     notificaciones.add(nc);

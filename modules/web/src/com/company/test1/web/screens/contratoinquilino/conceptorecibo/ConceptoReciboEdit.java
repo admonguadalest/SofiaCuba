@@ -48,6 +48,15 @@ public class ConceptoReciboEdit extends StandardEditor<ConceptoRecibo> {
         
     }
 
+    @Subscribe
+    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        if (conceptoReciboDc.getItem().getActualizableIPC()==null){
+            conceptoReciboDc.getItem().setActualizableIPC(false);
+        }
+    }
+
+
+
     @Subscribe("vigenciaField")
     private void onVigenciaFieldValueChange(HasValue.ValueChangeEvent<ConceptoReciboVigenciaEnum> event) {
         flwVigencia.removeAll();

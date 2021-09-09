@@ -3,16 +3,20 @@ package com.company.test1.web.screens.coleccionarchivosadjuntos;
 import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.ArchivoAdjuntoExt;
 import com.company.test1.entity.ColeccionArchivosAdjuntos;
+import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
+import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileLoader;
+import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.app.core.file.FileUploadDialog;
+import com.haulmont.cuba.gui.components.FileMultiUploadField;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.Tree;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
@@ -26,7 +30,9 @@ import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import org.apache.poi.util.IOUtils;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -64,7 +70,8 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
     private FileLoader fileLoader;
     @Inject
     private ExportDisplay exportDisplay;
-
+    @Inject
+    private FileMultiUploadField multiUploadField;
 
     @Subscribe(target = Target.PARENT_CONTROLLER)
     private void onAfterShowHost(Screen.AfterShowEvent event) {
@@ -127,6 +134,65 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
             coleccionesDl.load();
         });
     }
+
+    @Subscribe
+    public void onInit(InitEvent event) {
+        multiUploadField.addQueueUploadCompleteListener(queueUploadCompleteEvent -> {
+            for (Map.Entry<UUID, String> entry : multiUploadField.getUploadsMap().entrySet()) {
+                UUID fileId = entry.getKey();
+                String fileName = entry.getValue();
+                FileDescriptor fd = fileUploadingAPI.getFileDescriptor(fileId, fileName);
+                try {
+                    fileUploadingAPI.putFileIntoStorage(fileId, fd);
+                } catch (FileStorageException e) {
+                    throw new RuntimeException("Error saving file to FileStorage", e);
+                }
+                dataManager.commit(fd);
+                try {
+                    InputStream is = fileLoader.openStream(fd);
+                    byte[] bb = IOUtils.toByteArray(is);
+
+                    ArchivoAdjunto aa = dataContext.create(ArchivoAdjunto.class);
+                    if (treeColecciones.getSingleSelected()==null){
+                        treeColecciones.setSelected(coleccionArchivosAdjuntosDc.getItem());
+                    }
+                    aa.setColeccionArchivosAdjuntos(treeColecciones.getSingleSelected());
+                    aa.setDescripcion(fd.getName());
+                    aa.setExtension(fd.getExtension());
+                    aa.setMimeType("");
+                    aa.setNombreArchivo(fd.getName());
+                    aa.setNombreArchivoOriginal(fd.getName());
+                    bb = Base64.getMimeEncoder().encode(bb);
+                    bb = Base64.getMimeEncoder().encode(bb);
+                    aa.setRepresentacionSerial(bb);
+                    aa.setTamano(bb.length);
+
+                    aa.getColeccionArchivosAdjuntos().getArchivos().add(aa);
+                    archivosAdjuntosDc.getMutableItems().clear();
+                    archivosAdjuntosDc.getMutableItems().addAll(treeColecciones.getSingleSelected().getArchivos());
+
+                }catch(Exception exc){
+
+                }
+            }
+            //carpetaDocumentosFotograficosDc.getItem().setNumeroDeFotografias(carpetaDocumentosFotograficosDc.getItem().getFotos().size());
+
+            notifications.create()
+                    .withCaption("Archivos cargados exitósamente__")
+                    .show();
+            multiUploadField.clearUploads();
+
+
+        });
+
+        multiUploadField.addFileUploadErrorListener(queueFileUploadErrorEvent -> {
+            notifications.create()
+                    .withCaption("File upload error")
+                    .show();
+        });
+    }
+
+
 
 
     public void onShowUploadDialogButtonClick() {

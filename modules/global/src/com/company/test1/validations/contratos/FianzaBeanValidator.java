@@ -39,7 +39,7 @@ public class FianzaBeanValidator implements ConstraintValidator<FianzaBean, Fian
         }
 
         if (value.getEstadoFianza()!=null){
-            if (value.getEstadoFianza()== EstadoFianzaEnum.EN_CAMARA){
+            if (value.getEstadoFianza()== EstadoFianzaEnum._2_EN_CAMARA){
                 if (value.getFechaIngresoFianzaEnCamara()==null){
                     isvalid = false;
                     context.buildConstraintViolationWithTemplate("Fianza: Indicar Fecha de Ingreso de Fianza en Camara").addConstraintViolation();
@@ -49,7 +49,7 @@ public class FianzaBeanValidator implements ConstraintValidator<FianzaBean, Fian
                     context.buildConstraintViolationWithTemplate("Fianza: Aportar escaneo de Fianza en Camara").addConstraintViolation();
                 }
             }
-            if (value.getEstadoFianza()== EstadoFianzaEnum.DEVUELTA){
+            if (value.getEstadoFianza()== EstadoFianzaEnum._4_DEVUELTA_ADMON){
                 if (value.getFechaRescateFianzaDeCamara()==null){
                     isvalid = false;
                     context.buildConstraintViolationWithTemplate("Fianza: Indicar Fecha de Rescate de Fianza en Camara").addConstraintViolation();

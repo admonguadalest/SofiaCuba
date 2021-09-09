@@ -58,7 +58,7 @@ public class ProgramacionRecibo extends StandardEntity {
     protected Boolean desactivarProgramacion = false;
 
     @Column(name = "APLICAR_IPC_NEGATIVO")
-    protected Boolean aplicarIPCNegativo;
+    protected Boolean aplicarIPCNegativo = false;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)

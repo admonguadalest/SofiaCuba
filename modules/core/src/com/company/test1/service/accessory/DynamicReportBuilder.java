@@ -13,10 +13,8 @@ package com.company.test1.service.accessory;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.*;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -63,11 +61,17 @@ public class DynamicReportBuilder {
 
     List<Integer> anchoColumnas=null;
 
+    Hashtable<String, Object> camposFooter = new Hashtable<String, Object>();
+
 
     public DynamicReportBuilder(JasperDesign jasperDesign, int numColumns,List<Integer> anchoColumnas) {
         this.jasperDesign = jasperDesign;
         this.numColumns = numColumns;
         this.anchoColumnas = anchoColumnas;
+    }
+
+    public void setCamposFooter(Hashtable<String, Object> camposFooter){
+        this.camposFooter = camposFooter;
     }
 
     public void addDynamicColumns() throws JRException {
@@ -328,13 +332,35 @@ public class DynamicReportBuilder {
 
     public void addPageFooterSection(){
         JRDesignBand pageFooterBand = new JRDesignBand();
-        pageFooterBand.setHeight(30);
+        pageFooterBand.setHeight(150);
 
         JRDesignStyle normalStyle = getNormalStyle();
 
+        int posY = 2;
+        int h = 20;
+        int counter = 0;
+        //campos footer
+        if (camposFooter != null) {
+            Enumeration<String> keys = camposFooter.keys();
+            while (keys.hasMoreElements()) {
+                String k = keys.nextElement();
+                JRDesignStaticText staticText = new JRDesignStaticText();
+                staticText.setX(TOTAL_PAGE_WIDTH - MARGIN - 200);
+                staticText.setY(posY + (h * counter));
+                staticText.setWidth(200);
+                staticText.setHeight(20);
+                staticText.setStyle(normalStyle);
+                staticText.setText(k + ":" + camposFooter.get(k).toString());
+
+                counter += 1;
+                pageFooterBand.addElement(staticText);
+            }
+        }
+
+
         JRDesignTextField pageField = new JRDesignTextField();
         pageField.setX(TOTAL_PAGE_WIDTH - MARGIN - 20);
-        pageField.setY(2);
+        pageField.setY(150-25);
         pageField.setWidth(20);
 
         pageField.setHeight(20);

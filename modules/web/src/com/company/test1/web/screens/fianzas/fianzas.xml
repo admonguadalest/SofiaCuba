@@ -35,9 +35,12 @@
                 <columns>
                     <column id="contratoInquilino.departamento.nombreDescriptivoCompleto"/>
                     <column id="contratoInquilino.inquilino.nombreCompleto"/>
+                    <column id="contratoInquilino.fechaOcupacion"/>
+                    <column id="fechaRescateFianzaDeCamara"/>
                     <column id="esAvalBancario"/>
                     <column id="fianzaLegal"/>
                     <column id="fianzaComplementaria"/>
+                    <column id="estadoFianzaNombre"/>
 
                 </columns>
             </table>

@@ -518,7 +518,9 @@
         <property name="inquilino" view="_base">
             <property name="direcciones" view="_base"/>
             <property name="cuentasBancarias" view="_base"/>
-            <property name="representacionesLegales" view="_base"/>
+            <property name="representacionesLegales" view="_base">
+                <property name="persona_representante" view="_base"/>
+            </property>
         </property>
         <property name="representanteArrendador" view="_base">
             <property name="representacionesLegales" view="_base"/>
@@ -685,6 +687,7 @@
         <property name="escaneoArchivoAdjunto" view="_base"/>
         <property name="escaneoSeguroArchivoAdjunto" view="_base"/>
         <property name="escaneoFianza" view="_base"/>
+        <property name="contratoInquilino" view="_base"/>
     </view>
     <view entity="test1_CotitularContratoInquilino" name="cotitularContratoInquilino-view" extends="_local">
         <property name="contratoInquilino" view="_minimal">
@@ -1162,7 +1165,7 @@
                 <property name="definicionRemesa" view="_base"/>
             </property>
         </property>
-        <property name="serie" view="_minimal"/>
+        <property name="serie" view="_base"/>
         <property name="utilitarioContratoInquilino" view="_base">
             <property name="departamento" view="_base">
                 <property name="ubicacion" view="_base"/>
@@ -1603,6 +1606,7 @@
     </view>
     <view entity="test1_Fianza" name="fianza-list" extends="_local">
         <property name="contratoInquilino" view="_minimal">
+            <property name="fechaOcupacion"/>
             <property name="departamento" view="_minimal">
                 <property name="piso"/>
                 <property name="puerta"/>
@@ -1686,6 +1690,16 @@
                 <property name="nombre"/>
             </property>
         </property>
+    </view>
+    <view entity="test1_ComercialOfertas" name="comercialOfertas-browseView">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="rm2id"/>
+        <property name="detalleCorreosElectronicos"/>
+        <property name="detalleNombres"/>
     </view>
 
 </views>

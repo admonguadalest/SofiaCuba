@@ -13,10 +13,8 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
 
 @UiController("test1_Fianzas")
 @UiDescriptor("fianzas.xml")
@@ -84,6 +82,7 @@ public class Fianzas extends Screen {
         }else if(vigencia.compareTo("NO VIGENTES")==0){
             hql += "and ci.estadoContrato != 3 ";
         }
+        hql += " and ci.estadoContrato >= 3 ";
 
         String direccion = "%";
         if (txtDireccion.getValue()!=null){
@@ -109,21 +108,21 @@ public class Fianzas extends Screen {
         if(chbNoIngresadaAdmon.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efnoingresadaadmon ) ";
-            parameters.put("efnoingresadaadmon", EstadoFianzaEnum.NO_INGRESADA_EN_ADMON);
+            parameters.put("efnoingresadaadmon", EstadoFianzaEnum._0_NO_INGRESADA_EN_ADMON);
         }else{
             parameters.remove("efnoingresadaadmon");
         }
         if(chbFianzaEnCamara.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efcamara ) ";
-            parameters.put("efcamara", EstadoFianzaEnum.EN_CAMARA);
+            parameters.put("efcamara", EstadoFianzaEnum._2_EN_CAMARA);
         }else{
             parameters.remove("efcamara");
         }
         if(chbFianzaDevuelta.getValue()){
             if (hqlF.trim().length()>0) hqlF += " OR ";
             hqlF += "(f.estadoFianza = :efdevuelta ) ";
-            parameters.put("efdevuelta", EstadoFianzaEnum.DEVUELTA);
+            parameters.put("efdevuelta", EstadoFianzaEnum._4_DEVUELTA_ADMON);
         }else{
             parameters.remove("efdevuelta");
         }
@@ -134,19 +133,19 @@ public class Fianzas extends Screen {
         String hql3 = "";
         if (chbFianzaEnAdmon.getValue()){
             hql3 += "(f.estadoFianza = :efenadmon ) ";
-            parameters.put("efenadmon", EstadoFianzaEnum.EN_ADMON);
+            parameters.put("efenadmon", EstadoFianzaEnum._1_EN_ADMON);
         }else{
             parameters.remove("efenadmon");
         }
         if (chbSolicitadaDevolucion.getValue()){
             if (hql3.trim().length()>0) hql3 += " OR ";
             hql3 += "(f.estadoFianza = :efsolicdev ) ";
-            parameters.put("efsolicdev", EstadoFianzaEnum.SOLICITADA_DEVOLUCION);
+            parameters.put("efsolicdev", EstadoFianzaEnum._3_SOLICITADA_DEVOLUCION);
         }else{
             parameters.remove("efsolicdev");
         }
         if (hql3.trim().length()>0)
-            hql += "AND (" + hql3 + ")";
+            hql += "OR (" + hql3 + ")";
         parameters.put("direccion", direccion);
         List<Fianza> ff = dataManager.loadValue(hql, Fianza.class).setParameters(parameters).list();
         for (int i = 0; i < ff.size(); i++) {
@@ -180,7 +179,31 @@ public class Fianzas extends Screen {
 
 
     public void onBtnVerReportClick() {
-        byte[] bb = DynamicReportHelper.getReportDinamico("Listado de Fianzas", Fianza.class, tblFianzas);
+        //campos footer
+        Hashtable<String, Object> camposFooter = new Hashtable();
+        List<Fianza> ff = fianzasDc.getItems();
+        String nombreFieldComplementarias = "GARANTÍAS COMPL.";
+
+        for (int i = 0; i < ff.size(); i++) {
+            Fianza f = ff.get(i);
+            if (camposFooter.containsKey(f.getEstadoFianzaNombre())){
+                Double d = (Double) camposFooter.get(f.getEstadoFianzaNombre());
+                d += f.getFianzaLegal();
+                camposFooter.put(f.getEstadoFianzaNombre(), d);
+            }else{
+
+                camposFooter.put(f.getEstadoFianzaNombre(), f.getFianzaLegal());
+            }
+            if (camposFooter.containsKey(nombreFieldComplementarias)){
+                Double d = (Double) camposFooter.get(nombreFieldComplementarias);
+                d += f.getFianzaComplementaria();
+                camposFooter.put(nombreFieldComplementarias, d);
+            }else{
+                camposFooter.put(nombreFieldComplementarias, f.getFianzaComplementaria());
+            }
+
+        }
+        byte[] bb = DynamicReportHelper.getReportDinamico("Listado de Fianzas", Fianza.class, tblFianzas, camposFooter);
         exportDisplay.show(new ByteArrayDataProvider(bb), "Listado Fianzas.pdf");
     }
 }

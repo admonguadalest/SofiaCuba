@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://comercialOfertasBrowse.caption"
+        focusComponent="comercialOfertasesTable"
+        messagesPack="com.company.test1.web.screens.comercialofertas">
+    <data readOnly="true">
+        <collection id="comercialOfertasesDc"
+                    class="com.company.test1.entity.extroles.ComercialOfertas"
+                    view="comercialOfertas-browseView">
+            <loader id="comercialOfertasesDl">
+                <query>
+                    <![CDATA[select e from test1_ComercialOfertas e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="comercialOfertasesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="comercialOfertasesTable"
+                dataLoader="comercialOfertasesDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="comercialOfertasesTable"
+               width="100%"
+               dataContainer="comercialOfertasesDc">
+            <actions>
+            </actions>
+            <columns>
+                <column id="proveedor"/>
+                <column id="rm2id"/>
+                <column id="detalleCorreosElectronicos"/>
+                <column id="detalleNombres"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

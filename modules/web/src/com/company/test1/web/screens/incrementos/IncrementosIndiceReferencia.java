@@ -206,7 +206,7 @@ public class IncrementosIndiceReferencia extends Screen {
         try{
 
             for (int i = 0; i < deptos.size(); i++) {
-                Departamento departamento = deptos.get(i);
+                /*Departamento departamento = deptos.get(i);
                 ContratoInquilino contratoInquilino = AppBeans.get(ContratosService.class).devuelveContratoVigenteParaDepartamento(departamento, View.BASE);
                 if (contratoInquilino == null) continue;
 
@@ -214,6 +214,26 @@ public class IncrementosIndiceReferencia extends Screen {
                 String mes = mesAnnoIpc.substring(0,2);
                 Integer mes_ = Integer.valueOf(mes);
                 if (!(lkpMes.getValue().intValue()==mes_.intValue())){
+                    continue;
+                }*/
+                Departamento departamento = deptos.get(i);
+                ContratoInquilino contratoInquilino = AppBeans.get(ContratosService.class).devuelveContratoVigenteParaDepartamento(departamento, View.BASE);
+                if (contratoInquilino == null) continue;
+
+                String mesAnnoIpc = contratoInquilino.getMesAnyoAplicacionIPC();
+                String mes = mesAnnoIpc.substring(0,2);
+                Integer mes_ = null;
+                try {
+                    mes_ = Integer.valueOf(mes);
+                }catch(Exception exc){
+                    notifications.create().withCaption("Error").withDescription("No se pudieron cargar los conceptios recibos para incrementos índice de referencia:  " + departamento.getNombreDescriptivoCompleto() + " " + exc.getMessage()).show();
+                    return;
+                }
+                if (!(lkpMes.getValue().intValue()==mes_.intValue())){
+                    continue;
+                }
+                //comprobacion que el año es el mismo
+                if (!(lkpAnno.getValue().intValue()==Integer.valueOf(mesAnnoIpc.substring(2)).intValue())){
                     continue;
                 }
 
@@ -296,7 +316,13 @@ public class IncrementosIndiceReferencia extends Screen {
                 if (!(lkpMes.getValue().intValue()==mes_.intValue())){
                     continue;
                 }
+                //comprobacion que el año es el mismo
+                if (!(lkpAnno.getValue().intValue()==Integer.valueOf(mesAnnoIpc.substring(2)).intValue())){
+                    continue;
+                }
+
                 try{
+                    contratoInquilino = dataManager.reload(contratoInquilino, "contratoInquilino-view");
                     ConceptoRecibo[] arr_ccrr = incrementosService.creaConceptosReciboParaIncrementosIndiceReferencia(
                             lkpConcepto.getValue(),
                             contratoInquilino,

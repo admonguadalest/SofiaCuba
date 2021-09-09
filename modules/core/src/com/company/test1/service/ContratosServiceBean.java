@@ -141,11 +141,11 @@ public class ContratosServiceBean implements ContratosService {
         if (ci.getDepartamento().getViviendaLocal()){
             Propietario propietario = d.getPropietarioEfectivo();
             propietario = dataManager.reload(propietario, "_base");
-            s = propietario.getAbreviacionContratos() + "V" + d.getUbicacion().getAbreviacionUbicacion() + d.getAbreviacionPisoPuerta();
+            s = propietario.getAbreviacionContratos() + "V" + d.getUbicacion().getRm2id() + d.getRm2id();
         }else if(!ci.getDepartamento().getViviendaLocal()){
             Propietario propietario = d.getPropietarioEfectivo();
             propietario = dataManager.reload(propietario, "_base");
-            s = propietario.getAbreviacionContratos() + "L" + d.getUbicacion().getAbreviacionUbicacion() + d.getAbreviacionPisoPuerta();
+            s = propietario.getAbreviacionContratos() + "L" + d.getUbicacion().getRm2id() + d.getRm2id();
         }
 
         Transaction t = persistence.createTransaction();

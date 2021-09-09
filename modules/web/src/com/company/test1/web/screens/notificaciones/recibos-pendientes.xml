@@ -63,7 +63,7 @@
             <buttonsPanel>
                 <checkBox id="chkVerCamposVacios" caption="Ver Campos Vacios"/>
                 <button id="btnPrevisualizar" caption="Previsualizar" invoke="onBtnPrevisualizarClick"/>
-                <button id="btnRealizar" caption="Realizar"/>
+                <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
                 <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
             </buttonsPanel>
         </vbox>

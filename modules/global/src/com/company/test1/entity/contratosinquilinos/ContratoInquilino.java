@@ -170,7 +170,7 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
 
     @NotNull(message = "Especificar Indice de Referencia de Incrementos")
     @Column(name = "NOMBRE_TIPO_INDICE_INCREMENTOS", length = 10)
-    protected String nombreTipoIndiceIncrementos;
+    protected String nombreTipoIndiceIncrementos = "IPC";
 
     @NotNull(message = "Especificar si el Pagador es el titular")
     @Column(name = "EL_PAGADOR_ES_EL_TITULAR")

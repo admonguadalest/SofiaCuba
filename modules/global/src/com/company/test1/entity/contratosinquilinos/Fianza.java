@@ -109,6 +109,9 @@ public class Fianza extends StandardEntity {
     @Transient
     @MetaProperty
     public String getEstadoFianzaNombre() {
+        if (this.getEstadoFianza()==null){
+            return "No Establecido (NULL)";
+        }
         return this.getEstadoFianza().name();
     }
 

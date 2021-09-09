@@ -333,6 +333,33 @@ public class JasperReportServiceBean implements JasperReportService {
             rows.add(row);
         }
         ReportDinamico rd = new ReportDinamico(titulo, colnames, rows, null, new Hashtable<String, Object>());
+
+        byte[] bb = rd.runReport();
+        return bb;
+    }
+
+    @Override
+    public byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entitiesCollection, List<String> idPaths, List<String> colnames, Hashtable<String, Object> camposFooter) throws Exception {
+        List<Entity> entities = new ArrayList<Entity>(entitiesCollection);
+        List<List<String>> rows = new ArrayList<List<String>>();
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity =  entities.get(i);
+            List<String> paths = idPaths;
+            List<String> row = new ArrayList<String>();
+            for (int j = 0; j < paths.size(); j++) {
+                String s =  paths.get(j);
+                Object o = MyBeanUtils.readBeanPath(entity, s);
+                if (o!=null){
+                    row.add(o.toString());
+                }else{
+                    row.add("");
+                }
+
+            }
+            rows.add(row);
+        }
+        ReportDinamico rd = new ReportDinamico(titulo, colnames, rows, null, new Hashtable<String, Object>());
+        rd.setCamposFooter(camposFooter);
         byte[] bb = rd.runReport();
         return bb;
     }

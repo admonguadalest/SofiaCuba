@@ -25,6 +25,8 @@ public interface JasperReportService {
     byte[] listadoResumenRecibos(List<Remesa> remesas) throws Exception;
     byte[] listadoResumenRecibosFromZHelper(List<Remesa> remesas) throws Exception;
     byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entities, List<String> idPaths, List<String> colnames) throws Exception;
+    byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entities, List<String> idPaths, List<String> colnames, Hashtable<String, Object> camposFooter) throws Exception;
+
     Object turnFileIntoJRRenderableObject(String fileName) throws Exception;
     byte[] getReportRecibo(Recibo r) throws Exception;
     byte[] impagados(Propietario p, List<Recibo> impagados, Date fechaInicial, Date fechaFinal, String vigencia, String tipoRecibos) throws Exception;

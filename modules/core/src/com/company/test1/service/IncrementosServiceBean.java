@@ -342,6 +342,9 @@ public class IncrementosServiceBean implements IncrementosService {
 
         //calculo incremento
         String nombreTipoIndice = contratoInquilino.getNombreTipoIndiceIncrementos();
+        if (nombreTipoIndice == null){
+            nombreTipoIndice = "IPC";
+        }
 
         try{
 
@@ -473,6 +476,9 @@ public class IncrementosServiceBean implements IncrementosService {
         List<ConceptoRecibo> cc = new ArrayList();
         for (int i = 0; i < ccrr.size(); i++) {
             ConceptoRecibo conceptoRecibo = ccrr.get(i);
+            if (conceptoRecibo.getActualizableIPC()==null){
+                continue;
+            }
             if (conceptoRecibo.getActualizableIPC()){
                 cc.add(conceptoRecibo);
             }
