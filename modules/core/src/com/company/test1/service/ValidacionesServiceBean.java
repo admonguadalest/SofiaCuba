@@ -3,8 +3,12 @@ package com.company.test1.service;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
+import com.company.test1.entity.documentosImputables.DocumentoProveedor;
+import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.enums.*;
 import com.company.test1.entity.extroles.Propietario;
+import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.Validacion;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
 import com.haulmont.cuba.core.Persistence;
@@ -106,6 +110,14 @@ public class ValidacionesServiceBean implements ValidacionesService {
         if (di.getFechaEmision().before(fechaInicio)) return null; // Para no crear validaciones de Documentos Imputables antiguos!
 
         List<ImputacionDocumentoImputable> listaIDI = di.getImputacionesDocumentoImputable();
+
+        //se realizan gestiones solo si es un documento imputable de tipo factura o presupuesto
+        if ((di instanceof FacturaProveedor) || (di instanceof Presupuesto)){
+            Proveedor prov = ((DocumentoProveedor) di).getProveedor();
+            if (!prov.getModoDePagoTelematico()){
+                return di;
+            }
+        }
 
         for(int i = 0;i < listaIDI.size();i++){
 

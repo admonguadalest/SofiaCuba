@@ -1701,5 +1701,44 @@
         <property name="detalleCorreosElectronicos"/>
         <property name="detalleNombres"/>
     </view>
+    <view entity="test1_AsignacionTarea" name="asignacionTarea-view-ext" extends="_local">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="descripcionActividad"/>
+            <property name="nombreComercial"/>
+        </property>
+        <property name="ordenTrabajo" view="_minimal">
+            <property name="entrada" view="_minimal">
+                <property name="contenidoEntrada"/>
+                <property name="fechaEntrada"/>
+                <property name="ciclo" view="_minimal">
+                    <property name="departamento" view="_minimal">
+                        <property name="piso"/>
+                        <property name="puerta"/>
+                        <property name="ubicacion" view="_minimal">
+                            <property name="nombre"/>
+                        </property>
+                        <property name="nombreDescriptivoCompleto"/>
+                    </property>
+                </property>
+            </property>
+            <property name="fechaSolicitud"/>
+            <property name="fechaPrevistaIntervencion"/>
+            <property name="costeOrientativo"/>
+            <property name="propuestoPor"/>
+            <property name="descripcion"/>
+            <property name="observacion"/>
+            <property name="observacionIntervencion"/>
+            <property name="duracionPrevistaIntervencion"/>
+            <property name="franjaHorariaIntervencion"/>
+            <property name="fechaFinalizacion"/>
+            <property name="fechaFinalizacionEstimada"/>
+            <property name="excluirDeMonitorizacionEncargado"/>
+            <property name="tipoPrivacidad"/>
+            <property name="reparacionRehabilitacion"/>
+        </property>
+    </view>
 
 </views>

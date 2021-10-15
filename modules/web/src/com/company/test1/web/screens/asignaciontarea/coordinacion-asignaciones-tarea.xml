@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://coordinacionAsignacionesTarea.caption"
+        messagesPack="com.company.test1.web.screens.asignaciontarea">
+    <data>
+        <collection id="asignacionTareasProgramadasDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
+                    view="asignacionTarea-view-ext">
+            <loader id="asignacionTareasProgramadasDl">
+
+            </loader>
+        </collection>
+        <collection id="asignacionTareasPendientesProgramarDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
+                    view="asignacionTarea-view-ext">
+            <loader id="asignacionTareasPendientesProgramarDl">
+
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <vbox spacing="true">
+        <label value="Tareas Programadas"/>
+        <buttonsPanel>
+            <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
+        </buttonsPanel>
+        <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
+            <actions>
+                <action id="edit"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
+                <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                <column id="descripcion" property="descripcion"/>
+                <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+
+            </columns>
+        </dataGrid>
+        <label value="Tareas Pendientes de Programacion"/>
+        <buttonsPanel>
+            <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
+        </buttonsPanel>
+        <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
+            <actions>
+                <action id="edit"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
+                <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                <column id="descripcion" property="descripcion"/>
+                <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+
+            </columns>
+        </dataGrid>
+        </vbox>
+    </layout>
+</window>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Asignación de Tarea"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.asignaciontarea">
+    <data>
+        <instance id="asignacionTareaDc"
+                  class="com.company.test1.entity.ciclos.AsignacionTarea"
+                  view="asignacionTarea-view-ext">
+            <loader/>
+        </instance>
+        <collection id="proveedorsDc" class="com.company.test1.entity.extroles.Proveedor" view="_minimal">
+            <loader id="proveedorsDl">
+                <query>
+                    <![CDATA[select e from test1_Proveedor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="700"
+                width="800" resizable="true"/>
+    <layout expand="editActions" spacing="true">
+        <scrollBox orientation="vertical" box.expandRatio="90" width="100%">
+            <form id="form" dataContainer="asignacionTareaDc" width="100%">
+                <column width="100%">
+                    <textField editable="false" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                    <lookupPickerField id="proveedorField" optionsContainer="proveedorsDc" property="proveedor" captionProperty="persona.nombreCompleto"/>
+                    <richTextArea property="ordenTrabajo.entrada.contenidoEntrada" editable="false"/>
+                    <richTextArea property="ordenTrabajo.descripcion" editable="false"/>
+                    <textField property="ordenTrabajo.propuestoPor" editable="false"/>
+                    <dateField id="fechaPrevistaField" property="fechaPrevista"/>
+                    <dateField id="fechaFinalizacionField" property="fechaFinalizacion"/>
+                    <textArea id="descripcionField" property="descripcion" rows="5"/>
+                    <checkBox id="canceladoField" property="cancelado"/>
+                    <dateField id="fechaPrevistoInicioField" property="fechaPrevistoInicio"/>
+                    <checkBox id="acordadoConIndustrialField" property="acordadoConIndustrial"/>
+                    <textArea id="comentariosIndustrialField" property="comentariosIndustrial" rows="5"/>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true" box.expandRatio="10">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

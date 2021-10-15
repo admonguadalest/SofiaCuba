@@ -155,6 +155,7 @@
             <item screen="test1_Ciclo.edit" id="nuevoCiclo">
                 <param name="newEntity" value="true"/>
             </item>
+            <item screen="test1_CoordinacionAsignacionesTarea"/>
         </menu>
         <menu id="validaciones">
             <item screen="test1_GestionarValidaciones" id="gestionarValidaciones"/>
