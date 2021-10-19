@@ -6,7 +6,7 @@
     <data readOnly="true">
         <collection id="certificadoCalificacionEnergeticasDc"
                     class="com.company.test1.entity.departamentos.CertificadoCalificacionEnergetica"
-                    view="_local">
+                    view="certificadoCalificacionEnergetica-view">
             <loader id="certificadoCalificacionEnergeticasDl">
                 <query>
                     <![CDATA[select e from test1_CertificadoCalificacionEnergetica e]]>
@@ -30,6 +30,7 @@
                 <action id="edit" type="edit"/>
             </actions>
             <columns>
+                <column id="departamento.nombreDescriptivoCompleto"/>
                 <column id="numeroRegistro"/>
                 <column id="fechaVencimiento"/>
                 <column id="observaciones"/>

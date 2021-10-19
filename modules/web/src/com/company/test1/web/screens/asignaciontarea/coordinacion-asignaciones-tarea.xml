@@ -15,12 +15,32 @@
 
             </loader>
         </collection>
+        <collection id="departamentosAfectadosDc" class="com.company.test1.entity.departamentos.Departamento"
+                    view="departamento-view">
+            <loader id="departamentosAfectadosDl">
+
+            </loader>
+        </collection>
+        <collection id="proveedoresAfectadosDc" class="com.company.test1.entity.extroles.Proveedor"
+                    view="proveedor-view">
+            <loader id="proveedoresAfectadosDl">
+
+            </loader>
+        </collection>
     </data>
     <layout>
         <vbox spacing="true">
-        <label value="Tareas Programadas"/>
+
+            <button caption="Refrescar" invoke="refrescar"/>
+            <hbox spacing="true">
+                <lookupField id="lkpDepartamentosAfectados" caption="Filtrar por Departamento" optionsContainer="departamentosAfectadosDc" captionProperty="nombreDescriptivoCompleto"/>
+                <lookupField id="lkpProveedoresAfectados" caption="Filtrar por Industrial" optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>
+            </hbox>
+
+            <label value="Tareas Programadas"/>
         <buttonsPanel>
             <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
+            <button caption="Filtrar Para Selección" invoke="filtrarTareasSeleccionProgramadas"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
             <actions>
@@ -39,6 +59,7 @@
         <label value="Tareas Pendientes de Programacion"/>
         <buttonsPanel>
             <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
+            <button caption="Filtrar Para Selección" invoke="filtrarTareasSeleccionPendientes"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
             <actions>

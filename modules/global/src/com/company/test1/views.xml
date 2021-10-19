@@ -433,9 +433,16 @@
         <property name="conceptoAdicional" view="_base"/>
         <property name="documentoImputable" view="_base"/>
     </view>
+    <view entity="test1_Proveedor" name="proveedor-view-basic" extends="_minimal">
+        <property name="persona" view="_minimal">
+            <property name="nombreCompleto"/>
+
+        </property>
+    </view>
     <view entity="test1_Proveedor" name="proveedor-view" extends="_local">
         <property name="persona" view="_base">
             <property name="cuentasBancarias" view="_base"/>
+            <property name="nombreCompleto"/>
         </property>
         <property name="programacionesConceptosAdicionales" view="_base">
             <property name="conceptoAdicional" view="_base"/>
@@ -1702,8 +1709,8 @@
         <property name="detalleNombres"/>
     </view>
     <view entity="test1_AsignacionTarea" name="asignacionTarea-view-ext" extends="_local">
-        <property name="proveedor" view="_minimal">
-            <property name="persona" view="_minimal">
+        <property name="proveedor" view="_local">
+            <property name="persona" view="_local">
                 <property name="nombreCompleto"/>
             </property>
             <property name="descripcionActividad"/>
