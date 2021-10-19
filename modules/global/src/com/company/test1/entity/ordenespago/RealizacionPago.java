@@ -20,6 +20,9 @@ public class RealizacionPago extends StandardEntity {
     @OneToMany(mappedBy = "realizacionPago")
     protected List<OrdenPago> ordenesPago = new ArrayList<OrdenPago>();
 
+    @Column(name = "MARCA_PAGADO_ADMINISTRADOR")
+    private Boolean marcaPagadoAdministrador;
+
     @OnDeleteInverse(DeletePolicy.DENY)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,6 +56,14 @@ public class RealizacionPago extends StandardEntity {
 
     @Column(name = "RM2ID")
     protected Integer rm2id;
+
+    public Boolean getMarcaPagadoAdministrador() {
+        return marcaPagadoAdministrador;
+    }
+
+    public void setMarcaPagadoAdministrador(Boolean marcaPagadoAdministrador) {
+        this.marcaPagadoAdministrador = marcaPagadoAdministrador;
+    }
 
     public void setFechaValor(Date fechaValor) {
         this.fechaValor = fechaValor;
