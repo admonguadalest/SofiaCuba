@@ -38,6 +38,17 @@ public class RealizacionPagoBrowse extends StandardLookup<RealizacionPago> {
     @Inject
     private Filter filter;
 
+    public void marcaPagoAdministrador(){
+        RealizacionPago rp = realizacionPagoesTable.getSingleSelected();
+        if (rp == null){
+            notifications.create().withCaption("Seleccionar una Realizacion Pago para descargar la version SEPA del mismo").show();
+            return ;
+        }
+        if (rp.getMarcaPagadoAdministrador()==null) rp.setMarcaPagadoAdministrador(false);
+        rp.setMarcaPagadoAdministrador(!rp.getMarcaPagadoAdministrador());
+        dataManager.commit(rp);
+    }
+
     public void onBtnDownloadSepaClick() {
         RealizacionPago rp = realizacionPagoesTable.getSingleSelected();
         if (rp == null){

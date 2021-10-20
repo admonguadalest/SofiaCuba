@@ -1,0 +1,1 @@
+alter table REALIZACION_PAGO add column MARCA_PAGADO_ADMINISTRADOR boolean ;

@@ -1648,6 +1648,7 @@ create table REALIZACION_PAGO (
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
     --
+    MARCA_PAGADO_ADMINISTRADOR boolean,
     CUENTA_BANCARIA_ID varchar(32),
     FECHA_VALOR date,
     INFO_CUENTA_EMISORA varchar(255),

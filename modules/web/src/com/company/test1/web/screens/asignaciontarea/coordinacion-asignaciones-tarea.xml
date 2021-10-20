@@ -15,6 +15,12 @@
 
             </loader>
         </collection>
+        <collection id="asignacionTareasFinalizadasDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
+                    view="asignacionTarea-view-ext">
+            <loader id="asignacionTareasFinalizadasDl">
+
+            </loader>
+        </collection>
         <collection id="departamentosAfectadosDc" class="com.company.test1.entity.departamentos.Departamento"
                     view="departamento-view">
             <loader id="departamentosAfectadosDl">
@@ -40,7 +46,7 @@
             <label value="Tareas Programadas"/>
         <buttonsPanel>
             <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
-            <button caption="Filtrar Para Selección" invoke="filtrarTareasSeleccionProgramadas"/>
+            <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionProgramadas"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
             <actions>
@@ -59,7 +65,7 @@
         <label value="Tareas Pendientes de Programacion"/>
         <buttonsPanel>
             <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
-            <button caption="Filtrar Para Selección" invoke="filtrarTareasSeleccionPendientes"/>
+            <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionPendientes"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
             <actions>
@@ -75,6 +81,25 @@
 
             </columns>
         </dataGrid>
+            <label value="Tareas Finalizadas"/>
+            <buttonsPanel>
+                <button caption="Ver Tarea Finalizada" invoke="verTareaFinalizada"/>
+                <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionFinalizadas"/>
+            </buttonsPanel>
+            <dataGrid id="asignacionTareasFinalizadasTable" height="250px" width="100%" dataContainer="asignacionTareasFinalizadasDc">
+                <actions>
+                    <action id="edit"/>
+                </actions>
+                <columns>
+                    <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                    <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+
+                    <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                    <column id="descripcion" property="descripcion"/>
+                    <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+
+                </columns>
+            </dataGrid>
         </vbox>
     </layout>
 </window>

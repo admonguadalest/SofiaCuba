@@ -18,9 +18,9 @@
         </collection>
     </data>
     <dialogMode height="700"
-                width="800" resizable="true"/>
+                width="800" resizable="false"/>
     <layout expand="editActions" spacing="true">
-        <scrollBox orientation="vertical" box.expandRatio="90" width="100%">
+        <scrollBox orientation="vertical" box.expandRatio="90" width="100%" height="550px">
             <form id="form" dataContainer="asignacionTareaDc" width="100%">
                 <column width="100%">
                     <textField editable="false" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>

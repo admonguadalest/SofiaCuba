@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.asignaciontarea;
 
 import com.company.test1.entity.ciclos.AsignacionTarea;
+import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.extroles.Proveedor;
 import com.haulmont.cuba.core.global.DataManager;
@@ -53,6 +54,10 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private LookupField<Proveedor> lkpProveedoresAfectados;
     @Inject
     private CollectionLoader<Proveedor> proveedoresAfectadosDl;
+    @Inject
+    private CollectionLoader<AsignacionTarea> asignacionTareasFinalizadasDl;
+    @Inject
+    private DataGrid<AsignacionTarea> asignacionTareasFinalizadasTable;
 
     @Subscribe("lkpDepartamentosAfectados")
     public void onLkpDepartamentosAfectadosValueChange(HasValue.ValueChangeEvent<Departamento> event) {
@@ -60,15 +65,16 @@ public class CoordinacionAsignacionesTarea extends Screen {
         if (d != null){
             this.deptoProgramadas = d;
             this.deptoPendientes = d;
-            asignacionTareasPendientesProgramarDl.load();
-            asignacionTareasProgramadasDl.load();
+
 
         }else{
             this.deptoProgramadas = null;
             this.deptoPendientes = null;
-            asignacionTareasPendientesProgramarDl.load();
-            asignacionTareasProgramadasDl.load();
+
         }
+        asignacionTareasPendientesProgramarDl.load();
+        asignacionTareasProgramadasDl.load();
+        asignacionTareasFinalizadasDl.load();
     }
 
     @Subscribe("lkpProveedoresAfectados")
@@ -77,6 +83,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
         asignacionTareasPendientesProgramarDl.load();
         asignacionTareasProgramadasDl.load();
+        asignacionTareasFinalizadasDl.load();
     }
 
 
@@ -87,6 +94,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
     public void onAfterShow(AfterShowEvent event) {
         asignacionTareasProgramadasDl.load();
         asignacionTareasPendientesProgramarDl.load();
+        asignacionTareasFinalizadasDl.load();
 
         departamentosAfectadosDl.load();
         proveedoresAfectadosDl.load();
@@ -101,36 +109,76 @@ public class CoordinacionAsignacionesTarea extends Screen {
         asignacionTareasPendientesProgramacionTable.setSelected(new ArrayList());
         asignacionTareasPendientesProgramarDl.load();
         asignacionTareasProgramadasDl.load();
+        asignacionTareasFinalizadasDl.load();
         departamentosAfectadosDl.load();
         proveedoresAfectadosDl.load();
         lkpDepartamentosAfectados.setValue(null);
     }
 
-    public void filtrarTareasSeleccionProgramadas(){
+//    public void filtrarTareasSeleccionProgramadas(){
+//        AsignacionTarea at = asignacionTareasProgramadasTable.getSingleSelected();
+//        asignacionTareasPendientesProgramacionTable.setSelected(new ArrayList());
+//        if (at==null){
+//            notifications.create().withCaption("Seleccionar un registro").show();
+//            return;
+//        }
+//        this.deptoProgramadas = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+//        this.deptoPendientes = this.deptoProgramadas;
+//        asignacionTareasProgramadasDl.load();
+//        asignacionTareasPendientesProgramarDl.load();
+//    }
+
+    public void verCicloSeleccionProgramadas(){
         AsignacionTarea at = asignacionTareasProgramadasTable.getSingleSelected();
-        asignacionTareasPendientesProgramacionTable.setSelected(new ArrayList());
         if (at==null){
             notifications.create().withCaption("Seleccionar un registro").show();
             return;
         }
-        this.deptoProgramadas = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
-        this.deptoPendientes = this.deptoProgramadas;
-        asignacionTareasProgramadasDl.load();
-        asignacionTareasPendientesProgramarDl.load();
+        Ciclo c = at.getOrdenTrabajo().getEntrada().getCiclo();
+        Screen s = screenBuilders.editor(Ciclo.class, this)
+                .withLaunchMode(OpenMode.NEW_TAB)
+                .editEntity(c).build();
+        s.show();
     }
 
-    public void filtrarTareasSeleccionPendientes(){
-        AsignacionTarea at = asignacionTareasPendientesProgramacionTable.getSingleSelected();
-        asignacionTareasProgramadasTable.setSelected(new ArrayList());
+    public void verCicloSeleccionFinalizadas(){
+        AsignacionTarea at = asignacionTareasFinalizadasTable.getSingleSelected();
         if (at==null){
             notifications.create().withCaption("Seleccionar un registro").show();
             return;
         }
-        this.deptoProgramadas = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
-        this.deptoPendientes = this.deptoProgramadas;
-        asignacionTareasProgramadasDl.load();
-        asignacionTareasPendientesProgramarDl.load();
+        Ciclo c = at.getOrdenTrabajo().getEntrada().getCiclo();
+        Screen s = screenBuilders.editor(Ciclo.class, this)
+                .withLaunchMode(OpenMode.NEW_TAB)
+                .editEntity(c).build();
+        s.show();
     }
+
+    public void verCicloSeleccionPendientes(){
+        AsignacionTarea at = asignacionTareasPendientesProgramacionTable.getSingleSelected();
+        if (at==null){
+            notifications.create().withCaption("Seleccionar un registro").show();
+            return;
+        }
+        Ciclo c = at.getOrdenTrabajo().getEntrada().getCiclo();
+        Screen s = screenBuilders.editor(Ciclo.class, this)
+                .withLaunchMode(OpenMode.NEW_TAB)
+                .editEntity(c).build();
+        s.show();
+    }
+
+//    public void filtrarTareasSeleccionPendientes(){
+//        AsignacionTarea at = asignacionTareasPendientesProgramacionTable.getSingleSelected();
+//        asignacionTareasProgramadasTable.setSelected(new ArrayList());
+//        if (at==null){
+//            notifications.create().withCaption("Seleccionar un registro").show();
+//            return;
+//        }
+//        this.deptoProgramadas = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+//        this.deptoPendientes = this.deptoProgramadas;
+//        asignacionTareasProgramadasDl.load();
+//        asignacionTareasPendientesProgramarDl.load();
+//    }
 
     @Install(to = "proveedoresAfectadosDl", target = Target.DATA_LOADER)
     private List<Proveedor> proveedoresAfectadosDlLoadDelegate(LoadContext<Proveedor> loadContext) {
@@ -240,10 +288,39 @@ public class CoordinacionAsignacionesTarea extends Screen {
         return l;
     }
 
+    @Install(to = "asignacionTareasFinalizadasDl", target = Target.DATA_LOADER)
+    private List<AsignacionTarea> asignacionTareasFinalizadasDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
+        String query = "select at from test1_AsignacionTarea at WHERE at.fechaFinalizacion is not null and (at.cancelado = false or at.cancelado is null)";
+        List<AsignacionTarea> l = dataManager.load(AsignacionTarea.class).query(query).view("asignacionTarea-view-ext").list();
+        if (this.deptoProgramadas!=null){
+            ArrayList al = new ArrayList();
+            for (int i = 0; i < l.size(); i++) {
+                AsignacionTarea at = l.get(i);
+                if (at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getUuid().compareTo(this.deptoProgramadas.getUuid())==0){
+                    al.add(at);
+                }
+            }
+            l = al;
+        }
+        if (this.proveedor!=null){
+            ArrayList al = new ArrayList();
+            for (int i = 0; i < l.size(); i++) {
+                AsignacionTarea at = l.get(i);
+                if (at.getProveedor().getUuid().compareTo(this.proveedor.getUuid())==0){
+                    al.add(at);
+                }
+
+            }
+            l = al;
+        }
+        return l;
+    }
+
     public void verTareaProgramada(){
         AsignacionTarea at = asignacionTareasProgramadasTable.getSingleSelected();
         if (at==null){
             notifications.create().withCaption("Seleccionar un registro a ver").show();
+            return;
         }
 
         EditorBuilder eb = screenBuilders.editor(AsignacionTarea.class, this)
@@ -255,6 +332,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
         s.addAfterCloseListener(e->{
             asignacionTareasPendientesProgramarDl.load();
             asignacionTareasProgramadasDl.load();
+            asignacionTareasFinalizadasDl.load();
             asignacionTareasProgramadasTable.sort("fechaPrevistoInicio", DataGrid.SortDirection.DESCENDING);
         });
     }
@@ -263,6 +341,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
         AsignacionTarea at = asignacionTareasPendientesProgramacionTable.getSingleSelected();
         if (at==null){
             notifications.create().withCaption("Seleccionar un registro a ver").show();
+            return;
         }
 
 
@@ -275,6 +354,29 @@ public class CoordinacionAsignacionesTarea extends Screen {
         s.addAfterCloseListener(e->{
             asignacionTareasPendientesProgramarDl.load();
             asignacionTareasProgramadasDl.load();
+            asignacionTareasFinalizadasDl.load();
+            asignacionTareasProgramadasTable.sort("fechaPrevistoInicio", DataGrid.SortDirection.DESCENDING);
+        });
+    }
+
+    public void verTareaFinalizada(){
+        AsignacionTarea at = asignacionTareasFinalizadasTable.getSingleSelected();
+        if (at==null){
+            notifications.create().withCaption("Seleccionar un registro a ver").show();
+            return;
+        }
+
+
+        EditorBuilder eb = screenBuilders.editor(AsignacionTarea.class, this)
+                .withLaunchMode(OpenMode.DIALOG)
+                .editEntity(at).withScreenId("test1_AsignacionTarea.edit-ext");
+
+
+        Screen s = eb.build().show();
+        s.addAfterCloseListener(e->{
+            asignacionTareasPendientesProgramarDl.load();
+            asignacionTareasProgramadasDl.load();
+            asignacionTareasFinalizadasDl.load();
             asignacionTareasProgramadasTable.sort("fechaPrevistoInicio", DataGrid.SortDirection.DESCENDING);
         });
     }

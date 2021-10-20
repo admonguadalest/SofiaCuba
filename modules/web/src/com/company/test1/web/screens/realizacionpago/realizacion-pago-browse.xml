@@ -39,6 +39,7 @@
 
                 <column id="identificador"/>
                 <column id="importeTotal"/>
+                <column id="marcaPagadoAdministrador"/>
 
             </columns>
             <rowsCount/>
@@ -49,6 +50,7 @@
                 <button id="removeBtn" caption="Retroceder" invoke="onBtnRetrocederClick"/>
                 <button id="btnDetalle" caption="Detalle RP" invoke="onBtnDetalleRp"/>
                 <button id="btnDownloadSepa" caption="Descargar SEPA" invoke="onBtnDownloadSepaClick"/>
+                <button id="btnMarcaPagoAdministrador" caption="Marca de Pago Administrador" invoke="marcaPagoAdministrador"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">
