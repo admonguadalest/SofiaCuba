@@ -2,8 +2,10 @@ package com.company.test1.web.screens.asignaciontarea;
 
 import com.company.test1.entity.ciclos.AsignacionTarea;
 import com.company.test1.entity.ciclos.Ciclo;
+import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.extroles.Proveedor;
+import com.company.test1.service.ContratosService;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
@@ -16,10 +18,7 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @UiController("test1_CoordinacionAsignacionesTarea")
 @UiDescriptor("coordinacion-asignaciones-tarea.xml")
@@ -58,6 +57,10 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private CollectionLoader<AsignacionTarea> asignacionTareasFinalizadasDl;
     @Inject
     private DataGrid<AsignacionTarea> asignacionTareasFinalizadasTable;
+    @Inject
+    private LookupField<String> lkpVaciosOcupados;
+    @Inject
+    private ContratosService contratosService;
 
     @Subscribe("lkpDepartamentosAfectados")
     public void onLkpDepartamentosAfectadosValueChange(HasValue.ValueChangeEvent<Departamento> event) {
@@ -98,7 +101,18 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
         departamentosAfectadosDl.load();
         proveedoresAfectadosDl.load();
+
+        lkpVaciosOcupados.setOptionsList(Arrays.asList(new String[]{"Todos","Vacíos","Ocupados"}));
+        lkpVaciosOcupados.setValue("Todos");
     }
+
+    @Subscribe("lkpVaciosOcupados")
+    public void onLkpVaciosOcupadosValueChange(HasValue.ValueChangeEvent event) {
+        if (event.isUserOriginated())
+            refrescar();
+    }
+
+
 
     public void refrescar(){
         this.deptoPendientes = null;
@@ -220,6 +234,31 @@ public class CoordinacionAsignacionesTarea extends Screen {
                 deptos.add(d);
             }
         }
+        if (lkpVaciosOcupados.getValue()!=null) {
+            if (lkpVaciosOcupados.getValue().compareTo("Todos") != 0) {
+                ArrayList vacios = new ArrayList();
+                ArrayList ocupados = new ArrayList();
+                for (int i = 0; i < deptos.size(); i++) {
+                    Departamento d = (Departamento) deptos.get(i);
+                    try {
+                        ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d, "_minimal");
+                        if (ci != null) {
+                            ocupados.add(d);
+                        } else {
+                            vacios.add(d);
+                        }
+                    } catch (Exception exc) {
+                        notifications.create().withCaption("Error al consultar contratos asociados").show();
+                        return new ArrayList();
+                    }
+                }
+                if (lkpVaciosOcupados.getValue().compareTo("Vacíos") == 0) {
+                    deptos = vacios;
+                } else {
+                    deptos = ocupados;
+                }
+            }
+        }
         Collections.sort(deptos, new Comparator<Departamento>() {
             public int compare(Departamento d1, Departamento d2){
                 return d1.getNombreDescriptivoCompleto().compareTo(d2.getNombreDescriptivoCompleto());
@@ -229,13 +268,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
     }
 
 
-
-
-
-    @Install(to = "asignacionTareasProgramadasDl", target = Target.DATA_LOADER)
-    private List<AsignacionTarea> asignacionTareasProgramadasDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
-        String query = "select at from test1_AsignacionTarea at WHERE at.fechaPrevistoInicio is not null and (at.cancelado = false or at.cancelado is null) and at.fechaFinalizacion is null";
-        List<AsignacionTarea> l = dataManager.load(AsignacionTarea.class).query(query).view("asignacionTarea-view-ext").list();
+    private List<AsignacionTarea> filtraAsignacionesTareaSegunControles(List<AsignacionTarea> l){
         if (this.deptoProgramadas!=null){
             ArrayList al = new ArrayList();
             for (int i = 0; i < l.size(); i++) {
@@ -257,6 +290,40 @@ public class CoordinacionAsignacionesTarea extends Screen {
             }
             l = al;
         }
+        if (lkpVaciosOcupados.getValue()!=null) {
+            if (lkpVaciosOcupados.getValue().compareTo("Todos") != 0) {
+                ArrayList aatt_vacios = new ArrayList();
+                ArrayList aatt_ocupados = new ArrayList();
+                for (int i = 0; i < l.size(); i++) {
+                    Departamento d = (Departamento) l.get(i).getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+                    try {
+                        ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d, "_minimal");
+                        if (ci != null) {
+                            aatt_ocupados.add(l.get(i));
+                        } else {
+                            aatt_vacios.add(l.get(i));
+                        }
+                    } catch (Exception exc) {
+                        notifications.create().withCaption("Error al consultar contratos asociados").show();
+                        return new ArrayList();
+                    }
+                }
+                if (lkpVaciosOcupados.getValue().compareTo("Vacíos") == 0) {
+                    l = aatt_vacios;
+                } else {
+                    l = aatt_ocupados;
+                }
+            }
+        }
+        return l;
+    }
+
+
+    @Install(to = "asignacionTareasProgramadasDl", target = Target.DATA_LOADER)
+    private List<AsignacionTarea> asignacionTareasProgramadasDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
+        String query = "select at from test1_AsignacionTarea at WHERE at.fechaPrevistoInicio is not null and (at.cancelado = false or at.cancelado is null) and at.fechaFinalizacion is null";
+        List<AsignacionTarea> l = dataManager.load(AsignacionTarea.class).query(query).view("asignacionTarea-view-ext").list();
+        l = filtraAsignacionesTareaSegunControles(l);
         return l;
     }
 
@@ -264,27 +331,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private List<AsignacionTarea> asignacionTareasPendientesProgramarDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
         String query = "select at from test1_AsignacionTarea at WHERE at.fechaPrevistoInicio is null and (at.cancelado = false or at.cancelado is null) and at.fechaFinalizacion is null";
         List<AsignacionTarea> l = dataManager.load(AsignacionTarea.class).query(query).view("asignacionTarea-view-ext").list();
-        if (this.deptoProgramadas!=null){
-            ArrayList al = new ArrayList();
-            for (int i = 0; i < l.size(); i++) {
-                AsignacionTarea at = l.get(i);
-                if (at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getUuid().compareTo(this.deptoProgramadas.getUuid())==0){
-                    al.add(at);
-                }
-            }
-            l = al;
-        }
-        if (this.proveedor!=null){
-            ArrayList al = new ArrayList();
-            for (int i = 0; i < l.size(); i++) {
-                AsignacionTarea at = l.get(i);
-                if (at.getProveedor().getUuid().compareTo(this.proveedor.getUuid())==0){
-                    al.add(at);
-                }
-
-            }
-            l = al;
-        }
+        l = filtraAsignacionesTareaSegunControles(l);
         return l;
     }
 
@@ -292,27 +339,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private List<AsignacionTarea> asignacionTareasFinalizadasDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
         String query = "select at from test1_AsignacionTarea at WHERE at.fechaFinalizacion is not null and (at.cancelado = false or at.cancelado is null)";
         List<AsignacionTarea> l = dataManager.load(AsignacionTarea.class).query(query).view("asignacionTarea-view-ext").list();
-        if (this.deptoProgramadas!=null){
-            ArrayList al = new ArrayList();
-            for (int i = 0; i < l.size(); i++) {
-                AsignacionTarea at = l.get(i);
-                if (at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getUuid().compareTo(this.deptoProgramadas.getUuid())==0){
-                    al.add(at);
-                }
-            }
-            l = al;
-        }
-        if (this.proveedor!=null){
-            ArrayList al = new ArrayList();
-            for (int i = 0; i < l.size(); i++) {
-                AsignacionTarea at = l.get(i);
-                if (at.getProveedor().getUuid().compareTo(this.proveedor.getUuid())==0){
-                    al.add(at);
-                }
-
-            }
-            l = al;
-        }
+        l = filtraAsignacionesTareaSegunControles(l);
         return l;
     }
 

@@ -1745,6 +1745,7 @@
             <property name="excluirDeMonitorizacionEncargado"/>
             <property name="tipoPrivacidad"/>
             <property name="reparacionRehabilitacion"/>
+            <property name="notasIntervenciones" view="_base"/>
         </property>
     </view>
 

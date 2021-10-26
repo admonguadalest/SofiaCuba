@@ -41,6 +41,7 @@
             <hbox spacing="true">
                 <lookupField id="lkpDepartamentosAfectados" caption="Filtrar por Departamento" optionsContainer="departamentosAfectadosDc" captionProperty="nombreDescriptivoCompleto"/>
                 <lookupField id="lkpProveedoresAfectados" caption="Filtrar por Industrial" optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>
+                <lookupField id="lkpVaciosOcupados" caption="Vacios/Ocupados"/>
             </hbox>
 
             <label value="Tareas Programadas"/>

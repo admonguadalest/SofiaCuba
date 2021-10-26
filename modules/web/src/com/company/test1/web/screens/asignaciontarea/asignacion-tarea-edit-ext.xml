@@ -16,11 +16,15 @@
                 </query>
             </loader>
         </collection>
+        <collection id="notasIntervencionDc" class="com.company.test1.entity.ciclos.NotaIntervencion" view="_base">
+            <loader id="notasIntervencionDl"/>
+        </collection>
+
     </data>
     <dialogMode height="700"
                 width="800" resizable="false"/>
     <layout expand="editActions" spacing="true">
-        <scrollBox orientation="vertical" box.expandRatio="90" width="100%" height="550px">
+        <scrollBox orientation="vertical" box.expandRatio="90" width="100%" height="550px" spacing="true">
             <form id="form" dataContainer="asignacionTareaDc" width="100%">
                 <column width="100%">
                     <textField editable="false" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
@@ -36,6 +40,21 @@
 
                 </column>
             </form>
+            <label value="Notas"/>
+            <dataGrid id="dgnotas" width="100%" height="250px" dataContainer="notasIntervencionDc">
+                <actions>
+                    <action id="editar" type="edit" caption="Ver"/>
+                    <action id="crear" type="create" caption="Crear"/>
+                </actions>
+                <buttonsPanel>
+                    <button action="dgnotas.crear"/>
+                    <button action="dgnotas.editar"/>
+                </buttonsPanel>
+                <columns>
+                    <column id="fechaIntervencion" property="fechaIntervencion"/>
+                    <column id="contenido" property="contenido"/>
+                </columns>
+            </dataGrid>
         </scrollBox>
         <hbox id="editActions" spacing="true" box.expandRatio="10">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
