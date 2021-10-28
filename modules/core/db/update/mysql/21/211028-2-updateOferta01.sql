@@ -1,0 +1,2 @@
+alter table OFERTA add constraint FK_OFERTA_ON_DEPARTAMENTO foreign key (DEPARTAMENTO_ID) references DEPARTAMENTO(ID);
+create index IDX_OFERTA_ON_DEPARTAMENTO on OFERTA (DEPARTAMENTO_ID);

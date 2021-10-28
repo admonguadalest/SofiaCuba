@@ -139,6 +139,7 @@
             <item screen="test1_NotificacionGenericaManual" id="notificacion-generica-manual" openType="NEW_TAB"/>
         </menu>
         <item screen="test1_DocumentacionInquilino.browse" id="documentacion-inquilino" openType="NEW_TAB"/>
+        <item screen="test1_Oferta.browse"/>
     </menu>
     <menu id="application-archivo">
         <menu id="administracion-documentos">

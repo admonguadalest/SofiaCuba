@@ -1748,5 +1748,19 @@
             <property name="notasIntervenciones" view="_base"/>
         </property>
     </view>
+    <view entity="test1_Oferta" name="oferta-view">
+        <property name="departamento" view="_base">
+            <property name="ubicacion" view="_base"/>
+        </property>
+        <property name="importeRenta"/>
+        <property name="observaciones"/>
+        <property name="reservas" view="_base">
+            <property name="comercial" view="_base">
+                <property name="proveedor" view="_minimal">
+                    <property name="persona" view="_base"/>
+                </property>
+            </property>
+        </property>
+    </view>
 
 </views>
