@@ -1762,5 +1762,22 @@
             </property>
         </property>
     </view>
+    <view entity="test1_NotaIntervencion" name="notaIntervencion-browse" extends="notaIntervencion-view"
+          systemProperties="true">
+        <property name="ordenTrabajo" view="_minimal">
+            <property name="entrada" view="_minimal">
+                <property name="contenidoEntrada"/>
+                <property name="ciclo" view="_minimal">
+                    <property name="departamento" view="_minimal">
+                        <property name="piso"/>
+                        <property name="puerta"/>
+                        <property name="ubicacion" view="_minimal">
+                            <property name="nombre"/>
+                        </property>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
 
 </views>

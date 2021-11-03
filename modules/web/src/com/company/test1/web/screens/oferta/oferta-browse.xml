@@ -33,7 +33,7 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="departamento"/>
+                <column id="departamento.nombreDescriptivoCompleto"/>
                 <column id="importeRenta"/>
                 <column id="observaciones"/>
             </columns>
