@@ -35,9 +35,12 @@
         </collection>
     </data>
     <layout>
-        <vbox spacing="true">
 
-            <button caption="Refrescar" invoke="refrescar"/>
+        <vbox spacing="true">
+            <hbox spacing="true">
+                <button caption="Refrescar" invoke="refrescar"/>
+                <button caption="Ver Últimas Notas" invoke="verUltimasNotas"/>
+            </hbox>
             <hbox spacing="true">
                 <lookupField id="lkpDepartamentosAfectados" caption="Filtrar por Departamento" optionsContainer="departamentosAfectadosDc" captionProperty="nombreDescriptivoCompleto"/>
                 <lookupField id="lkpProveedoresAfectados" caption="Filtrar por Industrial" optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>

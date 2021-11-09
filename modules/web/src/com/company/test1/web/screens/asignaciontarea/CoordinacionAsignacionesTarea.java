@@ -2,6 +2,7 @@ package com.company.test1.web.screens.asignaciontarea;
 
 import com.company.test1.entity.ciclos.AsignacionTarea;
 import com.company.test1.entity.ciclos.Ciclo;
+import com.company.test1.entity.ciclos.NotaIntervencion;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.extroles.Proveedor;
@@ -127,6 +128,11 @@ public class CoordinacionAsignacionesTarea extends Screen {
         departamentosAfectadosDl.load();
         proveedoresAfectadosDl.load();
         lkpDepartamentosAfectados.setValue(null);
+    }
+
+    public void verUltimasNotas(){
+        screenBuilders.lookup(NotaIntervencion.class, this).withOpenMode(OpenMode.DIALOG)
+                .build().show();
     }
 
 //    public void filtrarTareasSeleccionProgramadas(){

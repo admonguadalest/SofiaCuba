@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://notaIntervencionBrowse.caption"
+        focusComponent="notaIntervencionsTable"
+        messagesPack="com.company.test1.web.screens.notaintervencion">
+    <data readOnly="true">
+        <collection id="notaIntervencionsDc"
+                    class="com.company.test1.entity.ciclos.NotaIntervencion"
+                    view="notaIntervencion-browse">
+            <loader id="notaIntervencionsDl">
+                <query>
+                    <![CDATA[select e from test1_NotaIntervencion e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800" resizable="true"/>
+    <layout expand="notaIntervencionsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="notaIntervencionsTable"
+                dataLoader="notaIntervencionsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="notaIntervencionsTable"
+                    width="100%"
+                    dataContainer="notaIntervencionsDc">
+            <actions>
+                <action id="edit" type="edit"/>
+            </actions>
+            <columns>
+                <column id="createdBy" caption="Modificado Por"/>
+                <column id="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                <column id="fechaIntervencion"/>
+                <column id="contenido"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="editBtn" action="notaIntervencionsTable.edit"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
