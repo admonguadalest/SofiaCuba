@@ -35,6 +35,18 @@ public class Oferta extends StandardEntity {
     @OneToMany(mappedBy = "oferta")
     private List<Reserva> reservas;
 
+    @NotNull
+    @Column(name = "ESTADO_OFERTA", nullable = false)
+    private String estadoOferta;
+
+    public EstadoOfertaEnum getEstadoOferta() {
+        return estadoOferta == null ? null : EstadoOfertaEnum.fromId(estadoOferta);
+    }
+
+    public void setEstadoOferta(EstadoOfertaEnum estadoOferta) {
+        this.estadoOferta = estadoOferta == null ? null : estadoOferta.getId();
+    }
+
     public List<Reserva> getReservas() {
         return reservas;
     }

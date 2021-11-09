@@ -85,7 +85,7 @@ public class Ciclo extends StandardEntity {
     protected String tipoCiclo;
 
     @JoinColumn(name = "CONTRATO_INQUILINO_ID")
-    @Lookup(type = LookupType.SCREEN)
+    @Lookup(type = LookupType.SCREEN, actions = {})
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @OneToOne(fetch = FetchType.LAZY)

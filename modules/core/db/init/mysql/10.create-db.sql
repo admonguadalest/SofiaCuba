@@ -12,6 +12,7 @@ create table OFERTA (
     DEPARTAMENTO_ID varchar(32) not null,
     IMPORTE_RENTA double precision not null,
     OBSERVACIONES longtext,
+    ESTADO_OFERTA varchar(50) not null,
     --
     primary key (ID)
 )^

@@ -23,6 +23,7 @@
                 </pickerField>
                 <textField id="importeRentaField" property="importeRenta"/>
                 <textArea id="observacionesField" property="observaciones" rows="5"/>
+                <lookupField property="estadoOferta" id="estadoOfertaField" optionsEnum="com.company.test1.entity.contratosinquilinos.EstadoOfertaEnum"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

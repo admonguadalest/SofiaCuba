@@ -36,6 +36,7 @@
                 <column id="departamento"/>
                 <column id="importeRenta"/>
                 <column id="observaciones"/>
+                <column id="estadoOferta"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
