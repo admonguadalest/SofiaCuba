@@ -24,6 +24,7 @@
                 <textField id="importeRentaField" property="importeRenta"/>
                 <textArea id="observacionesField" property="observaciones" rows="5"/>
                 <lookupField property="estadoOferta" id="estadoOfertaField" optionsEnum="com.company.test1.entity.contratosinquilinos.EstadoOfertaEnum"/>
+                <pickerField id="comercialField" property="comercialAlquiler" captionProperty="proveedor.persona.nombreCompleto"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

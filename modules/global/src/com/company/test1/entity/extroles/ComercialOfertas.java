@@ -15,7 +15,8 @@ public class ComercialOfertas extends StandardEntity {
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "comercialOfertas")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PROVEEDOR_ID")
     protected Proveedor proveedor;
 
     @Column(name = "RM2ID")

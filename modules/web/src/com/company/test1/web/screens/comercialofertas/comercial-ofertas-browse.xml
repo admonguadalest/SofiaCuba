@@ -28,16 +28,22 @@
                width="100%"
                dataContainer="comercialOfertasesDc">
             <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="proveedor"/>
-                <column id="rm2id"/>
+                <column id="proveedor.persona.nombreCompleto"/>
+
                 <column id="detalleCorreosElectronicos"/>
                 <column id="detalleNombres"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
+                <button id="btncreate" action="comercialOfertasesTable.create"/>
+                <button id="btnedit" action="comercialOfertasesTable.edit"/>
+                <button id="btndelete" action="comercialOfertasesTable.remove"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

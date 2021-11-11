@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://comercialOfertasEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.comercialofertas">
+    <data>
+        <instance id="comercialOfertasDc"
+                  class="com.company.test1.entity.extroles.ComercialOfertas"
+                  view="comercialOfertas-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="comercialOfertasDc">
+            <column width="350px">
+                <pickerField id="proveedorField" property="proveedor" captionProperty="persona.nombreCompleto">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textArea id="detalleCorreosElectronicosField" property="detalleCorreosElectronicos" rows="5"/>
+                <textArea id="detalleNombresField" property="detalleNombres" rows="5"/>
+                <checkBox id="excluirEnviosField" property="excluirEnvios"/>
+                <checkBox id="puedeDarAltaOBajaAgentesField" property="puedeDarAltaOBajaAgentes"/>
+                <pickerField id="escaneoAceptacionField" property="escaneoAceptacion">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textArea id="xmlComercialVisitasField" property="xmlComercialVisitas" rows="5"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

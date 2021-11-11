@@ -13,6 +13,7 @@ create table OFERTA (
     IMPORTE_RENTA double precision not null,
     OBSERVACIONES longtext,
     ESTADO_OFERTA varchar(50) not null,
+    COMERCIAL_ALQUILER_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -205,7 +206,6 @@ create table PROVEEDOR (
     PERSONA_ID varchar(32) not null,
     DESCRIPCION_ACTIVIDAD varchar(255),
     OBSERVACIONES varchar(255),
-    COMERCIAL_OFERTAS_ID varchar(32),
     NOMBRE_COMERCIAL varchar(255),
     CUENTA_BANCARIA_ID varchar(32),
     MODO_DE_PAGO varchar(50),
@@ -1424,6 +1424,7 @@ create table COMERCIAL_OFERTAS (
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
     --
+    PROVEEDOR_ID varchar(32),
     RM2ID integer,
     DETALLE_CORREOS_ELECTRONICOS longtext,
     DETALLE_NOMBRES longtext,

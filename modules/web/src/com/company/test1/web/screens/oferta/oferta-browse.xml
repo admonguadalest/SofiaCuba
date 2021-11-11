@@ -35,6 +35,7 @@
             <columns>
                 <column id="departamento.nombreDescriptivoCompleto"/>
                 <column id="importeRenta"/>
+                <column caption="Comercial" id="comercialAlquiler.proveedor.persona.nombreCompleto"/>
                 <column id="observaciones"/>
                 <column id="estadoOferta"/>
             </columns>

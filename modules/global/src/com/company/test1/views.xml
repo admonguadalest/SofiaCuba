@@ -1761,6 +1761,8 @@
                 </property>
             </property>
         </property>
+        <property name="estadoOferta"/>
+        <property name="comercialAlquiler" view="comercialOfertas-view"/>
     </view>
     <view entity="test1_NotaIntervencion" name="notaIntervencion-browse" extends="notaIntervencion-view"
           systemProperties="true">
@@ -1778,6 +1780,24 @@
                 </property>
             </property>
         </property>
+    </view>
+    <view entity="test1_ComercialOfertas" name="comercialOfertas-view">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nifDni"/>
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="nombreComercial"/>
+        </property>
+        <property name="rm2id"/>
+        <property name="detalleCorreosElectronicos"/>
+        <property name="detalleNombres"/>
+        <property name="excluirEnvios"/>
+        <property name="puedeDarAltaOBajaAgentes"/>
+        <property name="escaneoAceptacion" view="_minimal">
+            <property name="representacionSerial"/>
+        </property>
+        <property name="xmlComercialVisitas"/>
     </view>
 
 </views>

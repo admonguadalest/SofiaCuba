@@ -1,7 +1,10 @@
 package com.company.test1.entity.contratosinquilinos;
 
 import com.company.test1.entity.departamentos.Departamento;
+import com.company.test1.entity.extroles.ComercialOfertas;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
@@ -38,6 +41,21 @@ public class Oferta extends StandardEntity {
     @NotNull
     @Column(name = "ESTADO_OFERTA", nullable = false)
     private String estadoOferta;
+
+    @Lookup(type = LookupType.SCREEN, actions = {})
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMERCIAL_ALQUILER_ID")
+    private ComercialOfertas comercialAlquiler;
+
+    public ComercialOfertas getComercialAlquiler() {
+        return comercialAlquiler;
+    }
+
+    public void setComercialAlquiler(ComercialOfertas comercialAlquiler) {
+        this.comercialAlquiler = comercialAlquiler;
+    }
 
     public EstadoOfertaEnum getEstadoOferta() {
         return estadoOferta == null ? null : EstadoOfertaEnum.fromId(estadoOferta);

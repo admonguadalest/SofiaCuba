@@ -45,8 +45,7 @@ public class Proveedor extends StandardEntity {
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.CASCADE)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMERCIAL_OFERTAS_ID")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "proveedor")
     protected ComercialOfertas comercialOfertas;
 
     @NotNull(message = "Aportar un Nombre Comercial")
