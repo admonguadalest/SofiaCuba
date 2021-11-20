@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://reasignacionEntradas.caption"
+        messagesPack="com.company.test1.web.screens.entrada">
+    <data>
+        <collection id="entradasDc" class="com.company.test1.entity.ciclos.Entrada" view="entrada-view">
+            <loader id="entradasDl" >
+                <query>select e from test1_Entrada e</query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <filter dataLoader="entradasDl" applyTo="entradasTable">
+            <property name="ciclo"/>
+        </filter>
+
+        <dataGrid id="entradasTable" dataContainer="entradasDc" selectionMode="MULTI">
+            <columns>
+                <column id="ciclo.codigoCiclo"></column>
+                <column id="ciclo.departamento.nombreDescriptivoCompleto"/>
+                <column id="evento.nombre"/>
+                <column id="contenidoEntrada"/>
+            </columns>
+        </dataGrid>
+        <label value="Seleccionar ciclo al que reasignar entradas"/>
+        <pickerField metaClass="test1_Ciclo" id="pkrCiclo"/>
+
+        <buttonsPanel>
+            <button caption="Reasignar" invoke="reasignar"/>
+        </buttonsPanel>
+
+    </layout>
+</window>

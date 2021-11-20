@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://registroContrasenaBrowse.caption"
+        focusComponent="registroContrasenasTable"
+        messagesPack="com.company.test1.web.screens.contrsenas">
+    <data readOnly="true">
+        <collection id="registroContrasenasDc"
+                    class="com.company.test1.entity.RegistroContrasena"
+                    view="registroContrasena-browseView">
+            <loader id="registroContrasenasDl">
+                <query>
+                    <![CDATA[select e from test1_RegistroContrasena e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="registroContrasenasTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="registroContrasenasTable"
+                dataLoader="registroContrasenasDl">
+            <properties include=".*"/>
+        </filter>
+        <dataGrid id="registroContrasenasTable"
+                  width="100%"
+                  dataContainer="registroContrasenasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column property="titulo" id="titulo"/>
+                <column property="contenido" id="contenido"/>
+                <column property="privadoPublico" id="privadoPublico"/>
+                <column property="usuario" id="usuario"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="registroContrasenasTable.create"/>
+                <button id="editBtn" action="registroContrasenasTable.edit"/>
+                <button id="removeBtn" action="registroContrasenasTable.remove"/>
+            </buttonsPanel>
+        </dataGrid>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -13,6 +13,8 @@ import javax.persistence.*;
 public class ComercialOfertas extends StandardEntity {
     private static final long serialVersionUID = -8422735330183494469L;
 
+
+
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @OneToOne(fetch = FetchType.LAZY)

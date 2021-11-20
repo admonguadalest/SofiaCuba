@@ -34,6 +34,8 @@
         <menu id="reports_">
             <item screen="test1_FlexReport.browse" id="definicionElementos"/>
         </menu>
+        <item screen="test1_ReasignacionEntradas"/>
+        <item screen="test1_RegistroContrasena.browse"/>
 
 
     </menu>

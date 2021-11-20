@@ -1799,5 +1799,11 @@
         </property>
         <property name="xmlComercialVisitas"/>
     </view>
+    <view entity="test1_RegistroContrasena" name="registroContrasena-browseView">
+        <property name="titulo"/>
+        <property name="contenido"/>
+        <property name="privadoPublico"/>
+        <property name="usuario" view="_minimal"/>
+    </view>
 
 </views>
