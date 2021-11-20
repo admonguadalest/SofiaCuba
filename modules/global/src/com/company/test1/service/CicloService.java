@@ -1,5 +1,6 @@
 package com.company.test1.service;
 
+import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.departamentos.Departamento;
 
 import javax.inject.Inject;
@@ -13,4 +14,5 @@ public interface CicloService{
 
     String calculaNuevoCodigoCiclo(Departamento d) throws Exception;
     String calculaNuevoTituloCiclo(Departamento d) throws Exception;
+    Ciclo devuelveCicloActivoOperativoDeDepartamento(Departamento d ) throws Exception;
 }

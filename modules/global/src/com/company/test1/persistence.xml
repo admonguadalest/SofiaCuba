@@ -90,6 +90,7 @@
         <class>com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico</class>
         <class>com.company.test1.entity.documentosfotograficos.FotoThumbnail</class>
         <class>com.company.test1.entity.contratosinquilinos.Reserva</class>
+        <class>com.company.test1.entity.RegistroContrasena</class>
 
 
     </persistence-unit>

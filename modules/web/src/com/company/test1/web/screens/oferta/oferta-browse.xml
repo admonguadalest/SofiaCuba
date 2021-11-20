@@ -45,6 +45,7 @@
                 <button id="createBtn" action="ofertasTable.create"/>
                 <button id="editBtn" action="ofertasTable.edit"/>
                 <button id="removeBtn" action="ofertasTable.remove"/>
+                <button id="cicloBtn" invoke="verCicloDeOferta" caption="Ver Ciclo"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
