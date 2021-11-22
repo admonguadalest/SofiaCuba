@@ -1805,5 +1805,28 @@
         <property name="privadoPublico"/>
         <property name="usuario" view="_minimal"/>
     </view>
+    <view entity="test1_Inversion" name="estudioInversion-browseView">
+        <property name="titulo"/>
+        <property name="fechaEntrada"/>
+        <property name="tipo"/>
+        <property name="direccion1"/>
+        <property name="direccion2"/>
+        <property name="linkMaps"/>
+        <property name="mediador" view="_minimal">
+            <property name="nombre"/>
+            <property name="nifDni"/>
+            <property name="nombreCompleto"/>
+        </property>
+        <property name="exposicion"/>
+        <property name="coleccionArchivosAdjuntos" view="_minimal">
+            <property name="nombre"/>
+            <property name="colecciones" view="_minimal"/>
+            <property name="archivos" view="_base"/>
+            <property name="coleccionParent" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="test1_Inversion" name="estudioInversion-view" extends="estudioInversion-browseView">
+
+    </view>
 
 </views>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://estudioInversionBrowse.caption"
+        focusComponent="estudioInversionsTable"
+        messagesPack="com.company.test1.web.screens.estudioinversion">
+    <data readOnly="true">
+        <collection id="estudioInversionsDc"
+                    class="com.company.test1.entity.EstudioInversion"
+                    view="estudioInversion-browseView">
+            <loader id="estudioInversionsDl">
+                <query>
+                    <![CDATA[select e from test1_Inversion e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="estudioInversionsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="estudioInversionsTable"
+                dataLoader="estudioInversionsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="estudioInversionsTable"
+                    width="100%"
+                    dataContainer="estudioInversionsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="titulo"/>
+                <column id="tipo"/>
+                <column id="direccion1"/>
+                <column id="direccion2"/>
+                <column id="linkMaps"/>
+                <column id="mediador"/>
+                <column id="exposicion"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="estudioInversionsTable.create"/>
+                <button id="editBtn" action="estudioInversionsTable.edit"/>
+                <button id="removeBtn" action="estudioInversionsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

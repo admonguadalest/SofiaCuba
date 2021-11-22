@@ -91,6 +91,7 @@
         <class>com.company.test1.entity.documentosfotograficos.FotoThumbnail</class>
         <class>com.company.test1.entity.contratosinquilinos.Reserva</class>
         <class>com.company.test1.entity.RegistroContrasena</class>
+        <class>com.company.test1.entity.EstudioInversion</class>
 
 
     </persistence-unit>

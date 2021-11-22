@@ -78,6 +78,7 @@
         <item screen="test1_Proveedor.browse"/>
         <item screen="test1_Propietario.browse"/>
         <item screen="test1_ComercialOfertas.browse"/>
+        <item screen="test1_Inversion.browse"/>
     </menu>
     <menu id="contratacion" insertAfter="application-test1">
         <item screen="test1_DepartamentoVacio.browse"/>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://estudioInversionEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.estudioinversion">
+    <data>
+        <instance id="estudioInversionDc"
+                  class="com.company.test1.entity.EstudioInversion"
+                  view="estudioInversion-browseView">
+            <loader id="estudioInversionDl"/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="estudioInversionDc" width="100%">
+            <column width="100%">
+                <textField id="tituloField" property="titulo" width="100%"/>
+                <textField id="tipoField" property="tipo" width="100%"/>
+                <dateField id="fechaEntradaField" property="fechaEntrada"/>
+                <textField id="direccion1Field" property="direccion1" width="100%"/>
+                <textField id="direccion2Field" property="direccion2" width="100%"/>
+                <hbox caption="Enlace Maps" width="100%" spacing="true">
+                    <textArea id="linkMapsField" dataContainer="estudioInversionDc" property="linkMaps" width="100%" rows="4"/>
+                    <button caption="Ver Enlace" invoke="verEnlace" align="TOP_LEFT"/>
+                </hbox>
+
+                <pickerField id="mediadorField" property="mediador" captionProperty="nombreCompleto" width="100%">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+
+                <richTextArea id="exposicionField" property="exposicion" width="100%"/>
+                <fragment width="100%" caption="Adjuntos" screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
