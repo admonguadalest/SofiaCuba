@@ -34,7 +34,6 @@
             </actions>
             <columns>
                 <column property="titulo" id="titulo"/>
-                
                 <column property="privadoPublico" id="privadoPublico"/>
                 <column property="usuario" id="usuario"/>
             </columns>

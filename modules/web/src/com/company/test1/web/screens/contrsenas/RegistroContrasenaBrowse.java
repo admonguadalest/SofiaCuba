@@ -8,4 +8,7 @@ import com.company.test1.entity.RegistroContrasena;
 @LookupComponent("registroContrasenasTable")
 @LoadDataBeforeShow
 public class RegistroContrasenaBrowse extends StandardLookup<RegistroContrasena> {
+
+
+
 }
