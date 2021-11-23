@@ -51,14 +51,18 @@
         <buttonsPanel>
             <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
             <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionProgramadas"/>
+            <button caption="Imprimir" icon="font-icon:PRINT" id="printProgramadas" invoke="reportTareasProgramadas"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
             <actions>
                 <action id="edit"/>
+
+
+
             </actions>
             <columns>
                 <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
-                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                <column id="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
                 <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
                 <column id="fechaFinalizacion" property="fechaFinalizacion"/>
                 <column id="descripcion" property="descripcion"/>
@@ -70,6 +74,7 @@
         <buttonsPanel>
             <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
             <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionPendientes"/>
+            <button caption="Imprimir" icon="font-icon:PRINT" id="printPendientes" invoke="reportTareasPendientes"/>
         </buttonsPanel>
         <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
             <actions>

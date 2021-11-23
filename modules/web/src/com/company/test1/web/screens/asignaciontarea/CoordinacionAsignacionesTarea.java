@@ -9,14 +9,25 @@ import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.service.ContratosService;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.builders.EditorBuilder;
-import com.haulmont.cuba.gui.components.DataGrid;
-import com.haulmont.cuba.gui.components.HasValue;
-import com.haulmont.cuba.gui.components.LookupField;
+import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
+import com.haulmont.cuba.gui.export.ExportDisplay;
+import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
+import com.haulmont.reports.entity.ParameterType;
+import com.haulmont.reports.entity.Report;
+import com.haulmont.reports.entity.ReportInputParameter;
+import com.haulmont.reports.entity.ReportOutputType;
+import com.haulmont.reports.gui.ReportGuiManager;
+import com.haulmont.reports.gui.actions.TablePrintFormAction;
+import com.haulmont.yarg.reporting.ReportOutputDocument;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -33,14 +44,18 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private DataGrid<AsignacionTarea> asignacionTareasProgramadasTable;
     @Inject
     private CollectionLoader<AsignacionTarea> asignacionTareasPendientesProgramarDl;
-
+    @Inject
+    private CollectionContainer<AsignacionTarea> asignacionTareasProgramadasDc;
+    @Inject
+    private CollectionContainer<AsignacionTarea> asignacionTareasPendientesProgramarDc;
     @Inject
     private DataGrid<AsignacionTarea> asignacionTareasPendientesProgramacionTable;
     @Inject
     private Notifications notifications;
     @Inject
     private ScreenBuilders screenBuilders;
-
+    @Inject
+    private Button printProgramadas;
     private Departamento deptoProgramadas = null;
     private Departamento deptoPendientes = null;
     private Proveedor proveedor = null;
@@ -62,6 +77,14 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private LookupField<String> lkpVaciosOcupados;
     @Inject
     private ContratosService contratosService;
+    @Inject
+    private ReportGuiManager reportGuiManager;
+    @Inject
+    private UserSession userSession;
+    @Inject
+    private Metadata metadata;
+    @Inject
+    private ExportDisplay exportDisplay;
 
     @Subscribe("lkpDepartamentosAfectados")
     public void onLkpDepartamentosAfectadosValueChange(HasValue.ValueChangeEvent<Departamento> event) {
@@ -90,6 +113,32 @@ public class CoordinacionAsignacionesTarea extends Screen {
         asignacionTareasFinalizadasDl.load();
     }
 
+    public void reportTareasProgramadas(){
+        Report r = dataManager.load(Report.class).query("select r from report$Report r " +
+                "where r.name = :rn").parameter("rn", "Listado Tareas")
+                .one();
+        HashMap pams = new HashMap();
+        pams.put("entities", asignacionTareasProgramadasDc.getItems());
+        pams.put("TITULO", "TAREAS PROGRAMADAS");
+        pams.put("FECHA_REPORT", new Date());
+        ReportOutputDocument rod = reportGuiManager.getReportResult(r, pams, null);
+        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Tareas Programadas.pdf");
+        int y = 2;
+    }
+
+    public void reportTareasPendientes(){
+        Report r = dataManager.load(Report.class).query("select r from report$Report r " +
+                "where r.name = :rn").parameter("rn", "Listado Tareas")
+                .one();
+        HashMap pams = new HashMap();
+        pams.put("entities", asignacionTareasPendientesProgramarDc.getItems());
+        pams.put("TITULO", "TAREAS PENDIENTES");
+        pams.put("FECHA_REPORT", new Date());
+        ReportOutputDocument rod = reportGuiManager.getReportResult(r, pams, null);
+        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Tareas Programadas.pdf");
+        int y = 2;
+    }
+
 
 
 
@@ -105,6 +154,9 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
         lkpVaciosOcupados.setOptionsList(Arrays.asList(new String[]{"Todos","Vacíos","Ocupados"}));
         lkpVaciosOcupados.setValue("Todos");
+
+
+
     }
 
     @Subscribe("lkpVaciosOcupados")
