@@ -1,4 +1,4 @@
-create table TEST1_REGISTRO_CONTRASENA (
+create table TEST1_MAILING_LIST (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -8,10 +8,10 @@ create table TEST1_REGISTRO_CONTRASENA (
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
     --
-    TITULO varchar(255) not null,
-    CONTENIDO longtext not null,
-    PRIVADO_PUBLICO boolean not null,
-    USUARIO_ID varchar(32) not null,
+    NOMBRE varchar(255),
+    DESCRIPCION longtext,
+    COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32) not null,
+    COMMA_SEPARATED_MAILING_LIST longtext,
     --
     primary key (ID)
 );

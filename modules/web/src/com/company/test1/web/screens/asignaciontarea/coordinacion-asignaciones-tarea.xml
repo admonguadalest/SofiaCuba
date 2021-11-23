@@ -79,6 +79,7 @@
         <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
             <actions>
                 <action id="edit"/>
+
             </actions>
             <columns>
                 <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://mailingListEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.mailinglist">
+    <data>
+        <instance id="mailingListDc"
+                  class="com.company.test1.entity.MailingList"
+                  view="mailingList-editView">
+            <loader id="mailingListDl"/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="mailingListDc" width="100%">
+            <column width="100%">
+                <textField id="nombreField" property="nombre"/>
+                <textArea id="descripcionField" property="descripcion" rows="5" width="100%"/>
+                <textArea id="commaSeparatedMailingListField" property="commaSeparatedMailingList" rows="10" width="100%"/>
+                <fragment width="100%" caption="Adjuntos" screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
