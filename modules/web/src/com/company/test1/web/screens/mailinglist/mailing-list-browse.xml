@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://mailingListBrowse.caption"
+        focusComponent="mailingListsTable"
+        messagesPack="com.company.test1.web.screens.mailinglist">
+    <data readOnly="true">
+        <collection id="mailingListsDc"
+                    class="com.company.test1.entity.MailingList"
+                    view="mailingList-browseView">
+            <loader id="mailingListsDl">
+                <query>
+                    <![CDATA[select e from test1_MailingList e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="mailingListsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="mailingListsTable"
+                dataLoader="mailingListsDl">
+            <properties include=".*"/>
+        </filter>
+        <dataGrid id="mailingListsTable"
+                  width="100%"
+                  dataContainer="mailingListsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column property="nombre" id="nombre"/>
+                <column property="descripcion" id="descripcion"/>
+                <column property="commaSeparatedMailingList" id="commaSeparatedMailingList"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="mailingListsTable.create"/>
+                <button id="editBtn" action="mailingListsTable.edit"/>
+                <button id="removeBtn" action="mailingListsTable.remove"/>
+            </buttonsPanel>
+        </dataGrid>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

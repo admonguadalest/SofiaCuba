@@ -1788,3 +1788,46 @@ create table TEST1_REGISTRO_CONTRASENA (
     primary key (ID)
 )^
 -- end TEST1_REGISTRO_CONTRASENA
+-- begin TEST1_MAILING_LIST
+create table TEST1_MAILING_LIST (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    NOMBRE varchar(255),
+    DESCRIPCION longtext,
+    COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32) not null,
+    COMMA_SEPARATED_MAILING_LIST longtext,
+    --
+    primary key (ID)
+)^
+-- end TEST1_MAILING_LIST
+-- begin TEST1_INVERSION
+create table TEST1_INVERSION (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    TITULO varchar(255),
+    TIPO varchar(255),
+    FECHA_ENTRADA date not null,
+    DIRECCION1 varchar(255),
+    DIRECCION2 varchar(255),
+    LINK_MAPS varchar(255),
+    MEDIADOR_ID varchar(32) not null,
+    COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32),
+    EXPOSICION longtext,
+    --
+    primary key (ID)
+)^
+-- end TEST1_INVERSION

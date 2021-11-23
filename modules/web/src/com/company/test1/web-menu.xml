@@ -36,6 +36,8 @@
         </menu>
         <item screen="test1_ReasignacionEntradas"/>
         <item screen="test1_RegistroContrasena.browse"/>
+        <item screen="test1_MailingList.browse"/>
+        <item screen="test1_AccionMailing"/>
 
 
     </menu>

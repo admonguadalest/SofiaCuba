@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://accionMailing.caption"
+        messagesPack="com.company.test1.web.screens.mailinglist">
+    <layout expand="vbox" spacing="true">
+        <vbox id="vbox" spacing="true">
+            <vbox spacing="true" height="100%" expand="rtaContent">
+                <pickerField captionProperty="nombre" caption="Mailing List" metaClass="test1_MailingList" id="pkrMailingList"/>
+                <textField id="txtSubject" caption="Titulo/Sujeto del Mensaje"/>
+                <pickerField metaClass="test1_Plantilla" id="pkrPlantilla" caption="Plantilla Contenido"/>
+                <label value="Mails"></label>
+                <label id="lblmails"/>
+                <richTextArea id="rtaContent" width="100%" caption="Contenido"/>
+            </vbox>
+        </vbox>
+        <buttonsPanel>
+            <button id="btnGenerar" caption="Generar Mailing"/>
+            <button id="btnCerrar" caption="Cerrar"/>
+        </buttonsPanel>
+    </layout>
+</window>

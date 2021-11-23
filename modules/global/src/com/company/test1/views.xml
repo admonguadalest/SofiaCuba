@@ -1828,5 +1828,17 @@
     <view entity="test1_Inversion" name="estudioInversion-view" extends="estudioInversion-browseView">
 
     </view>
+    <view entity="test1_MailingList" name="mailingList-browseView">
+        <property name="nombre"/>
+        <property name="descripcion"/>
+        <property name="coleccionArchivosAdjuntos" view="_base"/>
+        <property name="commaSeparatedMailingList"/>
+    </view>
+    <view entity="test1_MailingList" name="mailingList-editView">
+        <property name="nombre"/>
+        <property name="descripcion"/>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="commaSeparatedMailingList"/>
+    </view>
 
 </views>
