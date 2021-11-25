@@ -16,6 +16,7 @@ import com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograf
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.service.CicloService;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
+import com.company.test1.service.JasperReportService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.documentosfotograficos.CarpetaDocumentosFotograficosEdit;
 import com.company.test1.web.screens.documentosfotograficos.VisorDocumentosFotograficos;
@@ -97,6 +98,8 @@ public class CicloEdit extends StandardEditor<Ciclo> {
 
     @Inject
     private LookupField<Proveedor> lkpProveedoresImputaciones;
+    @Inject
+    private JasperReportService jasperReportService;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -346,6 +349,22 @@ public class CicloEdit extends StandardEditor<Ciclo> {
         entradasDl.load();
         imputacionDocumentoImputablesDl.load();
         carpetaDocumentosFotograficosDl.load();
+    }
+
+    public void imprimirCarpetaDoctosFotograficos(){
+        byte[] bb = new byte[0];
+        try {
+            CarpetaDocumentosFotograficos cdf = carpetaDocumentosFotograficosesTable.getSingleSelected();
+            if (cdf == null){
+                notifications.create().withCaption("Seleccionar Carpeta").show();
+                return;
+            }
+            bb = jasperReportService.realizaImpresionDocumentoFotografico(cdf);
+        } catch (Exception e) {
+            notifications.create().withCaption("Error").withDescription(e.getMessage()).show();
+            e.printStackTrace();
+        }
+        exportDisplay.show(new ByteArrayDataProvider(bb), "Imprimibles.pdf");
     }
 
 
