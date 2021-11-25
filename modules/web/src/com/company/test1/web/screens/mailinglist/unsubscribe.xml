@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Darse de Baja"
+        messagesPack="com.company.generictests.web.screens">
+    <layout>
+        <vbox spacing="true">
+            <vbox spacing="true" width="50%" align="TOP_CENTER" css="border: 1pt solid gray;
+border-radius: 5pt;
+padding: 20pt;
+background-color: white;
+margin-top: 150px;">
+                <image css="width: 550px;
+height: 150px;object-fit: contain;">
+                    <relativePath path="VAADIN/LogoGuadalestMini.jpg"/>
+                </image>
+                <label value="Por favor ingrese la dirección de correo de la que desea darse de baja para futuras notificaciones.">
+
+                </label>
+                <textField id="txtemail"/>
+                <button id="unsubscribeBtn" caption="Darme de baja"/>
+            </vbox>
+        </vbox>
+    </layout>
+</window>
