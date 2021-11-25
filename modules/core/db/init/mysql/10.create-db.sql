@@ -1827,6 +1827,9 @@ create table TEST1_INVERSION (
     MEDIADOR_ID varchar(32) not null,
     COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32),
     EXPOSICION longtext,
+    TOTAL_EDIFICABILIDAD_SOBRE_RASANTE_M2 varchar(255),
+    TOTAL_EDIFICABILIDAD_BAJO_RASANTE_M2 varchar(255),
+    PRECIO_INICIAL double precision,
     --
     primary key (ID)
 )^

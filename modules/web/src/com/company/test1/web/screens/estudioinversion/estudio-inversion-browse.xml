@@ -35,11 +35,11 @@
             <columns>
                 <column id="titulo"/>
                 <column id="tipo"/>
-                <column id="direccion1"/>
                 <column id="direccion2"/>
                 <column id="fechaEntrada"/>
                 <column id="mediador"/>
-
+                <column id="totalEdificabilidadSobreRasanteM2"/>
+                <column id="precioInicial"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

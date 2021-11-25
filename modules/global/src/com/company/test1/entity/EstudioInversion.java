@@ -44,6 +44,39 @@ public class EstudioInversion extends StandardEntity {
     @Column(name = "EXPOSICION")
     private String exposicion;
 
+    @Column(name = "TOTAL_EDIFICABILIDAD_SOBRE_RASANTE_M2")
+    private String totalEdificabilidadSobreRasanteM2;
+
+    @Column(name = "TOTAL_EDIFICABILIDAD_BAJO_RASANTE_M2")
+    private String totalEdificabilidadBajoRasanteM2;
+
+    @Column(name = "PRECIO_INICIAL")
+    private Double precioInicial;
+
+    public Double getPrecioInicial() {
+        return precioInicial;
+    }
+
+    public void setPrecioInicial(Double precioInicial) {
+        this.precioInicial = precioInicial;
+    }
+
+    public String getTotalEdificabilidadBajoRasanteM2() {
+        return totalEdificabilidadBajoRasanteM2;
+    }
+
+    public void setTotalEdificabilidadBajoRasanteM2(String totalEdificabilidadBajoRasanteM2) {
+        this.totalEdificabilidadBajoRasanteM2 = totalEdificabilidadBajoRasanteM2;
+    }
+
+    public String getTotalEdificabilidadSobreRasanteM2() {
+        return totalEdificabilidadSobreRasanteM2;
+    }
+
+    public void setTotalEdificabilidadSobreRasanteM2(String totalEdificabilidadSobreRasanteM2) {
+        this.totalEdificabilidadSobreRasanteM2 = totalEdificabilidadSobreRasanteM2;
+    }
+
     public Date getFechaEntrada() {
         return fechaEntrada;
     }
