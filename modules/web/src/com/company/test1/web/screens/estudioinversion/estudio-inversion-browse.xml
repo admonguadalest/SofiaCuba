@@ -37,9 +37,9 @@
                 <column id="tipo"/>
                 <column id="direccion1"/>
                 <column id="direccion2"/>
-                <column id="linkMaps"/>
+                <column id="fechaEntrada"/>
                 <column id="mediador"/>
-                <column id="exposicion"/>
+
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

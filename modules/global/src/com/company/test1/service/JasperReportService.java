@@ -5,6 +5,7 @@ import com.company.test1.entity.contratosinquilinos.Anexo;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
+import com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos;
 import com.company.test1.entity.enums.DocumentoImputableTipoEnum;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.ordenespago.RealizacionPago;
@@ -58,4 +59,6 @@ public interface JasperReportService {
     public byte[] generaReportModeloRenunciaContratoInquilino(ContratoInquilino ci) throws Exception;
 
     public byte[] generaReportValidacionesIdis(List<ValidacionImputacionDocumentoImputable> l, DocumentoImputableTipoEnum tipo, Date fechaInicial, Date fechaFinal) throws Exception;
+
+    public byte[] realizaImpresionDocumentoFotografico(CarpetaDocumentosFotograficos cdf) throws Exception;
 }

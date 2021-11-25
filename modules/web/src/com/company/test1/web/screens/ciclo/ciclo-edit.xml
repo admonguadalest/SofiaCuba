@@ -145,6 +145,7 @@
                                     <button id="carpetaDocumentosFotograficosesTableRemoveBtn"
                                             action="carpetaDocumentosFotograficosesTable.remove"/>
                                     <button caption="Visualizar" id="btnVisualizar" invoke="visualizarCarpeta"/>
+                                    <button caption="Imprimir" icon="font-icon:PRINT" id="btnImprimir" invoke="imprimirCarpetaDoctosFotograficos"/>
                                 </buttonsPanel>
                                 <columns>
                                     <column id="nombreCarpeta"/>

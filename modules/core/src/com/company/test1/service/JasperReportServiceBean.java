@@ -1,5 +1,6 @@
 package com.company.test1.service;
 
+import com.company.test1.entity.FotosThumbnailExt;
 import com.company.test1.entity.Persona;
 import com.company.test1.entity.TreeItem;
 import com.company.test1.entity.coeficientes.TipoCoeficiente;
@@ -9,6 +10,9 @@ import com.company.test1.entity.contratosinquilinos.Fianza;
 import com.company.test1.entity.contratosinquilinos.ParametroValorAnexo;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
+import com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos;
+import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
+import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
 import com.company.test1.entity.enums.DocumentoImputableTipoEnum;
 import com.company.test1.entity.enums.NombreTipoDireccion;
 import com.company.test1.entity.extroles.Propietario;
@@ -25,6 +29,7 @@ import com.company.test1.jmx.importadores.reports.FlexReports;
 import com.company.test1.service.accessory.*;
 import com.company.test1.service.accessory.imprimiblescontratoinquilino.AsistenteImpresionContrato;
 import com.company.test1.service.accessory.reportprevisualizacionrecibo.HelperRecibo;
+import com.google.common.io.Resources;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaPropertyPath;
 import com.haulmont.chile.core.model.Session;
@@ -33,10 +38,7 @@ import com.haulmont.cuba.core.Query;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.FileDescriptor;
-import com.haulmont.cuba.core.global.AppBeans;
-import com.haulmont.cuba.core.global.FileLoader;
-import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.MetadataTools;
+import com.haulmont.cuba.core.global.*;
 import net.sf.jasperreports.data.DataSourceCollection;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
@@ -314,6 +316,7 @@ public class JasperReportServiceBean implements JasperReportService {
 
     @Override
     public byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entitiesCollection, List<String> idPaths, List<String> colnames) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("#,##0.00");
         List<Entity> entities = new ArrayList<Entity>(entitiesCollection);
         List<List<String>> rows = new ArrayList<List<String>>();
         for (int i = 0; i < entities.size(); i++) {
@@ -323,6 +326,9 @@ public class JasperReportServiceBean implements JasperReportService {
             for (int j = 0; j < paths.size(); j++) {
                 String s =  paths.get(j);
                 Object o = MyBeanUtils.readBeanPath(entity, s);
+                if (o instanceof Date){
+                    o = sdf.format((Date)o);
+                }
                 if (o!=null){
                     row.add(o.toString());
                 }else{
@@ -1131,6 +1137,64 @@ public class JasperReportServiceBean implements JasperReportService {
             byte[] bb = AsistenteImpresionContrato.realizaImpresion(bools, ci);
             return bb;
 
+    }
+
+    public byte[] realizaImpresionDocumentoFotografico(CarpetaDocumentosFotograficos cdf) throws Exception {
+        List l_iiss = new ArrayList();
+
+        cdf = AppBeans.get(DataManager.class).reload(cdf, "carpetaDocumentosFotograficos-view");
+        if (cdf == null) {
+            throw new Exception("El contratoInquilino no tiene carpeta de documentos fotográficos asociada.");
+        }
+        List<FotoThumbnail> ffth = cdf.getFotosThumbnail();
+        List<FotoDocumentoFotografico> ffdf = cdf.getFotos();
+        String pathMaestro = "ReportDocumentoFotografico.jrxml";
+
+        Object  s = Resources.getResource("/com/company/test1/service/accessory/" + pathMaestro).getContent();
+        JasperDesign designMaestro = JRXmlLoader.load((InputStream)s);
+
+
+
+        try {
+            JasperReport reportMaestro = JasperCompileManager.compileReport(designMaestro);
+            Hashtable pamsReport = new Hashtable();
+
+            for (int i = 0; i * 4 < ffdf.size(); i++) {
+
+                pamsReport.clear();
+//                AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("Logo.jpg");
+//                JRRenderable jrrLogo = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(c.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
+                JRRenderable jrrLogo = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+                pamsReport.put("P_IMAGEN", jrrLogo);
+
+                for (int j = 0; (j < 4) && (4*i+ j < ffdf.size()); j++) {
+//                    FotoThumbnail fotoThumbnail = ffth.get(4*i+ j);
+                    FotoDocumentoFotografico fdf = ffdf.get(4*i+ j);
+//                    byte[] bb = fotoThumbnail.getRepresentacionSerial();
+                    byte[] bb = fdf.getRepresentacionSerial();
+                    if (bb==null){
+                        FotosThumbnailExt fthext = AppBeans.get(ColeccionArchivosAdjuntosService.class).getFotoDocumentoFotograficoExt(fdf);
+                        bb = fthext.getRepresentacionSerial();
+                    }
+//                    BufferedImage bim = javax.imageio.ImageIO.read(new ByteArrayInputStream(fotoThumbnail.getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs())));
+//                    bim = ImageUtils.ensureImageInPortraitMode(bim);
+                    JRRenderable jrr = JRImageRenderer.getInstance(bb);
+                    pamsReport.put("IMAGEN_" + (j+1), jrr);
+                }
+
+                byte[] bytearr = JasperRunManager.runReportToPdf(reportMaestro, pamsReport, new SIJRBeanDataSource(Arrays.asList("")));
+                ByteArrayInputStream bais = new ByteArrayInputStream(bytearr);
+                l_iiss.add(bais);
+            }
+
+            //concatenacion
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PdfUtils.concatPdfs(l_iiss, baos, true);
+            return baos.toByteArray();
+
+        } catch (Exception exc) {
+            throw new Exception("Falló al realizar la impresión de Documentos Fotográficos: " + exc.getMessage());
+        }
     }
 
     public byte[] realizaImpresionAnexo(Anexo a) throws Exception{

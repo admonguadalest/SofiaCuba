@@ -326,6 +326,8 @@ public class AsistenteImpresionContrato {
         }
     }
 
+
+
     private static byte[] realizaImpresionDetalleEntregaLlaves(ContratoInquilino c) throws Exception{
 
         try{
