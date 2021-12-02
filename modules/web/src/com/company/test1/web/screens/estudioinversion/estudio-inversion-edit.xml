@@ -32,9 +32,9 @@
                         <action id="clear" type="picker_clear"/>
                     </actions>
                 </pickerField>
-                <textfield id="fieldTotalEdificabilidadSR" property="totalEdificabilidadSobreRasanteM2"/>
-                <textfield id="fieldTotalEdificabilidadBR" property="totalEdificabilidadBajoRasanteM2"/>
-                <textField id="precioInicial"/>
+                <textField id="fieldTotalEdificabilidadSR" property="totalEdificabilidadSobreRasanteM2"/>
+                <textField id="fieldTotalEdificabilidadBR" property="totalEdificabilidadBajoRasanteM2"/>
+                <textField id="precioInicial" property="precioInicial"/>
 
                 <richTextArea id="exposicionField" property="exposicion" width="100%"/>
                 <fragment width="100%" caption="Adjuntos" screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>

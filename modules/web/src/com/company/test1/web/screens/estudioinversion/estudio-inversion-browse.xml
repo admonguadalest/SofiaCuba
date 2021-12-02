@@ -37,7 +37,7 @@
                 <column id="tipo"/>
                 <column id="direccion2"/>
                 <column id="fechaEntrada"/>
-                <column id="mediador"/>
+                <column id="mediador.nombreCompleto"/>
                 <column id="totalEdificabilidadSobreRasanteM2"/>
                 <column id="precioInicial"/>
             </columns>
