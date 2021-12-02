@@ -326,6 +326,31 @@
     <view entity="test1_Evento" name="evento-view" extends="_local" systemProperties="true">
         <property name="ciclo" view="_minimal"/>
     </view>
+    <view entity="test1_Entrada" name="entrada-reasignacion-view" extends="_base">
+        <property name="ciclo" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+        </property>
+        <property name="evento" view="_base"/>
+    </view>
+    <view entity="test1_ImputacionDocumentoImputable" name="imputacion-reasignacion-view" extends="_base">
+        <property name="ciclo" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+        </property>
+        <property name="evento" view="_base"/>
+        <property name="documentoImputable" view="_base"/>
+    </view>
+    <view entity="test1_CarpetaDocumentosFotograficos" name="cdf-reasignacion-view" extends="_base">
+        <property name="ciclo" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+        </property>
+        <property name="evento" view="_base"/>
+    </view>
     <view entity="test1_Entrada" name="entrada-view" extends="_local">
         <property name="ciclo" view="ciclo-view">
             <property name="eventos" view="_base"/>
@@ -947,6 +972,16 @@
                 <property name="nifDni"/>
                 <property name="nombreCompleto"/>
             </property>
+        </property>
+    </view>
+    <view entity="test1_FacturaProveedor" name="facturaProveedor-reasignaciones-imputaciones-view" extends="_base">
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_Presupuesto" name="presupuesto-reasignaciones-imputaciones-view" extends="_base">
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
         </property>
     </view>
     <view entity="test1_DocumentoProveedor" name="documentoProveedor-view" extends="_local">

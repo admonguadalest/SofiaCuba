@@ -34,7 +34,6 @@
         <menu id="reports_">
             <item screen="test1_FlexReport.browse" id="definicionElementos"/>
         </menu>
-        <item screen="test1_ReasignacionEntradas"/>
         <item screen="test1_RegistroContrasena.browse"/>
         <item screen="test1_MailingList.browse"/>
         <item screen="test1_AccionMailing"/>
@@ -163,6 +162,11 @@
                 <param name="newEntity" value="true"/>
             </item>
             <item screen="test1_CoordinacionAsignacionesTarea"/>
+            <menu id="reasignaciones" description="Reasignaciones">
+                <item screen="test1_ReasignacionEntradas"/>
+                <item screen="test1_ReasignacionImputaciones"/>
+                <item screen="test1_ReasignacionDocumentosFotograficos"/>
+            </menu>
         </menu>
         <menu id="validaciones">
             <item screen="test1_GestionarValidaciones" id="gestionarValidaciones"/>

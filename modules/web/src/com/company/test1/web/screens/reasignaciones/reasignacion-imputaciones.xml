@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Reasignacion Imputaciones"
+        messagesPack="com.company.test1.web.screens.entrada">
+    <data>
+        <collection id="imputacionesDc" class="com.company.test1.entity.ciclos.ImputacionDocumentoImputable" view="imputacion-reasignacion-view">
+            <loader id="imputacionesDl" >
+                <query>select e from test1_ImputacionDocumentoImputable e</query>
+            </loader>
+        </collection>
+    </data>
+    <layout expand="main" spacing="true">
+        <filter id="filter" dataLoader="imputacionesDl" applyTo="imputacionesTable">
+            <property name="ciclo"/>
+        </filter>
+        <vbox id="main" expand="imputacionesTable" spacing="true">
+            <dataGrid id="imputacionesTable" dataContainer="imputacionesDc" width="100%" height="100%" selectionMode="MULTI">
+                <columns>
+                    <column property="documentoImputable.fechaEmision" caption="Fecha Emision Documento"/>
+                    <column property="documentoImputable.nombreProveedor"/>
+                    <column property="ciclo.tituloCiclo" caption="Ciclo"/>
+                    <column property="ciclo.departamento.nombreDescriptivoCompleto" caption="Departamento"/>
+                    <column property="evento.nombre" caption="Evento"/>
+                    <column property="importeImputacion"/>
+                </columns>
+            </dataGrid>
+            <label value="Seleccionar ciclo al que reasignar entradas"/>
+            <pickerField metaClass="test1_Ciclo" id="pkrCiclo" captionProperty="tituloCiclo"/>
+        </vbox>
+        <buttonsPanel>
+            <button caption="Reasignar" invoke="reasignar"/>
+        </buttonsPanel>
+
+    </layout>
+</window>

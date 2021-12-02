@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Reasignacion Documentos Fotograficos"
+        messagesPack="com.company.test1.web.screens.entrada">
+    <data>
+        <collection id="cdfDc" class="com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograficos" view="cdf-reasignacion-view">
+            <loader id="cdfsDl" >
+                <query>select e from test1_CarpetaDocumentosFotograficos e</query>
+            </loader>
+        </collection>
+    </data>
+    <layout expand="main" spacing="true">
+        <filter id="filter" dataLoader="cdfsDl" applyTo="cdfsTable">
+            <property name="ciclo"/>
+        </filter>
+        <vbox id="main" expand="cdfsTable" spacing="true">
+            <dataGrid id="cdfsTable" dataContainer="cdfDc" width="100%" height="100%" selectionMode="MULTI">
+                <columns>
+                    <column id="ciclo.codigoCiclo" caption="Ciclo" property="ciclo.tituloCiclo"></column>
+                    <column id="ciclo.departamento.nombreDescriptivoCompleto" property="ciclo.departamento.nombreDescriptivoCompleto" caption="Departamento"/>
+                    <column id="evento.nombre" property="evento.nombre" caption="Evento"/>
+                    <column id="nombreCarpeta" property="nombreCarpeta" caption="Nombre Carpeta"/>
+                </columns>
+            </dataGrid>
+            <label value="Seleccionar ciclo al que reasignar entradas"/>
+            <pickerField metaClass="test1_Ciclo" id="pkrCiclo" captionProperty="tituloCiclo"/>
+        </vbox>
+        <buttonsPanel>
+            <button caption="Reasignar" invoke="reasignar"/>
+        </buttonsPanel>
+
+    </layout>
+</window>
