@@ -33,6 +33,7 @@
                     <richTextArea property="ordenTrabajo.descripcion" editable="false"/>
                     <textField property="ordenTrabajo.propuestoPor" editable="false"/>
                     <dateField id="fechaPrevistoInicioField" property="fechaPrevistoInicio"/>
+                    <dateField id="fechaPrevistaFinalizacionField" property="fechaPrevista" caption="Fecha Prevista Finalizacion"/>
                     <dateField id="fechaFinalizacionField" property="fechaFinalizacion"/>
                     <textArea id="descripcionField" property="descripcion" rows="5"/>
                     <checkBox id="canceladoField" property="cancelado"/>

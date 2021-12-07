@@ -6,6 +6,8 @@
         <class>com.company.test1.entity.departamentos.UbicacionDeptoTreeItem</class>
         <class>com.company.test1.entity.TreeItem</class>
         <class>com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla</class>
+        <class>com.company.test1.entity.ciclos.gantasignacionestareas.Segment</class>
+        <class>com.company.test1.entity.ciclos.gantasignacionestareas.TaskSpan</class>
     </metadata-model>
 
 </metadata>

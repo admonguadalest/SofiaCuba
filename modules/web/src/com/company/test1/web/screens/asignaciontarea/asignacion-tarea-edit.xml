@@ -27,7 +27,8 @@
                         <action id="lookup" type="picker_lookup"/>
                     </actions>
                 </lookupPickerField>
-                <dateField resolution="DAY" id="fechaPrevistaField" property="fechaPrevista"/>
+                <dateField resolution="DAY" id="fechaPrevistaField" property="fechaPrevistoInicio"/>
+                <dateField resolution="DAY" id="fechaPrevistaFinalizacionField" property="fechaPrevista" caption="Fecha Prevista Final."/>
                 <dateField resolution="DAY" id="fechaFinalizacionField" property="fechaFinalizacion"/>
                 <textArea id="descripcionField" property="descripcion" rows="5"/>
                 <checkBox id="canceladoField" property="cancelado"/>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd"
         caption="msg://coordinacionAsignacionesTarea.caption"
         messagesPack="com.company.test1.web.screens.asignaciontarea">
     <data>
+        <collection id="taskSpanDc" class="com.company.test1.entity.ciclos.gantasignacionestareas.TaskSpan"
+                    view="_base">
+            <loader id="taskSpanDl"/>
+        </collection>
         <collection id="asignacionTareasProgramadasDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
                     view="asignacionTarea-view-ext">
             <loader id="asignacionTareasProgramadasDl">
+
+            </loader>
+        </collection>
+        ganttTareasEnCursoDc
+        <collection id="ganttTareasEnCursoDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
+                    view="asignacionTarea-view-ext">
+            <loader id="ganttTareasEnCursoDl">
 
             </loader>
         </collection>
@@ -15,6 +27,13 @@
 
             </loader>
         </collection>
+        <collection id="ganttTareasPendientesDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
+                    view="asignacionTarea-view-ext">
+            <loader id="ganttTareasPendientesDl">
+
+            </loader>
+        </collection>
+
         <collection id="asignacionTareasFinalizadasDc" class="com.company.test1.entity.ciclos.AsignacionTarea"
                     view="asignacionTarea-view-ext">
             <loader id="asignacionTareasFinalizadasDl">
@@ -35,81 +54,157 @@
         </collection>
     </data>
     <layout>
+        <tabSheet >
+            <tab id="tabTables" caption="Tareas">
+                <vbox spacing="true" css="margin-top: 20px;">
+                    <hbox spacing="true">
+                        <button caption="Refrescar" invoke="refrescar"/>
+                        <button caption="Ver Últimas Notas" invoke="verUltimasNotas"/>
+                    </hbox>
+                    <hbox spacing="true">
+                        <lookupField id="lkpDepartamentosAfectados" caption="Filtrar por Departamento" optionsContainer="departamentosAfectadosDc" captionProperty="nombreDescriptivoCompleto"/>
+                        <lookupField id="lkpProveedoresAfectados" caption="Filtrar por Industrial" optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>
+                        <lookupField id="lkpVaciosOcupados" caption="Vacios/Ocupados"/>
+                    </hbox>
 
-        <vbox spacing="true">
-            <hbox spacing="true">
-                <button caption="Refrescar" invoke="refrescar"/>
-                <button caption="Ver Últimas Notas" invoke="verUltimasNotas"/>
-            </hbox>
-            <hbox spacing="true">
-                <lookupField id="lkpDepartamentosAfectados" caption="Filtrar por Departamento" optionsContainer="departamentosAfectadosDc" captionProperty="nombreDescriptivoCompleto"/>
-                <lookupField id="lkpProveedoresAfectados" caption="Filtrar por Industrial" optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>
-                <lookupField id="lkpVaciosOcupados" caption="Vacios/Ocupados"/>
-            </hbox>
-
-            <label value="Tareas Programadas"/>
-        <buttonsPanel>
-            <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
-            <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionProgramadas"/>
-            <button caption="Imprimir" icon="font-icon:PRINT" id="printProgramadas" invoke="reportTareasProgramadas"/>
-        </buttonsPanel>
-        <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
-            <actions>
-                <action id="edit"/>
+                    <label value="Tareas Programadas"/>
+                <buttonsPanel>
+                    <button caption="Ver Tarea Programada" invoke="verTareaProgramada"/>
+                    <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionProgramadas"/>
+                    <button caption="Imprimir" icon="font-icon:PRINT" id="printProgramadas" invoke="reportTareasProgramadas"/>
+                </buttonsPanel>
+                <dataGrid id="asignacionTareasProgramadasTable" height="250px" width="100%" dataContainer="asignacionTareasProgramadasDc">
+                    <actions>
+                        <action id="edit"/>
 
 
 
-            </actions>
-            <columns>
-                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
-                <column id="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
-                <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
-                <column id="fechaFinalizacion" property="fechaFinalizacion"/>
-                <column id="descripcion" property="descripcion"/>
-                <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+                    </actions>
+                    <columns>
+                        <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                        <column id="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto" property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                        <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
+                        <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                        <column id="descripcion" property="descripcion"/>
+                        <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
 
-            </columns>
-        </dataGrid>
-        <label value="Tareas Pendientes de Programacion"/>
-        <buttonsPanel>
-            <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
-            <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionPendientes"/>
-            <button caption="Imprimir" icon="font-icon:PRINT" id="printPendientes" invoke="reportTareasPendientes"/>
-        </buttonsPanel>
-        <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
-            <actions>
-                <action id="edit"/>
+                    </columns>
+                </dataGrid>
+                <label value="Tareas Pendientes de Programacion"/>
+                <buttonsPanel>
+                    <button caption="Ver Tarea Pendiente de Programar" invoke="verTareaPendiente"/>
+                    <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionPendientes"/>
+                    <button caption="Imprimir" icon="font-icon:PRINT" id="printPendientes" invoke="reportTareasPendientes"/>
+                </buttonsPanel>
+                <dataGrid id="asignacionTareasPendientesProgramacionTable" height="250px" width="100%" dataContainer="asignacionTareasPendientesProgramarDc">
+                    <actions>
+                        <action id="edit"/>
 
-            </actions>
-            <columns>
-                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
-                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
-                <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
-                <column id="fechaFinalizacion" property="fechaFinalizacion"/>
-                <column id="descripcion" property="descripcion"/>
-                <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+                    </actions>
+                    <columns>
+                        <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                        <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                        <column id="fechaPrevistoInicio" property="fechaPrevistoInicio"/>
+                        <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                        <column id="descripcion" property="descripcion"/>
+                        <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
 
-            </columns>
-        </dataGrid>
-            <label value="Tareas Finalizadas"/>
-            <buttonsPanel>
-                <button caption="Ver Tarea Finalizada" invoke="verTareaFinalizada"/>
-                <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionFinalizadas"/>
-            </buttonsPanel>
-            <dataGrid id="asignacionTareasFinalizadasTable" height="250px" width="100%" dataContainer="asignacionTareasFinalizadasDc">
-                <actions>
-                    <action id="edit"/>
-                </actions>
-                <columns>
-                    <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
-                    <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                    </columns>
+                </dataGrid>
+                    <label value="Tareas Finalizadas"/>
+                    <buttonsPanel>
+                        <button caption="Ver Tarea Finalizada" invoke="verTareaFinalizada"/>
+                        <button caption="Ver Ciclo de Tarea" invoke="verCicloSeleccionFinalizadas"/>
+                    </buttonsPanel>
+                    <dataGrid id="asignacionTareasFinalizadasTable" height="250px" width="100%" dataContainer="asignacionTareasFinalizadasDc">
+                        <actions>
+                            <action id="edit"/>
+                        </actions>
+                        <columns>
+                            <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                            <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
 
-                    <column id="fechaFinalizacion" property="fechaFinalizacion"/>
-                    <column id="descripcion" property="descripcion"/>
-                    <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
+                            <column id="fechaFinalizacion" property="fechaFinalizacion"/>
+                            <column id="descripcion" property="descripcion"/>
+                            <column id="acordadoConIndustrial" property="acordadoConIndustrial"/>
 
-                </columns>
-            </dataGrid>
-        </vbox>
+                        </columns>
+                    </dataGrid>
+                </vbox>
+            </tab>
+            <tab id="tabGant" caption="Gantt" spacing="true">
+                <vbox height="675px" spacing="true" expand="hboxGantt">
+                    <hbox width="100%" css="margin-top: 20px;" spacing="true">
+                        <tokenList id="tknProveedores" captionProperty="persona.nombreCompleto" caption="Filtrar Proveedores">
+                            <lookup optionsContainer="proveedoresAfectadosDc" captionProperty="persona.nombreCompleto"/>
+                        </tokenList>
+                        <dataGrid caption="En Curso" id="dataGridTareasEnCursoIndustrialesFiltro" height="200px" width="100%"
+                                  dataContainer="ganttTareasEnCursoDc">
+                            <actions>
+                                <action id="edit" type="edit" openType="DIALOG"/>
+
+                            </actions>
+                            <columns>
+                                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                                <column id="descripcion" property="descripcion"/>
+                            </columns>
+                        </dataGrid>
+                        <dataGrid caption="Pendientes" id="dataGridTareasPendientesIndustrialesFiltro" height="200px" width="100%"
+                                  dataContainer="ganttTareasPendientesDc">
+                            <actions>
+                                <action id="edit" type="edit" openType="DIALOG"/>
+
+                            </actions>
+                            <columns>
+                                <column id="proveedor.persona.nombreCompleto" property="proveedor.persona.nombreCompleto"/>
+                                <column property="ordenTrabajo.entrada.ciclo.departamento.nombreDescriptivoCompleto"/>
+                                <column id="descripcion" property="descripcion"/>
+                            </columns>
+                        </dataGrid>
+                    </hbox>
+                    <hbox id="hboxGantt" expand="ganttChart" width="100%">
+                        <chart:ganttChart id="ganttChart"
+                                          additionalSegmentFields="task"
+                                          balloonDateFormat="JJ:NN"
+                                          brightnessStep="7"
+                                          categoryField="category"
+                                          colorField="color"
+                                          columnWidth="0.5"
+                                          dataContainer="taskSpanDc"
+                                          endDateField="end"
+                                          height="100%"
+                                          marginRight="70"
+                                          period="DAYS"
+                                          rotate="true"
+                                          segmentsField="segments"
+                                          startDate="2021-12-01"
+                                          startDateField="start"
+                                          theme="LIGHT"
+                                          width="100%">
+                            <chart:graph balloonText="&lt;strong&gt;[[task]]&lt;/strong&gt;: [[open]] - [[value]]"
+                                         fillAlphas="1"
+                                         lineAlpha="1"
+                                         lineColor="WHITE"/>
+                            <chart:valueAxis type="DATE"/>
+                            <chart:valueScrollbar autoGridCount="true"
+                                                  color="BLACK"/>
+                            <chart:chartCursor cursorAlpha="0"
+                                               cursorColor="#55bb76"
+                                               fullWidth="true"
+                                               valueLineAlpha="0.5"
+                                               valueBalloonsEnabled="false"
+                                               valueLineBalloonEnabled="true"
+                                               valueLineEnabled="true"
+                                               valueZoomable="true"
+                                               zoomable="false"/>
+                            <chart:export/>
+                        </chart:ganttChart>
+                        <button id="btnRefrescar" icon="font-icon:REFRESH"/>
+                    </hbox>
+
+                </vbox>
+            </tab>
+        </tabSheet>
     </layout>
 </window>

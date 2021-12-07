@@ -34,7 +34,7 @@ public class AsignacionTarea extends StandardEntity {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_PREVISTA")
-    protected Date fechaPrevista;
+    protected Date fechaPrevista; // la uso temporalmente hasta arreglar como fechaPrevistaFinalizacion
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_FINALIZACION")
