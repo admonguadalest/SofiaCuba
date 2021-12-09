@@ -36,7 +36,12 @@ public class Segment extends BaseUuidEntity {
 
     @MetaProperty
     public Date getEnd() {
-        return DateUtils.addDays(getStart(),getDuration());
+        if (getStart()!=null){
+            return DateUtils.addDays(getStart(),getDuration());
+        }else{
+            return null;
+        }
+
     }
 
     public void setStart(Date start) {

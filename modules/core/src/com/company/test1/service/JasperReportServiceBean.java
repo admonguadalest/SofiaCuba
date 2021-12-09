@@ -316,7 +316,7 @@ public class JasperReportServiceBean implements JasperReportService {
 
     @Override
     public byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entitiesCollection, List<String> idPaths, List<String> colnames) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("#,##0.00");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         List<Entity> entities = new ArrayList<Entity>(entitiesCollection);
         List<List<String>> rows = new ArrayList<List<String>>();
         for (int i = 0; i < entities.size(); i++) {
