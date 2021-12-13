@@ -11,7 +11,7 @@
             <image id="image"
                    align="MIDDLE_LEFT"
                    scaleMode="SCALE_DOWN"
-                   stylename="c-app-icon"/>
+                   stylename="c-app-icon"  />
             <menu id="mainMenu"
                   align="MIDDLE_LEFT"/>
             <ftsField id="ftsField"
