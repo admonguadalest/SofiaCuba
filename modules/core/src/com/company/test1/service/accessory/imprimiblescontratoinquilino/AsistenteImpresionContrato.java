@@ -18,6 +18,7 @@ import java.util.*;
 
 import com.company.test1.StringUtils;
 import com.company.test1.entity.ArchivoAdjunto;
+import com.company.test1.entity.ArchivoAdjuntoExt;
 import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.FotosThumbnailExt;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
@@ -40,6 +41,7 @@ import com.company.test1.service.accessory.PdfUtils;
 import com.company.test1.service.accessory.SIJRBeanDataSource;
 import com.google.common.io.Resources;
 import com.haulmont.cuba.core.Persistence;
+import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import net.sf.jasperreports.engine.*;
@@ -380,8 +382,13 @@ public class AsistenteImpresionContrato {
                 if (ch==null){
                     throw new Exception("El departamento no tiene cedula de habitabilidad");
                 }
+                Transaction t = AppBeans.get(Persistence.class).createTransaction();
                 ch = AppBeans.get(Persistence.class).getEntityManager().reload(ch, "cedulaHabitabilidad-view");
-                byte[] bb = ch.getEscaneoCedula().getRepresentacionSerial();
+                t.close();
+                ArchivoAdjuntoExt aaext = AppBeans.get(ColeccionArchivosAdjuntosService.class).getArchivoAdjuntoExt(ch.getEscaneoCedula());
+                byte[] bb = aaext.getRepresentacionSerial();
+                bb = Base64.getMimeDecoder().decode(bb);
+                bb = Base64.getMimeDecoder().decode(bb);
 //                BufferedImage bim = javax.imageio.ImageIO.read(new ByteArrayInputStream(ch.getEscaneoCedula().getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs())));
                 JRRenderable jrr = JRImageRenderer.getInstance(bb);
                 pams.put("IMAGEN_CH", jrr);
@@ -455,13 +462,21 @@ public class AsistenteImpresionContrato {
     private static byte[] realizaImpresionCertificadoCalificacionEnergetica (ContratoInquilino c) throws Exception{
         Departamento d = c.getDepartamento();
         CertificadoCalificacionEnergetica cce = Departamento.getCerficadoMasVigente(d);
+        Transaction t = AppBeans.get(Persistence.class).createTransaction();
+        cce = AppBeans.get(Persistence.class).getEntityManager()
+                .reload(cce, "certificadoCalificacionEnergetica-view");
+        t.close();
         try {
             if ((cce == null) || (cce.getArchivoAdjunto() == null)) {
                 return new byte[]{};
             }
 
+
             ArchivoAdjunto aa = cce.getArchivoAdjunto();
-            byte[] bb = aa.getRepresentacionSerial();
+            ArchivoAdjuntoExt aaext = AppBeans.get(ColeccionArchivosAdjuntosService.class).getArchivoAdjuntoExt(aa);
+            byte[] bb = aaext.getRepresentacionSerial();
+            bb = Base64.getMimeDecoder().decode(bb);
+            bb = Base64.getMimeDecoder().decode(bb);
 
             return bb;
         } catch (Exception ex) {
