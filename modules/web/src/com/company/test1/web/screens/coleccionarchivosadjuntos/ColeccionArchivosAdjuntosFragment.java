@@ -73,6 +73,14 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
     @Inject
     private FileMultiUploadField multiUploadField;
 
+    public InstanceContainer<ColeccionArchivosAdjuntos> getColeccionArchivosAdjuntosDc(){
+        return coleccionArchivosAdjuntosDc;
+    }
+
+    public CollectionContainer<ArchivoAdjunto> getArchivosAdjuntosDc(){
+        return archivosAdjuntosDc;
+    }
+
     @Subscribe(target = Target.PARENT_CONTROLLER)
     private void onAfterShowHost(Screen.AfterShowEvent event) {
 

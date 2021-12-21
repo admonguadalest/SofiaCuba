@@ -2,8 +2,12 @@
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         caption="msg://accionMailing.caption"
         messagesPack="com.company.test1.web.screens.mailinglist">
+    <data>
+        <instance id="coleccionArchivosAdjuntosDc" class="com.company.test1.entity.ColeccionArchivosAdjuntos"
+                  view="coleccionArchivosAdjuntos-view"/>
+    </data>
     <layout expand="vbox" spacing="true">
-        <vbox id="vbox" spacing="true">
+        <scrollBox id="vbox" spacing="true">
             <vbox spacing="true" height="100%" expand="rtaContent">
                 <pickerField captionProperty="nombre" caption="Mailing List" metaClass="test1_MailingList" id="pkrMailingList"/>
                 <textField id="txtSubject" caption="Titulo/Sujeto del Mensaje"/>
@@ -11,8 +15,10 @@
                 <label value="Mails"></label>
                 <label id="lblmails"/>
                 <richTextArea id="rtaContent" width="100%" caption="Contenido"/>
+                <label id="lblAdjuntos" value="Adjuntos"/>
+                <fragment screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment" />
             </vbox>
-        </vbox>
+        </scrollBox>
         <buttonsPanel>
             <button id="btnGenerar" caption="Generar Mailing"/>
             <button id="btnCerrar" caption="Cerrar"/>
