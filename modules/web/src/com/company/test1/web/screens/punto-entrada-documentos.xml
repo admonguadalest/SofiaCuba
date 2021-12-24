@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://puntoEntradaDocumentos.caption"
+        messagesPack="com.company.test1.web.screens">
+    <data>
+        <collection id="mailsDc" class="com.company.test1.entity.MailStructure" view="_base">
+            <loader id="mailsDl"/>
+        </collection>
+    </data>
+    <layout expand="main">
+        <vbox id="main" expand="splt">
+            <split id="splt" width="100%" height="100%" orientation="horizontal">
+                <split id="splt2" width="100%" height="100%" orientation="vertical">
+                    <scrollBox id="mailslist" width="100%" height="100%">
+                        <dataGrid dataContainer="mailsDc" id="dataGridMails" width="100%">
+                            <columns>
+                                <column property="from" caption="De:"></column>
+                                <column property="sentDate" caption="Fecha"></column>
+                                <column property="subject" caption="Sujeto"></column>
+                                <column property="contentDisplay" caption="Mensaje"></column>
+                                <column property="numOfAttachments" caption="Adjuntos"/>
+                            </columns>
+                        </dataGrid>
+                    </scrollBox>
+                    <split width="100%" height="100%" orientation="horizontal">
+                        <browserFrame id="brwMailPreview" width="100%" height="100%">
+
+                        </browserFrame>
+                        <vbox id="vboxAttachments" width="100%">
+
+                        </vbox>
+                    </split>
+
+                </split>
+                <vbox height="100%">
+                    <browserFrame id="brwAttachmentPreview" width="100%" box.expandRatio="95" height="100%"/>
+                    <buttonsPanel box.expandRatio="5">
+                        <button id="btnNuevaFactura" caption="Usar Adjunto para nueva Factura"></button>
+                        <button id="btnNuevoPpto" caption="Usar Adjunto para nuevo Presupuesto"></button>
+                    </buttonsPanel>
+                </vbox>
+
+
+
+            </split>
+        </vbox>
+        <buttonsPanel>
+            <button id="btnActualizarCorreos" caption="Comprobar correos"/>
+        </buttonsPanel>
+    </layout>
+</window>

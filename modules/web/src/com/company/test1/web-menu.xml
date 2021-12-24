@@ -37,6 +37,7 @@
         <item screen="test1_RegistroContrasena.browse"/>
         <item screen="test1_MailingList.browse"/>
         <item screen="test1_AccionMailing"/>
+        <item screen="test1_PuntoEntradaDocumentos"/>
 
 
     </menu>

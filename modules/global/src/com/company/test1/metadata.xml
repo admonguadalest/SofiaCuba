@@ -8,6 +8,7 @@
         <class>com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla</class>
         <class>com.company.test1.entity.ciclos.gantasignacionestareas.Segment</class>
         <class>com.company.test1.entity.ciclos.gantasignacionestareas.TaskSpan</class>
+        <class>com.company.test1.entity.MailStructure</class>
     </metadata-model>
 
 </metadata>
