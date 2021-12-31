@@ -215,6 +215,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                     se.setElementParentFolder("");
                     se.setElementPath(fileName);
                     se.setElementName(fileName);
+
                     storageElementsDc.getMutableItems().add(se);
                 } catch (Exception exc) {
 

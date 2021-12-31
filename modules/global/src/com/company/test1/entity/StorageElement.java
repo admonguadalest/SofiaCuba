@@ -46,7 +46,7 @@ public class StorageElement extends BaseUuidEntity {
     @MetaProperty
     public String getMimeType() {
         String extension = this.elementName.substring(elementName.lastIndexOf(".")+1);
-        return getMimeTypeFromExtension(extension);
+        return getMimeTypeFromExtension(extension.toLowerCase());
     }
 
     private String getMimeTypeFromExtension(String extension){
