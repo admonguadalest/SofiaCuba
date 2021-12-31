@@ -159,7 +159,7 @@
                 <param name="newEntity" value="true"/>
             </item>
             <separator></separator>
-            <item screen="test1_PuntoEntradaDocumentos"/>
+            <item screen="test1_CargaDesdePuntoEntradaDocumentos" />
         </menu>
         <menu id="ciclos">
             <item screen="test1_Ciclo.browse" id="consultarCiclos"/>

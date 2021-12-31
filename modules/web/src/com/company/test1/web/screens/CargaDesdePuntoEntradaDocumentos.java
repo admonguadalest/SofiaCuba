@@ -41,9 +41,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-@UiController("test1_PuntoEntradaDocumentos")
-@UiDescriptor("punto-entrada-documentos.xml")
-public class PuntoEntradaDocumentos extends Screen {
+@UiController("test1_CargaDesdePuntoEntradaDocumentos")
+@UiDescriptor("carga-desde-punto-entrada-documentos.xml")
+public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
 
     @Inject
