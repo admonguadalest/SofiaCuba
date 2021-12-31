@@ -49,6 +49,7 @@
                         <column id="imputacionDocumentoImputable.importeImputacion" caption="Imputable (S/IVA)"/>
                         <column id="imputacionDocumentoImputable.documentoImputable.importePostCCAA" caption="Importe"/>
                         <column id="estadoValidacion" generator="getColumnEstadoValidacion" caption="Estado"/>
+                        <column id="consideraciones" generator="getColumnConsideraciones" caption="Consideraciones"/>
 
 
                     </columns>
