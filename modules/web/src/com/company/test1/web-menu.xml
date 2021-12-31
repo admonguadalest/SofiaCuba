@@ -37,7 +37,8 @@
         <item screen="test1_RegistroContrasena.browse"/>
         <item screen="test1_MailingList.browse"/>
         <item screen="test1_AccionMailing"/>
-        <item screen="test1_PuntoEntradaDocumentos"/>
+
+        <item screen="test1_PuntoEntradaDocumentos.browse"/>
 
 
     </menu>
@@ -150,12 +151,15 @@
     <menu id="application-archivo">
         <menu id="administracion-documentos">
             <item screen="test1_DocumentoProveedor.browse" id="browse-documento-proveedor" openType="NEW_TAB"/>
+            <separator></separator>
             <item screen="test1_FacturaProveedor.edit" id="nuevaFactura">
                 <param name="newEntity" value="true"/>
             </item>
             <item screen="test1_Presupuesto.edit" id="nuevo-presupuesto" openType="NEW_TAB">
                 <param name="newEntity" value="true"/>
             </item>
+            <separator></separator>
+            <item screen="test1_PuntoEntradaDocumentos"/>
         </menu>
         <menu id="ciclos">
             <item screen="test1_Ciclo.browse" id="consultarCiclos"/>

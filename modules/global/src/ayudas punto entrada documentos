@@ -1,0 +1,17 @@
+Archivo para precargar los siguientes puntos de entrada de documentos allí donde se traslade Sofia
+
+STORAGE
+=======
+Tipo STORAGE
+json = {"rootPath":"C:/"}
+
+
+CLIENTSTORAGE
+=============
+
+Indicar unicamente como tipo CLIENTSTORAGE. En propiedades Json dejarlo vacio
+
+MAIL
+====
+Tipo MAIL
+json = {"properties":{"mail.smtp.auth":true,"mail.smtp.starttls.enable": false,"mail.smtp.host":"mail.cgc-guadalest.com","mail.smtp.port":25,"mail.smtp.ssl.enable":false},"user":"info@cgc-guadalest.com","pwd":"r21613a","mailserver":"mail.cgc-guadalest.com"}

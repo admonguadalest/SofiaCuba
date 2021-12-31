@@ -4,7 +4,6 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
-import javax.mail.BodyPart;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -29,7 +28,11 @@ public class MailStructure extends BaseUuidEntity {
 
     @MetaProperty
     public Integer getNumOfAttachments() {
-        return this.bodyParts.keySet().size()-2;
+        try {
+            return this.bodyParts.keySet().size() - 2;
+        }catch(Exception exc){
+            return 0;
+        }
     }
 
     public Date getSentDate() {

@@ -1,5 +1,9 @@
 package com.company.test1.web.screens.facturaproveedor;
 
+import com.company.test1.entity.documentosImputables.DocumentoImputable;
+import com.company.test1.service.ContabiService;
+import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.screen.*;
@@ -17,6 +21,12 @@ public class FacturaProveedorBrowse extends StandardLookup<FacturaProveedor> {
 
     @Inject
     private GroupTable<FacturaProveedor> facturaProveedorsTable;
+    @Inject
+    private Button btnPublicarContabilidad;
+    @Inject
+    private ContabiService contabiService;
+    @Inject
+    private Notifications notifications;
 
     private void doTableReport(){
         List<FacturaProveedor> ffpp = (List<FacturaProveedor>)facturaProveedorsTable.getItems().getItems();
@@ -41,4 +51,30 @@ public class FacturaProveedorBrowse extends StandardLookup<FacturaProveedor> {
     public void onBtnReportClick() {
         doTableReport();
     }
+
+    @Subscribe("btnPublicarContabilidad")
+    public void onBtnPublicarContabilidadClick(Button.ClickEvent event) {
+        DocumentoImputable fprov = facturaProveedorsTable.getSingleSelected();
+        if (fprov==null){
+            notifications.create().withCaption("Seleccionar un registro").show();
+            return;
+        }
+        if (fprov instanceof FacturaProveedor){
+            try {
+                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                if (res){
+                    notifications.create().withCaption("Factura publicada corréctamente").show();
+                }
+            } catch (Exception e) {
+                notifications.create().withCaption("Error al publicar").withDescription(e.getMessage()).show();
+                return;
+            }
+        }else{
+            notifications.create().withCaption("Seleccionar un registro tipo Factra Proveedor (FP)").show();
+            return;
+        }
+
+    }
+
+
 }

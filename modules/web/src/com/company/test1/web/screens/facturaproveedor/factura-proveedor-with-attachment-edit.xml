@@ -24,7 +24,7 @@
                 <scrollBox id="scrollBox" spacing="true" height="100%">
                     <vbox>
                     <form id="form" dataContainer="facturaProveedorDc" width="100%" height="100%">
-                        <column width="50%">
+                        <column width="100%">
                             <vbox spacing="true">
                                 <pickerField id="titularField" dataContainer="facturaProveedorDc" property="titular" captionProperty="nombreCompleto"
                                              caption="Titular"/>
@@ -41,7 +41,7 @@
                                            dataContainer="facturaProveedorDc" caption="Importe Base" property="importeTotalBase"/>
                             </vbox>
                         </column>
-                        <column width="50%">
+                        <column width="100%">
                             <vbox spacing="true">
                                 <dateField resolution="DAY" id="fechaEmisionField" caption="Fecha Emision" width="100%"
                                            dataContainer="facturaProveedorDc" property="fechaEmision"/>
@@ -58,7 +58,7 @@
                                           caption="Marcajes Provisional" width="100%"/>
                             </vbox>
                         </column>
-                        <column>
+                        <column width="100%">
                             <vbox spacing="true">
                                 <groupBox orientation="horizontal" spacing="true" width="100%">
                                     <textArea width="100%" caption="Consideraciones" dataContainer="facturaProveedorDc"

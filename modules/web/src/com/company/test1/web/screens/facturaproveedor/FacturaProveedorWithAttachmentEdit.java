@@ -110,6 +110,7 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     }
 
     private Persona getPersonaFromMail(String mail){
+        if (mail.trim().length()==0) return null;
         mail = mail.replace("<","");
         mail = mail.replace(">","");
         String eql = "select distinct p from test1_Persona p join p.datosDeContacto ddc where ddc.dato = :from";

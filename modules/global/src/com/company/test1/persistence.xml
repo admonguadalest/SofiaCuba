@@ -93,6 +93,7 @@
         <class>com.company.test1.entity.RegistroContrasena</class>
         <class>com.company.test1.entity.EstudioInversion</class>
         <class>com.company.test1.entity.MailingList</class>
+        <class>com.company.test1.entity.PuntoEntradaDocumentos</class>
 
 
     </persistence-unit>

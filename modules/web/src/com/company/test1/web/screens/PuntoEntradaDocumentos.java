@@ -1,22 +1,42 @@
 package com.company.test1.web.screens;
 
 import com.company.test1.entity.MailStructure;
+import com.company.test1.entity.StorageElement;
+import com.company.test1.entity.TipoPuntoEntradaDocumentosEnum;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
+import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
+import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.FileLoader;
+import com.haulmont.cuba.core.global.FileStorageException;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.components.data.DataGridItems;
+import com.haulmont.cuba.gui.components.data.datagrid.ContainerDataGridItems;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.impl.CollectionContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.sun.mail.util.BASE64DecoderStream;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.apache.poi.util.IOUtils;
 import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import javax.xml.crypto.Data;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -26,9 +46,8 @@ import java.util.*;
 public class PuntoEntradaDocumentos extends Screen {
 
 
-
-
-
+    @Inject
+    private Label<String> lblRelPath;
     @Inject
     private Notifications notifications;
 
@@ -60,10 +79,64 @@ public class PuntoEntradaDocumentos extends Screen {
 
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private PickerField<com.company.test1.entity.PuntoEntradaDocumentos> pkrPuntoEntradaDocumentos;
+    @Inject
+    private SplitPanel splt2;
+
+    @Inject
+    private VBoxLayout vboxped;
+    @Inject
+    private VBoxLayout vboxserverstorage;
+    @Inject
+    private VBoxLayout vboxmail;
+    Hashtable<com.company.test1.entity.PuntoEntradaDocumentos, Collection<Component>> componentBuffer = new Hashtable<>();
+    @Inject
+    private CollectionLoader<StorageElement> storageElementsDl;
+
+    @Inject
+    private DataGrid<StorageElement> dgStorageElements;
+
+    private String relativePathCurrPedStorage = "";
+    @Inject
+    private Button btnSubir;
+    @Inject
+    private HBoxLayout botoneraClientStorage;
+    @Inject
+    private HBoxLayout botoneraStorage;
+    @Inject
+    private FileMultiUploadField multiUploadField;
+    @Inject
+    private FileUploadingAPI fileUploadingAPI;
+    @Inject
+    private DataManager dataManager;
+    @Inject
+    private FileLoader fileLoader;
+    @Inject
+    private CollectionContainer<StorageElement> storageElementsDc;
+
 
     @Subscribe("btnNuevaFactura")
     public void onBtnNuevaFacturaClick(Button.ClickEvent event) {
-        String email = dataGridMails.getSingleSelected().getFrom().trim();
+        String email = "";
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.MAIL){
+            email = dataGridMails.getSingleSelected().getFrom().trim();
+        }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.STORAGE){
+            email = "";
+            StorageElement se = dgStorageElements.getSingleSelected();
+            this.nombreDocumentoSeleccionado = se.getElementName();
+            this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
+            this.mimeTypeDocumentoSeleccionado = se.getMimeType();
+        }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.CLIENTSTORAGE){
+            email = "";
+            StorageElement se = dgStorageElements.getSingleSelected();
+            this.nombreDocumentoSeleccionado = se.getElementName();
+            this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
+            this.mimeTypeDocumentoSeleccionado = se.getMimeType();
+        }
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
         MapScreenOptions mso = new MapScreenOptions(map);
@@ -79,10 +152,81 @@ public class PuntoEntradaDocumentos extends Screen {
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
-        EmailChecker checker = new EmailChecker();
-        checker.connect();
+        vboxped.remove(vboxmail);
+        vboxped.remove(vboxserverstorage);
+
 
     }
+
+    @Subscribe
+    public void onAfterInit(AfterInitEvent event) {
+
+        btnSubir.addClickListener(e->{
+           String s = this.relativePathCurrPedStorage.substring(0,relativePathCurrPedStorage.lastIndexOf("/"));
+           this.relativePathCurrPedStorage = s;
+
+           if (this.relativePathCurrPedStorage.length()==0){
+               btnSubir.setEnabled(false);
+           }
+           storageElementsDl.load();
+           lblRelPath.setValue(this.relativePathCurrPedStorage);
+        });
+
+        dgStorageElements.addItemClickListener(e->{
+            StorageElement se = e.getItem();
+            if (e.isDoubleClick()){
+                if (se.getIsFolder()){
+                    this.relativePathCurrPedStorage += "/"+se.getElementName();
+                    lblRelPath.setValue(this.relativePathCurrPedStorage);
+                    storageElementsDl.load();
+                    btnSubir.setEnabled(true);
+                }
+            }else{
+                if (se.getIsFolder()==false){
+                    this.previsualizaStorageElement(se);
+                }
+            }
+        });
+
+        inicializaMultiUploadField();
+
+    }
+
+
+    private void inicializaMultiUploadField() {
+        multiUploadField.addQueueUploadCompleteListener(queueUploadCompleteEvent -> {
+            for (Map.Entry<UUID, String> entry : multiUploadField.getUploadsMap().entrySet()) {
+                UUID fileId = entry.getKey();
+                String fileName = entry.getValue();
+                FileDescriptor fd = fileUploadingAPI.getFileDescriptor(fileId, fileName);
+                try {
+                    fileUploadingAPI.putFileIntoStorage(fileId, fd);
+                } catch (FileStorageException e) {
+                    throw new RuntimeException("Error saving file to FileStorage", e);
+                }
+                dataManager.commit(fd);
+                try {
+
+                    InputStream is = fileLoader.openStream(fd);
+                    byte[] bb = IOUtils.toByteArray(is);
+                    StorageElement se = new StorageElement();
+                    se.setRepresentacionSerial(bb);
+                    se.setIsFolder(false);
+                    se.setElementParentFolder("");
+                    se.setElementPath(fileName);
+                    se.setElementName(fileName);
+                    storageElementsDc.getMutableItems().add(se);
+                } catch (Exception exc) {
+
+                }
+            }
+        });
+    }
+
+
+
+
+
 
 
 
@@ -154,17 +298,77 @@ public class PuntoEntradaDocumentos extends Screen {
 
     }
 
+    @Subscribe("pkrPuntoEntradaDocumentos")
+    public void onPkrPuntoEntradaDocumentosValueChange(HasValue.ValueChangeEvent event) {
+        com.company.test1.entity.PuntoEntradaDocumentos ped = (com.company.test1.entity.PuntoEntradaDocumentos)event.getValue();
+        vboxped.removeAll();
+        if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.MAIL){
+            EmailChecker echk = new EmailChecker(ped);
+            echk.connect();
+            vboxped.add(vboxmail);
+            vboxmail.setWidth("100%");
+            vboxmail.setHeight("100%");
+            vboxped.setHeightFull();
+            splt2.setSplitPosition(50, SizeUnit.PERCENTAGE);
+
+        }
+        if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.STORAGE){
+            storageElementsDl.load();
+            vboxped.add(vboxserverstorage);
+            vboxped.setHeightFull();
+            botoneraClientStorage.setVisible(false);
+            botoneraStorage.setVisible(true);
+        }
+        if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.CLIENTSTORAGE){
+            storageElementsDc.getMutableItems().clear();
+            vboxped.add(vboxserverstorage);
+            vboxped.setHeightFull();
+            botoneraClientStorage.setVisible(true);
+            botoneraStorage.setVisible(false);
+        }
+    }
+
+
+
+    private List<StorageElement> getStorageElementsFromListOfFiles(File[] files){
+        ArrayList<StorageElement> al = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            File f = files[i];
+            StorageElement se = new StorageElement();
+            se.setIsFolder(false);
+            if (f.isDirectory()){
+                se.setIsFolder(true);
+            }
+            se.setElementName(f.getName());
+            se.setElementPath(f.getAbsolutePath());
+            se.setElementParentFolder(f.getParent());
+            al.add(se);
+        }
+        return al;
+    }
+
+
+
 
 
 
     public class EmailChecker{
         Properties properties = new Properties();
-        public EmailChecker(){
-            properties.put("mail.smtp.auth", true);
-            properties.put("mail.smtp.starttls.enable", "false");
-            properties.put("mail.smtp.host", "mail.cgc-guadalest.com");
-            properties.put("mail.smtp.port", "25");
-            properties.put("mail.smtp.ssl.enable", "false");
+        JSONObject jo = null;
+        public EmailChecker(com.company.test1.entity.PuntoEntradaDocumentos ped){
+            String json = ped.getPropiedadesJson();
+            jo = new JSONObject(json);
+            JSONObject properties = (JSONObject) jo.get("properties");
+            Iterator<String> keys = properties.keySet().iterator();
+            while(keys.hasNext()){
+                String k = keys.next();
+                properties.put(k, properties.get(k));
+            }
+//            properties.put("mail.smtp.auth", true);
+//            properties.put("mail.smtp.starttls.enable", "false");
+//            properties.put("mail.smtp.host", "mail.cgc-guadalest.com");
+//            properties.put("mail.smtp.port", "25");
+//            properties.put("mail.smtp.ssl.enable", "false");
 
         }
 
@@ -173,14 +377,14 @@ public class PuntoEntradaDocumentos extends Screen {
                 Session session = Session.getInstance(properties, new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("info@cgc-guadalest.com", "r21613a");
+                        return new PasswordAuthentication((String) jo.get("user"), (String)jo.get("pwd"));
                     }
                 });
 
 
                 //store = session.getStore("imaps");
                 Store store = session.getStore("pop3");
-                store.connect("mail.cgc-guadalest.com", "info@cgc-guadalest.com", "r21613a");
+                store.connect((String) jo.get("mailserver"), (String) jo.get("user"), (String) jo.get("pwd"));
                 Folder inbox = store.getFolder("INBOX");
                 inbox.open(Folder.READ_ONLY);
 
@@ -354,6 +558,63 @@ public class PuntoEntradaDocumentos extends Screen {
             e.printStackTrace();
         }
     }
+
+    @Install(to = "storageElementsDl", target = Target.DATA_LOADER)
+    private List<StorageElement> storageElementsDlLoadDelegate(LoadContext<StorageElement> loadContext) {
+        com.company.test1.entity.PuntoEntradaDocumentos peds = pkrPuntoEntradaDocumentos.getValue();
+        if (peds==null){
+            return new ArrayList();
+        }
+        JSONObject jo = new JSONObject(peds.getPropiedadesJson());
+        String rootPath = (String) jo.get("rootPath");
+        Path root = Paths.get(rootPath);
+        File[] files = new File(rootPath + this.relativePathCurrPedStorage).listFiles();
+
+        List<StorageElement> l = getStorageElementsFromListOfFiles(files);
+        Collections.sort(l, new Comparator<StorageElement>() {
+            @Override
+            public int compare(StorageElement o1, StorageElement o2) {
+                if (o1.getIsFolder().compareTo(o2.getIsFolder())==0){
+                    return o1.getElementName().compareTo(o2.getElementName());
+                }else{
+                    return -o1.getIsFolder().compareTo(o2.getIsFolder());
+                }
+            }
+        });
+        return l;
+    }
+
+    private void previsualizaStorageElement(StorageElement se){
+        if (se==null){
+            notifications.create().withCaption("Seleccionar un archivo").show();
+            return;
+        }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()==TipoPuntoEntradaDocumentosEnum.STORAGE) {
+            try {
+                FileInputStream fis = new FileInputStream(new File(se.getElementPath()));
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                int b = -1;
+                while ((b = fis.read()) != -1) {
+                    baos.write(b);
+                }
+                se.setRepresentacionSerial(baos.toByteArray());
+                brwAttachmentPreview.setSource(StreamResource.class)
+                        .setStreamSupplier(() -> new ByteArrayInputStream(se.getRepresentacionSerial()))
+                        .setMimeType(se.getMimeType());
+            } catch (Exception exc) {
+                notifications.create().withCaption("Error accediendo a archivo : " + se.getElementName()).show();
+            }
+        }else{
+            try {
+                brwAttachmentPreview.setSource(StreamResource.class)
+                        .setStreamSupplier(() -> new ByteArrayInputStream(se.getRepresentacionSerial()))
+                        .setMimeType(se.getMimeType());
+            } catch (Exception exc) {
+                notifications.create().withCaption("Error accediendo a archivo : " + se.getElementName()).show();
+            }
+        }
+    }
+
 
 
 }

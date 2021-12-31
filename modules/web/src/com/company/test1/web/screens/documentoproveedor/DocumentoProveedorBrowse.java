@@ -2,15 +2,18 @@ package com.company.test1.web.screens.documentoproveedor;
 
 import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.ArchivoAdjuntoExt;
+import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
+import com.company.test1.service.ContabiService;
 import com.company.test1.service.OrdenPagoService;
 import com.company.test1.service.PdfService;
 import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.Button;
@@ -49,6 +52,8 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private DataManager dataManager;
     @Inject
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
+    @Inject
+    private ContabiService contabiService;
 
     public Component getOrdenPagoColumn(DocumentoProveedor dp){
         HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
@@ -97,4 +102,52 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
         byte[] bb = pdfService.concatPdfs(documentos, false);
         exportDisplay.show(new ByteArrayDataProvider(bb), "Escaneos Documentos Proveedor.pdf");
     }
+
+    @Inject
+    private Notifications notifications;
+
+    @Subscribe("btnPublicarContabilidad")
+    public void onBtnPublicarContabilidadClick(Button.ClickEvent event) {
+        DocumentoImputable fprov = documentoProveedorsTable.getSingleSelected();
+        if (fprov==null){
+            notifications.create().withCaption("Seleccionar un registro").show();
+            return;
+        }
+        if (fprov instanceof FacturaProveedor){
+            try {
+                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                if (res){
+                    notifications.create().withCaption("Factura publicada corréctamente").show();
+                }
+            } catch (Exception e) {
+                notifications.create().withCaption("Error al publicar").withDescription(e.getMessage()).show();
+                return;
+            }
+        }else{
+            notifications.create().withCaption("Seleccionar un registro tipo Factra Proveedor (FP)").show();
+            return;
+        }
+
+    }
+
+    @Subscribe("btnComprobarPublicacion")
+    public void onBtnComprobarPublicacionClick(Button.ClickEvent event) {
+        DocumentoImputable fprov = documentoProveedorsTable.getSingleSelected();
+        if (fprov==null){
+            notifications.create().withCaption("Seleccionar un registro").show();
+            return;
+        }
+        try {
+            String auth_token = contabiService.getAuthToken("admin", "admin");
+            if (contabiService.comprobarPublicacionFacturaProveedor((FacturaProveedor) fprov, auth_token)) {
+                notifications.create().withCaption("Factura ya publicada en Contabilidad").show();
+            } else {
+                notifications.create().withCaption("Factura pendiente de publicar en Contabilidad").show();
+            }
+        }catch(Exception exc){
+            notifications.create().withCaption(exc.getMessage()).show();
+        }
+    }
+
+
 }

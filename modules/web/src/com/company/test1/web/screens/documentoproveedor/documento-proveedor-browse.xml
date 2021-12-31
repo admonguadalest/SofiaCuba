@@ -25,6 +25,10 @@
             <property name="fechaEmision"/>
             <property name="numDocumento"/>
         </filter>
+        <buttonsPanel caption="Contabilidad">
+            <button id="btnComprobarPublicacion" caption="Comprobar Publicacion"/>
+            <button id="btnPublicarContabilidad" caption="Publicar en Contabilidad"/>
+        </buttonsPanel>
         <table id="documentoProveedorsTable"
                width="100%"
                dataContainer="documentoProveedorsDc" multiselect="true">
@@ -42,6 +46,7 @@
                 <column id="ordenPago" caption="Pago" generator="getOrdenPagoColumn"/>
                 <column id="importePostCCAA"/>
                 <column id="textoImputaciones"/>
+                <column id="id"/>
 
             </columns>
             <rowsCount/>
@@ -51,6 +56,8 @@
                 <button id="removeBtn" action="documentoProveedorsTable.remove"/>
                 <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
                 <button id="btnVerEscaneos" caption="Ver Escaneos" invoke="onBtnVerEscaneosClick"/>
+
+
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">
