@@ -109,6 +109,13 @@ public class GestionarValidaciones extends Screen {
     private JasperReportService jasperReportService;
 
     @Subscribe
+    public void onAfterInit(AfterInitEvent event) {
+
+    }
+
+
+
+    @Subscribe
     public void onAfterShow(AfterShowEvent event) {
         addEnterKeyListeners();
     }
@@ -182,6 +189,21 @@ public class GestionarValidaciones extends Screen {
             return l;
         }
 
+    }
+
+    public Component getColumnConsideraciones(ValidacionImputacionDocumentoImputable vidi){
+        DocumentoImputable di = vidi.getImputacionDocumentoImputable().getDocumentoImputable();
+        Label l = uiComponents.create(Label.NAME);
+        if (di instanceof FacturaProveedor){
+            FacturaProveedor dp = (FacturaProveedor) di;
+            dp = dataManager.reload(dp, "facturaProveedor-view");
+
+            l.setValue(dp.getConsideracionesDocumentoImputable());
+            return l;
+        }else{
+            l.setValue("");
+        }
+        return l;
     }
 
     public Component getColumnEstadoValidacion(ValidacionImputacionDocumentoImputable vidi){

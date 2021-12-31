@@ -45,7 +45,7 @@
                 <column id="fechaValor"/>
                 <column id="importe"/>
                 <column id="importeEfectivo"/>
-                <column id="descripcion"/>
+                <column id="realizacionPago.identificador"/>
                 <column id="realizacionPago.fechaValor" caption="RP F.Valor"/>
                 <column id="sel" caption="Seleccionar" generator="getColumnSeleccionOrdenPago"/>
 
