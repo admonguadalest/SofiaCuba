@@ -1032,7 +1032,13 @@ public class JasperReportServiceBean implements JasperReportService {
 
 
 //        JRRenderable jrr = new RentamasterDocsLoader(sl, sled).getJRRenderableDeRecursoEntornoPropietario(null, e.getId(), "LOGO");
-        JRRenderable jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.svg");
+        JRRenderable jrr = null;
+        try{
+            jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.svg");
+        }catch(Exception exc){
+
+        }
+
 
         Hashtable ht = new Hashtable();
         ht.put("ht_ubicaciones_departamentos", htUbicacionesDepartamentosIds);
