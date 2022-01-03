@@ -1470,7 +1470,12 @@ public class JasperReportServiceBean implements JasperReportService {
             calPrimeroDeAnno.setTime(fechaFinal);
             calPrimeroDeAnno.set(calFechaInicial.get(Calendar.YEAR),0, 1);
 
-            JRRenderable jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+        JRRenderable jrr = null;
+        try{
+            jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.svg");
+        }catch(Exception exc){
+
+        }
 //        JRRenderable jrr = new RentamasterDocsLoader(sl, sled).getJRRenderableDeRecursoEntornoPropietario(null, e.getId(), "LOGO");
             Hashtable ht = new Hashtable();
             ht.put("ht_ubicaciones_departamentos", htUbicacionesDepartamentosIds);
