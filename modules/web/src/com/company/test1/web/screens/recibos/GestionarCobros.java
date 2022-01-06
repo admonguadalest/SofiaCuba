@@ -40,7 +40,7 @@ public class GestionarCobros extends StandardLookup<Recibo> {
             byte[] bb = jasperReportService.getReportRecibo(r);
             exportDisplay.show(new ByteArrayDataProvider(bb), "Recibo " + r.getNumRecibo() + ".pdf");
         }catch(Exception exc){
-            notifications.create().withCaption("Error al generar el report:" + exc.getMessage());
+            notifications.create().withCaption("Error al generar el report:" + exc.getMessage()).show();
             return;
         }
 

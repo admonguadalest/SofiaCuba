@@ -77,7 +77,7 @@ public class ContabiServiceBean implements ContabiService {
     }
 
     public boolean publicaContabilizacionFacturaProveedor(FacturaProveedor fp) throws Exception{
-        this.authToken = getAuthToken("admin", "admin");
+        this.authToken = getAuthToken("admin", "r21613a");
 
         if (comprobarPublicacionFacturaProveedor(fp, this.authToken)){
             throw new Exception("Esta factura proveedor ya esta publicada para la operacion 'CONTABILIZAR_FACTURAS'");

@@ -1,6 +1,7 @@
 package com.company.test1.web.screens;
 
 import com.company.test1.entity.MailStructure;
+import com.company.test1.entity.PuntoEntradaDocumentos;
 import com.company.test1.entity.StorageElement;
 import com.company.test1.entity.TipoPuntoEntradaDocumentosEnum;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
@@ -23,7 +24,7 @@ import com.haulmont.cuba.gui.model.impl.CollectionContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.sun.mail.util.BASE64DecoderStream;
-import jdk.nashorn.internal.parser.JSONParser;
+
 import org.apache.poi.util.IOUtils;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.json.JSONObject;
@@ -45,7 +46,8 @@ import java.util.*;
 @UiDescriptor("carga-desde-punto-entrada-documentos.xml")
 public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
-
+    @Inject
+    private LookupField<String> pkrUltimosN;
     @Inject
     private Label<String> lblRelPath;
     @Inject
@@ -80,7 +82,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     @Inject
     private ScreenBuilders screenBuilders;
     @Inject
-    private PickerField<com.company.test1.entity.PuntoEntradaDocumentos> pkrPuntoEntradaDocumentos;
+    private PickerField<PuntoEntradaDocumentos> pkrPuntoEntradaDocumentos;
     @Inject
     private SplitPanel splt2;
 
@@ -90,7 +92,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     private VBoxLayout vboxserverstorage;
     @Inject
     private VBoxLayout vboxmail;
-    Hashtable<com.company.test1.entity.PuntoEntradaDocumentos, Collection<Component>> componentBuffer = new Hashtable<>();
+    Hashtable<PuntoEntradaDocumentos, Collection<Component>> componentBuffer = new Hashtable<>();
     @Inject
     private CollectionLoader<StorageElement> storageElementsDl;
 
@@ -186,6 +188,14 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                     this.previsualizaStorageElement(se);
                 }
             }
+        });
+
+        List<String> l = Arrays.asList("50", "100", "150","200");
+        pkrUltimosN.setOptionsList(l);
+        pkrUltimosN.setValue("50");
+        pkrUltimosN.addValueChangeListener(e->{
+            PuntoEntradaDocumentos ped = pkrPuntoEntradaDocumentos.getValue();
+            cargarCorreos(ped);
         });
 
         inicializaMultiUploadField();
@@ -299,18 +309,22 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     }
 
+    private void cargarCorreos(PuntoEntradaDocumentos ped){
+        EmailChecker echk = new EmailChecker(ped);
+        echk.connect();
+        vboxped.add(vboxmail);
+        vboxmail.setWidth("100%");
+        vboxmail.setHeight("100%");
+        vboxped.setHeightFull();
+        splt2.setSplitPosition(50, SizeUnit.PERCENTAGE);
+    }
+
     @Subscribe("pkrPuntoEntradaDocumentos")
     public void onPkrPuntoEntradaDocumentosValueChange(HasValue.ValueChangeEvent event) {
-        com.company.test1.entity.PuntoEntradaDocumentos ped = (com.company.test1.entity.PuntoEntradaDocumentos)event.getValue();
+        PuntoEntradaDocumentos ped = (PuntoEntradaDocumentos)event.getValue();
         vboxped.removeAll();
         if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.MAIL){
-            EmailChecker echk = new EmailChecker(ped);
-            echk.connect();
-            vboxped.add(vboxmail);
-            vboxmail.setWidth("100%");
-            vboxmail.setHeight("100%");
-            vboxped.setHeightFull();
-            splt2.setSplitPosition(50, SizeUnit.PERCENTAGE);
+            cargarCorreos(ped);
 
         }
         if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.STORAGE){
@@ -356,7 +370,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     public class EmailChecker{
         Properties properties = new Properties();
         JSONObject jo = null;
-        public EmailChecker(com.company.test1.entity.PuntoEntradaDocumentos ped){
+        public EmailChecker(PuntoEntradaDocumentos ped){
             String json = ped.getPropiedadesJson();
             jo = new JSONObject(json);
             JSONObject properties = (JSONObject) jo.get("properties");
@@ -392,7 +406,8 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 Message[] messages = inbox.getMessages();
                 ArrayList<MailStructure> mails = new ArrayList<MailStructure>();
 
-                for (int i = messages.length-50; i < messages.length; i++) {
+                int ultimosN = Integer.valueOf(pkrUltimosN.getValue());
+                for (int i = messages.length-ultimosN; i < messages.length; i++) {
                     Hashtable<String, Object> bbpp = null;
                     Message m = messages[i];
                     String contentType = m.getContentType();
@@ -494,21 +509,13 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     @Subscribe("btnActualizarCorreos")
     public void onBtnActualizarCorreosClick(Button.ClickEvent event) {
-        consultaCorreo();
+        PuntoEntradaDocumentos ped = pkrPuntoEntradaDocumentos.getValue();
+        cargarCorreos(ped);
     }
 
 
 
-    private void consultaCorreo(){
-        String host = "mail.cgc-guadalest.com";// change accordingly
-        String mailStoreType = "pop3";
-        String username = "info@cgc-guadalest.com";// change accordingly
-        String password = "r21613a";// change accordingly
 
-        check(host, mailStoreType, username, password);
-
-
-    }
 
     public static void check(String host, String storeType, String user,
                              String password)
@@ -562,7 +569,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     @Install(to = "storageElementsDl", target = Target.DATA_LOADER)
     private List<StorageElement> storageElementsDlLoadDelegate(LoadContext<StorageElement> loadContext) {
-        com.company.test1.entity.PuntoEntradaDocumentos peds = pkrPuntoEntradaDocumentos.getValue();
+        PuntoEntradaDocumentos peds = pkrPuntoEntradaDocumentos.getValue();
         if (peds==null){
             return new ArrayList();
         }
