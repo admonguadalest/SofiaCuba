@@ -84,7 +84,7 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
 
                         }
                         if (p instanceof PersonaJuridica){
-                            p = dataManager.reload(p, "ersonaJuridica-view");
+                            p = dataManager.reload(p, "personaJuridica-view");
                         }
 
                         Proveedor prov = p.getProveedor();
