@@ -201,6 +201,7 @@ public class IncrementosIndiceReferencia extends Screen {
         if (!datosValidos()){
             return;
         }
+        Hashtable<ContratoInquilino, String> ajusteMesAnno = new Hashtable<>();
         List<Departamento> deptos = this.devuelveDepartamentosDeTreeUbicacionesDepartamentos();
         ArrayList al = new ArrayList();
         try{
@@ -236,6 +237,13 @@ public class IncrementosIndiceReferencia extends Screen {
                 if (!(lkpAnno.getValue().intValue()==Integer.valueOf(mesAnnoIpc.substring(2)).intValue())){
                     continue;
                 }
+                String anno = mesAnnoIpc.substring(2);
+                String newMesAnno = mes.toString() + ((Integer)(Integer.valueOf(anno)+1)).toString();
+                if (newMesAnno.length()==5){
+                    newMesAnno = "0"+newMesAnno;
+                }
+
+                ajusteMesAnno.put(contratoInquilino, newMesAnno);
 
                 ConceptoRecibo[] arr_ccrr = incrementosService.creaConceptosReciboParaIncrementosIndiceReferencia(
                         lkpConcepto.getValue(),
@@ -289,18 +297,29 @@ public class IncrementosIndiceReferencia extends Screen {
         //finalmente guardo
         dataManager.commit(new CommitContext(entitiesToPersist));
         notifications.create().withCaption("Conceptos generados y registrados exitósamente").show();
+
+        //realizando el ajuste de mesAnnoAplicacionIPC
+        Iterator<ContratoInquilino> ici = ajusteMesAnno.keySet().iterator();
+        while(ici.hasNext()){
+            ContratoInquilino ci = ici.next();
+            ci.setMesAnyoAplicacionIPC(ajusteMesAnno.get(ci));
+            dataManager.commit(ci);
+        }
+
     }
 
     public void onBtnPrevisualizarContratosAfectadosClick() {
         if(!datosValidos()){
             return;
         }
+        Departamento d_ = null;
         List<Departamento> deptos = this.devuelveDepartamentosDeTreeUbicacionesDepartamentos();
         ArrayList al = new ArrayList();
         try{
 
             for (int i = 0; i < deptos.size(); i++) {
                 Departamento departamento = deptos.get(i);
+                d_ = departamento;
                 ContratoInquilino contratoInquilino = AppBeans.get(ContratosService.class).devuelveContratoVigenteParaDepartamento(departamento, View.BASE);
                 if (contratoInquilino == null) continue;
 
@@ -334,7 +353,7 @@ public class IncrementosIndiceReferencia extends Screen {
                     );
                     al.add(arr_ccrr);
                 }catch(Exception exc){
-                    notifications.create().withCaption("Error").withDescription("Error al cargar información Incr.Ind.Referencia para " + contratoInquilino.getNumeroContrato() + ":  " + exc.getMessage()).show();
+                   notifications.create().withCaption("Error").withDescription("Error al cargar información Incr.Ind.Referencia para " + contratoInquilino.getNumeroContrato() + ":  " + exc.getMessage()).show();
                     return;
                 }
 

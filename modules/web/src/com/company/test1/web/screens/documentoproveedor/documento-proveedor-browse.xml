@@ -24,6 +24,7 @@
             <property name="proveedor.persona.nombreCompleto"/>
             <property name="fechaEmision"/>
             <property name="numDocumento"/>
+            <property name="importeTotalBase"/>
         </filter>
         <buttonsPanel caption="Contabilidad">
             <button id="btnComprobarPublicacion" caption="Comprobar Publicacion"/>

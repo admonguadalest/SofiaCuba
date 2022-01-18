@@ -116,7 +116,7 @@
             <tabSheet id="tabContratoVarios">
                 <tab id="tabContrato" caption="Contrato" margin="true,false,false,false" spacing="true">
 
-                    <fragment screen="test1_ContratoInquilinoFragment"/>
+                    <fragment id="fragmentContrato" screen="test1_ContratoInquilinoFragment"/>
                 </tab>
                 <tab id="tabFianza" caption="Fianza" margin="true,false,false,false" spacing="true">
                     <fragment screen="test1_FianzaFragment" id="fianzaFragment"/>

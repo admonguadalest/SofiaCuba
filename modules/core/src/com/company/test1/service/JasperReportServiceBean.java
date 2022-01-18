@@ -1472,7 +1472,7 @@ public class JasperReportServiceBean implements JasperReportService {
 
         JRRenderable jrr = null;
         try{
-            jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.svg");
+            jrr = (JRRenderable) turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
         }catch(Exception exc){
 
         }
