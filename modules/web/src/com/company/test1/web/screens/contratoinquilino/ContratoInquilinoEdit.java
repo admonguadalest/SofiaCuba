@@ -17,13 +17,11 @@ import com.company.test1.service.JasperReportService;
 import com.company.test1.service.NotificacionService;
 import com.company.test1.service.PlantillaService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.company.test1.web.screens.contratoinquilino.fragments.ContratoInquilinoFragment;
 import com.company.test1.web.screens.contratoinquilino.fragments.FianzaFragment;
 import com.company.test1.web.screens.contratoinquilino.fragments.ImplementacionModeloFragment;
 import com.company.test1.web.screens.documentosfotograficos.VisorDocumentosFotograficos;
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.Events;
-import com.haulmont.cuba.core.global.LoadContext;
-import com.haulmont.cuba.core.global.PersistenceHelper;
+import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.Fragments;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
@@ -33,12 +31,15 @@ import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.*;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.security.auth.AuthenticationService;
+import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.web.gui.components.WebPickerField;
 import com.haulmont.cuba.web.gui.components.WebTextField;
 import org.springframework.context.ApplicationEvent;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,6 +140,12 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     private InstancePropertyContainer<LiquidacionExtincion> liquidacionExtincionDc;
     @Inject
     private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
+    @Inject
+    private ContratoInquilinoFragment fragmentContrato;
+    @Inject
+    private AuthenticationService authenticationService;
+    @Inject
+    private UserSessionSource userSessionSource;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -207,6 +214,53 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
             contratoInquilinoDc.getItem().getColeccionArchivosAdjuntos().setNombre("Contrato");
         }
         fianzaFragment.loadDocumentacionesInquilinos();
+
+
+
+        User u = userSessionSource.getUserSession().getUser();
+        if (u.getLogin().compareTo("carlosconti")!=0) {
+            fragmentContrato.getMesAnyoAplicacionIPCField().setEditable(false);
+            if (!PersistenceHelper.isNew(contratoInquilinoDc.getItem())) {
+
+
+                fragmentContrato.getPeriodoActualizacionIPCField().setEditable(false);
+                fragmentContrato.getFechaOcupacionField().setEditable(false);
+            } else {
+                fragmentContrato.getPeriodoActualizacionIPCField().setEditable(false);
+
+
+            }
+        }
+        if (PersistenceHelper.isNew(contratoInquilinoDc.getItem())){
+            contratoInquilinoDc.getItem().setPeriodoActualizacionIPC(12);
+            fragmentContrato.getFechaOcupacionField().addValueChangeListener(e->{
+                DateField fechaOcupacionField = fragmentContrato.getFechaOcupacionField();
+                TextField<String> mesAnyoAplicacionIPCField  = fragmentContrato.getMesAnyoAplicacionIPCField();
+                String mesAnno = "";
+                if (fechaOcupacionField.getValue() != null) {
+                    mesAnno = new SimpleDateFormat("MMyyyy").format(fechaOcupacionField.getValue());
+                    String mes = mesAnno.substring(0,2);
+                    String anno = mesAnno.substring(2);
+                    Integer imes = Integer.valueOf(mes);
+                    Integer ianno = Integer.valueOf(anno);
+                    boolean decreaseYear = false;
+                    for (int i = 0; i < 3; i++) {
+                        imes--;
+                        if (imes==0){
+                            imes = 12;
+                            ianno--;
+                        }
+                    }
+                    mesAnno = imes.toString()+ianno.toString();
+                    if (mesAnno.length()==5){
+                        mesAnno = "0" + mesAnno;
+                    }
+                    mesAnyoAplicacionIPCField.setValue(mesAnno);
+                } else {
+                    mesAnyoAplicacionIPCField.setValue("");
+                }
+            });
+        }
 
     }
 

@@ -138,7 +138,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
             return;
         }
         try {
-            String auth_token = contabiService.getAuthToken("admin", "admin");
+            String auth_token = contabiService.getAuthToken("admin", "r21613a");
             if (contabiService.comprobarPublicacionFacturaProveedor((FacturaProveedor) fprov, auth_token)) {
                 notifications.create().withCaption("Factura ya publicada en Contabilidad").show();
             } else {

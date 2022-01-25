@@ -373,6 +373,10 @@ public class IncrementosServiceBean implements IncrementosService {
         importeAumento = baseAumento * (incrementoPorcentual/100);
         importeAumento = numberUtilsService.roundToNDecimals(importeAumento, 2.0);
 
+        if (contratoInquilino.getProgramacionRecibo().getAplicarIPCNegativo()==null){
+            contratoInquilino.getProgramacionRecibo().setAplicarIPCNegativo(false);
+        }
+
         if (!contratoInquilino.getProgramacionRecibo().getAplicarIPCNegativo() && (importeAumento < 0.00)){
             importeAumento = 0.0;
             cr.setDescripcionCausa("Omisión IPC negativo");

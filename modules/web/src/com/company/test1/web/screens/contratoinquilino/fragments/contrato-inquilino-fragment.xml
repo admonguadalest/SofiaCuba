@@ -35,10 +35,10 @@
             <hbox spacing="true">
                 <lookupField id="usoContratoField" property="usoContrato" dataContainer="contratoInquilinoDc"
                              optionsEnum="com.company.test1.entity.enums.UsoContratoEnum" caption="Uso Departamento"/>
-                <textField id="periodoActualizacionIPCField" property="periodoActualizacionIPC"
+                <textField id="periodoActualizacionIPCField" property="periodoActualizacionIPC" editable="true"
                            dataContainer="contratoInquilinoDc" caption="Periodo Actualizacion IPC"/>
-                <textField id="mesAnyoAplicacionIPCField" property="mesAnyoAplicacionIPC"
-                           dataContainer="contratoInquilinoDc" caption="Mes/Anyo IPC"/>
+                <textField id="mesAnyoAplicacionIPCField" property="mesAnyoAplicacionIPC" editable="true"
+                           dataContainer="contratoInquilinoDc" caption="Mes/Anyo IPC (mmyyyy)" contextHelpText="Respetar formato mmyyyy sin caracteres especiales como '-' o '/'"/>
             </hbox>
             <hbox>
                 <label value="Datos de Renuncia"/>

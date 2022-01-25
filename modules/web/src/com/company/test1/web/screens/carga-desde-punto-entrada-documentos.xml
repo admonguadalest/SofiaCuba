@@ -24,10 +24,12 @@
             </lookupPickerField>
             <split id="splt" width="100%" height="100%" orientation="horizontal" >
                 <vbox id="vboxped">
-                    <vbox id="vboxmail" width="100%" height="100%" expand="splt2">
-                        <buttonsPanel>
+                    <vbox id="vboxmail" width="100%" height="100%" expand="splt2" spacing="true">
+                        <hbox spacing="true">
                             <button id="btnActualizarCorreos" caption="Comprobar correos"/>
-                        </buttonsPanel>
+                            <label value="Cargar Ultimos"/>
+                            <lookupField id="pkrUltimosN"/>
+                        </hbox>
                         <split id="splt2" width="100%" height="100%" orientation="vertical">
 
                             <scrollBox id="mailslist" width="100%" height="100%">

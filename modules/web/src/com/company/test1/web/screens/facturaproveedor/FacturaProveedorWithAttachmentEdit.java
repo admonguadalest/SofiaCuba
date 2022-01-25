@@ -79,9 +79,17 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                     byte[] bb = (byte[]) oo[2];
                     Persona p = getPersonaFromMail(from);
                     if (p != null) {
-                        p = dataManager.reload(p, "persona-view");
+                        if (p instanceof PersonaFisica){
+                            p = dataManager.reload(p, "personaFisica-view");
+
+                        }
+                        if (p instanceof PersonaJuridica){
+                            p = dataManager.reload(p, "personaJuridica-view");
+                        }
+
                         Proveedor prov = p.getProveedor();
                         this.getEditedEntity().setProveedor(prov);
+
                     }
                     ArchivoAdjunto aa = dataContext.create(ArchivoAdjunto.class);
                     aa.setNombreArchivo(filename);
