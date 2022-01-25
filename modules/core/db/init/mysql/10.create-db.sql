@@ -438,6 +438,7 @@ create table DOCUMENTO_IMPUTABLE (
     DTYPE varchar(31),
     --
     DESCRIPCION_DOCUMENTO longtext,
+    MARCAJES_PROVISIONAL varchar(255),
     FECHA_EMISION date,
     IMPORTE_TOTAL_BASE double precision,
     IMPORTE_POST_CCAA double precision,
@@ -466,6 +467,8 @@ create table DOCUMENTO_IMPUTABLE (
     ES_PRESUPUESTO_VERBAL boolean,
     FECHA_VALIDEZ_HASTA date,
     REALIZADO_POR varchar(255),
+    IMPORTE_DEFINITIVO double precision,
+    CONSIDERACIONES_PRESUPUESTO longtext,
     --
     primary key (ID)
 )^
