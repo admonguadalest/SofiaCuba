@@ -151,6 +151,7 @@
     <menu id="application-archivo">
         <menu id="administracion-documentos">
             <item screen="test1_DocumentoProveedor.browse" id="browse-documento-proveedor" openType="NEW_TAB"/>
+            <item screen="test1_Presupuesto.browse" id="browse-presupuesto" openType="NEW_TAB"/>
             <separator></separator>
             <item screen="test1_FacturaProveedor.edit" id="nuevaFactura">
                 <param name="newEntity" value="true"/>

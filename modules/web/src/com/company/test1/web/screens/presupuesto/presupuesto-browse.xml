@@ -40,10 +40,11 @@
                 <column id="numDocumento"/>
                 <column id="fechaEmision"/>
                 <column id="importeTotalBase"/>
-                <column id="importePostCCAA"/>
+                <column id="importeDefinitivo"/>
 
                 <column id="textoImputaciones"/>
                 <column id="realizadoPor"/>
+                <column id="consideracionesPresupuesto"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

@@ -4,12 +4,12 @@
         focusComponent="documentoProveedorsTable"
         messagesPack="com.company.test1.web.screens.documentoproveedor">
     <data readOnly="true">
-        <collection id="documentoProveedorsDc"
-                    class="com.company.test1.entity.documentosImputables.DocumentoProveedor"
-                    view="documentoProveedor-view">
-            <loader id="documentoProveedorsDl">
+        <collection id="facturaProveedorDc"
+                    class="com.company.test1.entity.documentosImputables.FacturaProveedor"
+                    view="facturaProveedor-view">
+            <loader id="facturaProveedorDl">
                 <query>
-                    <![CDATA[select e from test1_DocumentoProveedor e]]>
+                    <![CDATA[select e from test1_FacturaProveedor e]]>
                 </query>
             </loader>
         </collection>
@@ -20,7 +20,7 @@
             spacing="true">
         <filter id="filter"
                 applyTo="documentoProveedorsTable"
-                dataLoader="documentoProveedorsDl">
+                dataLoader="facturaProveedorDl">
             <property name="proveedor.persona.nombreCompleto"/>
             <property name="fechaEmision"/>
             <property name="numDocumento"/>

@@ -14,11 +14,6 @@ import java.util.Date;
 public class Presupuesto extends DocumentoProveedor {
     private static final long serialVersionUID = 5354320281546867429L;
 
-    public Presupuesto() {
-        this.setTipoEnum(DocumentoImputableTipoEnum.PRESUPUESTO);
-    }
-
-
     @Column(name = "ES_PRESUPUESTO_VERBAL")
     protected Boolean esPresupuestoVerbal;
 
@@ -29,6 +24,34 @@ public class Presupuesto extends DocumentoProveedor {
     @NotNull(message = "Indicar realizador de Presupuesto")
     @Column(name = "REALIZADO_POR")
     protected String realizadoPor;
+
+    @Column(name = "IMPORTE_DEFINITIVO")
+    private Double importeDefinitivo;
+
+    @Lob
+    @Column(name = "CONSIDERACIONES_PRESUPUESTO")
+    private String consideracionesPresupuesto;
+
+    public String getConsideracionesPresupuesto() {
+        return consideracionesPresupuesto;
+    }
+
+    public void setConsideracionesPresupuesto(String consideracionesPresupuesto) {
+        this.consideracionesPresupuesto = consideracionesPresupuesto;
+    }
+
+    public Presupuesto() {
+        this.setTipoEnum(DocumentoImputableTipoEnum.PRESUPUESTO);
+    }
+
+
+    public Double getImporteDefinitivo() {
+        return importeDefinitivo;
+    }
+
+    public void setImporteDefinitivo(Double importeDefinitivo) {
+        this.importeDefinitivo = importeDefinitivo;
+    }
 
     public String getRealizadoPor() {
         return realizadoPor;

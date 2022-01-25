@@ -51,9 +51,11 @@
                     </vbox>
                 </column>
                 <column>
-                    <vbox spacing="true">
-                        <groupBox orientation="horizontal" spacing="true" width="100%">
-                        </groupBox>
+                    <vbox spacing="true" expand="consideracionesPresupuestoField">
+                        <textField id="importeDefinitivoField" dataContainer="presupuestoDc"
+                                   property="importeDefinitivo"/>
+                        <textArea id="consideracionesPresupuestoField" dataContainer="presupuestoDc"
+                                  property="consideracionesPresupuesto" width="100%"/>
                     </vbox>
                 </column>
             </form>
