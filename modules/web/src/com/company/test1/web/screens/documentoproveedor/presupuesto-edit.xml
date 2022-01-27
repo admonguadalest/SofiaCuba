@@ -53,9 +53,9 @@
                 <column>
                     <vbox spacing="true" expand="consideracionesPresupuestoField">
                         <textField id="importeDefinitivoField" dataContainer="presupuestoDc"
-                                   property="importeDefinitivo"/>
+                                   property="importeDefinitivo" caption="Importe Definitivo"/>
                         <textArea id="consideracionesPresupuestoField" dataContainer="presupuestoDc"
-                                  property="consideracionesPresupuesto" width="100%"/>
+                                  property="consideracionesPresupuesto" width="100%" caption="Consideraciones"/>
                     </vbox>
                 </column>
             </form>

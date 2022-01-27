@@ -23,6 +23,8 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.impl.CollectionContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
+import com.sun.mail.imap.OlderTerm;
+import com.sun.mail.imap.YoungerTerm;
 import com.sun.mail.util.BASE64DecoderStream;
 
 import org.apache.poi.util.IOUtils;
@@ -33,11 +35,13 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.search.*;
 import javax.xml.crypto.Data;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -73,8 +77,20 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     @Inject
     private Button btnNuevoPpto;
     @Inject
+    private Button btnBuscar;
+    @Inject
+    private TextField<String> txtSubjectContains;
+    @Inject
+    private TextField<String> txtAddressContains;
+    @Inject
+    private DateField<Date> dteTo;
+    @Inject
     private Button btnNuevaFactura;
 
+    @Inject
+    private DateField<Date> dteFrom;
+    @Inject
+    private CollectionContainer<PuntoEntradaDocumentos> puntosEntradaDc;
     public String nombreDocumentoSeleccionado = null;
     public byte[] representacionSerialDocumentoSeleccionado = null;
     public String mimeTypeDocumentoSeleccionado = null;
@@ -116,6 +132,65 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     private FileLoader fileLoader;
     @Inject
     private CollectionContainer<StorageElement> storageElementsDc;
+
+    EmailChecker currentEmailChecker;
+
+    @Subscribe("btnBuscar")
+    public void onBtnBuscarClick(Button.ClickEvent event) {
+        if (currentEmailChecker!=null){
+            try {
+                currentEmailChecker.loadMessages(currentEmailChecker.folder);
+            } catch (Exception e) {
+                notifications.create().withDescription(e.getMessage()).show();
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+    private SearchTerm buildSearchTermFromCriteriaComponents(){
+        ArrayList searchTerms = new ArrayList();
+        if (dteFrom.getValue()!=null){
+            Date dateFrom = dteFrom.getValue();
+            int secsFrom = (int) ((long)dateFrom.getTime()/(long) 1000);
+            SentDateTerm rdt = new SentDateTerm(ReceivedDateTerm.GE, dateFrom);
+            OlderTerm ot = new OlderTerm(secsFrom);
+            searchTerms.add(rdt);
+        }
+        if (dteTo.getValue()!=null){
+            Date dateTo = dteTo.getValue();
+            int secsTo = (int) ((long)dateTo.getTime()/(long) 1000);
+            SentDateTerm yt = new SentDateTerm(ComparisonTerm.LE, dateTo);
+            searchTerms.add(yt);
+        }
+        String addressContains = txtAddressContains.getValue();
+        if ((addressContains!=null)&&(addressContains.length()>0)){
+            FromStringTerm st = new FromStringTerm(addressContains);
+            searchTerms.add(st);
+        }
+        String subjectContains = txtSubjectContains.getValue();
+        if ((subjectContains!=null)&&(subjectContains.length()>0)){
+            SubjectTerm st = new SubjectTerm(subjectContains);
+            searchTerms.add(st);
+        }
+
+
+
+        if (searchTerms.size()==0){
+            return null;
+        }
+
+        AndTerm andTerm = new AndTerm((SearchTerm[])searchTerms.toArray(new SearchTerm[0]));
+        return andTerm;
+    }
+
+
 
 
     @Subscribe("btnNuevaFactura")
@@ -244,6 +319,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     @Subscribe("dataGridMails")
     public void onDataGridMailsSelection(DataGrid.SelectionEvent<MailStructure> event) {
+
         //reseteando el previsualizador de archivos
         brwAttachmentPreview.setSource(StreamResource.class)
                 .setStreamSupplier(() -> new ByteArrayInputStream(new String("").getBytes()))
@@ -253,8 +329,14 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         this.mimeTypeDocumentoSeleccionado = null;
 
         if (event.getSelected().size()==1){
+
             vboxAttachments.removeAll();
             MailStructure ms = (MailStructure) new ArrayList(event.getSelected()).get(0);
+            try {
+                ms.loadBodyParts();
+            } catch (Exception e) {
+                notifications.create().withCaption("Error al cargar mensaje").show();
+            }
             String content = (String) ms.resolveDisplayableBodyPart();
             brwMailPreview.setSource(StreamResource.class)
                     .setStreamSupplier(() -> new ByteArrayInputStream(content.getBytes()))
@@ -292,10 +374,14 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                         representacionSerialDocumentoSeleccionado = bb_;
                         nombreDocumentoSeleccionado = nombreDocumento;
                         mimeTypeDocumentoSeleccionado = mimeContent;
+                        if ((nombreDocumento.indexOf(".pdf")!=-1) && (mimeContent.indexOf("application/octet-stream")!=-1)){
+                            //realizo override para poder visualizar el documento
+                            mimeTypeDocumentoSeleccionado = "application/pdf";
+                        }
                         final byte[] bb2_ = bb_;
                         brwAttachmentPreview.setSource(StreamResource.class)
                                 .setStreamSupplier(() -> new ByteArrayInputStream(bb2_))
-                                .setMimeType(mimeContent);
+                                .setMimeType(mimeTypeDocumentoSeleccionado);
                     });
 
 
@@ -310,7 +396,9 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     }
 
     private void cargarCorreos(PuntoEntradaDocumentos ped){
+        currentEmailChecker = null;
         EmailChecker echk = new EmailChecker(ped);
+        currentEmailChecker = echk;
         echk.connect();
         vboxped.add(vboxmail);
         vboxmail.setWidth("100%");
@@ -370,6 +458,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     public class EmailChecker{
         Properties properties = new Properties();
         JSONObject jo = null;
+        Folder folder = null;
         public EmailChecker(PuntoEntradaDocumentos ped){
             String json = ped.getPropiedadesJson();
             jo = new JSONObject(json);
@@ -377,13 +466,8 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             Iterator<String> keys = properties.keySet().iterator();
             while(keys.hasNext()){
                 String k = keys.next();
-                properties.put(k, properties.get(k));
+                this.properties.put(k, properties.get(k));
             }
-//            properties.put("mail.smtp.auth", true);
-//            properties.put("mail.smtp.starttls.enable", "false");
-//            properties.put("mail.smtp.host", "mail.cgc-guadalest.com");
-//            properties.put("mail.smtp.port", "25");
-//            properties.put("mail.smtp.ssl.enable", "false");
 
         }
 
@@ -397,51 +481,67 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 });
 
 
-                //store = session.getStore("imaps");
-                Store store = session.getStore("pop3");
+
+                Store store = session.getStore(properties.getProperty("store"));
                 store.connect((String) jo.get("mailserver"), (String) jo.get("user"), (String) jo.get("pwd"));
                 Folder inbox = store.getFolder("INBOX");
+                this.folder = inbox;
                 inbox.open(Folder.READ_ONLY);
 
-                Message[] messages = inbox.getMessages();
-                ArrayList<MailStructure> mails = new ArrayList<MailStructure>();
+                loadMessages(inbox);
 
-                int ultimosN = Integer.valueOf(pkrUltimosN.getValue());
-                for (int i = messages.length-ultimosN; i < messages.length; i++) {
-                    Hashtable<String, Object> bbpp = null;
-                    Message m = messages[i];
-                    String contentType = m.getContentType();
-                    if (contentType.indexOf("multipart")!=-1){
-                        bbpp = getAllBodyParts((MimeMultipart)m.getContent());
-                        int y = 2;
-                    }
-                    else if (contentType.indexOf("text/html")!=-1){
-                        bbpp = new Hashtable<String, Object>();
-                        String html = (String) m.getContent();
-                        bbpp.put("text/html", html);
-                    }else{
-                        int y = 2;
-                    }
-                    MailStructure mstruct = new MailStructure();
-                    String from = "";
-                    for (int j = 0; j < m.getFrom().length; j++) {
-                        Address a = m.getFrom()[j];
-                        from += a.toString() + " ";
-                    }
-                    mstruct.setFrom(from);
-                    mstruct.setSentDate(m.getSentDate());
-                    mstruct.setSubject(m.getSubject());
-                    mstruct.setBodyParts(bbpp);
-                    mails.add(mstruct);
-
-
-
-                }
-                mailsDc.setItems(mails);
             }catch(Exception exc){
                 notifications.create().withDescription(exc.getMessage()).show();
             }
 
+        }
+
+        private void loadMessages(Folder inbox) throws Exception{
+            int messageCount = inbox.getMessageCount();
+            int ultimosN = Integer.valueOf(pkrUltimosN.getValue());
+
+            SearchTerm st = buildSearchTermFromCriteriaComponents();
+            Message[] messages = null;
+            if (st==null){
+                messages = inbox.getMessages(messageCount - ultimosN, messageCount);
+            }else{
+                messages = inbox.search(st);
+            }
+
+            ArrayList<MailStructure> mails = new ArrayList<MailStructure>();
+
+
+            for (int i = 0; i < messages.length; i++) {
+                Hashtable<String, Object> bbpp = null;
+                Message m = messages[i];
+                String contentType = m.getContentType();
+                if (contentType.indexOf("multipart")!=-1){
+//                        bbpp = getAllBodyParts((MimeMultipart)m.getContent());
+//                        int y = 2;
+                }
+                else if (contentType.indexOf("text/html")!=-1){
+                    bbpp = new Hashtable<String, Object>();
+                    String html = (String) m.getContent();
+                    bbpp.put("text/html", html);
+                }else{
+                    int y = 2;
+                }
+                MailStructure mstruct = new MailStructure();
+                String from = "";
+                for (int j = 0; j < m.getFrom().length; j++) {
+                    Address a = m.getFrom()[j];
+                    from += a.toString() + " ";
+                }
+                mstruct.setFrom(from);
+                mstruct.setSentDate(m.getSentDate());
+                mstruct.setSubject(m.getSubject());
+                mstruct.setOriginalJavaMailMessage(m);
+                mails.add(mstruct);
+
+
+
+            }
+            mailsDc.setItems(mails);
         }
 
         private Hashtable<String,Object> getAllBodyParts(MimeMultipart mm) throws Exception{

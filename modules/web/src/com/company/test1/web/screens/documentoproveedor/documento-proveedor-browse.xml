@@ -25,6 +25,7 @@
             <property name="fechaEmision"/>
             <property name="numDocumento"/>
             <property name="importeTotalBase"/>
+            <property name="titular.nombreCompleto" caption="Titular"/>
         </filter>
         <buttonsPanel caption="Contabilidad">
             <button id="btnComprobarPublicacion" caption="Comprobar Publicacion"/>
@@ -32,7 +33,7 @@
         </buttonsPanel>
         <table id="documentoProveedorsTable"
                width="100%"
-               dataContainer="documentoProveedorsDc" multiselect="true">
+               dataContainer="facturaProveedorDc" multiselect="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -40,6 +41,7 @@
             </actions>
             <columns>
 <!--                <column id="titular.nombreCompleto"/>-->
+                <column id="titular.nombreCompleto"/>
                 <column id="proveedor.persona.nombreCompleto"/>
                 <column id="tipo"/>
                 <column id="fechaEmision"/>

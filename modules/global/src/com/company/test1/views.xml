@@ -992,6 +992,7 @@
                 <property name="nombreCompleto"/>
             </property>
         </property>
+        <property name="titular" view="_base"/>
         <property name="imputacionesDocumentoImputable" view="_minimal">
             <property name="ciclo" view="_minimal">
                 <property name="departamento" view="_minimal">

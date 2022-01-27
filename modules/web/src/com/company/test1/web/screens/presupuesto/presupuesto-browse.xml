@@ -36,6 +36,7 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
+                <column id="tipo"/>
                 <column id="proveedor.persona.nombreCompleto"/>
                 <column id="numDocumento"/>
                 <column id="fechaEmision"/>

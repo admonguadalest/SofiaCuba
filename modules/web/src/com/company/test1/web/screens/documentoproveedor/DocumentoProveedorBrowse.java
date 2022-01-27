@@ -34,6 +34,7 @@ import java.util.List;
 @UiDescriptor("documento-proveedor-browse.xml")
 @LookupComponent("documentoProveedorsTable")
 @LoadDataBeforeShow
+@MultipleOpen
 public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor> {
 
     @Inject
@@ -91,7 +92,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
             ArchivoAdjunto aa = dp.getColeccionArchivosAdjuntos().getArchivos().get(0);
             ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
             /* PENDIENTE IMPLEMENTAR OTRAS EXTENSIONES */
-            if (aaext.getExtension().compareTo("pdf")==0){
+            if (aaext.getExtension().toLowerCase().compareTo("pdf")==0){
                 byte[] bb = aaext.getRepresentacionSerial();
                 bb = Base64.getMimeDecoder().decode(bb);
                 bb = Base64.getMimeDecoder().decode(bb);

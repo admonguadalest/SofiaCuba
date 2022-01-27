@@ -26,9 +26,21 @@
                 <vbox id="vboxped">
                     <vbox id="vboxmail" width="100%" height="100%" expand="splt2" spacing="true">
                         <hbox spacing="true">
-                            <button id="btnActualizarCorreos" caption="Comprobar correos"/>
+                            <button id="btnActualizarCorreos" visible="false" caption="Comprobar correos"/>
                             <label value="Cargar Ultimos"/>
                             <lookupField id="pkrUltimosN"/>
+                            <label value="Sujeto"/>
+                            <textField id="txtSubjectContains"/>
+                            <label value="De:"/>
+                            <textField id="txtAddressContains"/>
+
+                        </hbox>
+                        <hbox spacing="true">
+                            <label value="Desde"/>
+                            <dateField id="dteFrom"/>
+                            <label value="Hasta"/>
+                            <dateField id="dteTo"/>
+                            <button id="btnBuscar" caption="Buscar"/>
                         </hbox>
                         <split id="splt2" width="100%" height="100%" orientation="vertical">
 
