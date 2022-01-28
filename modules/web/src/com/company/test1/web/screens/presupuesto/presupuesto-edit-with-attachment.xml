@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.presupuesto">
+    <data>
+        <instance id="presupuestoDc"
+                  class="com.company.test1.entity.documentosImputables.Presupuesto"
+                  view="presupuesto-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout  spacing="true">
+        <vbox expand="split">
+        <split orientation="horizontal" height="100%" width="100%" id="split">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="presupuestoDc">
+                <column width="250px">
+                    <textArea id="descripcionDocumentoField" property="descripcionDocumento" rows="5"/>
+                    <textField id="marcajesProvisionalField" property="marcajesProvisional"/>
+                    <dateField id="fechaEmisionField" property="fechaEmision"/>
+                    <textField id="importeTotalBaseField" property="importeTotalBase"/>
+                    <textField id="importePostCCAAField" property="importePostCCAA"/>
+                    <textField id="numDocumentoField" property="numDocumento"/>
+                    <textArea id="observacionesField" property="observaciones" rows="5"/>
+                    <pickerField id="coleccionArchivosAdjuntosField" property="coleccionArchivosAdjuntos">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <checkBox id="archivadoField" property="archivado"/>
+                    <checkBox id="omitirControlDeOrdenPagoField" property="omitirControlDeOrdenPago"/>
+                    <textField id="rm2idField" property="rm2id"/>
+                    <lookupField id="tipoEnumField" property="tipoEnum"/>
+                    <pickerField id="proveedorField" property="proveedor">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <checkBox id="esPresupuestoVerbalField" property="esPresupuestoVerbal"/>
+                    <dateField id="fechaValidezHastaField" property="fechaValidezHasta"/>
+                    <textField id="realizadoPorField" property="realizadoPor"/>
+                    <textField id="importeDefinitivoField" property="importeDefinitivo"/>
+                    <textArea id="consideracionesPresupuestoField" property="consideracionesPresupuesto" rows="5"/>
+                </column>
+            </form>
+        </scrollBox>
+        <browserFrame id="brwDocumentPreview" width="100%" height="100%"/>
+        </split>
+
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+        </vbox>
+    </layout>
+</window>

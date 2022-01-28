@@ -881,6 +881,7 @@
         </property>
         <property name="ordenesCobro" view="_base"/>
         <property name="recibosCobrados" view="reciboCobrado-view"/>
+
     </view>
     <view entity="test1_Recibo" name="recibo-browse-view" extends="_base" systemProperties="true">
 

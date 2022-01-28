@@ -224,7 +224,30 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     @Subscribe("btnNuevoPpto")
     public void onBtnNuevoPptoClick(Button.ClickEvent event) {
+        String email = "";
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.MAIL){
+            email = dataGridMails.getSingleSelected().getFrom().trim();
+        }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.STORAGE){
+            email = "";
+            StorageElement se = dgStorageElements.getSingleSelected();
+            this.nombreDocumentoSeleccionado = se.getElementName();
+            this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
+            this.mimeTypeDocumentoSeleccionado = se.getMimeType();
+        }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()== TipoPuntoEntradaDocumentosEnum.CLIENTSTORAGE){
+            email = "";
+            StorageElement se = dgStorageElements.getSingleSelected();
+            this.nombreDocumentoSeleccionado = se.getElementName();
+            this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
+            this.mimeTypeDocumentoSeleccionado = se.getMimeType();
+        }
 
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
+        MapScreenOptions mso = new MapScreenOptions(map);
+        screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_PresupuestoWithAttachment.edit")
+                .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build().show();
     }
 
     @Subscribe

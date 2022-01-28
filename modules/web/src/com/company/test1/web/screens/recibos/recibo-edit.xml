@@ -12,6 +12,9 @@
 
             </collection>
         </instance>
+        <collection id="seriesDc" class="com.company.test1.entity.recibos.Serie" view="_base">
+            <loader id="seriesDl"/>
+        </collection>
     </data>
     <dialogMode height="600"
                 width="800"/>
@@ -21,7 +24,7 @@
                 <column width="100%">
                     <textField editable="false" property="ordenanteRemesa.remesa.identificadorRemesa"/>
                     <textField id="numReciboField" property="numRecibo" editable="false"/>
-                    <textField id="nombreSerieField" property="serie.nombreSerie" editable="false"/>
+                    <lookupField id="nombreSerieField" property="serie" editable="false" optionsContainer="seriesDc" captionProperty="nombreSerie"/>
                     <textField id="numContratoField" dataContainer="reciboDc"
                                property="utilitarioContratoInquilino.numeroContrato" editable="false"/>
                     <textField id="inquilinoField" dataContainer="reciboDc"
@@ -63,6 +66,8 @@
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>
             <button id="btnImprimirRecibo" caption="Imprimir Recibo" invoke="onBtnImprimirReciboClick"/>
+            <button id="btnRetrocederReciboEnZHelper" caption="Retroceder recibo en registro de IVA"/>
+            <button id="btnRegistrarReciboEnZHelper" caption="Registrar recibo en registro de IVA"/>
         </hbox>
     </layout>
 </window>

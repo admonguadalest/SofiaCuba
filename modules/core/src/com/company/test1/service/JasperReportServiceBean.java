@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.commons.lang.time.DateUtils;
 import org.checkerframework.checker.signature.qual.InternalFormForNonArray;
 import org.springframework.stereotype.Service;
 
@@ -1493,6 +1494,7 @@ public class JasperReportServiceBean implements JasperReportService {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             int year = calFechaInicial.get(Calendar.YEAR);
 
+
             java.util.Date fechaInicioAnno = null;
             java.util.Date fechaFinAnno = null;
             try {
@@ -1502,6 +1504,11 @@ public class JasperReportServiceBean implements JasperReportService {
 
                 throw new Exception("No se pudo realizar el report", parseException);
             }
+
+            fechaInicioAnno = DateUtils.addHours(fechaInicioAnno, 6);
+            fechaFinAnno = DateUtils.addHours(fechaFinAnno, 6);
+
+
 
             ht.put("fechaInicioAnno", fechaInicioAnno);
             ht.put("fechaFinAnno", fechaFinAnno);

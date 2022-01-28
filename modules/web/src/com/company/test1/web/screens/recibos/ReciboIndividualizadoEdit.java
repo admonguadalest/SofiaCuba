@@ -209,6 +209,10 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
             notifications.create().withCaption("Por favor completar datos").show();
             return;
         }
+        if (r.getSerie()==null){
+            notifications.create().withCaption("Por favor indicar serie").show();
+            return;
+        }
         try {
             ContratoInquilino ci = contratoField.getValue();
             ProgramacionRecibo pr = contratoField.getValue().getProgramacionRecibo();

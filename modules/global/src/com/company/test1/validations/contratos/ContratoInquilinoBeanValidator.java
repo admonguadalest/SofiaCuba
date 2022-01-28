@@ -23,6 +23,10 @@ public class ContratoInquilinoBeanValidator implements ConstraintValidator<Contr
                 isvalid = false;
                 context.buildConstraintViolationWithTemplate("Especificar ciclo asociado").addConstraintViolation();
             }
+            if ((value.getProgramacionRecibo().getCuentaBancariaInquilino()==null)&&(value.getProgramacionRecibo().getCuentaBancariaPagador()==null)){
+                isvalid=false;
+                context.buildConstraintViolationWithTemplate("Especificar cuenta bancaria de pago").addConstraintViolation();
+            }
         }
         if (estadoContratoSuperiorOIgualAEstado(value, EstadoContratoInquilinoEnum.REDACCION)){
             if (value.getFianza()==null){

@@ -1,24 +1,30 @@
 package com.company.test1.web.screens.recibos;
 
 import com.company.test1.entity.recibos.ReciboCobrado;
+import com.company.test1.entity.recibos.Serie;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
+import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.export.ExportFormat;
 import com.haulmont.cuba.gui.model.CollectionContainer;
+import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.Recibo;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 @UiController("test1_Recibo.edit")
@@ -26,6 +32,7 @@ import java.util.List;
 @EditedEntityContainer("reciboDc")
 @LoadDataBeforeShow
 public class ReciboEdit extends StandardEditor<Recibo> {
+
 
     @Inject
     private DataContext dataContext;
@@ -44,7 +51,16 @@ public class ReciboEdit extends StandardEditor<Recibo> {
     @Inject
     private Notifications notifications;
     @Inject
+    private Button btnRetrocederReciboEnZHelper;
+    @Inject
     private ExportDisplay exportDisplay;
+
+    @Inject
+    private Button btnRegistrarReciboEnZHelper;
+    @Inject
+    private CollectionLoader<Serie> seriesDl;
+    @Inject
+    private DataManager dataManager;
 
     @Subscribe
     private void onAfterShow(AfterShowEvent event) {
@@ -98,4 +114,36 @@ public class ReciboEdit extends StandardEditor<Recibo> {
     private void updateAcumuladoField(){
         acumuladoField.setValue(reciboDc.getItem().getTotalCobrado());
     }
+
+    @Subscribe("btnRetrocederReciboEnZHelper")
+    public void onBtnRetrocederReciboEnZHelperClick(Button.ClickEvent event) {
+        Recibo r = reciboDc.getItem();
+        try {
+            recibosService.retrocedeRecibosEnZHelper(Arrays.asList(new Recibo[]{r}));
+            notifications.create().withCaption("Recibo Retrocedido").withCaption("Recibo retrocedido con éxito").show();
+        } catch (Exception e) {
+            notifications.create().withCaption("Error").withCaption("Error al retroceder recibo de registro de iva").show();
+        }
+
+    }
+
+    @Subscribe("btnRegistrarReciboEnZHelper")
+    public void onBtnRegistrarReciboEnZHelperClick(Button.ClickEvent event) {
+        Recibo r = reciboDc.getItem();
+        r = dataManager.reload(r, "recibo-detalle-view");
+        try {
+            recibosService.registraReciboEnTablaZHelper(r);
+            notifications.create().withCaption("Recibo Registrado").withCaption("Recibo registrado con éxito").show();
+        } catch (Exception e) {
+            notifications.create().withCaption("Error").withCaption("Error al registrar recibo de registro de iva").show();
+        }
+    }
+
+    @Install(to = "seriesDl", target = Target.DATA_LOADER)
+    private List<Serie> seriesDlLoadDelegate(LoadContext<Serie> loadContext) {
+        List<Serie> ss = dataManager.load(Serie.class).query("select s from test1_Serie s").list();
+        return ss;
+    }
+
+
 }
