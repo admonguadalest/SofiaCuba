@@ -98,10 +98,10 @@ public class MailStructure extends BaseUuidEntity {
         while(keys.hasNext()){
             String k = keys.next();
             Object o = bodyParts.get(k);
-            if (k.indexOf("text/html")!=-1){
+            if (k.toLowerCase().indexOf("text/html")!=-1){
                 htmlBp = (String) o;
             }
-            if (k.indexOf("text/plain")!=-1){
+            if (k.toLowerCase().indexOf("text/plain")!=-1){
                 plain = (String) o;
             }
         }
