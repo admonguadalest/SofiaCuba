@@ -236,8 +236,8 @@ public class JasperReportServiceBean implements JasperReportService {
             JasperReport jr = JasperCompileManager.compileReport(designMaestro);
 
             //patch: PENDIENTE ARREGLAR
-            Statement s = Cubatest1DB.getConnection().createStatement();
-            s.execute("set sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
+//            Statement s = Cubatest1DB.getConnection().createStatement();
+//            s.execute("set sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
 
 
             ArrayList al = new ArrayList();al.add("0");
