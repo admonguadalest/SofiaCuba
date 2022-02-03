@@ -979,6 +979,7 @@
         <property name="proveedor" view="_base">
             <property name="persona" view="_base"/>
         </property>
+        <property name="imputacionesDocumentoImputable" view="_base"/>
     </view>
     <view entity="test1_Presupuesto" name="presupuesto-reasignaciones-imputaciones-view" extends="_base">
         <property name="proveedor" view="_base">

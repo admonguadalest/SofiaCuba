@@ -156,6 +156,11 @@ public class GestionarValidaciones extends Screen {
             for (int i = 0; i < lvidis.size(); i++) {
                 ValidacionImputacionDocumentoImputable validacionImputacionDocumentoImputable =  lvidis.get(i);
                 validacionImputacionDocumentoImputable = dataManager.reload(validacionImputacionDocumentoImputable, "validacionImputacionDocumentoImputable-view");
+                DocumentoProveedor dp = (DocumentoProveedor) validacionImputacionDocumentoImputable.getImputacionDocumentoImputable().getDocumentoImputable();
+                if (dp instanceof FacturaProveedor){
+                    dp = dataManager.reload((FacturaProveedor) dp, "facturaProveedor-reasignaciones-imputaciones-view");
+                    validacionImputacionDocumentoImputable.getImputacionDocumentoImputable().setDocumentoImputable(dp);
+                }
                 recargadas.add(validacionImputacionDocumentoImputable);
             }
             validacionesDc.getMutableItems().clear();
