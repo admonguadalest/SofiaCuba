@@ -2,12 +2,24 @@
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         caption="msg://caption"
         messagesPack="com.company.test1.web.screens">
+    <data>
+        <collection id="itemsDc" class="com.company.test1.entity.ItemNoEmitidoOAnomalo">
+            <loader id="itemsDl"/>
+        </collection>
+    </data>
     <layout expand="main">
         <vbox id="main">
             <hbox>
                 <dateField id="fechaDesdeField" caption="Fecha Desde"/>
                 <dateField id="fechaHastaField" caption="Fecha Hasta"/>
+                <button id="cargar" caption="Buscar"/>
             </hbox>
+            <dataGrid dataContainer="itemsDc">
+                <columns>
+                    <column id="departamento.nombreDescriptivoCompleto"></column>
+                    <column id="informacionReportada"/>
+                </columns>
+            </dataGrid>
 
         </vbox>
     </layout>
