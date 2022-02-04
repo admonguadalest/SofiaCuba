@@ -59,6 +59,7 @@ public class NoEmitidosOAnomalos extends Screen {
         }catch(Exception exc){
             notifications.create().withDescription(exc.getMessage()).show();
         }
+        return null;
     }
 
 
