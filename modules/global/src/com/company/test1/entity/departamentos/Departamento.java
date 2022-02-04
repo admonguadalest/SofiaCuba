@@ -111,6 +111,9 @@ public class Departamento extends StandardEntity implements AsTreeItem {
     @Column(name = "EXCLUIR_DE_MONITORIZACION_PARA_BUSQUEDA_DE_PISOS_VACIOS")
     protected Boolean excluirDeMonitorizacionParaBusquedaDePisosVacios;
 
+    @Column(name = "EXCLUIR_DE_MONITORIZACION_NO_EMITIDOS_O_ANOMALOS")
+    private Boolean excluirDeMonitorizacionNoEmitidosOAnomalos;
+
     @Column(name = "CON_SALIDA_DE_HUMOS")
     protected Boolean conSalidaDeHumos;
 
@@ -133,7 +136,6 @@ public class Departamento extends StandardEntity implements AsTreeItem {
     @OneToMany(mappedBy = "departamento")
     protected List<Coeficiente> coeficientes;
 
-    @Transient
     @MetaProperty
     public String getPisoPuerta() {
         return piso + " " + puerta;
@@ -163,7 +165,6 @@ public class Departamento extends StandardEntity implements AsTreeItem {
         return puerta;
     }
 
-    @Transient
     @MetaProperty
     public Propietario getPropietarioEfectivo() {
         if (this.getPropietario() != null) return this.getPropietario();
@@ -405,6 +406,14 @@ public class Departamento extends StandardEntity implements AsTreeItem {
             return o1.getRm2id().compareTo(o2.getRm2id());
         }
     };
+
+    public Boolean getExcluirDeMonitorizacionNoEmitidosOAnomalos() {
+        return excluirDeMonitorizacionNoEmitidosOAnomalos;
+    }
+
+    public void setExcluirDeMonitorizacionNoEmitidosOAnomalos(Boolean excluirDeMonitorizacionNoEmitidosOAnomalos) {
+        this.excluirDeMonitorizacionNoEmitidosOAnomalos = excluirDeMonitorizacionNoEmitidosOAnomalos;
+    }
 
 
 }

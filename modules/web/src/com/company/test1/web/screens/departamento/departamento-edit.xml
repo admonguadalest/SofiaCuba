@@ -62,8 +62,12 @@
                                             property="planoDepartamento" dataContainer="departamentoDc"
                                             width="100%"/>
                 <label id="lblBlank"/>
-                <checkBox id="excluirDeMonitorizacionParaBusquedaDePisosVaciosField"
-                          property="excluirDeMonitorizacionParaBusquedaDePisosVacios"/>
+                <hbox spacing="true">
+                    <checkBox id="excluirDeMonitorizacionParaBusquedaDePisosVaciosField"
+                          property="excluirDeMonitorizacionParaBusquedaDePisosVacios" caption="Excluir  de Vacios"/>
+                    <checkBox id="excluirDeMonitorizacionNoEmitidosOAnomalos" property="excluirDeMonitorizacionNoEmitidosOAnomalos"
+                              caption="Excluir de No Emit. Anomalos"/>
+                </hbox>
                 <textField id="numHabitacionesField" property="numHabitaciones"/>
             </column>
         </form>
