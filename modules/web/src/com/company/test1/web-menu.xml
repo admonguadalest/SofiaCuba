@@ -109,6 +109,7 @@
 <!--                <param name="newEntity" value="true"/>-->
 <!--            </item>-->
             <item bean="test1_MenuLauncherBean" beanMethod="launchNuevoReciboIndividualizado" id="nuevo-recibo-individualizado"/>
+            <item screen="test1_NoEmitidosOAnomalos"/>
         </menu>
         <menu id="incrementos">
             <item screen="test1_IncrementosGenerales"/>

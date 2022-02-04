@@ -34,6 +34,8 @@
                        value="com.company.test1.service.ModeloContratoInquilinoService"/>
                 <entry key="test1_CicloService" value="com.company.test1.service.CicloService"/>
                 <entry key="test1_ContabiService" value="com.company.test1.service.ContabiService"/>
+                <entry key="test1_NoEmitidosOAnomalosService"
+                       value="com.company.test1.service.NoEmitidosOAnomalosService"/>
 
             </map>
         </property>
