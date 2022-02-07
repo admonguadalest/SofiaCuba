@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Table(name = "CUENTA_BANCARIA")
 @Entity(name = "test1_CuentaBancaria")
-public class  CuentaBancaria extends StandardEntity {
+public class CuentaBancaria extends StandardEntity {
     private static final long serialVersionUID = 9102866434063904804L;
 
     @Transient
@@ -62,6 +62,7 @@ public class  CuentaBancaria extends StandardEntity {
     protected String pais;
 
     @Column(name = "CODIGO_BIC", length = 11)
+    @NotNull(message = "Proveer Codigo BIC")
     protected String codigoBIC;
 
     @NotNull(message = "Ingresar valor para digitos de control IBAN")
@@ -74,14 +75,12 @@ public class  CuentaBancaria extends StandardEntity {
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
-    @Transient
     @MetaProperty
     public String getVersionIBAN() {
         String s = this.pais + this.digigosControlIBAN + this.entidad + this.oficina + this.digitosControl + this.numeroCuenta;
         return s;
     }
 
-    @Transient
     @MetaProperty
     public String getTextoCuentaBancariaPropietario() {
         if (this.getPersona()==null){
