@@ -5,13 +5,15 @@ import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.service.NoEmitidosOAnomalosService;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Button;
+import com.haulmont.cuba.gui.components.DataGrid;
 import com.haulmont.cuba.gui.components.DateField;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,12 @@ public class NoEmitidosOAnomalos extends Screen {
     private NoEmitidosOAnomalosService noEmitidosOAnomalosService;
     @Inject
     private Notifications notifications;
+    @Inject
+    private Button btnEditarDepartamento;
+    @Inject
+    private ScreenBuilders screenBuilders;
+    @Inject
+    private DataGrid<ItemNoEmitidoOAnomalo> datagrid;
 
     @Subscribe("cargar")
     public void onCargarClick(Button.ClickEvent event) {
@@ -61,6 +69,18 @@ public class NoEmitidosOAnomalos extends Screen {
         }
         return null;
     }
+
+    @Subscribe("btnEditarDepartamento")
+    public void onBtnEditarDepartamentoClick(Button.ClickEvent event) {
+        ItemNoEmitidoOAnomalo item = datagrid.getSingleSelected();
+        if (item!=null){
+            screenBuilders.editor(Departamento.class, this).editEntity(item.getDepartamento()).withOpenMode(OpenMode.NEW_TAB).build().show();
+        }else{
+            notifications.create().withDescription("Seleccionar un item").show();
+        }
+
+    }
+
 
 
 

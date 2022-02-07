@@ -37,6 +37,7 @@
                              optionsEnum="com.company.test1.entity.enums.TipoCiclo"/>
             </hbox>
             <scrollBox height="100%">
+                <label id="lblNumRows"></label>
                 <table id="tableValidaciones" height="400px" width="100%" dataContainer="validacionesDc">
 
 
@@ -59,8 +60,12 @@
                     <buttonsPanel>
                         <button id="btnVerRegistroDocumento" caption="Ver Documento Imputable"
                                 invoke="onBtnVerRegistroDocumentoClick"/>
-                        <button id="btnVerEscaneoDocumento" caption="Ver Escaneo Documento"
-                                invoke="onBtnVerEscaneoDocumentoClick"/>
+                        <hbox spacing="true">
+                            <button id="btnVerEscaneoDocumento" caption="Ver Escaneo Documento"
+                                    invoke="onBtnVerEscaneoDocumentoClick"/>
+                            <checkBox id="btnAmpliarEscaneosTipoFactura" caption="Incluir Pptos. (si disponibles)" align="BOTTOM_LEFT"/>
+                        </hbox>
+
                         <button id="btnConsultarCiclo" caption="Consultar Ciclo" invoke="onBtnConsultarCicloClick"/>
                     </buttonsPanel>
 

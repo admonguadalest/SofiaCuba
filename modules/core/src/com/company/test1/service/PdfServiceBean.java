@@ -1,9 +1,17 @@
 package com.company.test1.service;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.*;
+import org.apache.fop.pdf.PDFDocument;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +20,39 @@ import java.util.Map;
 
 @Service(PdfService.NAME)
 public class PdfServiceBean implements PdfService {
+
+    public List<byte[]> pdfToImageList(byte[] bb) throws Exception{
+        List<byte[]> images = new ArrayList();
+        PDDocument pdf = PDDocument.load(bb);
+        PDFRenderer pdfRenderer = new PDFRenderer(pdf);
+        for (int page = 0; page < pdf.getNumberOfPages(); ++page) {
+            BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 150, ImageType.RGB);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bim, "jpg",baos);
+            images.add(baos.toByteArray());
+        }
+        pdf.close();
+        return images;
+    }
+
+    public byte[] imagesToPdf(List<byte[]> images) throws Exception{
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Document document = new Document(PageSize.A4, 20.0f, 20.0f, 20.0f, 20.0f);
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, baos);
+        document.open();
+        for (int i = 0; i < images.size(); i++) {
+            byte[] im = images.get(i);
+            com.itextpdf.text.Image itxtim = com.itextpdf.text.Image.getInstance(im);
+            document.setPageSize(itxtim);
+            document.newPage();
+            itxtim.setAbsolutePosition(0, 0);
+            document.add(itxtim);
+        }
+        document.close();
+
+        return baos.toByteArray();
+
+    }
 
     public void concatPdfs(Map m, OutputStream os, boolean paginate) {
         ArrayList al = new ArrayList();
@@ -64,14 +105,6 @@ public class PdfServiceBean implements PdfService {
                     currentPageNumber++;
                     page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
                     cb.addTemplate(page, 0, 0);
-
-                    // Code for pagination.
-//            if (paginate) {
-//                cb.beginText();
-//                cb.setFontAndSize(bf, 9);
-//                cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "" + currentPageNumber + " of " + totalPages, 520, 5, 0);
-//                cb.endText();
-//            }
                 }
                 pageOfCurrentReaderPDF = 0;
             }

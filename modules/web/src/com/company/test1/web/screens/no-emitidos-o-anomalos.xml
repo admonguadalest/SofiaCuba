@@ -8,16 +8,17 @@
         </collection>
     </data>
     <layout expand="main">
-        <vbox id="main">
-            <hbox>
+        <vbox id="main" expand="datagrid" spacing="true">
+            <hbox spacing="true">
                 <dateField id="fechaDesdeField" caption="Fecha Desde"/>
                 <dateField id="fechaHastaField" caption="Fecha Hasta"/>
-                <button id="cargar" caption="Buscar"/>
+                <button id="cargar" caption="Buscar" align="BOTTOM_LEFT"/>
+                <button id="btnEditarDepartamento" caption="Editar Depto" align="BOTTOM_LEFT"/>
             </hbox>
-            <dataGrid dataContainer="itemsDc">
+            <dataGrid dataContainer="itemsDc" id="datagrid" width="100%">
                 <columns>
-                    <column id="departamento.nombreDescriptivoCompleto"></column>
-                    <column id="informacionReportada"/>
+                    <column id="departamento.nombreDescriptivoCompleto" property="departamento.nombreDescriptivoCompleto"></column>
+                    <column id="informacionReportada" property="informacionReportada"/>
                 </columns>
             </dataGrid>
 

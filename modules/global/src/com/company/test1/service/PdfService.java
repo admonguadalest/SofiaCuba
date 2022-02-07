@@ -1,6 +1,7 @@
 package com.company.test1.service;
 
 
+import java.awt.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -12,6 +13,9 @@ public interface PdfService {
     void concatPdfs(Map m, OutputStream os, boolean paginate);
     void concatPdfs(List<InputStream> streamOfPDFFiles, OutputStream outputStream, boolean paginate);
     byte[] concatPdfs(List<byte[]> inputStreams, boolean paginate);
+
+    List<byte[]> pdfToImageList(byte[] bb) throws Exception;
+    byte[] imagesToPdf(List<byte[]> images) throws Exception;
 
 
 }
