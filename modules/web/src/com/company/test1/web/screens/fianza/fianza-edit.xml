@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.fianza">
+    <data>
+        <instance id="fianzaDc"
+                  class="com.company.test1.entity.contratosinquilinos.Fianza"
+                  view="_base">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="fianzaDc">
+                <column width="250px">
+                    <checkBox id="esAvalBancarioField" property="esAvalBancario"/>
+                    <dateField id="fechaAbonoFianzaField" property="fechaAbonoFianza"/>
+                    <textField id="fianzaComplementariaField" property="fianzaComplementaria"/>
+                    <textField id="fianzaLegalField" property="fianzaLegal"/>
+                    <textField id="identificadorAvalField" property="identificadorAval"/>
+                    <textArea id="observacionesField" property="observaciones" rows="5"/>
+                    <lookupField id="estadoFianzaField" property="estadoFianza"/>
+                    <checkBox id="tienePolizaAlquilerField" property="tienePolizaAlquiler"/>
+                    <textField id="numeroPolizaField" property="numeroPoliza"/>
+                    <textField id="informacionDeContactoPolizaField" property="informacionDeContactoPoliza"/>
+                    <dateField id="fechaIngresoFianzaEnCamaraField" property="fechaIngresoFianzaEnCamara"/>
+                    <dateField id="fechaRescateFianzaDeCamaraField" property="fechaRescateFianzaDeCamara"/>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

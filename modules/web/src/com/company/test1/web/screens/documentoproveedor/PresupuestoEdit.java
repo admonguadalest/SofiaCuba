@@ -11,10 +11,13 @@ import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.extroles.Proveedor;
+import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.imputaciondocumentoimputable.ImputacionDocumentoImputableEdit;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.builders.EditorBuilder;
@@ -59,6 +62,10 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
     private DataManager dataManager;
     @Inject
     private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
+    @Inject
+    private Notifications notifications;
+    @Inject
+    private ValidacionesService validacionesService;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -94,7 +101,33 @@ public class PresupuestoEdit extends StandardEditor<Presupuesto> {
 
     @Subscribe
     private void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
-        int y = 2;
+        if (!this.getEditedEntity().getProveedor().getModoDePagoTelematico()){
+            return;
+        }
+        /* gestionando las validaciones */
+        try {
+            Presupuesto fp = (Presupuesto) validacionesService.gestionaValidacionesImputacionesDocumentoImputableDesdeDocumentoImputable(this.getEditedEntity(), true);
+            this.setEntityToEdit(fp);
+            this.getEditedEntityContainer().setItem(fp);
+            //anadimos al contexto para que gestione el guardado de las validaciones
+            dataContext.merge(fp);
+
+            for (int i = 0; i < fp.getImputacionesDocumentoImputable().size(); i++) {
+                ImputacionDocumentoImputable idi = fp.getImputacionesDocumentoImputable().get(i);
+                dataContext.merge(idi);
+                ValidacionImputacionDocumentoImputable vidi = idi.getValidacionImputacion();
+                idi.setValidacionImputacion(null);
+                idi.setValidacionImputacion(vidi);
+                if (idi.getValidacionImputacion()!=null){
+                    dataContext.merge(idi.getValidacionImputacion());
+                    dataContext.merge(idi);
+                }
+            }
+
+        }catch(Exception exc){
+            event.preventCommit();
+            notifications.create().withCaption("No se pudieron generar las validaciones para el documento: " + exc.getMessage()).show();
+        }
     }
 
 

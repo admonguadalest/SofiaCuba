@@ -97,7 +97,23 @@ public class GeneracionOrdenPagoFacturaProveedor extends Screen {
     private List<OrdenPago> ordenesPagoDlLoadDelegate(LoadContext<OrdenPago> loadContext) {
 
             List<OrdenPago> oopp = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(facturaProveedor.getProveedor());
-            return oopp;
+            ArrayList al = new ArrayList();
+            Double importePendiente = 0.0;
+        for (int i = 0; i < oopp.size(); i++) {
+            OrdenPago op = oopp.get(i);
+            if (op instanceof OrdenPagoProveedor){
+                op = dataManager.reload(op, "ordenPagoProveedor-view");
+                importePendiente = ((OrdenPagoProveedor)op).getImportePendienteCompensacion();
+            }
+            if (op instanceof OrdenPagoAbono){
+                op = dataManager.reload(op, "ordenPagoAbono-view");
+                importePendiente = ((OrdenPagoAbono)op).getImportePendienteCompensacion();
+            }
+            if (importePendiente>0.001){
+                al.add(op);
+            }
+        }
+            return al;
 
 
     }

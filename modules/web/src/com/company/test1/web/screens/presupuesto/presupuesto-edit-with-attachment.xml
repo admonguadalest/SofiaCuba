@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
-        caption="msg://editorCaption"
+        caption="Presupuesto con Adjunto"
         focusComponent="form"
         messagesPack="com.company.test1.web.screens.presupuesto">
     <data>
@@ -8,54 +8,133 @@
                   class="com.company.test1.entity.documentosImputables.Presupuesto"
                   view="presupuesto-view">
             <loader/>
+            <collection id="registroAplicacionConceptosAdicionalesDc" property="registroAplicacionConceptosAdicionales"/>
+            <collection id="imputacionesDocumentoImputableDc" property="imputacionesDocumentoImputable"
+            >
+
+            </collection>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
         </instance>
     </data>
-    <dialogMode height="600"
-                width="800"/>
-    <layout  spacing="true">
-        <vbox expand="split">
-        <split orientation="horizontal" height="100%" width="100%" id="split">
-        <scrollBox id="scrollBox" spacing="true">
-            <form id="form" dataContainer="presupuestoDc">
-                <column width="250px">
-                    <textArea id="descripcionDocumentoField" property="descripcionDocumento" rows="5"/>
-                    <textField id="marcajesProvisionalField" property="marcajesProvisional"/>
-                    <dateField id="fechaEmisionField" property="fechaEmision"/>
-                    <textField id="importeTotalBaseField" property="importeTotalBase"/>
-                    <textField id="importePostCCAAField" property="importePostCCAA"/>
-                    <textField id="numDocumentoField" property="numDocumento"/>
-                    <textArea id="observacionesField" property="observaciones" rows="5"/>
-                    <pickerField id="coleccionArchivosAdjuntosField" property="coleccionArchivosAdjuntos">
-                        <actions>
-                            <action id="lookup" type="picker_lookup"/>
-                            <action id="clear" type="picker_clear"/>
-                        </actions>
-                    </pickerField>
-                    <checkBox id="archivadoField" property="archivado"/>
-                    <checkBox id="omitirControlDeOrdenPagoField" property="omitirControlDeOrdenPago"/>
-                    <textField id="rm2idField" property="rm2id"/>
-                    <lookupField id="tipoEnumField" property="tipoEnum"/>
-                    <pickerField id="proveedorField" property="proveedor">
-                        <actions>
-                            <action id="lookup" type="picker_lookup"/>
-                            <action id="clear" type="picker_clear"/>
-                        </actions>
-                    </pickerField>
-                    <checkBox id="esPresupuestoVerbalField" property="esPresupuestoVerbal"/>
-                    <dateField id="fechaValidezHastaField" property="fechaValidezHasta"/>
-                    <textField id="realizadoPorField" property="realizadoPor"/>
-                    <textField id="importeDefinitivoField" property="importeDefinitivo"/>
-                    <textArea id="consideracionesPresupuestoField" property="consideracionesPresupuesto" rows="5"/>
-                </column>
-            </form>
-        </scrollBox>
-        <browserFrame id="brwDocumentPreview" width="100%" height="100%"/>
-        </split>
 
-        <hbox id="editActions" spacing="true">
-            <button action="windowCommitAndClose"/>
-            <button action="windowClose"/>
-        </hbox>
+    <layout spacing="true" width="100%" height="100%">
+        <vbox width="100%" height="100%" expand="split" spacing="true">
+            <split orientation="horizontal" height="100%" width="100%" id="split">
+
+                <scrollBox id="scrollBox" spacing="true" height="100%">
+                    <vbox>
+                        <form id="form" dataContainer="presupuestoDc" width="100%" height="100%">
+                            <column width="100%">
+                                <vbox spacing="true">
+                                    <pickerField id="titularField" dataContainer="presupuestoDc" property="titular" captionProperty="nombreCompleto"
+                                                 caption="Titular"/>
+                                    <pickerField id="proveedorField" dataContainer="presupuestoDc" property="proveedor"
+                                                 captionProperty="persona.nombreCompleto" caption="Proveedor" width="100%">
+
+                                    </pickerField>
+                                    <textField id="numDocumentoField" caption="Num.Documento" width="100%"
+                                               dataContainer="presupuestoDc" property="numDocumento"/>
+                                    <textArea id="descripcionDocumentoField" rows="5"
+                                              caption="Descripcion" width="100%" dataContainer="presupuestoDc"
+                                              property="descripcionDocumento"/>
+                                    <textField id="importeTotalBaseField"
+                                               dataContainer="presupuestoDc" caption="Importe Base" property="importeTotalBase"/>
+                                </vbox>
+                            </column>
+                            <column width="100%">
+                                <vbox spacing="true">
+                                    <dateField resolution="DAY" id="fechaEmisionField" caption="Fecha Emision" width="100%"
+                                               dataContainer="presupuestoDc" property="fechaEmision"/>
+
+                                    <textArea id="observacionesField" dataContainer="presupuestoDc" property="observaciones" rows="5" caption="Observaciones"
+                                              width="100%"/>
+                                    <textArea dataContainer="presupuestoDc" id="marcajesProvisionalField" property="marcajesProvisional" rows="5"
+                                              caption="Marcajes Provisional" width="100%"/>
+                                </vbox>
+                            </column>
+                            <column width="100%">
+                                <vbox spacing="true">
+                                    <groupBox orientation="horizontal" spacing="true" width="100%">
+                                        <textArea width="100%" caption="Consideraciones" dataContainer="presupuestoDc"
+                                                  property="consideracionesPresupuesto"/>
+                                    </groupBox>
+                                </vbox>
+                            </column>
+                        </form>
+                    </vbox>
+                    <vbox spacing="true" width="100%">
+                        <groupBox caption="ConceptosAdicionales">
+                            <table id="tableRegistrosAplicacionesCCAA" height="250px" width="100%"
+                                   dataContainer="registroAplicacionConceptosAdicionalesDc" editable="true">
+                                <columns>
+                                    <column id="conceptoAdicional.abreviacion" caption="Concepto"/>
+                                    <column id="base" caption="Base" />
+                                    <column id="porcentaje" />
+                                    <column id="importeAplicado" />
+                                </columns>
+
+                                <buttonsPanel>
+                                    <!--
+                                    <button caption="Nuevo" invoke="OnBtnNuevoRCA"/>
+                                    <button caption="Editar" invoke="OnBtnEditarRCA"/>
+                                    <button caption="Eliminar" invoke="OnBtnEliminarRCA"/>
+                                    -->
+                                </buttonsPanel>
+                            </table>
+                        </groupBox>
+                    </vbox>
+                    <vbox>
+                        <form width="100%" >
+                            <column width="50%">
+                                <textField id="importePostCCAAField" dataContainer="presupuestoDc" property="importePostCCAA"/>
+                                <checkBox id="archivadoField" property="archivado" caption="Archivado"/>
+                                <dateField resolution="DAY" id="fechaDevengoField" caption="Fecha Emisión"
+                                           dataContainer="presupuestoDc" property="fechaEmision"/>
+                            </column>
+                            <column width="50%">
+                                <checkBox id="omitirControlDeOrdenPagoField" property="omitirControlDeOrdenPago"
+                                          caption="Omitir Control de Pago"/>
+                                <dateField resolution="DAY" id="fechaPagoField" property="fechaPago" caption="Fecha de Pago"/>
+                                <checkBox id="pagoPorCajaField" property="pagoPorCaja" caption="Pago por Caja"/>
+                            </column>
+
+                        </form>
+                    </vbox>
+                    <groupBox spacing="true" caption="Imputaciones">
+
+                        <table id="tableImputaciones" height="200px" width="100%"
+                               dataContainer="imputacionesDocumentoImputableDc">
+                            <columns>
+                                <column id="ciclo.departamento.nombreDescriptivoCompleto"/>
+                                <column id="importeImputacion"/>
+                                <column id="porcentajeImputacion"/>
+                                <column id="descripcionImputacion"/>
+
+                            </columns>
+                            <actions>
+                                <action id="create" type="create"/>
+                                <action id="edit" type="edit"/>
+                                <action id="remove" type="remove"/>
+                            </actions>
+                            <buttonsPanel>
+                                <button id="btnNuevaImputacion" action="tableImputaciones.create" caption="Nueva"/>
+                                <button id="btnEditar" action="tableImputaciones.edit"/>
+                                <button id="btnEliminar" action="tableImputaciones.remove"/>
+                            </buttonsPanel>
+                        </table>
+                    </groupBox>
+                    <groupBox spacing="true" caption="Archivos Adjuntos">
+                        <fragment screen="test1_ColeccionArchivosAdjuntosFragment"/>
+                    </groupBox>
+
+                </scrollBox>
+                <browserFrame id="brwDocumentPreview" width="100%" height="100%"/>
+            </split>
+
+            <hbox id="editActions" spacing="true">
+                <button action="windowCommitAndClose"/>
+                <button action="windowClose"/>
+            </hbox>
         </vbox>
     </layout>
 </window>

@@ -6,6 +6,8 @@ import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicion
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.extroles.Proveedor;
+import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
@@ -38,9 +40,12 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
     private Table<RegistroAplicacionConceptoAdicional> tableRegistrosAplicacionesCCAA;
 //    @Inject
 //    private Table<ImputacionDocumentoImputable> tableImputaciones;
+
+
+    @Inject
+    private CollectionPropertyContainer<ImputacionDocumentoImputable> imputacionesDocumentoImputableDc;
     @Inject
     private CollectionPropertyContainer<RegistroAplicacionConceptoAdicional> registroAplicacionConceptosAdicionalesDc;
-
     @Inject
     private DataContext dataContext;
     @Inject
@@ -56,6 +61,8 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
     Consumer<Integer> attachmentConsumer;
     @Inject
     private BrowserFrame brwDocumentPreview;
+    @Inject
+    private ValidacionesService validacionesService;
 
 
     private Persona getPersonaFromMail(String mail){
@@ -146,6 +153,10 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
             Presupuesto fp = presupuestoDc.getItem();
             fp.setColeccionArchivosAdjuntos(caa);
         }
+
+        if (attachmentConsumer!=null){
+            attachmentConsumer.accept(0);
+        }
     }
 
 
@@ -158,7 +169,32 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
 
     @Subscribe
     private void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
-        int y = 2;
+        if (!this.getEditedEntity().getProveedor().getModoDePagoTelematico()){
+            return;
+        }
+        /* gestionando las validaciones */
+        try {
+            Presupuesto fp = (Presupuesto) validacionesService.gestionaValidacionesImputacionesDocumentoImputableDesdeDocumentoImputable(this.getEditedEntity(), true);
+            this.setEntityToEdit(fp);
+            this.getEditedEntityContainer().setItem(fp);
+            //anadimos al contexto para que gestione el guardado de las validaciones
+            dataContext.merge(fp);
+
+            for (int i = 0; i < fp.getImputacionesDocumentoImputable().size(); i++) {
+                ImputacionDocumentoImputable idi = fp.getImputacionesDocumentoImputable().get(i);
+                dataContext.merge(idi);
+                ValidacionImputacionDocumentoImputable vidi = idi.getValidacionImputacion();
+                idi.setValidacionImputacion(null);
+                idi.setValidacionImputacion(vidi);
+                if (idi.getValidacionImputacion()!=null){
+                    dataContext.merge(idi.getValidacionImputacion());
+                }
+            }
+
+        }catch(Exception exc){
+            event.preventCommit();
+            notifications.create().withCaption("No se pudieron generar las validaciones para el documento: " + exc.getMessage()).show();
+        }
     }
 
 

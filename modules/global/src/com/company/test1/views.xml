@@ -721,6 +721,16 @@
         <property name="escaneoFianza" view="_base"/>
         <property name="contratoInquilino" view="_base"/>
     </view>
+    <view entity="test1_Fianza" name="fianza-monitorizacion" extends="_base">
+        <property name="contratoInquilino" view="_base">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+            <property name="inquilino" view="_base">
+
+            </property>
+        </property>
+    </view>
     <view entity="test1_CotitularContratoInquilino" name="cotitularContratoInquilino-view" extends="_local">
         <property name="contratoInquilino" view="_minimal">
             <property name="numeroContrato"/>

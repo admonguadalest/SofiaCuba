@@ -243,6 +243,7 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
                     String anno = mesAnno.substring(2);
                     Integer imes = Integer.valueOf(mes);
                     Integer ianno = Integer.valueOf(anno);
+                    ianno++;
                     boolean decreaseYear = false;
                     for (int i = 0; i < 3; i++) {
                         imes--;

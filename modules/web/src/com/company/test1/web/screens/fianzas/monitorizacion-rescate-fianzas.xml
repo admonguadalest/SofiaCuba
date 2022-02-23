@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Monitorización Fianzas"
+        messagesPack="com.company.test1.web.screens.fianzas">
+    <data>
+        <collection id="fianzasDc" class="com.company.test1.entity.contratosinquilinos.Fianza">
+            <loader id="fianzasDl"/>
+        </collection>
+    </data>
+    <layout expand="dataGridFianzas" spacing="true">
+
+        <hbox spacing="true">
+            <label value="Contratos finalizados entre fechas:"></label>
+            <dateField id="fechaDesdeField"/>
+            <dateField id="fechaHastaField"/>
+            <button id="btnBuscar" caption="Buscar"/>
+        </hbox>
+        <dataGrid dataContainer="fianzasDc" width="100%" id="dataGridFianzas">
+            <actions>
+                <action id="editFianza" type="edit"/>
+            </actions>
+            <columns>
+                <column id="contratoInquilino.departamento.nombreDescriptivoCompleto" property="contratoInquilino.departamento.nombreDescriptivoCompleto"></column>
+                <column property="contratoInquilino.inquilino.nombreCompleto"/>
+                <column property="contratoInquilino.fechaDesocupacion"/>
+                <column id="fechaAbonoFianza" property="fechaAbonoFianza"/>
+                <column id="fechaIngresoFianzaEnCamara" property="fechaIngresoFianzaEnCamara"/>
+                <column id="fechaRescateFianzaDeCamara" property="fechaRescateFianzaDeCamara"/>
+            </columns>
+        </dataGrid>
+
+    </layout>
+</window>

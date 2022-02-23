@@ -5,6 +5,7 @@ import com.company.test1.entity.PuntoEntradaDocumentos;
 import com.company.test1.entity.StorageElement;
 import com.company.test1.entity.TipoPuntoEntradaDocumentosEnum;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
 import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
 import com.haulmont.cuba.core.entity.FileDescriptor;
@@ -246,7 +247,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
         MapScreenOptions mso = new MapScreenOptions(map);
-        screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_PresupuestoWithAttachment.edit")
+        screenBuilders.editor(Presupuesto.class, this).withScreenId("test1_PresupuestoWithAttachment.edit")
                 .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build().show();
     }
 

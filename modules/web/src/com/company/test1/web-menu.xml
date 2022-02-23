@@ -124,7 +124,11 @@
             <item screen="test1_Mod347" id="mod-347"/>
             <item screen="test1_ConciliacionRecibosZhelper"/>
         </menu>
-        <item screen="test1_Fianzas" id="fianzas"/>
+        <menu id="Fianzas">
+            <item screen="test1_Fianzas" id="fianzas"/>
+            <item screen="test1_MonitorizacionRescateFianzas" id="monitorizacion-fianzas"/>
+        </menu>
+
         <menu id="aumentos">
             <menu id="IPC">
                 <item screen="test1_IncrementosIndiceReferencia" id="registrar-indice-referencia" openType="NEW_TAB"/>

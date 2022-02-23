@@ -53,6 +53,7 @@
                 <button id="createBtn" action="presupuestoesTable.create"/>
                 <button id="editBtn" action="presupuestoesTable.edit"/>
                 <button id="removeBtn" action="presupuestoesTable.remove"/>
+                <button id="btnVerEscaneos" caption="Ver Escaneos" invoke="onBtnVerEscaneosClick"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">
