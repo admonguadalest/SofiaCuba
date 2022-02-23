@@ -13,6 +13,8 @@ import com.company.test1.service.PdfService;
 import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.core.global.Sort;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
@@ -22,6 +24,7 @@ import com.haulmont.cuba.gui.components.HBoxLayout;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
+import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 
@@ -43,6 +46,10 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private OrdenPagoService ordenPagoService;
     @Inject
     private ScreenBuilders screenBuilders;
+
+
+    @Inject
+    private CollectionLoader<FacturaProveedor> facturaProveedorDl;
     @Inject
     private Table<DocumentoProveedor> documentoProveedorsTable;
     @Inject
@@ -147,6 +154,15 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
             }
         }catch(Exception exc){
             notifications.create().withCaption(exc.getMessage()).show();
+        }
+    }
+
+    @Install(to = "facturaProveedorDl", target = Target.DATA_LOADER)
+    private List<FacturaProveedor> facturaProveedorDlLoadDelegate(LoadContext<FacturaProveedor> loadContext) {
+        if (loadContext.getQuery().getParameters().size()==0){
+            return dataManager.loadList(loadContext);
+        }else{
+            return dataManager.loadList(loadContext);
         }
     }
 
