@@ -14,10 +14,7 @@ import com.company.test1.entity.ordenespago.OrdenPago;
 import com.company.test1.entity.ordenespago.OrdenPagoAbono;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
-import com.company.test1.service.ColeccionArchivosAdjuntosService;
-import com.company.test1.service.JasperReportService;
-import com.company.test1.service.OrdenPagoService;
-import com.company.test1.service.ValidacionesService;
+import com.company.test1.service.*;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.global.DataManager;
@@ -42,9 +39,14 @@ import com.haulmont.cuba.gui.model.impl.InstanceContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 
 
-
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import java.awt.*;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -52,7 +54,8 @@ import java.util.List;
 @UiController("test1_GestionarValidaciones")
 @UiDescriptor("gestionar-validaciones.xml")
 public class GestionarValidaciones extends Screen {
-
+    @Inject
+    private CheckBox btnAmpliarEscaneosTipoFactura;
     @Inject
     private ScreenBuilders screenBuilders;
     @Inject
@@ -107,6 +110,10 @@ public class GestionarValidaciones extends Screen {
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
     @Inject
     private JasperReportService jasperReportService;
+    @Inject
+    private Label<String> lblNumRows;
+    @Inject
+    private PdfService pdfService;
 
     @Subscribe
     public void onAfterInit(AfterInitEvent event) {
@@ -165,6 +172,8 @@ public class GestionarValidaciones extends Screen {
             }
             validacionesDc.getMutableItems().clear();
             validacionesDc.getMutableItems().addAll(recargadas);
+
+            lblNumRows.setValue( "(" + Integer.valueOf(recargadas.size()) + " registros)");
 
 
         }catch(Exception exc){
@@ -331,15 +340,73 @@ public class GestionarValidaciones extends Screen {
                 di = dataManager.reload(di, "presupuesto-view");
             }
 
-            ArchivoAdjunto aa =di.getColeccionArchivosAdjuntos().getArchivos().get(0);
-
-            ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
-            byte[] bytes = aaext.getRepresentacionSerial();
-            bytes = Base64.getMimeDecoder().decode(bytes);
-            bytes = Base64.getMimeDecoder().decode(bytes);
+            ArchivoAdjunto aa  = di.getColeccionArchivosAdjuntos().getArchivos().get(0);
+            byte[] bytes = devuelveDescargableSegunTipoDocumentoYOpcion(di, btnAmpliarEscaneosTipoFactura.getValue());
             exportDisplay.show(new ByteArrayDataProvider(bytes), aa.getNombreArchivo(), ExportFormat.getByExtension(aa.getExtension()));
         }catch(Exception exc){
             notifications.create().withCaption("Error").withDescription("No se pudo descargar el archivo").show();
+        }
+    }
+
+    private byte[] devuelveDescargableSegunTipoDocumentoYOpcion(DocumentoImputable di, Boolean ampliarEscaneosParaFacturas) throws Exception{
+        if (ampliarEscaneosParaFacturas==null){
+            ampliarEscaneosParaFacturas = false;
+        }
+        ArchivoAdjunto aa =di.getColeccionArchivosAdjuntos().getArchivos().get(0);
+
+        ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
+        byte[] bytes = aaext.getRepresentacionSerial();
+        bytes = Base64.getMimeDecoder().decode(bytes);
+        bytes = Base64.getMimeDecoder().decode(bytes);
+
+        if ((ampliarEscaneosParaFacturas)&&(di instanceof FacturaProveedor)){
+            FacturaProveedor fprov = (FacturaProveedor) di;
+            List<byte[]> imagesFra = new ArrayList();
+            if (aa.getExtension().toLowerCase().compareTo("pdf")==0){
+                imagesFra = pdfService.pdfToImageList(bytes);
+            }else{
+                imagesFra.add(bytes);
+            }
+            if (fprov.getPresupuesto()!=null){
+                Presupuesto p = fprov.getPresupuesto();
+                p = dataManager.reload(p, "presupuesto-view");
+                ArchivoAdjunto aap = p.getColeccionArchivosAdjuntos().getArchivos().get(0);
+                ArchivoAdjuntoExt aaextp = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aap);
+                byte[] bytesp = aaextp.getRepresentacionSerial();
+                bytesp = Base64.getMimeDecoder().decode(bytesp);
+                bytesp = Base64.getMimeDecoder().decode(bytesp);
+                List<byte[]> imagesPpto = new ArrayList();
+                if (aap.getExtension().toLowerCase().compareTo("pdf")==0){
+                    imagesPpto = pdfService.pdfToImageList(bytesp);
+                }else{
+                    imagesPpto.add(bytesp);
+                }
+                //overlay de importeDefinitivo y observaciones
+                if ((p.getImporteDefinitivo()!=null) && (p.getConsideracionesPresupuesto()!=null)){
+                    String importeDefinitivo = new DecimalFormat("#,##0.00").format(p.getImporteDefinitivo());
+                    for (int i = 0; i < imagesPpto.size(); i++) {
+                        Image bim = ImageIO.read(new ByteArrayInputStream(imagesPpto.get(i)));
+                        int h = bim.getHeight(null);
+                        int w = bim.getWidth(null);
+                        Graphics g = bim.getGraphics();
+                        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+
+                        g.setColor(Color.red);
+                        g.drawString(importeDefinitivo, 20, h - 140);
+                        g.drawString(p.getConsideracionesPresupuesto(), 20, h - 100);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ImageIO.write((RenderedImage)bim, "jpg",baos);
+                        imagesPpto.set(i, baos.toByteArray());
+
+                    }
+                }
+
+                imagesFra.addAll(imagesPpto);
+            }
+            bytes = pdfService.imagesToPdf(imagesFra);
+            return bytes;
+        }else{
+            return bytes;
         }
     }
 

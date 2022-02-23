@@ -64,9 +64,10 @@
                 <label id="lblBlank"/>
                 <hbox spacing="true">
                     <checkBox id="excluirDeMonitorizacionParaBusquedaDePisosVaciosField"
-                          property="excluirDeMonitorizacionParaBusquedaDePisosVacios" caption="Excluir  de Vacios"/>
+                          property="excluirDeMonitorizacionParaBusquedaDePisosVacios" caption="Excluir  de Vacios"
+                    dataContainer="departamentoDc"/>
                     <checkBox id="excluirDeMonitorizacionNoEmitidosOAnomalos" property="excluirDeMonitorizacionNoEmitidosOAnomalos"
-                              caption="Excluir de No Emit. Anomalos"/>
+                              caption="Excluir de No Emit. Anomalos" dataContainer="departamentoDc"/>
                 </hbox>
                 <textField id="numHabitacionesField" property="numHabitaciones"/>
             </column>

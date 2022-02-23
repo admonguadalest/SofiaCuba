@@ -10,7 +10,9 @@ public enum ValidacionEstado implements EnumClass<Integer> {
     PENDIENTE(1),
     PARCIALMENTE_VALIDADO(2),
     VALIDADO(3),
-    RECHAZADO(4);
+    RECHAZADO(4),
+    CADUCADO(5),
+    VALIDADO_SIN_PAGO(6);
 
     private Integer id;
 

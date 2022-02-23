@@ -21,8 +21,8 @@ public class NoEmitidosOAnomalosServiceBean implements NoEmitidosOAnomalosServic
     @Override
     public List<Departamento> getDepartamentosMonitorizados() throws Exception {
         String eql = "select d from test1_Departamento d where d.excluirDeMonitorizacionNoEmitidosOAnomalos is null or " +
-                "d.excluirDeMonitorizacionNoEmitidosOAnomalos == false";
-        List<Departamento> dd = dataManager.load(Departamento.class).query(eql).list();
+                "d.excluirDeMonitorizacionNoEmitidosOAnomalos = false";
+        List<Departamento> dd = dataManager.load(Departamento.class).query(eql).view("departamento-view").list();
         return dd;
     }
 

@@ -93,7 +93,7 @@ public class ValidacionesServiceBean implements ValidacionesService {
             }
         }
         q.setQueryString(hql);
-        List<ValidacionImputacionDocumentoImputable> lvidis = q.setMaxResults(50).getResultList();
+        List<ValidacionImputacionDocumentoImputable> lvidis = q.setMaxResults(500).getResultList();
         t.close();
         return lvidis;
 
