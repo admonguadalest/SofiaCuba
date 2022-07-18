@@ -9,6 +9,7 @@ package com.company.test1.service.accessory;
 import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.Direccion;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
+import com.company.test1.entity.contratosinquilinos.CotitularContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
 import com.company.test1.entity.recibos.Recibo;
@@ -110,6 +111,7 @@ public class ReportRecibo {
         Double totalReciboPostCCAA = null;
         Double totalReciboMasCobranzas = 0.0;
         String cuentaIban = null;
+        String cotitulares = "Sin cotitulares";
 
         List<ImplementacionConcepto> iccAgregados = null;
 
@@ -153,6 +155,19 @@ public class ReportRecibo {
             this.nombreCompleto = r.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
             this.nombreCompletoPropietario = d.getPropietarioEfectivo().getPersona().getNombreCompleto();
             this.nombre50 = "LUGAR DE PAGO";//pendiente solventar
+
+            List<CotitularContratoInquilino> cc = this.recibo.getUtilitarioContratoInquilino().getCotitulares();
+            if (cc.size()>0){
+                this.cotitulares = "";
+                for (int i = 0; i < cc.size(); i++) {
+                    CotitularContratoInquilino cci = cc.get(i);
+                    if (i > 0){
+                        this.cotitulares += " / ";
+                    }
+                    this.cotitulares += cci.getCotitular().getNombreCompleto();
+                }
+            }
+
 
             Direccion dirInquilino = r.getUtilitarioContratoInquilino().getInquilino().getDirecciones().get(0);//pendiente ampliar a tipologias de direccion
             this.dirinquilino1 = dirInquilino.getNombreVia() + " " + dirInquilino.getNumeroVia() + " " + dirInquilino.getPiso() + " " + dirInquilino.getPuerta();
@@ -340,5 +355,9 @@ public class ReportRecibo {
         public Double getTotalCobranzas(){return totalCobranzas;};
 
         public Double getTotalReciboMasCobranzas(){return totalReciboMasCobranzas;}
+
+        public String getCotitulares(){
+            return this.cotitulares;
+        }
     }
 }

@@ -101,8 +101,7 @@ public class Fianzas extends Screen {
             if (hqlG.trim().length()>0) hqlG += " OR ";
             hqlG += " (f.tienePolizaAlquiler = true) ";
         }
-        if (hqlG.trim().length()>0)
-            hql += " AND (" + hqlG + ") ";
+
 
         String hqlF = "";
         if(chbNoIngresadaAdmon.getValue()){
@@ -126,8 +125,6 @@ public class Fianzas extends Screen {
         }else{
             parameters.remove("efdevuelta");
         }
-        if (hqlF.trim().length()>0)
-            hql += " AND (" + hqlF + ") ";
 
 
         String hql3 = "";
@@ -144,9 +141,20 @@ public class Fianzas extends Screen {
         }else{
             parameters.remove("efsolicdev");
         }
-        if (hql3.trim().length()>0)
-            hql += "OR (" + hql3 + ")";
+
+
+
+
         parameters.put("direccion", direccion);
+
+        if (hqlG.trim().length()>0)
+            hql += " AND (" + hqlG + ") ";
+        if (hql3.trim().length()>0)
+            hql3 += "OR (" + hql3 + ")";
+        if (hqlF.trim().length()>0)
+            hql += " AND (" + hqlF + " or " + hql3 + ") ";
+
+
         List<Fianza> ff = dataManager.loadValue(hql, Fianza.class).setParameters(parameters).list();
         for (int i = 0; i < ff.size(); i++) {
             Fianza f = ff.get(i);
@@ -203,7 +211,9 @@ public class Fianzas extends Screen {
             }
 
         }
-        byte[] bb = DynamicReportHelper.getReportDinamico("Listado de Fianzas", Fianza.class, tblFianzas, camposFooter);
+        Integer[] anchosDeColumnaIArr = new Integer[]{150,150,30,30,15,30,30,50};
+        List<Integer> anchosDeColumna = Arrays.asList(anchosDeColumnaIArr);
+        byte[] bb = DynamicReportHelper.getReportDinamico("Listado de Fianzas", Fianza.class, tblFianzas, camposFooter, anchosDeColumna);
         exportDisplay.show(new ByteArrayDataProvider(bb), "Listado Fianzas.pdf");
     }
 }

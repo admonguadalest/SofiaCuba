@@ -580,6 +580,7 @@ public class RecibosServiceBean implements RecibosService {
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = (Recibo) ((Object[])l.get(i))[0];
             ReciboCobrado rc = (ReciboCobrado) ((Object[])l.get(i))[1];
+
             ContratoInquilino ci = (ContratoInquilino) ((Object[])l.get(i))[2];
             if (estadoContrato!=null){
                 if (estadoContrato.compareTo("VIGENTE")==0){
@@ -599,8 +600,15 @@ public class RecibosServiceBean implements RecibosService {
             }
             if (incobrables!=null){
                 ReciboGradoImpago gi = ReciboGradoImpago.valueOf(incobrables);
-                if (recibo.getGradoEstadoImpago().compareTo(gi)!=0){
-                    continue;
+                if (recibo.getGradoEstadoImpago()!=null) {
+                    if (recibo.getGradoEstadoImpago().compareTo(gi) != 0) {
+                        continue;
+                    }
+                }else{
+                    if (ReciboGradoImpago.valueOf(incobrables)!=ReciboGradoImpago.ORDINARIO){
+                        continue;
+                    }
+
                 }
             }
             if (serie!=null){
@@ -616,7 +624,7 @@ public class RecibosServiceBean implements RecibosService {
             }
             Double acc = map.get(recibo);
             try{
-                if (rc!=null){
+                if ((rc!=null) && (rc.getFechaCobro().getTime()>= fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime())){
                     if (rc.getModoIngreso()== ReciboCobradoModoIngreso.BANCARIO){
                         acc += rc.getTotalIngreso();
                     }
@@ -889,10 +897,83 @@ public class RecibosServiceBean implements RecibosService {
         return res;
     }
 
+    public double getTotalIngresadoBancario(Recibo recibo, Date fechaInicial, Date fechaFinal){
+        double d = 0;
+        for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if ((fechaInicial!=null)&&(fechaFinal!=null)) {
+                if ((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<=fechaFinal.getTime())) {
+                    if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.BANCARIO) || (rc.getModoIngreso() == ReciboCobradoModoIngreso.INGRESO_TALON)) {
+                        d += rc.getTotalIngreso();
+                    }
+                }
+            }
+        }
+        return d;
+    }
+
+    public double getTotalIngresadoBancario(Recibo recibo){
+        double d = 0;
+        for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+
+                if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.BANCARIO) || (rc.getModoIngreso() == ReciboCobradoModoIngreso.INGRESO_TALON)) {
+                    d += rc.getTotalIngreso();
+                }
+
+        }
+        return d;
+    }
+
+    public double getTotalIngresadoAdministracion(Recibo recibo, Date fechaInicial, Date fechaFinal){
+        double d = 0;
+        for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if ((fechaInicial!=null)&&(fechaFinal!=null)) {
+                if ((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<=fechaFinal.getTime())) {
+                    if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.ADMINISTRACION)) {
+                        d += rc.getTotalIngreso();
+                    }
+                }
+            }
+        }
+        return d;
+    }
+
+    public double getTotalIngresadoAdministracion(Recibo recibo){
+        double d = 0;
+        for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+
+                if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.ADMINISTRACION)) {
+                    d += rc.getTotalIngreso();
+                }
+
+        }
+        return d;
+    }
+
+
     public double getTotalCobrado(Recibo recibo){
         double d = 0;
         for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
+                d += rc.getTotalIngreso();
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+                d -= rc.getTotalIngreso();
+            }
+        }
+        return d;
+    }
+
+    public double getTotalCobrado(Recibo recibo, Date fechaInicial, Date fechaFinal){
+        double d = 0;
+        for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
+                continue;
+            }
             if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
                 d += rc.getTotalIngreso();
             }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
@@ -907,6 +988,28 @@ public class RecibosServiceBean implements RecibosService {
             double d = 0;
             for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
                 ReciboCobrado rc = r.getRecibosCobrados().get(i);
+                if (rc.getModoIngreso() == ReciboCobradoModoIngreso.DEVUELTO) {
+                    d += rc.getTotalIngreso();
+                    if (rc.getCobranzas()!=null){
+                        d += rc.getCobranzas();
+                    }
+
+                }
+            }
+            return d;
+        }catch(Exception exc){
+            return 0.0;
+        }
+    }
+
+    public double getTotalDevuelto(Recibo r, Date fechaInicial, Date fechaFinal){
+        try {
+            double d = 0;
+            for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
+                ReciboCobrado rc = r.getRecibosCobrados().get(i);
+                if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
+                    continue;
+                }
                 if (rc.getModoIngreso() == ReciboCobradoModoIngreso.DEVUELTO) {
                     d += rc.getTotalIngreso();
                     if (rc.getCobranzas()!=null){
@@ -949,10 +1052,37 @@ public class RecibosServiceBean implements RecibosService {
 
     }
 
+    public double getTotalPendiente(Recibo r, Date fechaInicial, Date fechaFinal){
+        try{
+            double pendiente = r.getTotalReciboPostCCAA()
+                    + this.getTotalCobranzas(r, fechaInicial, fechaFinal)
+                    - this.getTotalCobrado(r, fechaInicial, fechaFinal)
+                    - this.getTotalCompensado(r, fechaInicial, fechaFinal);
+            return pendiente;
+        }catch(Exception exc){
+            return 0.0;
+        }
+
+    }
+
     public double getTotalCompensado(Recibo r){
         double d = 0;
         for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if (rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
+                d += rc.getTotalIngreso();
+            }
+        }
+        return d;
+    }
+
+    public double getTotalCompensado(Recibo r, Date fechaInicial, Date fechaFinal){
+        double d = 0;
+        for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
+                continue;
+            }
             if (rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
                 d += rc.getTotalIngreso();
             }
@@ -999,6 +1129,25 @@ public class RecibosServiceBean implements RecibosService {
         double cobranzas = 0;
         for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)){
+                //no afecta
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+                if (rc.getCobranzas()==null){
+                    rc.setCobranzas(0.0);
+                }
+                cobranzas += rc.getCobranzas();
+            }
+        }
+        return cobranzas;
+    }
+
+    public double getTotalCobranzas(Recibo r, Date fechaInicial, Date fechaFinal){
+        double cobranzas = 0;
+        for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
+            ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
+                continue;
+            }
             if ((rc.getModoIngreso()==ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)){
                 //no afecta
             }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){

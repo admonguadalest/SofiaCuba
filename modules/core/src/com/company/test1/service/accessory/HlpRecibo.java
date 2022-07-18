@@ -37,6 +37,9 @@ public class HlpRecibo {
     SecurityContext securityContext = null;
 
 
+    Date fechaDesde = null;
+    Date fechaHasta = null;
+
     public HlpRecibo(){}
 
     public HlpRecibo(Recibo recibo, SecurityContext sc) {
@@ -47,7 +50,17 @@ public class HlpRecibo {
 
     }
 
-    public  TreeMap construyeEstructurasReportsDesdeListadoRecibos(List<Recibo> rr, SecurityContext sc){
+    public HlpRecibo(Recibo recibo, SecurityContext sc, Date fechaDesde, Date fechaHasta) {
+
+        this.recibo = recibo;
+        this.securityContext = sc;
+        AppContext.setSecurityContext(sc);
+        this.fechaDesde = fechaDesde;
+        this.fechaHasta = fechaHasta;
+
+    }
+
+    public  TreeMap construyeEstructurasReportsDesdeListadoRecibos(List<Recibo> rr, SecurityContext sc, Date fechaInicial, Date fechaFinal){
 
 
         TreeMap<Ubicacion,TreeMap> pams = new TreeMap();
@@ -63,9 +76,9 @@ public class HlpRecibo {
 
                 ubicacionesObjetos.put("PERSONAS_RECIBOS", new TreeMap<Persona,List<HlpRecibo>>());
                 ubicacionesObjetos.put("PERSONAS", new ArrayList<Persona>());
-                HlpFinca hlpFnew = new HlpFinca(ub);
+                HlpFinca hlpFnew = new HlpFinca(ub, this.fechaDesde, this.fechaHasta);
 
-                ubicacionesObjetos.put("HELPER_FINCA", new HlpFinca(ub));
+                ubicacionesObjetos.put("HELPER_FINCA", new HlpFinca(ub, fechaInicial, fechaFinal));
 
 
                 pams.put(ub, ubicacionesObjetos);
@@ -90,7 +103,7 @@ public class HlpRecibo {
 
             }
 
-            listaRecibos.add(new HlpRecibo(r, sc));
+            listaRecibos.add(new HlpRecibo(r, sc, fechaInicial, fechaFinal));
         }
 
         return pams;
@@ -139,6 +152,9 @@ public class HlpRecibo {
     }
 
     public String getDevuelto() {
+        if (!bancarioAdministracion(this.recibo)){
+            return "0.0";
+        }
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         if (this.recibo.getOrdenanteRemesa()!=null) {
             if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA) {
@@ -149,38 +165,99 @@ public class HlpRecibo {
                 //se llama a recibo getTotalPendiente / getTotalDevuelto me devuelve solo los movmientos devuelto, pero en el listado de
                 //pendientes y devueltos hay que poner el total de cantidades pendientes, y no solo aquellas uqe han sido devueltas
                 //caso: cuando hay devolucion bancaria e ingreso parcial por administradcion
-                double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
+                double ingresadoBancario = 0.0;
+                double devuelto = 0.0;
+                double compensado = 0.0;
 
 
-                String devueltoNombre = nf.format(devuelto);
+                if ((fechaDesde!=null)&&(fechaHasta!=null)){
+                    ingresadoBancario = AppBeans.get(RecibosService.class).getTotalIngresadoBancario(recibo, fechaDesde, fechaHasta)
+                    +AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(recibo, fechaDesde, fechaHasta);
+                }else{
+                    ingresadoBancario = AppBeans.get(RecibosService.class).getTotalIngresadoBancario(recibo)
+                    +AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(recibo);
+                }
+
+                if ((fechaDesde!=null)&&(fechaHasta!=null)){
+                    devuelto = AppBeans.get(RecibosService.class).getTotalDevuelto(recibo, fechaDesde, fechaHasta);
+                }else{
+                    devuelto = AppBeans.get(RecibosService.class).getTotalDevuelto(recibo);
+                }
+
+                if ((fechaDesde!=null)&&(fechaHasta!=null)){
+                    compensado = AppBeans.get(RecibosService.class).getTotalCompensado(recibo, fechaDesde, fechaHasta);
+                }else{
+                    compensado = AppBeans.get(RecibosService.class).getTotalCompensado(recibo);
+                }
+
+                double totalRestante = ingresadoBancario - devuelto + compensado;
+
+                totalRestante = this.recibo.getTotalReciboPostCCAA() - totalRestante;
+
+                String devueltoNombre = nf.format(totalRestante);
                 return devueltoNombre;
-            } else {
-                return "";
             }
-        }else{
-            return nf.format(0.0);
         }
+        return nf.format(0.0);
 
 
 
     }
 
+    private boolean bancarioAdministracion(Recibo r){
+        if (r.getOrdenanteRemesa()==null){
+            return false;
+        }else{
+            if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
     public String getPendiente() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        AppContext.setSecurityContext(securityContext);
+
+        if (bancarioAdministracion(this.recibo)){
+            return "0.0";
+        }
+
+        double ingresadoAdministracion = 0.0;
+        double compensado = 0.0;
+
+
+        if ((fechaDesde!=null)&&(fechaHasta!=null)){
+            ingresadoAdministracion =
+                    AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(recibo, fechaDesde, fechaHasta)
+                    + AppBeans.get(RecibosService.class).getTotalIngresadoBancario(recibo, fechaDesde, fechaHasta);
+        }else{
+            ingresadoAdministracion =
+                    AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(recibo)
+                            + AppBeans.get(RecibosService.class).getTotalIngresadoBancario(recibo);
+        }
+
+        if ((fechaDesde!=null)&&(fechaHasta!=null)){
+            compensado = AppBeans.get(RecibosService.class).getTotalCompensado(recibo, fechaDesde, fechaHasta);
+        }else{
+            compensado = AppBeans.get(RecibosService.class).getTotalCompensado(recibo);
+        }
+
+        double totalRestante = ingresadoAdministracion + compensado;
+        totalRestante = this.recibo.getTotalReciboPostCCAA() - totalRestante;
+
+        String pendienteNombre = nf.format(totalRestante);
         if (this.recibo.getOrdenanteRemesa()!=null) {
             if (this.recibo.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.ADMINISTRACION) {
-                double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
-                NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
-                String devueltoNombre = nf.format(devuelto);
-                return devueltoNombre;
-            } else {
-                return "";
+                return pendienteNombre;
             }
         }else{
-            double devuelto = AppBeans.get(RecibosService.class).getTotalPendiente(recibo);
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
-            String devueltoNombre = nf.format(devuelto);
-            return devueltoNombre;
+            return pendienteNombre;
         }
+        return nf.format(0.0);
+
+
     }
 
     public String getNombreDepartamento(){

@@ -14,6 +14,7 @@ import com.company.test1.service.RecibosService;
 import com.haulmont.cuba.core.global.AppBeans;
 
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,14 +36,25 @@ public class HlpFinca {
 
     RecibosService recibosService;
 
-    public void setRecibosService(RecibosService recibosService) {
-        this.recibosService = recibosService;
-    }
+    Date fechaInicial = null;
+    Date fechaFinal = null;
 
     public HlpFinca(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 
+    public HlpFinca(Ubicacion ubicacion, Date fechaInicial, Date fechaFinal) {
+
+        this.ubicacion = ubicacion;
+        this.fechaFinal = fechaFinal;
+        this.fechaInicial = fechaInicial;
+    }
+
+
+
+    public void setRecibosService(RecibosService recibosService) {
+        this.recibosService = recibosService;
+    }
 
     public String getNombreFinca() {
         return ubicacion.getNombre();
@@ -106,16 +118,58 @@ public class HlpFinca {
         return totalPendiente;
     }
 
+    private boolean bancarioAdministracion(Recibo r){
+        if (r.getOrdenanteRemesa()==null){
+            return false;
+        }else{
+            if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
 
     public void anadirReciboATotalesUbicacion(Recibo r){
-        if (r.getOrdenanteRemesa()==null){
-            totalPendiente += AppBeans.get(RecibosService.class).getTotalPendiente(r);
-            return;
+
+        if (bancarioAdministracion(r)==false) {
+            if ((fechaInicial == null) || (fechaFinal == null)) {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r);
+                totalPendiente += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r)
+                        + AppBeans.get(RecibosService.class).getTotalCompensado(r));
+
+            } else {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r, fechaInicial, fechaFinal);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r, fechaInicial, fechaFinal);
+                totalPendiente += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r, fechaInicial, fechaFinal)
+                        + AppBeans.get(RecibosService.class).getTotalCompensado(r, fechaInicial, fechaFinal));
+
+            }
+        }else{
+            if ((fechaInicial==null)||(fechaFinal==null)) {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r);
+                totalDevuelto += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r)
+                        -AppBeans.get(RecibosService.class).getTotalDevuelto(r)
+                        +AppBeans.get(RecibosService.class).getTotalCompensado(r));
+
+            }else{
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r, fechaInicial, fechaFinal);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r, fechaInicial, fechaFinal);
+                totalDevuelto += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r, fechaInicial, fechaFinal)
+                        -AppBeans.get(RecibosService.class).getTotalDevuelto(r, fechaInicial, fechaFinal)
+                        +AppBeans.get(RecibosService.class).getTotalCompensado(r, fechaInicial, fechaFinal));
+
+            }
         }
-        if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro()== DefinicionRemesaTipoGiroEnum.BANCARIA){
-            totalDevuelto += AppBeans.get(RecibosService.class).getTotalPendiente(r);
-        } else {
-            totalPendiente += AppBeans.get(RecibosService.class).getTotalPendiente(r);
-        }
+
+
+
     }
 }

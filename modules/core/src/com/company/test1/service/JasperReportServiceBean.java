@@ -371,6 +371,32 @@ public class JasperReportServiceBean implements JasperReportService {
         return bb;
     }
 
+    @Override
+    public byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entitiesCollection, List<String> idPaths, List<String> colnames, Hashtable<String, Object> camposFooter, List<Integer> anchosDeColumna) throws Exception {
+        List<Entity> entities = new ArrayList<Entity>(entitiesCollection);
+        List<List<String>> rows = new ArrayList<List<String>>();
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity =  entities.get(i);
+            List<String> paths = idPaths;
+            List<String> row = new ArrayList<String>();
+            for (int j = 0; j < paths.size(); j++) {
+                String s =  paths.get(j);
+                Object o = MyBeanUtils.readBeanPath(entity, s);
+                if (o!=null){
+                    row.add(o.toString());
+                }else{
+                    row.add("");
+                }
+
+            }
+            rows.add(row);
+        }
+        ReportDinamico rd = new ReportDinamico(titulo, colnames, rows, anchosDeColumna, new Hashtable<String, Object>());
+        rd.setCamposFooter(camposFooter);
+        byte[] bb = rd.runReport();
+        return bb;
+    }
+
     public byte[] imprimirRecibo(Recibo recibo){
         return null;
     }
@@ -1119,6 +1145,10 @@ public class JasperReportServiceBean implements JasperReportService {
 
             String uuid = propietario.getId().toString().replace("-", "");
 
+            //patch temporal las horas provocan desfases que hace que salgan mal algunos importes
+            fechaDesde = DateUtils.addHours(fechaDesde, 15);
+            fechaHasta = DateUtils.addHours(fechaHasta, 15);
+            //fin patch
             ht.put("propietarioId", uuid);
             ht.put("fechaDesde", fechaDesde);
             ht.put("fechaHasta", fechaHasta);

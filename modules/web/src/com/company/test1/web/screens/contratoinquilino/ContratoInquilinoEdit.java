@@ -218,7 +218,8 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
 
 
         User u = userSessionSource.getUserSession().getUser();
-        if (u.getLogin().compareTo("carlosconti")!=0) {
+        if ((u.getLogin().compareTo("carlosconti")!=0)&&(u.getLogin().compareTo("bellamateos")!=0)
+        &&(u.getLogin().compareTo("pilarconti")!=0)) {
             fragmentContrato.getMesAnyoAplicacionIPCField().setEditable(false);
             if (!PersistenceHelper.isNew(contratoInquilinoDc.getItem())) {
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="Ver Orden de Pago"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.ordenpago">
+    <data>
+        <instance id="ordenPagoAbonoDc"
+                  class="com.company.test1.entity.ordenespago.OrdenPagoAbono"
+                  view="ordenPagoAbono-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <label dataContainer="ordenPagoAbonoDc" property="id"></label>
+            <form id="form" dataContainer="ordenPagoAbonoDc">
+                <column width="250px">
+                    <pickerField id="emisorField" property="emisor">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <pickerField id="beneficiarioField" property="beneficiario">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <dateField id="fechaValorField" property="fechaValor"/>
+                    <textField id="importeField" property="importe"/>
+                    <textField id="importeEfectivoField" property="importeEfectivo"/>
+                    <textField id="descripcionField" property="descripcion"/>
+                    <pickerField id="realizacionPagoField" property="realizacionPago">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <textField id="rm2idField" property="rm2id"/>
+                    <pickerField id="proveedorField" property="proveedor">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <pickerField id="facturaProveedorField" property="facturaProveedor">
+                        <actions>
+                            <action id="lookup" type="picker_lookup"/>
+                            <action id="clear" type="picker_clear"/>
+                        </actions>
+                    </pickerField>
+                    <textField id="importePendienteCompensacionField" property="importePendienteCompensacion"/>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

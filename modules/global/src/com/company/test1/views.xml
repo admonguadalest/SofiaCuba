@@ -1298,6 +1298,9 @@
                 <property name="nifDni"/>
                 <property name="nombreCompleto"/>
             </property>
+            <property name="cotitulares" view="_base">
+                <property name="cotitular" view="_base"/>
+            </property>
             <property name="programacionRecibo" view="_minimal">
                 <property name="cuentaBancariaInquilino" view="_base">
                     <property name="versionIBAN"/>
@@ -1324,6 +1327,7 @@
             </property>
             <property name="concepto" view="_minimal"/>
         </property>
+
     </view>
     <view entity="test1_IncrementoGeneralObras" name="incrementoGeneralObras-view" extends="_local">
         <property name="tipoCoeficiente" view="_base"/>

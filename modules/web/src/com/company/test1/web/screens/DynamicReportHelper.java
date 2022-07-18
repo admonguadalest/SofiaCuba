@@ -45,6 +45,35 @@ public class DynamicReportHelper {
         return null;
     }
 
+    public static byte[] getReportDinamico(String title, Class itemsClass, Table table, Hashtable<String, Object> camposFooter, List<Integer> anchosDeColumna){
+
+        List<String> ids = new ArrayList<String>();
+        List<Table.Column> cols = table.getColumns();
+        ArrayList<String> colnames = new ArrayList<String>();
+        for (int i = 0; i < cols.size(); i++) {
+            Table.Column dc =  cols.get(i);
+            String id = dc.getIdString();
+            ids.add(id);
+            if (dc.getCaption()!=null){
+                colnames.add(dc.getCaption());
+
+            }else{
+                colnames.add(id);
+            }
+        }
+
+        List<Entity> entities = new ArrayList(table.getItems().getItems());
+        try {
+            byte[] bb = AppBeans.get(JasperReportService.class).getReportDinamico(title, itemsClass, entities,
+                    ids, colnames, camposFooter, anchosDeColumna);
+            return bb;
+
+        }catch(Exception exc){
+            AppBeans.get(Notifications.class).create().withCaption("Error").withDescription(exc.getMessage()).show();
+        }
+        return null;
+    }
+
     public static byte[] getReportDinamico(String title, Class itemsClass, Table table){
 
         List<String> ids = new ArrayList<String>();

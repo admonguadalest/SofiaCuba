@@ -46,11 +46,20 @@ public class CaratulaContratoArrendamientoVivienda extends CaratulaContratoArren
     List dataSource1 = null;
     List dataSource2 = null;
 
+    boolean esContratoTemporal = false;
+
 
 
     public CaratulaContratoArrendamientoVivienda(ContratoInquilino c){
         super(c);
         this.pathMaestro = "CaratulaContratoArrendamientoVivienda.jrxml";
+    }
+
+    public CaratulaContratoArrendamientoVivienda(ContratoInquilino c, boolean esContratoTemporal){
+        super(c);
+        if (!esContratoTemporal)
+        this.pathMaestro = "CaratulaContratoArrendamientoVivienda.jrxml";
+        else this.pathMaestro = "CaratulaContratoArrendamientoTemporalVivienda.jrxml";
     }
 
     //Lista de parametros a definir desde la entidad contrato
@@ -99,16 +108,7 @@ public class CaratulaContratoArrendamientoVivienda extends CaratulaContratoArren
         //Provisional
         JRRenderable jrr = null;
 
-//        if (e.getImagenContratos()!=null){
-////                    BufferedImage bim = javax.imageio.ImageIO.read(new ByteArrayInputStream(e.getImagenContratos().getArchivoAdjunto().getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs())));
-//            try {
-//                byte[] bb = e.getImagenContratos().getArchivoAdjunto().getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
-//                jrr = JRImageRenderer.getInstance(bb);
-//            } catch (Exception ex) {
-//                Logger.getLogger(CaratulaContratoArrendamientoVivienda.class).log(Level.ERROR, ex.getMessage(), ex);
-//            }
-//
-//        }
+
         //PENDIENTE ADAPTAR A CONTRATOS DE MARVALLOS
         jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
 

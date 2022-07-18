@@ -7,6 +7,7 @@ package com.company.test1.service.accessory;
 
 
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +38,9 @@ public class HlpInquilino {
 
     Departamento departamento = null;
 
+    Date fechaInicial = null;
+    Date fechaFinal = null;
+
     public void setRecibosService(RecibosService recibosService) {
         this.recibosService = recibosService;
     }
@@ -48,6 +52,15 @@ public class HlpInquilino {
         this.reportRecibo = reportRecibo;
         this.departamento = hlpRecibos.get(0).getRecibo().getUtilitarioContratoInquilino().getDepartamento();
         int y = 2;
+    }
+
+    public HlpInquilino(Persona inquilino,List<HlpRecibo> hlpRecibos,JasperReport reportRecibo, Date fechaInicial, Date fechaFinal) {
+        this.inquilino = inquilino;
+        this.dataSourceRecibos = new SIJRBeanDataSource(hlpRecibos);
+        this.reportRecibo = reportRecibo;
+        this.departamento = hlpRecibos.get(0).getRecibo().getUtilitarioContratoInquilino().getDepartamento();
+        this.fechaFinal = fechaFinal;
+        this.fechaInicial = fechaInicial;
     }
 
     public Departamento getDepartamento(){
@@ -108,15 +121,57 @@ public class HlpInquilino {
         return reportRecibo;
     }
 
-    public void anadirReciboAInquilinoRecibo(Recibo r) {
+    private boolean bancarioAdministracion(Recibo r){
         if (r.getOrdenanteRemesa()==null){
-            totalPendiente +=AppBeans.get(RecibosService.class).getTotalPendiente(r);
-            return;
+            return false;
+        }else{
+            if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA){
+                return true;
+            }else{
+                return false;
+            }
         }
-        if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa().getTipoGiro()== DefinicionRemesaTipoGiroEnum.BANCARIA){
-            totalDevuelto += AppBeans.get(RecibosService.class).getTotalPendiente(r);
-        } else {
-            totalPendiente += AppBeans.get(RecibosService.class).getTotalPendiente(r);
+    }
+
+    public void anadirReciboAInquilinoRecibo(Recibo r) {
+
+
+        if (bancarioAdministracion(r)==false) {
+            if ((fechaInicial == null) || (fechaFinal == null)) {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r);
+                totalPendiente += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r)
+                        + AppBeans.get(RecibosService.class).getTotalCompensado(r));
+
+            } else {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r, fechaInicial, fechaFinal);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r, fechaInicial, fechaFinal);
+                totalPendiente += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r, fechaInicial, fechaFinal)
+                        + AppBeans.get(RecibosService.class).getTotalCompensado(r, fechaInicial, fechaFinal));
+
+            }
+        }else{
+            if ((fechaInicial==null)||(fechaFinal==null)) {
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r);
+                totalDevuelto += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r)
+                        -AppBeans.get(RecibosService.class).getTotalDevuelto(r)
+                        +AppBeans.get(RecibosService.class).getTotalCompensado(r));
+
+            }else{
+                double totalCobrado = AppBeans.get(RecibosService.class).getTotalIngresadoAdministracion(r, fechaInicial, fechaFinal);
+                totalCobrado += AppBeans.get(RecibosService.class).getTotalIngresadoBancario(r, fechaInicial, fechaFinal);
+                totalDevuelto += r.getTotalReciboPostCCAA() - (totalCobrado
+                        + AppBeans.get(RecibosService.class).getTotalCobranzas(r, fechaInicial, fechaFinal)
+                        -AppBeans.get(RecibosService.class).getTotalDevuelto(r, fechaInicial, fechaFinal)
+                        +AppBeans.get(RecibosService.class).getTotalCompensado(r, fechaInicial, fechaFinal));
+
+            }
         }
+
+
     }
 }

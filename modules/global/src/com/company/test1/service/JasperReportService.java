@@ -27,6 +27,7 @@ public interface JasperReportService {
     byte[] listadoResumenRecibosFromZHelper(List<Remesa> remesas) throws Exception;
     byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entities, List<String> idPaths, List<String> colnames) throws Exception;
     byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entities, List<String> idPaths, List<String> colnames, Hashtable<String, Object> camposFooter) throws Exception;
+    byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entities, List<String> idPaths, List<String> colnames, Hashtable<String, Object> camposFooter, List<Integer> anchosDeColumna) throws Exception;
 
     Object turnFileIntoJRRenderableObject(String fileName) throws Exception;
     byte[] getReportRecibo(Recibo r) throws Exception;

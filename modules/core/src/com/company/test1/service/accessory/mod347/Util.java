@@ -130,6 +130,9 @@ public class Util {
         String res = "";
         if (nDecimals > 0){
             String parteDecimal = new Integer(pd).toString();
+            if (parteDecimal.length()>nDecimals){
+                parteDecimal = parteDecimal.substring(0,nDecimals);
+            }
             parteDecimal = StringUtils.repeat("0", nDecimals - parteDecimal.length()) + parteDecimal;
             res = new Integer(pe).toString() + parteDecimal;
         }else{
@@ -406,6 +409,7 @@ public class Util {
                 "concat(dir.NOMBRE_VIA, ' ', dir.NUMERO_VIA, ' ', d.piso, ' ', d.puerta) as direccion\n" +
                 "\n" +
                 "from recibo r\n" +
+                "inner join serie s on r.serie_id = s.id \n" +
                 "inner join contrato_inquilino ci on r.utilitario_contrato_inquilino_id = ci.id\n" +
                 "inner join departamento d on ci.departamento_id = d.id\n" +
                 "inner join ubicacion u on d.ubicacion_id = u.id\n" +
@@ -414,7 +418,7 @@ public class Util {
                 "left join propietario propd on d.propietario_id = propd.id\n" +
                 "left join propietario propu on u.propietario_id = propu.id\n" +
                 "\n" +
-                "where r.FECHA_EMISION >= $P{fechaDesde} and r.FECHA_EMISION <= $P{fechaHasta} and (d.propietario_id = '$P{propietarioId}' or u.propietario_id = '$P{propietarioId}')\n" +
+                "where r.FECHA_EMISION >= $P{fechaDesde} and r.FECHA_EMISION <= $P{fechaHasta} and (d.propietario_id = '$P{propietarioId}' or u.propietario_id = '$P{propietarioId}') and s.nombre_serie = 'ALQUILERES'\n" +
                 "order by u.nombre, piso, puerta, inquilino_id, r.FECHA_EMISION\n" +
                 ") as st1\n" +
                 "\n" +
@@ -479,6 +483,7 @@ public class Util {
                 "concat(dir.NOMBRE_VIA, ' ', dir.NUMERO_VIA, ' ', d.piso, ' ', d.puerta) as direccion\n" +
                 "\n" +
                 "from recibo r\n" +
+                "inner join serie s on r.serie_id = s.id \n" +
                 "inner join contrato_inquilino ci on r.utilitario_contrato_inquilino_id = ci.id\n" +
                 "inner join departamento d on ci.departamento_id = d.id\n" +
                 "inner join ubicacion u on d.ubicacion_id = u.id\n" +
@@ -487,7 +492,7 @@ public class Util {
                 "left join propietario propd on d.propietario_id = propd.id\n" +
                 "left join propietario propu on u.propietario_id = propu.id\n" +
                 "\n" +
-                "where r.FECHA_EMISION >= $P{fechaDesde} and r.FECHA_EMISION <= $P{fechaHasta} and (d.propietario_id = '$P{propietarioId}' or u.propietario_id = '$P{propietarioId}')\n" +
+                "where r.FECHA_EMISION >= $P{fechaDesde} and r.FECHA_EMISION <= $P{fechaHasta} and (d.propietario_id = '$P{propietarioId}' or u.propietario_id = '$P{propietarioId}') and s.nombre_serie = 'ALQUILERES'\n" +
                 "order by u.nombre, piso, puerta, inquilino_id, r.FECHA_EMISION\n" +
                 ") as st1\n" +
                 "\n" +

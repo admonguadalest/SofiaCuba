@@ -83,7 +83,7 @@ public class ReportImpagados {
         }
 
 
-        TreeMap pams = new HlpRecibo().construyeEstructurasReportsDesdeListadoRecibos(rr, securityContext);
+        TreeMap pams = new HlpRecibo().construyeEstructurasReportsDesdeListadoRecibos(rr, securityContext, fechaInicial, fechaFinal);
 
 
         List<Ubicacion> uu = new ArrayList(pams.keySet());
@@ -107,7 +107,7 @@ public class ReportImpagados {
                         return hlpRecibo.getRecibo().getFechaEmision().compareTo(t1.getRecibo().getFechaEmision());
                     }
                 });
-                HlpInquilino hlpInquilino = new HlpInquilino(persona,personasRecibo.get(persona),reportRecibo);
+                HlpInquilino hlpInquilino = new HlpInquilino(persona,personasRecibo.get(persona),reportRecibo, fechaInicial, fechaFinal);
 
                 for (int k = 0; k < listaRecibos.size(); k++) {
                     HlpRecibo hlpRecibo = listaRecibos.get(k);

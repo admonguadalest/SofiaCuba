@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
+import org.apache.commons.lang.time.DateUtils;
 
 
 /**
@@ -144,8 +144,15 @@ public class AsistenteImpresionContrato {
             CaratulaContratoArrendamiento cca;
             byte[] bb_caratula;
             if (contratoInquilino.getUsoContrato() == UsoContratoEnum.VIVIENDA) {
+                long diff = contratoInquilino.getFechaVencimientoPrevisto().getTime() - contratoInquilino.getFechaOcupacion().getTime();
+                //to days
+                diff = diff/(1000*60*60*24);
+                if (diff >365.0){
+                    cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino);
+                }else{
+                    cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino, true);
+                }
 
-                cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino);
                 bb_caratula = ((CaratulaContratoArrendamientoVivienda) cca).getReportAsByteArray();
             } else {
                 cca = new CaratulaContratoArrendamientoLocalComercial(contratoInquilino);

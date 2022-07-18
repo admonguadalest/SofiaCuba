@@ -36,12 +36,17 @@ public interface RecibosService {
     List<ImplementacionConcepto> getVersionAgregadaPorConceptos(List<ImplementacionConcepto> l);
 
     double getTotalCobranzas(Recibo r);
+    double getTotalCobranzas(Recibo r, Date fechaInicial, Date fechaFinal);
     double getTotalCompensado(Recibo r);
+    double getTotalCompensado(Recibo r, Date fechaInicial, Date fechaFinal);
     double getTotalPendiente(Recibo r);
+    double getTotalPendiente(Recibo r, Date fechaInicial, Date fechaFinal);
     double getPorcentajeCobrado(Recibo r);
     Date getFechaDevuelto(Recibo r) throws Exception;
     double getTotalDevuelto(Recibo r);
+    double getTotalDevuelto(Recibo r, Date fechaInicial, Date fechaFinal);
     double getTotalCobrado(Recibo recibo);
+    double getTotalCobrado(Recibo recibo, Date fechaInicial, Date fechaFinal);
 
     Recibo getUltimoReciboGirado(Departamento d) throws Exception;
     Double getProrrateoUltimoContratoDepartamento(Departamento d) throws Exception;
@@ -77,4 +82,10 @@ public interface RecibosService {
     public boolean registraReciboEnTablaZHelper(Recibo r) throws Exception;
 
     public boolean retrocedeRecibosEnZHelper(List<Recibo> rr) throws Exception;
+
+
+    double getTotalIngresadoAdministracion(Recibo recibo, Date fechaInicial, Date fechaFinal);
+    double getTotalIngresadoBancario(Recibo recibo, Date fechaInicial, Date fechaFinal);
+    double getTotalIngresadoAdministracion(Recibo recibo);
+    double getTotalIngresadoBancario(Recibo recibo);
 }

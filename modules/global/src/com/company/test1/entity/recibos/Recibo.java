@@ -1,6 +1,7 @@
 package com.company.test1.entity.recibos;
 
 import com.company.test1.entity.Persona;
+import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.enums.recibos.ReciboCobradoModoIngreso;
 import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
@@ -14,9 +15,7 @@ import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @PublishEntityChangedEvents
 @Table(name = "RECIBO")
@@ -311,4 +310,148 @@ public class Recibo extends StandardEntity {
 //        }
 //        return d;
 //    }
+
+    /**
+     * Metodos del report de diferencias entre periodos
+     * PENDIENTE considerar si conviene abordar de forma diferente
+     */
+
+    public double getPorcentajeCobrado(){
+        double total = this.getTotalReciboPostCCAA();
+        double pendiente = this.getTotalPendiente();
+        return pendiente / total;
+    }
+
+    public double getTotalDevuelto(){
+        List<ReciboCobrado> rrcc = this.getRecibosCobrados();
+        double devuelto = 0.0;
+        for (int i = 0; i < rrcc.size(); i++) {
+            ReciboCobrado rc = rrcc.get(i);
+            if (rc.getModoIngreso() == ReciboCobradoModoIngreso.DEVUELTO){
+                devuelto += rc.getTotalIngreso();
+            }
+
+        }
+        return devuelto;
+    }
+
+    public String getNombreRemesaSiTiene(){
+        if (this.getOrdenanteRemesa()!=null){
+            return this.getOrdenanteRemesa().getRemesa().getIdentificadorRemesa();
+        }
+        return "";
+    }
+
+    public String getNombreSerieSiTiene(){
+        if (this.getSerie()!=null){
+            return this.getSerie().getNombreSerie();
+        }else return "";
+    }
+
+    public Date getFechaDevuelto(){
+        Date d = null;
+        List<ReciboCobrado> rrcc = this.getRecibosCobrados();
+        for (int i = 0; i < rrcc.size(); i++) {
+            ReciboCobrado rc = rrcc.get(i);
+            if (rc.getModoIngreso() == ReciboCobradoModoIngreso.DEVUELTO){
+                if (d == null){
+                    d = rc.getFechaCobro();
+                }else{
+                    if (d.getTime()<rc.getFechaCobro().getTime()){
+                        d = rc.getFechaCobro();
+                    }
+                }
+            }
+
+        }
+        return d;
+    }
+
+    public String getLugarDePago(){
+        return "BARCELONA";
+    }
+
+    public Double getTotalIVA(){
+        List<ImplementacionConcepto> iicc = this.getImplementacionesConceptos();
+        double iva = 0.0;
+        for (int i = 0; i < iicc.size(); i++) {
+            ImplementacionConcepto ic = iicc.get(i);
+            if (ic.getRegistroAplicacionesConceptosAdicionales()!=null){
+                for (int j = 0; j < ic.getRegistroAplicacionesConceptosAdicionales().size(); j++) {
+                    RegistroAplicacionConceptoAdicional raca = ic.getRegistroAplicacionesConceptosAdicionales().get(j);
+                    if (raca.getConceptoAdicional().getAbreviacion().toUpperCase().compareTo("IVA")==0){
+                        iva += raca.getImporteAplicado();
+                    }
+                }
+            }
+
+        }
+        return iva;
+    }
+
+    public Double getTotalIRPF(){
+        List<ImplementacionConcepto> iicc = this.getImplementacionesConceptos();
+        double iva = 0.0;
+        for (int i = 0; i < iicc.size(); i++) {
+            ImplementacionConcepto ic = iicc.get(i);
+            if (ic.getRegistroAplicacionesConceptosAdicionales()!=null){
+                for (int j = 0; j < ic.getRegistroAplicacionesConceptosAdicionales().size(); j++) {
+                    RegistroAplicacionConceptoAdicional raca = ic.getRegistroAplicacionesConceptosAdicionales().get(j);
+                    if (raca.getConceptoAdicional().getAbreviacion().toUpperCase().compareTo("IRPF")==0){
+                        iva += raca.getImporteAplicado();
+                    }
+                }
+            }
+
+        }
+        return iva;
+    }
+
+    public List<ImplementacionConcepto> getImplementacionesConceptosAgregadas(){
+        List<ImplementacionConcepto> iiccaa = new ArrayList<ImplementacionConcepto>();
+        Hashtable<Concepto, ImplementacionConcepto> ht = new Hashtable<Concepto, ImplementacionConcepto>();
+        for (int i = 0; i < this.getImplementacionesConceptos().size(); i++) {
+            ImplementacionConcepto ic = this.getImplementacionesConceptos().get(i);
+            Concepto concepto = null;
+            if (ic.getConcepto()!=null){
+                concepto = ic.getConcepto();
+            }else{
+                concepto = ic.getConceptoRecibo().getConcepto();
+            }
+            ImplementacionConcepto ica = null;
+            if (ht.contains(concepto)){
+                ica = ht.get(concepto);
+            }else{
+                ica = new ImplementacionConcepto();
+                ht.put(concepto, ica);
+                ica.setOverrideConcepto(concepto);
+                ica.setImporte(0.0);
+                ica.setImportePostCCAA(0.0);
+
+            }
+            ica.setImporte(ica.getImporte() + ic.getImporte());
+            ica.setImportePostCCAA(ica.getImportePostCCAA() + ica.getImporte());
+
+        }
+        Iterator<Concepto> itc = ht.keySet().iterator();
+        while(itc.hasNext()){
+            Concepto c = itc.next();
+            ImplementacionConcepto ica = ht.get(c);
+            iiccaa.add(ica);
+        }
+
+        return iiccaa;
+    }
+
+    public String getCuentaDePago(){
+        return "PENDIENTE";
+    }
+
+    public Date fechaEstadoPendiente(){
+        return getFechaDevuelto();
+    }
+
+    public String getResumen(){
+        return "PENDIENTE";
+    }
 }
