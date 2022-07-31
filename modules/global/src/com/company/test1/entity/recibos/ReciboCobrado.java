@@ -7,6 +7,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name = "RECIBO_COBRADO")
@@ -20,6 +21,7 @@ public class ReciboCobrado extends StandardEntity {
     @Column(name = "DESCRIPCION")
     protected String descripcion;
 
+    @NotNull(message = "Aportar Fecha de Cobro")
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_COBRO")
     protected Date fechaCobro;

@@ -28,7 +28,9 @@ public class ReciboCobradoEdit extends StandardEditor<ReciboCobrado> {
 
     @Subscribe("modoIngresoField")
     private void onModoIngresoFieldValueChange(HasValue.ValueChangeEvent<ReciboCobradoModoIngreso> event) {
-        reciboCobradoDc.getItem().setTotalIngreso(this.getEditedEntity().getRecibo().getTotalReciboPostCCAA());
+        if(event.isUserOriginated()) {
+            reciboCobradoDc.getItem().setTotalIngreso(this.getEditedEntity().getRecibo().getTotalReciboPostCCAA());
+        }
         //ELIMINADO A PETICION DE ISABEL
 //        if (PersistenceHelper.isNew(reciboCobradoDc.getItem())){
 //            fechaCobroField.setValue(new Date());

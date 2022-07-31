@@ -579,9 +579,16 @@ public class RecibosServiceBean implements RecibosService {
 
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = (Recibo) ((Object[])l.get(i))[0];
+            if (recibo.getTotalReciboPostCCAA()<0){
+                //los recibos asociados a abonos no deben figurar en este report
+                continue;
+            }
             ReciboCobrado rc = (ReciboCobrado) ((Object[])l.get(i))[1];
 
             ContratoInquilino ci = (ContratoInquilino) ((Object[])l.get(i))[2];
+            if (ci.getExcluirDeMonitorizacionDeRecibosPendientesYDevueltos()){
+                continue;
+            }
             if (estadoContrato!=null){
                 if (estadoContrato.compareTo("VIGENTE")==0){
                     if (ci.getEstadoContrato().compareTo(EstadoContratoInquilinoEnum.VIGENTE)!=0){
@@ -901,6 +908,9 @@ public class RecibosServiceBean implements RecibosService {
         double d = 0;
         for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if (rc.getFechaCobro()==null){
+                return -1000000;
+            }
             if ((fechaInicial!=null)&&(fechaFinal!=null)) {
                 if ((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<=fechaFinal.getTime())) {
                     if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.BANCARIO) || (rc.getModoIngreso() == ReciboCobradoModoIngreso.INGRESO_TALON)) {
@@ -929,6 +939,9 @@ public class RecibosServiceBean implements RecibosService {
         double d = 0;
         for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if (rc.getFechaCobro()==null){
+                return -1000000;
+            }
             if ((fechaInicial!=null)&&(fechaFinal!=null)) {
                 if ((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<=fechaFinal.getTime())) {
                     if ((rc.getModoIngreso() == ReciboCobradoModoIngreso.ADMINISTRACION)) {
@@ -971,6 +984,9 @@ public class RecibosServiceBean implements RecibosService {
         double d = 0;
         for (int i = 0; i < recibo.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = recibo.getRecibosCobrados().get(i);
+            if (rc.getFechaCobro()==null){
+                return -1000000;
+            }
             if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
                 continue;
             }
@@ -1080,6 +1096,10 @@ public class RecibosServiceBean implements RecibosService {
         double d = 0;
         for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if (rc.getFechaCobro()==null){
+                return -1000000;
+            }
+
             if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
                 continue;
             }
@@ -1145,6 +1165,9 @@ public class RecibosServiceBean implements RecibosService {
         double cobranzas = 0;
         for (int i = 0; i < r.getRecibosCobrados().size(); i++) {
             ReciboCobrado rc = r.getRecibosCobrados().get(i);
+            if (rc.getFechaCobro()==null){
+                return 1000000;
+            }
             if (!((rc.getFechaCobro().getTime()>=fechaInicial.getTime()) && (rc.getFechaCobro().getTime()<= fechaFinal.getTime()))){
                 continue;
             }

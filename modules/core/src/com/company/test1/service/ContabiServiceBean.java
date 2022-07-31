@@ -8,6 +8,7 @@ import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
+import com.company.test1.entity.recibos.Remesa;
 import com.haulmont.cuba.core.global.DataManager;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -227,6 +228,151 @@ public class ContabiServiceBean implements ContabiService {
             }
 
         }
+    }
+
+    public boolean comprobarPublicacionRemesaRecibos(Remesa r, String auth_token) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String className = r.getMetaClass().getName();
+        String url = "http://localhost:8080/rest/entities/contabi_PublicacionRemota/search";
+
+        JSONObject j = new JSONObject();
+        ArrayList conditions = new ArrayList();
+        JSONObject j1 = new JSONObject();
+        j1.put("property", "operacion");
+        j1.put("operator", "contains");
+        j1.put("value", "CONTABILIZAR_REMESAS_RECIBOS");
+        JSONObject j2 = new JSONObject();
+        j2.put("property", "referenciasExternas");
+        j2.put("operator", "contains");
+        j2.put("value", r.getId().toString());
+        conditions.add(j1);
+        conditions.add(j2);
+
+        JSONObject j_ = new JSONObject();
+        j_.put("conditions", conditions);
+
+        j.put("filter", j_);
+
+        StringEntity requestentity = new StringEntity(j.toString(), "application/json", "UTF-8");
+
+        DefaultHttpClient http = new DefaultHttpClient();
+        HttpPost postRequest = new HttpPost(url);
+        postRequest.addHeader("Authorization", "Bearer " + auth_token);
+        postRequest.setEntity(requestentity);
+
+
+        HttpResponse response = http.execute(postRequest);
+        http.getConnectionManager().shutdown();
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatusLine().getStatusCode());
+        }else{
+            EofSensorInputStream is = (EofSensorInputStream)response.getEntity().getContent();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int b = -1;
+            while((b = is.read())!=-1){
+                baos.write(b);
+            }
+            String json = new String(baos.toByteArray());
+            JSONArray jarr = new JSONArray(json);
+            if (jarr.length()==0){
+                return false;
+            }else{
+                if (jarr.length()>1){
+                    throw new Exception("Mas de una ocurrencia en la operacion 'CONTABILIZAR_REMESAS_RECIBOS' para el id : '" + r.getId().toString() + "' fueron halladas");
+                }else{
+                    return true;
+                }
+            }
+
+        }
+    }
+
+    public boolean publicaContabilizacionRemesaRecibos(Remesa r) throws Exception{
+//        this.authToken = getAuthToken("admin", "EaGmTfki");
+//
+//        if (comprobarPublicacionRemesaRecibos(r, this.authToken)){
+//            throw new Exception("Esta remesa ya esta publicada para la operacion 'CONTABILIZAR_REMESAS_RECIBOS'");
+//        }
+//
+//
+//
+//        r = dataManager.reload(r, "remesa-view");
+//
+//        JSONObject jo = new JSONObject();
+//        jo.put("OPERACION", "CONTABILIZAR_REMESAS_RECIBOS");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        jo.put("IDENTIFICADOR_REMESA", r.getIdentificadorRemesa());
+//        jo.put("FECHA_EMISION", sdf.format(r.getFechaRealizacion()));
+//        if ((r.getOrdenantesRemesa()!=null) && (r.getOrdenantesRemesa().size()>0)){
+//
+//        }else{
+//            //recibo individualizado!
+//
+//        }
+//
+//
+//
+//        //imputaciones
+//        List<ImputacionDocumentoImputable> iiddii = fp.getImputacionesDocumentoImputable();
+//        ArrayList al = new ArrayList();
+//        for (int i = 0; i < iiddii.size(); i++) {
+//
+//            JSONObject joi = new JSONObject();
+//
+//            al.add(joi);
+//        }
+//        jo.put("imputaciones", new JSONArray(al));
+//        //conceptos adicionales
+//        List<RegistroAplicacionConceptoAdicional> iicc = fp.getRegistroAplicacionConceptosAdicionales();
+//        al = new ArrayList();
+//        for (int i = 0; i < iicc.size(); i++) {
+//            RegistroAplicacionConceptoAdicional raca = iicc.get(i);
+//            JSONObject joca = new JSONObject();
+//            joca.put("NOMBRE_CONCEPTO", raca.getConceptoAdicional().getAbreviacion());
+//            joca.put("BASE_CONCEPTO", raca.getBase());
+//            joca.put("PORCENTAJE_CONCEPTO", raca.getPorcentaje());
+//            joca.put("IMPORTE_APLICADO", raca.getImporteAplicado());
+//            al.add(joca);
+//
+//        }
+//        jo.put("conceptos_adicionales", new JSONArray(al));
+//        String json = jo.toString();
+//
+//        String url = "http://localhost:8080/entities/contabi_PublicacionRemota";
+//
+//        sdf = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        JSONObject j = new JSONObject();
+//        j.put("sistemaRemoto", "SOFIA");
+//        j.put("fechaPublicacion", sdf.format(new Date()));
+//        j.put("contenido", json);
+//        j.put("referenciasExternas", fp.getId().toString());
+//        j.put("operacion", "CONTABILIZAR_FACTURAS");
+//
+//
+//        url = "http://localhost:8080/rest/entities/contabi_PublicacionRemota";
+//
+//        StringEntity requestentity = new StringEntity(j.toString(), "application/json", "UTF-8");
+//
+//        DefaultHttpClient http = new DefaultHttpClient();
+//        HttpPost postRequest = new HttpPost(url);
+//        postRequest.addHeader("Authorization", "Bearer " + this.authToken);
+//        postRequest.setEntity(requestentity);
+//
+//
+//        HttpResponse response = http.execute(postRequest);
+//        if (response.getStatusLine().getStatusCode() != 201) {
+//            throw new RuntimeException("Failed : HTTP error code : "
+//                    + response.getStatusLine().getStatusCode());
+//        }
+//        http.getConnectionManager().shutdown();
+//
+//        return true;
+        return true;
+
+
+
     }
 
 }
