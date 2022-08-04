@@ -51,6 +51,7 @@
                 <button id="removeBtn" caption="Retroceder" invoke="onRemoveBtnClick"/>
                 <button id="btnReportDinamico" caption="Ver Report" invoke="onBtnReportDinamicoClick"/>
                 <button id="btnPdfRemesa" caption="Visualizar" invoke="onBtnPdfRemesaClick"/>
+                <button id="btnPublicarRemesa" caption="Publicación Remota" invoke="onBtnPublicarRemesaClick"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true">

@@ -7,7 +7,11 @@ import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoA
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.company.test1.entity.enums.recibos.DefinicionRemesaTipoGiroEnum;
+import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
+import com.company.test1.entity.recibos.OrdenanteRemesa;
+import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.Remesa;
 import com.haulmont.cuba.core.global.DataManager;
 import org.apache.http.HttpResponse;
@@ -29,9 +33,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service(ContabiService.NAME)
 public class ContabiServiceBean implements ContabiService {
@@ -288,88 +290,147 @@ public class ContabiServiceBean implements ContabiService {
         }
     }
 
-    public boolean publicaContabilizacionRemesaRecibos(Remesa r) throws Exception{
-//        this.authToken = getAuthToken("admin", "EaGmTfki");
-//
-//        if (comprobarPublicacionRemesaRecibos(r, this.authToken)){
-//            throw new Exception("Esta remesa ya esta publicada para la operacion 'CONTABILIZAR_REMESAS_RECIBOS'");
-//        }
-//
-//
-//
-//        r = dataManager.reload(r, "remesa-view");
-//
-//        JSONObject jo = new JSONObject();
-//        jo.put("OPERACION", "CONTABILIZAR_REMESAS_RECIBOS");
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//        jo.put("IDENTIFICADOR_REMESA", r.getIdentificadorRemesa());
-//        jo.put("FECHA_EMISION", sdf.format(r.getFechaRealizacion()));
-//        if ((r.getOrdenantesRemesa()!=null) && (r.getOrdenantesRemesa().size()>0)){
-//
-//        }else{
-//            //recibo individualizado!
-//
-//        }
-//
-//
-//
-//        //imputaciones
-//        List<ImputacionDocumentoImputable> iiddii = fp.getImputacionesDocumentoImputable();
-//        ArrayList al = new ArrayList();
-//        for (int i = 0; i < iiddii.size(); i++) {
-//
-//            JSONObject joi = new JSONObject();
-//
-//            al.add(joi);
-//        }
-//        jo.put("imputaciones", new JSONArray(al));
-//        //conceptos adicionales
-//        List<RegistroAplicacionConceptoAdicional> iicc = fp.getRegistroAplicacionConceptosAdicionales();
-//        al = new ArrayList();
-//        for (int i = 0; i < iicc.size(); i++) {
-//            RegistroAplicacionConceptoAdicional raca = iicc.get(i);
-//            JSONObject joca = new JSONObject();
-//            joca.put("NOMBRE_CONCEPTO", raca.getConceptoAdicional().getAbreviacion());
-//            joca.put("BASE_CONCEPTO", raca.getBase());
-//            joca.put("PORCENTAJE_CONCEPTO", raca.getPorcentaje());
-//            joca.put("IMPORTE_APLICADO", raca.getImporteAplicado());
-//            al.add(joca);
-//
-//        }
-//        jo.put("conceptos_adicionales", new JSONArray(al));
-//        String json = jo.toString();
-//
-//        String url = "http://localhost:8080/entities/contabi_PublicacionRemota";
-//
-//        sdf = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        JSONObject j = new JSONObject();
-//        j.put("sistemaRemoto", "SOFIA");
-//        j.put("fechaPublicacion", sdf.format(new Date()));
-//        j.put("contenido", json);
-//        j.put("referenciasExternas", fp.getId().toString());
-//        j.put("operacion", "CONTABILIZAR_FACTURAS");
-//
-//
-//        url = "http://localhost:8080/rest/entities/contabi_PublicacionRemota";
-//
-//        StringEntity requestentity = new StringEntity(j.toString(), "application/json", "UTF-8");
-//
-//        DefaultHttpClient http = new DefaultHttpClient();
-//        HttpPost postRequest = new HttpPost(url);
-//        postRequest.addHeader("Authorization", "Bearer " + this.authToken);
-//        postRequest.setEntity(requestentity);
-//
-//
-//        HttpResponse response = http.execute(postRequest);
-//        if (response.getStatusLine().getStatusCode() != 201) {
-//            throw new RuntimeException("Failed : HTTP error code : "
-//                    + response.getStatusLine().getStatusCode());
-//        }
-//        http.getConnectionManager().shutdown();
-//
-//        return true;
+    public boolean publicaContabilizacionRemesaRecibos(Remesa r, byte[] bb) throws Exception{
+        this.authToken = getAuthToken("admin", "EaGmTfki");
+
+        if (comprobarPublicacionRemesaRecibos(r, this.authToken)){
+            throw new Exception("Esta remesa ya esta publicada para la operacion 'CONTABILIZAR_REMESAS_RECIBOS'");
+        }
+
+        r = dataManager.reload(r, "remesa-view-detalle");
+
+        String bancariaAdministracion = "";
+        if (r.getDefinicionRemesa().getTipoGiro() == DefinicionRemesaTipoGiroEnum.BANCARIA){
+            bancariaAdministracion = "BANCARIA";
+        }else{
+            bancariaAdministracion = "ADMINISTRACION";
+        }
+
+
+        String b64Report = Base64.getEncoder().encodeToString(bb);
+
+        JSONObject jo = new JSONObject();
+        jo.put("REPORT", b64Report);
+        Propietario prop = r.getDefinicionRemesa().getPropietario();
+        prop = dataManager.reload(prop, "propietario-view");
+        String nifReceptor = prop.getPersona().getNifDni();
+        jo.put("NIF_RECEPTOR", nifReceptor);
+        jo.put("OPERACION", "CONTABILIZAR_REMESAS_RECIBOS");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        jo.put("IDENTIFICADOR_REMESA", r.getIdentificadorRemesa());
+        jo.put("FECHA_EMISION", sdf.format(r.getFechaValor()));
+        jo.put("TIPO_DEFINICION_REMESA", bancariaAdministracion);
+
+        if ((r.getOrdenantesRemesa()!=null) && (r.getOrdenantesRemesa().size()>0)){
+            boolean reciboIndividualizado = false;
+            if (r.getOrdenantesRemesa().size()==1){
+                OrdenanteRemesa or = r.getOrdenantesRemesa().get(0);
+                if (or.getRecibos().size()==1){
+                    jo.put("RECIBO_INDIVIDUALIZADO", Boolean.TRUE);
+                    reciboIndividualizado = true;
+                }else{
+                    jo.put("RECIBO_INDIVIDUALIZADO", Boolean.FALSE);
+                }
+            }
+
+            HashMap<Ubicacion, List<Recibo>> ubicacionesRecibos = new HashMap<>();
+            HashMap<Ubicacion, Double[]> ubicacionesTotales = new HashMap<>();
+            List<Ubicacion> ubs = new ArrayList<>();
+            String nombreInqulinoReciboIndividualizado = "";
+            //relleno estructuras
+            List<OrdenanteRemesa> oorr = r.getOrdenantesRemesa();
+            for (int i = 0; i < oorr.size(); i++) {
+                OrdenanteRemesa or = oorr.get(i);
+                List<Recibo> rr = or.getRecibos();
+                for (int j = 0; j < rr.size(); j++) {
+                    Recibo rbo = rr.get(j);
+                    Departamento d = rbo.getUtilitarioContratoInquilino().getDepartamento();
+                    d = dataManager.reload(d, "departamento-view-for-tree");
+                    Ubicacion u = d.getUbicacion();
+                    if (ubs.indexOf(u)==-1){
+                        ubs.add(u);
+                    }
+                    if (!ubicacionesRecibos.containsKey(u)){
+                        ubicacionesRecibos.put(u, new ArrayList());
+                    }
+                    if (!ubicacionesTotales.containsKey(u)){
+                        ubicacionesTotales.put(u, new Double[]{0.0,0.0});
+                    }
+                    List<Recibo> rr_ub = ubicacionesRecibos.get(u);
+                    Double[] dd = ubicacionesTotales.get(u);
+                    rr_ub.add(rbo);
+                    if (rbo.getUtilitarioContratoInquilino().getDepartamento().getViviendaLocal()){
+                        dd[0] += rbo.getTotalReciboPostCCAA();
+                    }else{
+                        dd[1] += rbo.getTotalReciboPostCCAA();
+                    }
+                    if (reciboIndividualizado){
+                        if (nombreInqulinoReciboIndividualizado.trim().length()==0)
+                            nombreInqulinoReciboIndividualizado = rbo.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
+                    }
+                }
+            }
+            //una vez recorrida la estructura puedo crear la estructura json
+            Collections.sort(ubs, new Comparator<Ubicacion>() {
+                @Override
+                public int compare(Ubicacion o1, Ubicacion o2) {
+                    return o1.getRm2id().compareTo(o2.getRm2id());
+                }
+            });
+            List jsons = new ArrayList();
+            for (int i = 0; i < ubs.size(); i++) {
+                Ubicacion u = ubs.get(i);
+                Double[] totales = ubicacionesTotales.get(u);
+                JSONObject jo_r = new JSONObject();
+                jo_r.put("TOTALES_VIVIENDAS", totales[0]);
+                jo_r.put("TOTALES_NO_VIVIENDAS", totales[1]);
+                jo_r.put("NOMBRE_UBICACION", u.getNombre());
+                jo_r.put("ABREVIACION_UBICACION", u.getAbreviacionUbicacion());
+                if (reciboIndividualizado){
+                    jo_r.put("NOMBRE_INQUILINO_RECIBO_INDIVIDUALIZADO", nombreInqulinoReciboIndividualizado);
+                }
+                jsons.add(jo_r);
+            }
+            JSONArray jarr = new JSONArray(jsons);
+            jo.put("FINCAS", jarr);
+        }
+
+
+
+
+        String json = jo.toString();
+
+        String url = "http://localhost:8080/entities/contabi_PublicacionRemota";
+
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        JSONObject j = new JSONObject();
+        j.put("sistemaRemoto", "SOFIA");
+        j.put("fechaPublicacion", sdf.format(new Date()));
+        j.put("contenido", json);
+        j.put("referenciasExternas", r.getId().toString());
+        j.put("operacion", "CONTABILIZAR_REMESAS_RECIBOS");
+
+
+        url = "http://localhost:8080/rest/entities/contabi_PublicacionRemota";
+
+        StringEntity requestentity = new StringEntity(j.toString(), "application/json", "UTF-8");
+
+        DefaultHttpClient http = new DefaultHttpClient();
+        HttpPost postRequest = new HttpPost(url);
+        postRequest.addHeader("Authorization", "Bearer " + this.authToken);
+        postRequest.setEntity(requestentity);
+
+
+        HttpResponse response = http.execute(postRequest);
+        if (response.getStatusLine().getStatusCode() != 201) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatusLine().getStatusCode());
+        }
+        http.getConnectionManager().shutdown();
+
         return true;
+
 
 
 

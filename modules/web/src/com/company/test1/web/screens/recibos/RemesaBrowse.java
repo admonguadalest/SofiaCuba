@@ -4,6 +4,7 @@ import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.company.test1.entity.recibos.OrdenanteRemesa;
 import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.ReciboCobrado;
+import com.company.test1.service.ContabiService;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.RecibosService;
 import com.company.test1.web.screens.DynamicReportHelper;
@@ -50,6 +51,8 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
     private Dialogs dialogs;
     @Inject
     private CollectionLoader<Remesa> remesasDl;
+    @Inject
+    private ContabiService contabiService;
 
     @Subscribe(id = "remesasDl", target = Target.DATA_LOADER)
     public void onRemesasDlPreLoad(CollectionLoader.PreLoadEvent event) {
@@ -62,6 +65,21 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
         try {
             byte[] bb = jasperReportService.listadoResumenRecibosFromZHelper(new ArrayList(remesasTable.getSelected()));
             exportDisplay.show(new ByteArrayDataProvider(bb), "Resumen de Remesa.pdf");
+        }catch(Exception exc){
+            notifications.create().withDescription(exc.getMessage()).show();
+        }
+    }
+
+    public void onBtnPublicarRemesaClick(){
+        Remesa r = remesasTable.getSingleSelected();
+        if (r == null){
+            notifications.create().withDescription("Selecciona una remesa para continuar").show();
+            return;
+        }
+        try{
+            byte[] bb = jasperReportService.listadoResumenRecibosFromZHelper(new ArrayList(remesasTable.getSelected()));
+            contabiService.publicaContabilizacionRemesaRecibos(r, bb);
+            notifications.create().withDescription("La remesa seleccionada fue publicada exitósamente").show();
         }catch(Exception exc){
             notifications.create().withDescription(exc.getMessage()).show();
         }

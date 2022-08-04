@@ -202,6 +202,8 @@
                     <property name="nombreCompleto"/>
                 </property>
             </property>
+            <property name="rm2id"/>
+            <property name="abreviacionUbicacion"/>
         </property>
         <property name="excluirDeMonitorizacionParaBusquedaDePisosVacios"/>
         <property name="conSalidaDeHumos"/>
@@ -682,6 +684,8 @@
             <property name="cuentasBancarias" view="_base">
                 <property name="textoCuentaBancariaCompleta"/>
             </property>
+            <property name="nombreCompleto"/>
+            <property name="nifDni"/>
         </property>
         <property name="cuentaBancaria" view="_base"/>
         <property name="definicionesRemesa" view="_base">
@@ -800,9 +804,11 @@
     <view entity="test1_Remesa" name="remesa-view" extends="_local">
         <property name="definicionRemesa" view="_minimal">
             <property name="nombreRemesa"/>
+            <property name="tipoGiro"/>
             <property name="propietario" view="_minimal">
                 <property name="persona" view="_minimal">
                     <property name="nombreCompleto"/>
+                    <property name="nifDni"/>
                 </property>
             </property>
         </property>
@@ -811,9 +817,11 @@
     <view entity="test1_Remesa" name="remesa-view-detalle" extends="_local">
         <property name="definicionRemesa" view="_minimal">
             <property name="nombreRemesa"/>
+            <property name="tipoGiro"/>
             <property name="propietario" view="_minimal">
                 <property name="persona" view="_minimal">
                     <property name="nombreCompleto"/>
+                    <property name="nifDni"/>
                 </property>
             </property>
         </property>
@@ -827,13 +835,12 @@
                 <property name="serie" view="_minimal">
                     <property name="nombreSerie"/>
                 </property>
-                <property name="utilitarioContratoInquilino" view="_minimal">
-                    <property name="departamento" view="_minimal">
+                <property name="utilitarioContratoInquilino" view="_base">
+                    <property name="departamento" view="_base">
                         <property name="piso"/>
                         <property name="puerta"/>
-                        <property name="ubicacion" view="_minimal">
-                            <property name="nombre"/>
-                        </property>
+                        <property name="ubicacion" view="_base"/>
+
                         <property name="propietarioEfectivo" view="_minimal">
                             <property name="persona" view="_minimal">
                                 <property name="nombre"/>
