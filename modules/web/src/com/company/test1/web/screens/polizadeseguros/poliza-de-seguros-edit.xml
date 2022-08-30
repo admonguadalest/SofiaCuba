@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://polizaDeSegurosEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.polizadeseguros"
+        xmlns:app="http://schemas.company.com/demo/0.1/ui-component.xsd">
+    <data>
+        <instance id="polizaDeSegurosDc"
+                  class="com.company.test1.entity.PolizaDeSeguros"
+                  view="polizaDeSeguros-editView">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="100%"/>
+    <layout expand="editActions" spacing="true" width="100%">
+        <form id="form" dataContainer="polizaDeSegurosDc" width="100%">
+            <column width="100%">
+                <textField id="identificadorPolizaField" property="identificadorPoliza"/>
+                <textField id="descripcionAbreviadaRiesgoField" property="descripcionAbreviadaRiesgo"/>
+                <textArea id="descripcionAmpliadaRiesgoField" property="descripcionAmpliadaRiesgo" rows="5"/>
+                <dateField id="primeraFechaInicialField" property="primeraFechaInicial"/>
+                <dateField id="fechaRescisionField" property="fechaRescision"/>
+                <app:WebArchivoAdjuntoField id="aaEscaneoCedula" caption="Escaneo de Póliza"
+                                            property="escaneoPoliza" dataContainer="polizaDeSegurosDc"
+                                            width="100%"/>
+                <textField id="companiaAseguradora" property="companiaAseguradora"/>
+                <textField id="broker" property="broker"/>
+                <textArea id="datosC" property="datosDeContactoBrokerYCia"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,1 @@
+alter table TEST1_POLIZA_DE_SEGUROS add column DATOS_DE_CONTACTO_BROKER_Y_CIA longtext ;

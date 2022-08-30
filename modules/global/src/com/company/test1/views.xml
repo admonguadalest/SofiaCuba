@@ -1909,5 +1909,35 @@
         <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
         <property name="commaSeparatedMailingList"/>
     </view>
+    <view entity="test1_PolizaDeSeguros" name="polizaDeSeguros-editView">
+        <property name="identificadorPoliza"/>
+        <property name="descripcionAbreviadaRiesgo"/>
+        <property name="descripcionAmpliadaRiesgo"/>
+        <property name="primeraFechaInicial"/>
+        <property name="fechaRescision"/>
+        <property name="escaneoPoliza" view="_base"/>
+        <property name="companiaAseguradora"/>
+        <property name="broker"/>
+        <property name="datosDeContactoBrokerYCia"/>
+    </view>
+    <view entity="test1_Siniestro" name="siniestro-browseView">
+        <property name="fechaSiniestro"/>
+        <property name="descripcionSiniestro"/>
+        <property name="datosDeContactoPartes"/>
+        <property name="siniestroCerrado"/>
+        <property name="diarioDeSiniestro"/>
+        <property name="polizaDeSeguros" view="_base"/>
+    </view>
+    <view entity="test1_Siniestro" name="siniestro-editView">
+        <property name="fechaSiniestro"/>
+        <property name="descripcionSiniestro"/>
+        <property name="datosDeContactoPartes"/>
+        <property name="siniestroCerrado"/>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="diarioDeSiniestro"/>
+        <property name="polizaDeSeguros" view="_base">
+            <property name="companiaAseguradora"/>
+        </property>
+    </view>
 
 </views>
