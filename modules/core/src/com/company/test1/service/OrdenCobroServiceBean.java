@@ -18,7 +18,7 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.DataManager;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
-import sepamessaging.BasicDebitInitiationMessage;
+import com.sofia.sepamessaging.BasicDebitInitiationMessage;
 
 import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
@@ -153,7 +153,7 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
         bdim.setCreationDateTime(new Date());
         bdim.setNumberOfTransactions(rc.getOrdenesCobro().size());
 
-        bdim.setRequesterSepaIdentificator(sepamessaging.Utils.calculaIdentificadorSepaParaIdentificador("ES", presentador.getNifDni()));
+        bdim.setRequesterSepaIdentificator(com.sofia.sepamessaging.Utils.calculaIdentificadorSepaParaIdentificador("ES", presentador.getNifDni()));
         bdim.setMessageId(rc.getIdentificador());
 
         List<OrdenCobro> oocc = rc.getOrdenesCobro();

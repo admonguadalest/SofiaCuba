@@ -26,6 +26,7 @@
             <property caption="Ubicacion" name="utilitarioContratoInquilino.departamento.ubicacion.nombre"/>
             <property caption="Piso" name="utilitarioContratoInquilino.departamento.piso"/>
             <property caption="Puerta" name="utilitarioContratoInquilino.departamento.puerta"/>
+            <property caption="Importe" name="totalReciboPostCCAA"/>
         </filter>
         <table id="reciboesTable"
                width="100%"

@@ -354,19 +354,29 @@ public class ContabiServiceBean implements ContabiService {
                         ubicacionesRecibos.put(u, new ArrayList());
                     }
                     if (!ubicacionesTotales.containsKey(u)){
-                        ubicacionesTotales.put(u, new Double[]{0.0,0.0});
+                        //0 - totales viviendas sin iva
+                        //1 - totales no viviendas sin iva
+                        //2 - total de iva
+                        ubicacionesTotales.put(u, new Double[]{0.0,0.0, 0.0});
                     }
                     List<Recibo> rr_ub = ubicacionesRecibos.get(u);
                     Double[] dd = ubicacionesTotales.get(u);
                     rr_ub.add(rbo);
-                    if (rbo.getUtilitarioContratoInquilino().getDepartamento().getViviendaLocal()){
-                        dd[0] += rbo.getTotalReciboPostCCAA();
+                    if (rbo.getTotalIVA()==0){
+                        dd[0] += rbo.getTotalRecibo();
                     }else{
-                        dd[1] += rbo.getTotalReciboPostCCAA();
+                        dd[1] += rbo.getTotalRecibo();
+                    }
+                    if (rbo.getTotalIVA()>0){
+                        dd[2] += rbo.getTotalIVA();
                     }
                     if (reciboIndividualizado){
                         if (nombreInqulinoReciboIndividualizado.trim().length()==0)
+                            rbo = dataManager.reload(rbo, "recibo-view");
                             nombreInqulinoReciboIndividualizado = rbo.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
+                            nombreInqulinoReciboIndividualizado += " " + rbo.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getAbreviacionUbicacion() +
+                                    rbo.getUtilitarioContratoInquilino().getDepartamento().getAbreviacionPisoPuerta();
+
                     }
                 }
             }
@@ -384,6 +394,7 @@ public class ContabiServiceBean implements ContabiService {
                 JSONObject jo_r = new JSONObject();
                 jo_r.put("TOTALES_VIVIENDAS", totales[0]);
                 jo_r.put("TOTALES_NO_VIVIENDAS", totales[1]);
+                jo_r.put("TOTALES_IVA", totales[2]);
                 jo_r.put("NOMBRE_UBICACION", u.getNombre());
                 jo_r.put("ABREVIACION_UBICACION", u.getAbreviacionUbicacion());
                 if (reciboIndividualizado){

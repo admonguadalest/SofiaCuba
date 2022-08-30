@@ -853,6 +853,11 @@
                     <property name="nombreCompleto"/>
                 </property>
                 <property name="recibosCobrados" view="_base"/>
+                <property name="implementacionesConceptos" view="_base">
+                    <property name="registroAplicacionesConceptosAdicionales" view="_base">
+                        <property name="conceptoAdicional" view="_base"/>
+                    </property>
+                </property>
             </property>
         </property>
     </view>
@@ -877,6 +882,7 @@
                 </property>
                 <property name="ubicacion" view="_minimal">
                     <property name="nombre"/>
+                    <property name="abreviacionUbicacion"/>
                     <property name="propietario" view="_minimal">
                         <property name="persona" view="_minimal">
                             <property name="nifDni"/>
@@ -889,6 +895,7 @@
                         <property name="nombreCompleto"/>
                     </property>
                 </property>
+                <property name="abreviacionPisoPuerta"/>
             </property>
         </property>
         <property name="utilitarioInquilino" view="_minimal">

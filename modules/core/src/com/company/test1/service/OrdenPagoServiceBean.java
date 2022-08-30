@@ -14,7 +14,7 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.DataManager;
 import org.springframework.stereotype.Service;
-import sepamessaging.PaymentInitiationMessage;
+import com.sofia.sepamessaging.PaymentInitiationMessage;
 
 import javax.inject.Inject;
 
@@ -217,7 +217,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     }
 
     private byte[] crearTransferencia(RealizacionPago rp, CuentaBancaria cuentaEmisora) throws Exception{
-
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         if (cuentaEmisora==null){
             throw new Exception("La cuenta emisora no puede ser nula", new Throwable("cuentaEmisora is null"));
 
@@ -287,6 +287,28 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
             String opid = op.getId().toString().replace("-", "_");
             spi1.setEndToEndId(calculaStringCaracteresPermitidos(prop.getAbreviacionContratos()) + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(rp.getFechaValor()));
             spi1.setIban(cuentaBancariaOrdenPago.getVersionIBAN());
+
+            //rellenando el campo observaciones/concepto
+            String addInfo = "PENDIENTE ASIGNACION";
+            if (op instanceof OrdenPagoFacturaProveedor){
+                OrdenPagoFacturaProveedor opfp = (OrdenPagoFacturaProveedor) op;
+                FacturaProveedor fp = opfp.getFacturaProveedor();
+                fp = dataManager.reload(fp, "facturaProveedor-view");
+                Proveedor prov = fp.getProveedor();
+                addInfo = prov.getPersona().getNombreCompleto() + " " + fp.getNumDocumento() + " " + sdf.format(fp.getFechaEmision());
+            }
+            if (op instanceof OrdenPagoProveedor){
+                OrdenPagoProveedor opp = (OrdenPagoProveedor) op;
+                addInfo = opp.getDescripcion();
+            }
+            if (op instanceof OrdenPagoContratoInquilino){
+                OrdenPagoContratoInquilino opci = (OrdenPagoContratoInquilino) op;
+                ContratoInquilino ci  = opci.getContratoInquilino();
+                ci = dataManager.reload(ci, "contratoInquilino-view");
+                addInfo = "Contrato " + ci.getDepartamento().getUbicacion().getAbreviacionUbicacion() + ci.getDepartamento().getAbreviacionPisoPuerta() + " " + ci.getInquilino().getNombreCompleto() + " " + opci.getDescripcion();
+
+            }
+            spi1.setAdditionalInfo(addInfo);
 
             pp.add(spi1);
         }
