@@ -39,7 +39,7 @@
         <item screen="test1_AccionMailing"/>
 
         <item screen="test1_PuntoEntradaDocumentos.browse"/>
-        <item screen="test1_Siniestro.browse"/>
+
 
 
     </menu>
@@ -82,8 +82,14 @@
         <item screen="test1_Proveedor.browse"/>
         <item screen="test1_Propietario.browse"/>
         <item screen="test1_ComercialOfertas.browse"/>
+        <separator></separator>
         <item screen="test1_Inversion.browse"/>
-        <item screen="test1_PolizaDeSeguros.browse"/>
+        <separator></separator>
+        <menu id="seguros">
+            <item screen="test1_Siniestro.browse"/>
+            <item screen="test1_PolizaDeSeguros.browse"/>
+        </menu>
+
 
     </menu>
     <menu id="contratacion" insertAfter="application-test1">
