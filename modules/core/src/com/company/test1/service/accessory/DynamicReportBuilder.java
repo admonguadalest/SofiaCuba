@@ -382,7 +382,7 @@ public class DynamicReportBuilder {
         titleStyle.setName("Sans_Title");
         titleStyle.setDefault(true);
         titleStyle.setFontName("SansSerif");
-        titleStyle.setFontSize(14);
+        titleStyle.setFontSize(9);
         titleStyle.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
         titleStyle.setBold(true);
         titleStyle.setUnderline(true);

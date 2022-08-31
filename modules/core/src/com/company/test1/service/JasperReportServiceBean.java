@@ -315,6 +315,17 @@ public class JasperReportServiceBean implements JasperReportService {
         return fr;
     }
 
+    private Object formatValueForReportDinamico(Object o){
+        if (o instanceof Date){
+            o = new SimpleDateFormat("dd/MM/yyyy").format(o);
+        }else if (o instanceof Number){
+            o = new DecimalFormat("#,##0.00").format((Number) o);
+        }else{
+            o = o.toString();
+        }
+        return o;
+    }
+
     @Override
     public byte[] getReportDinamico(String titulo, Class baseClass, Collection<Entity> entitiesCollection, List<String> idPaths, List<String> colnames) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -327,10 +338,9 @@ public class JasperReportServiceBean implements JasperReportService {
             for (int j = 0; j < paths.size(); j++) {
                 String s =  paths.get(j);
                 Object o = MyBeanUtils.readBeanPath(entity, s);
-                if (o instanceof Date){
-                    o = sdf.format((Date)o);
-                }
+
                 if (o!=null){
+                    o = formatValueForReportDinamico(o);
                     row.add(o.toString());
                 }else{
                     row.add("");
@@ -357,6 +367,7 @@ public class JasperReportServiceBean implements JasperReportService {
                 String s =  paths.get(j);
                 Object o = MyBeanUtils.readBeanPath(entity, s);
                 if (o!=null){
+                    o = formatValueForReportDinamico(o);
                     row.add(o.toString());
                 }else{
                     row.add("");
@@ -383,6 +394,7 @@ public class JasperReportServiceBean implements JasperReportService {
                 String s =  paths.get(j);
                 Object o = MyBeanUtils.readBeanPath(entity, s);
                 if (o!=null){
+                    o = formatValueForReportDinamico(o);
                     row.add(o.toString());
                 }else{
                     row.add("");

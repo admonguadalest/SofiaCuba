@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://historicoCobrosInquilino.caption"
+        messagesPack="com.company.test1.web.screens">
+    <data>
+        <collection id="flujosDc" class="com.company.test1.entity.recibos.FlujoMonetarioContrato">
+            <loader id="flujosDl"/>
+        </collection>
+    </data>
+    <layout expand="main">
+        <vbox id="main" expand="main2">
+            <vbox id="main2" expand="tblFlujos">
+                <hbox spacing="true">
+                    <pickerField caption="Contrato" id="pckContrato" metaClass="test1_ContratoInquilino" captionProperty="numeroContrato">
+
+                    </pickerField>
+                    <dateField caption="Fecha Desde" id="fechaDesde"/>
+                    <dateField caption="Fecha Hasta" id="fechaHasta"/>
+
+                </hbox>
+                <label id="lblInfo" css="color: red;"/>
+
+                <groupTable id="tblFlujos" dataContainer="flujosDc" caption="Movimientos" width="50%" >
+                    <columns>
+                        <column id="informacionRecibo" caption="Num.Recibo"/>
+                        <column id="nominalRecibo" caption="Total Rbo"/>
+                        <column id="fechaMovimiento" caption="Fecha"></column>
+                        <column id="importeDebe" caption="Debe"></column>
+                        <column id="importeHaber" caption="Haber"></column>
+                        <column id="saldoAcumulado" caption="Saldo"/>
+                        <column id="concepto" caption="Concepto"/>
+                    </columns>
+                    <rows/>
+                </groupTable>
+                <label value=" "/>
+            </vbox>
+        </vbox>
+        <hbox >
+            <button caption="Imprimir Report" invoke="imprimirReport"/>
+        </hbox>
+        
+    </layout>
+</window>

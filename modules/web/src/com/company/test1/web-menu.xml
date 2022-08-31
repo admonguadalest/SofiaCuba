@@ -150,6 +150,7 @@
         </menu>
         <menu id="cobros">
             <item screen="test1_Recibo.browse" id="gestion-cobros"/>
+            <item screen="test1_HistoricoCobrosInquilino"/>
         </menu>
         <menu id="notificaciones">
             <item screen="test1_Notificacion.browse" id="notificaciones-browse" openType="NEW_TAB"/>

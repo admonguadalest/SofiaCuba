@@ -11,6 +11,7 @@
         <class>com.company.test1.entity.MailStructure</class>
         <class>com.company.test1.entity.StorageElement</class>
         <class>com.company.test1.entity.ItemNoEmitidoOAnomalo</class>
+        <class>com.company.test1.entity.recibos.FlujoMonetarioContrato</class>
     </metadata-model>
 
 </metadata>

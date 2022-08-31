@@ -864,7 +864,9 @@
     <view entity="test1_Recibo" name="recibo-view" extends="_base" systemProperties="true">
         <property name="programacionRecibo" view="_minimal"/>
         <property name="ordenanteRemesa" view="_minimal">
-            <property name="remesa" view="_base"/>
+            <property name="remesa" view="_base">
+                <property name="definicionRemesa" view="_base"/>
+            </property>
         </property>
         <property name="serie" view="_base"/>
         <property name="utilitarioContratoInquilino" view="_minimal">
