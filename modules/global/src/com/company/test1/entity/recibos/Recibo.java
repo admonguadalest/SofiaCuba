@@ -8,7 +8,6 @@ import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
 import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
-import com.haulmont.cuba.core.entity.annotation.Listeners;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
@@ -103,7 +102,15 @@ public class Recibo extends StandardEntity {
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
-    @Transient
+    @MetaProperty
+    public String getInfoRemesa() {
+        try{
+            return this.getOrdenanteRemesa().getRemesa().getIdentificadorRemesa();
+        }catch(Exception exc){
+            return "ERROR ACCESO (VIEWS.XML)";
+        }
+    }
+
     @MetaProperty
     public Double getTotalCobrado() {
         Double d = 0.0;
