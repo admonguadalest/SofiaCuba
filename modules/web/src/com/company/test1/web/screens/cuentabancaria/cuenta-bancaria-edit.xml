@@ -23,7 +23,7 @@
                 <textField id="domicilioEntidadBancariaField" property="domicilioEntidadBancaria" dataContainer="cuentaBancariaDc"/>
                 <textField id="nombreEntidadBancariaField" property="nombreEntidadBancaria" dataContainer="cuentaBancariaDc"/>
                 <textField id="paisField" property="pais" dataContainer="cuentaBancariaDc"/>
-                <textField id="codigoBICField" property="codigoBIC" dataContainer="cuentaBancariaDc"/>
+                <textField id="codigoBICField" property="codigoBIC" dataContainer="cuentaBancariaDc" stylename="uppercasefield"/>
                 <textField id="digigosControlIBANField" property="digigosControlIBAN" dataContainer="cuentaBancariaDc"/>
             </column>
         </form>
