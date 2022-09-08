@@ -39,6 +39,7 @@
             <columns>
                 <column id="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
                 <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                <column id="infoRemesa"/>
                 <column id="totalReciboPostCCAA"/>
                 <column id="totalCobrado"/>
                 <column id="numRecibo"/>
