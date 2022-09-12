@@ -32,10 +32,11 @@
                     <richTextArea property="ordenTrabajo.entrada.contenidoEntrada" editable="false"/>
                     <richTextArea property="ordenTrabajo.descripcion" editable="false"/>
                     <textField property="ordenTrabajo.propuestoPor" editable="false"/>
+                    <lookupField property="gestionPresupuestaria" id="gestionPresupuestaria"/>
                     <dateField id="fechaPrevistoInicioField" property="fechaPrevistoInicio"/>
                     <dateField id="fechaPrevistaFinalizacionField" property="fechaPrevista" caption="Fecha Prevista Finalizacion"/>
                     <dateField id="fechaFinalizacionField" property="fechaFinalizacion"/>
-                    <textArea id="descripcionField" property="descripcion" rows="5"/>
+                    <richTextArea id="descripcionField" property="descripcion" width="100%"/>
                     <checkBox id="canceladoField" property="cancelado"/>
 
 

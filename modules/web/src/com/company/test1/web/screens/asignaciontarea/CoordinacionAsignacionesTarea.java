@@ -1,13 +1,12 @@
 package com.company.test1.web.screens.asignaciontarea;
 
-import com.company.test1.entity.ciclos.AsignacionTarea;
-import com.company.test1.entity.ciclos.Ciclo;
-import com.company.test1.entity.ciclos.NotaIntervencion;
+import com.company.test1.entity.ciclos.*;
 import com.company.test1.entity.ciclos.gantasignacionestareas.Segment;
 import com.company.test1.entity.ciclos.gantasignacionestareas.TaskSpan;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.extroles.Proveedor;
+import com.company.test1.service.CicloService;
 import com.company.test1.service.ContratosService;
 import com.haulmont.charts.gui.components.charts.GanttChart;
 import com.haulmont.charts.web.widgets.amcharts.CubaAmchartsIntegration;
@@ -16,6 +15,7 @@ import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
+import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.builders.EditorBuilder;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
@@ -113,6 +113,16 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private DataGrid<AsignacionTarea> dataGridTareasPendientesIndustrialesFiltro;
     @Inject
     private DataGrid<AsignacionTarea> dataGridTareasEnCursoIndustrialesFiltro;
+    @Inject
+    private LookupField<String> lkpVaciosOcupadosVR;
+    @Inject
+    private UiComponents uiComponents;
+    @Inject
+    private VBoxLayout vbDynEntradas;
+    @Inject
+    private VBoxLayout vbDynTareasGestionPresupuestaria;
+    @Inject
+    private CicloService cicloService;
 
     private void populateColors(){
         colors.put("red", "#FF0000");
@@ -206,6 +216,9 @@ public class CoordinacionAsignacionesTarea extends Screen {
         lkpVaciosOcupados.setOptionsList(Arrays.asList(new String[]{"Todos","Vacíos","Ocupados"}));
         lkpVaciosOcupados.setValue("Todos");
 
+        lkpVaciosOcupadosVR.setOptionsList(Arrays.asList(new String[]{"Todos","Vacíos","Ocupados"}));
+        lkpVaciosOcupadosVR.setValue("Vacíos");
+
         taskSpanDl.load();
 
         tknProveedores.addValueChangeListener(e->{
@@ -222,12 +235,297 @@ public class CoordinacionAsignacionesTarea extends Screen {
         ganttTareasEnCursoDl.load();
 
 
-
-
+        cargarEntradasSinAsignacionesTareas();
+        cargarAsignacionesTareasGestionPresupuestaria();
+        cargarAsignacionesTareasPendientesDePlanificacion();
 
 
 
     }
+
+    @Subscribe("lkpVaciosOcupadosVR")
+    public void onLkpVaciosOcupadosVRValueChange(HasValue.ValueChangeEvent event) {
+        onBtnRefrescarClick(null);
+    }
+
+
+
+    @Subscribe("btnRefrescarVistaRapida")
+    public void onBtnRefrescarClick(Button.ClickEvent event) {
+        cargarEntradasSinAsignacionesTareas();
+        cargarAsignacionesTareasGestionPresupuestaria();
+        cargarAsignacionesTareasPendientesDePlanificacion();
+    }
+
+
+
+    private void cargarEntradasSinAsignacionesTareas()  {
+        //cargando datos de la vista rapida
+        try {
+            vbDynEntradas.removeAll();
+            boolean seHallaronRegistros = false;
+            List<Entrada> ee = getEntradasConOrdenesTrabajoSinAsignacionesTareas();
+            GridLayout gl = null;
+            gl = uiComponents.create(GridLayout.NAME);
+            gl.setColumns(2);
+            gl.setWidth("100%");
+            gl.setRows(100);
+            if (ee.size()>0){
+
+                int rowCounter = -1;
+
+                for (int i = 0; i < ee.size(); i++) {
+
+                    Entrada e = ee.get(i);
+                    e = dataManager.reload(e, "entrada-to-departamento");
+                    final Entrada e_ = e;
+                    if (e.getCiclo().getDepartamento().getPiso().indexOf("FINCA")!=-1){
+                        continue;
+                    }
+                    Departamento d = e.getCiclo().getDepartamento();
+                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d, "_minimal");
+                    boolean anadir = false;
+                    String vo = lkpVaciosOcupadosVR.getValue();
+                    if (vo.compareTo("Todos")==0){
+                        anadir = true;
+                    }else if(vo.compareTo("Vacíos")==0){
+                        anadir = (ci==null);
+                    }else{
+                        anadir = (ci!=null);
+                    }
+                    if (anadir){
+                        seHallaronRegistros = true;
+                        rowCounter++;
+
+                        e = dataManager.reload(e, "entrada-view");
+
+                        vbDynEntradas.add(gl);
+                        Button b = uiComponents.create(Button.NAME);
+                        b.addClickListener(ev->{
+                            Screen s = screenBuilders.editor(Ciclo.class, this).editEntity(e_.getCiclo())
+                                    .withOpenMode(OpenMode.NEW_TAB)
+                                    .build();
+                            s.addAfterCloseListener(ev2->{
+                                onBtnRefrescarClick(null);
+                            });
+                            s.show();
+                        });
+                        b.setStyleName("link");
+                        b.setCaption(e.getCiclo().getDepartamento().getNombreDescriptivoCompleto() );
+                        gl.add(b, 0,rowCounter);
+
+                        Label lev = uiComponents.create(Label.NAME);
+                        try{
+                            lev.setValue(e.getEvento().getNombre());
+                        }catch(Exception exc){
+                            lev.setValue("(!Entrada sin evento asociado)");
+                        }
+
+                        gl.add(lev, 1,rowCounter);
+
+                    }
+
+
+                    int y = 2;
+                }
+            }
+
+            if (!seHallaronRegistros){
+                Label l = uiComponents.create(Label.NAME);
+                l.setValue("(0 registros hallados)");
+                vbDynEntradas.add(l);
+            }else{
+                vbDynEntradas.add(gl);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            String m = "";
+            if (e.getMessage().trim().length()==0){
+                m = e.getClass().getSimpleName();
+            }else{
+                m = e.getMessage();
+            }
+            notifications.create().withDescription(m).show();
+        }
+
+    }
+
+    private void cargarAsignacionesTareasGestionPresupuestaria(){
+        try{
+            vbDynTareasGestionPresupuestaria.removeAll();
+            List<AsignacionTarea> aatt = getAsignacionesTareasGestionPresupuestaria();
+            GridLayout gl = null;
+            gl = uiComponents.create(GridLayout.NAME);
+
+            gl.setColumns(3);
+            gl.setWidth("100%");
+            gl.setRows(100);
+            boolean seHallaronRegistros = false;
+            if (aatt.size()>0){
+
+
+                int rowCounter = -1;
+                for (int i = 0; i < aatt.size(); i++) {
+
+                    AsignacionTarea at = aatt.get(i);
+                    at = dataManager.reload(at, "asignacionTarea-view-ext");
+                    final AsignacionTarea at_ = at;
+
+                    Departamento d = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d);
+                    boolean anadir = false;
+                    String vo = lkpVaciosOcupadosVR.getValue();
+                    if (vo.compareTo("Todos")==0){
+                        anadir = true;
+                    }else if(vo.compareTo("Vacíos")==0){
+                        anadir = (ci==null);
+                    }else{
+                        anadir = (ci!=null);
+                    }
+                    if (anadir) {
+                        rowCounter++;
+                        seHallaronRegistros = true;
+
+                        Button b = uiComponents.create(Button.NAME);
+                        b.addClickListener(ev -> {
+                            Screen s = screenBuilders.editor(AsignacionTarea.class, this).editEntity(at_)
+                                    .withScreenId("test1_AsignacionTarea.edit-ext")
+                                    .withOpenMode(OpenMode.DIALOG).build();
+                            s.addAfterCloseListener(ev2->{
+                                onBtnRefrescarClick(null);
+                            });
+                            s.show();
+                        });
+                        b.setStyleName("link");
+                        b.setCaption(at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto());
+                        gl.add(b, 0, rowCounter);
+
+                        Label lev = uiComponents.create(Label.NAME);
+                        lev.setValue(at.getProveedor().getPersona().getNombreCompleto());
+                        gl.add(lev, 1, rowCounter);
+
+                        Label lev2 = uiComponents.create(Label.NAME);
+                        lev2.setValue(at.getGestionPresupuestaria().name());
+                        gl.add(lev2, 2, rowCounter);
+
+                    }
+                }
+
+            }
+
+            if (!seHallaronRegistros){
+                Label l = uiComponents.create(Label.NAME);
+                l.setValue("(0 registros hallados)");
+                vbDynTareasGestionPresupuestaria.add(l);
+            }else{
+                vbDynTareasGestionPresupuestaria.add(gl);
+            }
+
+
+
+        }catch(Exception exc){
+            String m = "";
+            if (exc.getMessage().trim().length()==0){
+                m = exc.getClass().getSimpleName();
+            }else{
+                m = exc.getMessage();
+            }
+            notifications.create().withDescription(m).show();
+
+        }
+    }
+
+    @Inject
+    private VBoxLayout vbDynTareasProgramables;
+
+    private void cargarAsignacionesTareasPendientesDePlanificacion(){
+        try{
+            vbDynTareasProgramables.removeAll();
+            boolean seHallaronRegistros = false;
+            List<AsignacionTarea> aatt = getAsignacionesTareasPendientesDePlanificacion();
+            GridLayout gl = null;
+            gl = uiComponents.create(GridLayout.NAME);
+
+            gl.setColumns(3);
+            gl.setWidth("100%");
+            gl.setRows(100);
+            if (aatt.size()>0){
+
+
+                int rowCounter = -1;
+                for (int i = 0; i < aatt.size(); i++) {
+
+                    AsignacionTarea at = aatt.get(i);
+                    at = dataManager.reload(at, "asignacionTarea-view-ext");
+                    final AsignacionTarea at_ = at;
+
+                    Departamento d = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d);
+                    boolean anadir = false;
+                    String vo = lkpVaciosOcupadosVR.getValue();
+                    if (vo.compareTo("Todos")==0){
+                        anadir = true;
+                    }else if(vo.compareTo("Vacíos")==0){
+                        anadir = (ci==null);
+                    }else{
+                        anadir = (ci!=null);
+                    }
+                    if (anadir) {
+                        rowCounter++;
+                        seHallaronRegistros = true;
+
+
+                        Button b = uiComponents.create(Button.NAME);
+                        b.addClickListener(ev -> {
+                            Screen s = screenBuilders.editor(AsignacionTarea.class, this).editEntity(at_)
+                                    .withScreenId("test1_AsignacionTarea.edit-ext")
+                                    .withOpenMode(OpenMode.DIALOG).build();
+                            s.addAfterCloseListener(ev2->{
+                                onBtnRefrescarClick(null);
+                            });
+                            s.show();
+                        });
+                        b.setStyleName("link");
+                        b.setCaption(at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto());
+                        gl.add(b, 0, rowCounter);
+
+                        Label lev = uiComponents.create(Label.NAME);
+                        lev.setValue(at.getProveedor().getPersona().getNombreCompleto());
+                        gl.add(lev, 1, rowCounter);
+
+                        Label lev2 = uiComponents.create(Label.NAME);
+                        lev2.setValue(at.getGestionPresupuestaria().name());
+                        gl.add(lev2, 2, rowCounter);
+
+                    }
+                }
+
+            }
+
+            if (!seHallaronRegistros){
+                Label l = uiComponents.create(Label.NAME);
+                l.setValue("(0 registros hallados)");
+                vbDynTareasProgramables.add(l);
+            }else{
+                vbDynTareasProgramables.add(gl);
+            }
+
+
+
+        }catch(Exception exc){
+
+            String m = "";
+            if (exc.getMessage().trim().length()==0){
+                m = exc.getClass().getSimpleName();
+            }else{
+                m = exc.getMessage();
+            }
+            notifications.create().withDescription(m).show();
+        }
+    }
+
 
     @Install(to = "ganttTareasEnCursoDl", target = Target.DATA_LOADER)
     private List<AsignacionTarea> ganttTareasEnCursoDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
@@ -718,16 +1016,56 @@ public class CoordinacionAsignacionesTarea extends Screen {
                 .editEntity(at).withScreenId("test1_AsignacionTarea.edit-ext");
 
 
-        Screen s = eb.build().show();
+        Screen s = eb.build();
         s.addAfterCloseListener(e->{
             ganttTareasEnCursoDl.load();
             ganttTareasPendientesDl.load();
             taskSpanDl.load();
         });
+        s.show();
+    }
+    
+    
+    private List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas() throws Exception{
+        
+        List<Entrada> ee = cicloService.getEntradasConOrdenesTrabajoSinAsignacionesTareas();
+
+
+        return ee;
+    } 
+
+
+    public List<AsignacionTarea> getAsignacionesTareasGestionPresupuestaria() throws Exception{
+        String hql = "SELECT at from test1_AsignacionTarea at join at.ordenTrabajo ot join ot.entrada e " +
+                "join e.ciclo c join c.departamento d where at.fechaFinalizacion is null and " +
+                "at.gestionPresupuestaria is not null and " +
+                "at.gestionPresupuestaria <> :ejsinppto and " +
+                "at.gestionPresupuestaria <> :pptoaprob and " +
+                "c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null)";
+        List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
+                .parameter("ejsinppto", GestionPresupuestariaEnum.SIN_PRESUPUESTO)
+                .parameter("pptoaprob", GestionPresupuestariaEnum.PRESUPUESTO_APROBADO)
+                .list();
+        return aatt;
+
     }
 
 
+    public List<AsignacionTarea> getAsignacionesTareasPendientesDePlanificacion() throws Exception{
+        String hql = "SELECT at from test1_AsignacionTarea at join at.ordenTrabajo ot join ot.entrada e " +
+                "join e.ciclo c join c.departamento d where at.fechaFinalizacion is null and " +
+                "at.gestionPresupuestaria is not null and " +
+                "(at.gestionPresupuestaria = :ejsinppto or " +
+                "at.gestionPresupuestaria = :pptoaprob) and " +
+                "at.fechaPrevistoInicio is null and " +
+                "c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null)";
+        List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
+                .parameter("ejsinppto", GestionPresupuestariaEnum.SIN_PRESUPUESTO)
+                .parameter("pptoaprob", GestionPresupuestariaEnum.PRESUPUESTO_APROBADO)
+                .list();
+        return aatt;
 
+    }
 
 
 

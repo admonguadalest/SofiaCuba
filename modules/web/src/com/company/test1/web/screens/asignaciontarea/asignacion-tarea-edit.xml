@@ -17,11 +17,11 @@
             </loader>
         </collection>
     </data>
-    <dialogMode height="600"
+    <dialogMode height="800"
                 width="800"/>
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="asignacionTareaDc">
-            <column width="250px">
+            <column width="100%">
                 <lookupPickerField id="proveedorField" dataContainer="asignacionTareaDc" optionsContainer="proveedorsDc" property="proveedor" captionProperty="persona.nombreCompleto">
                     <actions>
                         <action id="lookup" type="picker_lookup"/>
@@ -30,9 +30,11 @@
                 <dateField resolution="DAY" id="fechaPrevistaField" property="fechaPrevistoInicio"/>
                 <dateField resolution="DAY" id="fechaPrevistaFinalizacionField" property="fechaPrevista" caption="Fecha Prevista Final."/>
                 <dateField resolution="DAY" id="fechaFinalizacionField" property="fechaFinalizacion"/>
-                <textArea id="descripcionField" property="descripcion" rows="5"/>
+                <richTextArea id="descripcionField" property="descripcion" width="100%"/>
+                <lookupField property="gestionPresupuestaria" id="gestionPresupuestaria"/>
                 <checkBox id="canceladoField" property="cancelado"/>
                 <dateField resolution="DAY" id="fechaPrevistoInicioField" property="fechaPrevistoInicio"/>
+
                 <checkBox id="acordadoConIndustrialField" property="acordadoConIndustrial"/>
                 <textArea id="comentariosIndustrialField" property="comentariosIndustrial" rows="5"/>
             </column>

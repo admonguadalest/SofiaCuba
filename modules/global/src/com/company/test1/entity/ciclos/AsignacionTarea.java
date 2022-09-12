@@ -25,6 +25,10 @@ public class AsignacionTarea extends StandardEntity {
     @JoinColumn(name = "PROVEEDOR_ID")
     protected Proveedor proveedor;
 
+    @Column(name = "GESTION_PRESUPUESTARIA")
+    @NotNull(message = "Especificar valor para Gestion Presupuestaria")
+    private String gestionPresupuestaria;
+
     @NotNull(message = "Toda Nota de Intervencion debe tener asignada una Orden de Trabajo")
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.CASCADE)
@@ -58,6 +62,14 @@ public class AsignacionTarea extends StandardEntity {
     @Lob
     @Column(name = "COMENTARIOS_INDUSTRIAL")
     protected String comentariosIndustrial;
+
+    public GestionPresupuestariaEnum getGestionPresupuestaria() {
+        return gestionPresupuestaria == null ? null : GestionPresupuestariaEnum.fromId(gestionPresupuestaria);
+    }
+
+    public void setGestionPresupuestaria(GestionPresupuestariaEnum gestionPresupuestaria) {
+        this.gestionPresupuestaria = gestionPresupuestaria == null ? null : gestionPresupuestaria.getId();
+    }
 
     public void setFechaPrevista(Date fechaPrevista) {
         this.fechaPrevista = fechaPrevista;

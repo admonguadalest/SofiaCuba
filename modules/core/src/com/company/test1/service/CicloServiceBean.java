@@ -1,25 +1,28 @@
 package com.company.test1.service;
 
 import com.company.test1.entity.ciclos.Ciclo;
+import com.company.test1.entity.ciclos.Entrada;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.enums.EstadoCicloEnum;
 import com.company.test1.entity.enums.TipoCiclo;
+import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
+import com.haulmont.cuba.core.global.DataManager;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service(CicloService.NAME)
 public class CicloServiceBean implements CicloService {
 
     @Inject
     Persistence persistence;
+    @Inject
+    private DataManager dataManager;
 
     public String calculaNuevoCodigoCiclo(Departamento d) throws Exception{
         String ci;
@@ -55,6 +58,39 @@ public class CicloServiceBean implements CicloService {
         }else{
             throw new Exception("Se halló mas de un ciclo activo, o ninguno para el departamento : " + d.getNombreDescriptivoCompleto());
         }
+    }
+
+    public List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas() throws Exception{
+        Transaction t = persistence.createTransaction();
+        String hql = "select e.id, ot.id, count(at.id) from test1_OrdenTrabajo ot " +
+                " left join ot.asignacionesTareas at " +
+                " join ot.entrada e join e.ciclo c join c.departamento d " +
+                " where c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' " +
+                " and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null) group by e.id, ot.id";
+
+        /*hql = "select e.id, ot.id, count(at.id) from test1_OrdenTrabajo ot " +
+                " left join ot.asignacionesTareas at " +
+                " join ot.entrada e group by e.id, ot.id";*/
+
+        EntityManager em = persistence.getEntityManager();
+        List l = em.createQuery(hql)
+                .getResultList();
+        t.close();
+        ArrayList<Entrada> al = new ArrayList();
+        for (int i = 0; i < l.size(); i++) {
+            Object[] oo = (Object[]) l.get(i);
+            if (oo[0].toString().replace("-","").compareTo("825dec0b1712063ee9be3a410ee8f112")==0){
+                int y = 2;
+            }
+            Number num = (Number) oo[2];
+            if (num.intValue()==0){
+                UUID uuid = (UUID) oo[0];
+                Entrada e = dataManager.load(Entrada.class).id(uuid).one();
+                al.add(e);
+            }
+        }
+
+        return al;
     }
 
 }

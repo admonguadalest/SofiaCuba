@@ -55,6 +55,27 @@
     </data>
     <layout>
         <tabSheet >
+            <tab id="tabVistaRapida" caption="Vista Rápida" expand="vbVistaRapidaMain" spacing="true">
+
+                <lookupField id="lkpVaciosOcupadosVR" caption="Vacios/Ocupados"/>
+                <button caption="Refrescar" id="btnRefrescarVistaRapida"/>
+                <vbox id="vbVistaRapidaMain" spacing="true" css="margin-top: 20px;">
+                    <label value="Entradas con OT's sin Tareas Definidas"/>
+                    <vbox id="vbDynEntradas">
+
+                    </vbox>
+                    <label value="Tareas que precisan Gestión Presupuestaria"/>
+                    <vbox id="vbDynTareasGestionPresupuestaria">
+
+                    </vbox>
+                    <label value="Tareas Programables pendientes de Planificacion"/>
+                    <vbox id="vbDynTareasProgramables">
+
+                    </vbox>
+
+
+                </vbox>
+            </tab>
             <tab id="tabTables" caption="Tareas">
                 <vbox spacing="true" css="margin-top: 20px;">
                     <hbox spacing="true">

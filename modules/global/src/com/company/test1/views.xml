@@ -328,6 +328,13 @@
     <view entity="test1_Evento" name="evento-view" extends="_local" systemProperties="true">
         <property name="ciclo" view="_minimal"/>
     </view>
+    <view entity="test1_Entrada" name="entrada-to-departamento" extends="_minimal">
+        <property name="ciclo" view="_minimal">
+            <property name="departamento" view="_base">
+                <property name="ubicacion" view="_base"/>
+            </property>
+        </property>
+    </view>
     <view entity="test1_Entrada" name="entrada-reasignacion-view" extends="_base">
         <property name="ciclo" view="_base">
             <property name="departamento" view="_base">
@@ -409,10 +416,12 @@
         <property name="asignacionesTareas" view="_base">
             <property name="proveedor" view="_base"/>
         </property>
+        <property name="entrada" view="_minimal"/>
     </view>
     <view entity="test1_NotaIntervencion" name="notaIntervencion-view" extends="_local"/>
     <view entity="test1_AsignacionTarea" name="asignacionTarea-view" extends="_local">
         <property name="proveedor" view="_base"/>
+
     </view>
 
     <view entity="test1_FacturaProveedor" name="facturaProveedor-view" extends="_local">
