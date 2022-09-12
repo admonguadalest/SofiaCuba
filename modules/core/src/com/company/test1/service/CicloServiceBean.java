@@ -79,13 +79,10 @@ public class CicloServiceBean implements CicloService {
         ArrayList<Entrada> al = new ArrayList();
         for (int i = 0; i < l.size(); i++) {
             Object[] oo = (Object[]) l.get(i);
-            if (oo[0].toString().replace("-","").compareTo("825dec0b1712063ee9be3a410ee8f112")==0){
-                int y = 2;
-            }
             Number num = (Number) oo[2];
             if (num.intValue()==0){
                 UUID uuid = (UUID) oo[0];
-                Entrada e = dataManager.load(Entrada.class).id(uuid).one();
+                Entrada e = dataManager.load(Entrada.class).view("entrada-to-departamento").id(uuid).one();
                 al.add(e);
             }
         }

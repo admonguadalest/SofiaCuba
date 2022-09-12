@@ -277,7 +277,6 @@ public class CoordinacionAsignacionesTarea extends Screen {
                 for (int i = 0; i < ee.size(); i++) {
 
                     Entrada e = ee.get(i);
-                    e = dataManager.reload(e, "entrada-to-departamento");
                     final Entrada e_ = e;
                     if (e.getCiclo().getDepartamento().getPiso().indexOf("FINCA")!=-1){
                         continue;
