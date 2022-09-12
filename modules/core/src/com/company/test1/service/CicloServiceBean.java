@@ -60,11 +60,12 @@ public class CicloServiceBean implements CicloService {
         }
     }
 
-    public List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas() throws Exception{
+    public List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas(Boolean ocupadosVacios) throws Exception{
         Transaction t = persistence.createTransaction();
-        String hql = "select e.id, ot.id, count(at.id) from test1_OrdenTrabajo ot " +
+        String hql = "select e.id, ot.id, d.id, count(at.id) from test1_OrdenTrabajo ot " +
                 " left join ot.asignacionesTareas at " +
                 " join ot.entrada e join e.ciclo c join c.departamento d " +
+                "" +
                 " where c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' " +
                 " and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null) group by e.id, ot.id";
 
@@ -76,18 +77,88 @@ public class CicloServiceBean implements CicloService {
         List l = em.createQuery(hql)
                 .getResultList();
         t.close();
-        ArrayList<Entrada> al = new ArrayList();
+        ArrayList<UUID> entradasIds = new ArrayList();
+        ArrayList<UUID> departamentosIds = new ArrayList();
         for (int i = 0; i < l.size(); i++) {
             Object[] oo = (Object[]) l.get(i);
-            Number num = (Number) oo[2];
+            Number num = (Number) oo[3];
             if (num.intValue()==0){
-                UUID uuid = (UUID) oo[0];
-                Entrada e = dataManager.load(Entrada.class).view("entrada-to-departamento").id(uuid).one();
-                al.add(e);
+                UUID eid = (UUID) oo[0];
+                UUID did = (UUID) oo[2];
+                entradasIds.add(eid);
+                departamentosIds.add(did);
             }
         }
 
-        return al;
+        hql = "select ci.id, d.id from test1_ContratoInquilino ci join ci.departamento d " +
+                "where d.id in :didlist and ci.estadoContrato = 3";
+
+        t = persistence.createTransaction();
+        em = persistence.getEntityManager();
+        List res = em.createQuery(hql).setParameter("didlist", departamentosIds).getResultList();
+        t.close();
+
+        //creando la lista de departamentos de la lista que tiene contrato vigente y otra que no
+        //tiene contrato vigente
+        ArrayList didsContratoVigente = new ArrayList();
+        ArrayList didsSinContratoVigente = new ArrayList();
+        for (int i = 0; i < res.size(); i++) {
+            UUID did = (UUID) ((Object[])res.get(i))[1];
+            if (didsContratoVigente.indexOf(did)==-1) didsContratoVigente.add(did);
+        }
+        for (int i = 0; i < departamentosIds.size(); i++) {
+            UUID did = (UUID) departamentosIds.get(i);
+            if (didsContratoVigente.indexOf(did)==-1){
+                if (didsSinContratoVigente.indexOf(did)==-1){
+                    didsSinContratoVigente.add(did);
+                }
+            }
+        }
+
+        if (ocupadosVacios==null){
+            //devuelvo todas las entradas
+            t = persistence.createTransaction();
+            em = persistence.getEntityManager();
+            List<Entrada> entradas = em.createQuery("select e from test1_Entrada e where " +
+                    "e.id in :entradalist")
+                    .setView(Entrada.class, "entrada-to-departamento")
+                    .setParameter("entradalist", entradasIds)
+                    .getResultList();
+            t.close();
+            return entradas;
+
+        }else if(ocupadosVacios==true){
+            //devuelvo solo aquellas entradas cuyo departamento tiene un contrato vigente
+            t = persistence.createTransaction();
+            em = persistence.getEntityManager();
+            List<Entrada> entradas = em.createQuery("select e from test1_Entrada e join e.ciclo c " +
+                    "join c.departamento d where " +
+                    "e.id in :entradalist and d.id in :departamentolist")
+                    .setView(Entrada.class, "entrada-to-departamento")
+                    .setParameter("entradalist", entradasIds)
+                    .setParameter("departamentolist", didsContratoVigente)
+                    .getResultList();
+            t.close();
+
+            return entradas;
+
+        }
+        else{
+            //devuelvosolo aquellas entradas cuyo departamento no tiene asignado un contrato vigente
+            //devuelvo solo aquellas entradas cuyo departamento tiene un contrato vigente
+            t = persistence.createTransaction();
+            em = persistence.getEntityManager();
+            List<Entrada> entradas = em.createQuery("select e from test1_Entrada e join e.ciclo c " +
+                    "join c.departamento d where " +
+                    "e.id in :entradalist and d.id in :departamentolist")
+                    .setView(Entrada.class, "entrada-to-departamento")
+                    .setParameter("entradalist", entradasIds)
+                    .setParameter("departamentolist", didsSinContratoVigente)
+                    .getResultList();
+            t.close();
+
+            return entradas;
+        }
     }
 
 }

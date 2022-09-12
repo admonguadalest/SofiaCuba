@@ -278,9 +278,9 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
                     Entrada e = ee.get(i);
                     final Entrada e_ = e;
-                    if (e.getCiclo().getDepartamento().getPiso().indexOf("FINCA")!=-1){
+                    /*if (e.getCiclo().getDepartamento().getPiso().indexOf("FINCA")!=-1){
                         continue;
-                    }
+                    }*/
                     Departamento d = e.getCiclo().getDepartamento();
                     ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d, "_minimal");
                     boolean anadir = false;
@@ -341,9 +341,12 @@ public class CoordinacionAsignacionesTarea extends Screen {
         } catch (Exception e) {
             e.printStackTrace();
             String m = "";
-            if (e.getMessage().trim().length()==0){
+            if ((e.getMessage()==null)){
                 m = e.getClass().getSimpleName();
-            }else{
+            }else if(e.getMessage().trim().length()==0){
+                m = e.getClass().getSimpleName();
+            }
+            else{
                 m = e.getMessage();
             }
             notifications.create().withDescription(m).show();
@@ -1026,8 +1029,16 @@ public class CoordinacionAsignacionesTarea extends Screen {
     
     
     private List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas() throws Exception{
-        
-        List<Entrada> ee = cicloService.getEntradasConOrdenesTrabajoSinAsignacionesTareas();
+        String ocupadosVaciosStr = lkpVaciosOcupadosVR.getValue();
+        Boolean ocupadosVacios = null;
+        if (ocupadosVaciosStr.compareTo("Todos")==0){
+            ocupadosVacios = null;
+        }else if(ocupadosVaciosStr.compareTo("Vacíos")==0){
+            ocupadosVacios = false;
+        }else{
+            ocupadosVacios = true;
+        }
+        List<Entrada> ee = cicloService.getEntradasConOrdenesTrabajoSinAsignacionesTareas(ocupadosVacios);
 
 
         return ee;

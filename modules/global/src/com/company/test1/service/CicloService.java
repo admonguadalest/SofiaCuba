@@ -17,5 +17,5 @@ public interface CicloService{
     String calculaNuevoCodigoCiclo(Departamento d) throws Exception;
     String calculaNuevoTituloCiclo(Departamento d) throws Exception;
     Ciclo devuelveCicloActivoOperativoDeDepartamento(Departamento d ) throws Exception;
-    List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas() throws Exception;
+    List<Entrada> getEntradasConOrdenesTrabajoSinAsignacionesTareas(Boolean ocupadosVacios) throws Exception;
 }
