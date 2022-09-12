@@ -245,7 +245,8 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
     @Subscribe("lkpVaciosOcupadosVR")
     public void onLkpVaciosOcupadosVRValueChange(HasValue.ValueChangeEvent event) {
-        onBtnRefrescarClick(null);
+        if (event.isUserOriginated())
+            onBtnRefrescarClick(null);
     }
 
 
