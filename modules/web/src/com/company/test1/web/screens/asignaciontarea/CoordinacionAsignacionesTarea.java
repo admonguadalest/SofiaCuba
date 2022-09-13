@@ -297,7 +297,6 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         seHallaronRegistros = true;
                         rowCounter++;
 
-                        e = dataManager.reload(e, "entrada-view");
 
                         vbDynEntradas.add(gl);
                         Button b = uiComponents.create(Button.NAME);
