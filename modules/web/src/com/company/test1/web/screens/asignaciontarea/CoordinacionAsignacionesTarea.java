@@ -36,6 +36,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.ss.usermodel.Color;
 
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @UiController("test1_CoordinacionAsignacionesTarea")
@@ -123,6 +124,8 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private VBoxLayout vbDynTareasGestionPresupuestaria;
     @Inject
     private CicloService cicloService;
+
+    private boolean habilitarDesmonitorizacionRapidaDeEntradas = true;
 
     private void populateColors(){
         colors.put("red", "#FF0000");
@@ -268,7 +271,12 @@ public class CoordinacionAsignacionesTarea extends Screen {
             List<Entrada> ee = getEntradasConOrdenesTrabajoSinAsignacionesTareas();
             GridLayout gl = null;
             gl = uiComponents.create(GridLayout.NAME);
-            gl.setColumns(2);
+
+            if (this.habilitarDesmonitorizacionRapidaDeEntradas){
+                gl.setColumns(4);
+            }else{
+                gl.setColumns(3);
+            }
             gl.setWidth("100%");
             gl.setRows(100);
             if (ee.size()>0){
@@ -297,7 +305,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         seHallaronRegistros = true;
                         rowCounter++;
 
-                        e = dataManager.reload(e, "entrada-view");
+
 
                         vbDynEntradas.add(gl);
                         Button b = uiComponents.create(Button.NAME);
@@ -320,8 +328,28 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         }catch(Exception exc){
                             lev.setValue("(!Entrada sin evento asociado)");
                         }
-
                         gl.add(lev, 1,rowCounter);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                        Label lev2 = uiComponents.create(Label.NAME);
+                        try{
+                            lev2.setValue(sdf.format(e.getFechaEntrada()));
+                        }catch(Exception exc){
+                            lev2.setValue("!Sin valor de fecha");
+                        }
+                        gl.add(lev2, 2,rowCounter);
+
+                        if (habilitarDesmonitorizacionRapidaDeEntradas){
+                            CheckBox chb = uiComponents.create(CheckBox.NAME);
+                            chb.setCaption("Desmonitorizar Entrada");
+                            chb.addValueChangeListener(ev3->{
+                                e_.getOrdenTrabajo().setExcluirDeMonitorizacionEncargado(true);
+                                dataManager.commit(e_.getOrdenTrabajo());
+                                notifications.create().withCaption("Orden Trabajo actualizada!")
+                                        .show();
+                            });
+                            gl.add(chb, 3,rowCounter);
+                        }
 
                     }
 

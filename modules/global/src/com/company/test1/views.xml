@@ -334,6 +334,7 @@
                 <property name="ubicacion" view="_base"/>
             </property>
         </property>
+        <property name="ordenTrabajo" view="_base"/>
     </view>
     <view entity="test1_Entrada" name="entrada-reasignacion-view" extends="_base">
         <property name="ciclo" view="_base">
