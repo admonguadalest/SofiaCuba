@@ -4,6 +4,20 @@
         focusComponent="form"
         messagesPack="com.company.test1.web.screens.facturaproveedor">
     <data>
+        <collection id="proveedoresDc" class="com.company.test1.entity.extroles.Proveedor" view="proveedor-view-basic">
+            <loader id="proveedoresDl">
+                <query>
+                    <![CDATA[select e from test1_Proveedor e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="titularesDc" class="com.company.test1.entity.Persona" view="_base">
+            <loader id="titularesDl">
+                <query>
+                    <![CDATA[select e from test1_Persona e]]>
+                </query>
+            </loader>
+        </collection>
         <instance id="facturaProveedorDc"
                   class="com.company.test1.entity.documentosImputables.FacturaProveedor"
                   view="facturaProveedor-view">
@@ -26,12 +40,13 @@
                     <form id="form" dataContainer="facturaProveedorDc" width="100%" height="100%">
                         <column width="100%">
                             <vbox spacing="true">
-                                <pickerField id="titularField" dataContainer="facturaProveedorDc" property="titular" captionProperty="nombreCompleto"
-                                             caption="Titular"/>
-                                <pickerField id="proveedorField" dataContainer="facturaProveedorDc" property="proveedor"
-                                             captionProperty="persona.nombreCompleto" caption="Proveedor" width="100%">
+                                <lookupPickerField id="titularField" dataContainer="facturaProveedorDc" property="titular" captionProperty="nombreCompleto"
+                                             caption="Titular" optionsContainer="titularesDc"/>
+                                <lookupPickerField id="proveedorField" dataContainer="facturaProveedorDc" property="proveedor"
+                                             captionProperty="persona.nombreCompleto" caption="Proveedor" width="100%"
+                                            optionsContainer="proveedoresDc">
 
-                                </pickerField>
+                                </lookupPickerField>
                                 <textField id="numDocumentoField" caption="Num.Documento" width="100%"
                                            dataContainer="facturaProveedorDc" property="numDocumento"/>
                                 <textArea id="descripcionDocumentoField" rows="5"

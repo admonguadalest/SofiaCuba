@@ -104,6 +104,7 @@
             <property name="abreviacionContratos"/>
         </property>
     </view>
+
     <view entity="test1_PersonaFisica" name="personaFisica-view" extends="_local">
         <property name="usuario" view="_base"/>
         <property name="direcciones" view="direccion-with-persona-view"/>
