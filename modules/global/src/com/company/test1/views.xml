@@ -437,7 +437,7 @@
             <property name="conceptoAdicional" view="_base"/>
             <property name="documentoImputable" view="_minimal"/>
         </property>
-        <property name="proveedor" view="_minimal">
+        <property name="proveedor" view="_base">
             <property name="persona" view="_minimal">
                 <property name="nombre"/>
                 <property name="nifDni"/>
@@ -471,13 +471,14 @@
         <property name="conceptoAdicional" view="_base"/>
         <property name="documentoImputable" view="_base"/>
     </view>
-    <view entity="test1_Proveedor" name="proveedor-view-basic" extends="_minimal">
+    <view entity="test1_Proveedor" name="proveedor-view-basic" extends="_base">
         <property name="persona" view="_minimal">
             <property name="nombreCompleto"/>
 
         </property>
     </view>
-    <view entity="test1_Proveedor" name="proveedor-view" extends="_local">
+    <view entity="test1_Proveedor" name="proveedor-view" extends="_base">
+
         <property name="persona" view="_base">
             <property name="cuentasBancarias" view="_base"/>
             <property name="nombreCompleto"/>
