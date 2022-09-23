@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 public enum ConceptosAdicionalesIVA implements EnumClass<Integer> {
 
     IVA4(4),
+    IVA5(5),
     IVA10(10),
     IVA21(21),
     IVA33(33);

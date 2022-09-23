@@ -217,6 +217,7 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     private void onProveedorFieldValueChange(HasValue.ValueChangeEvent<Proveedor> event) {
         if (!event.isUserOriginated()) return;
         Proveedor prov = facturaProveedorDc.getItem().getProveedor();
+        prov = dataManager.reload(prov, "proveedor-view");
         if (prov!=null){
             List<ProgramacionConceptoAdicional> pca = prov.getProgramacionesConceptosAdicionales();
             facturaProveedorDc.getItem().getRegistroAplicacionConceptosAdicionales().clear();

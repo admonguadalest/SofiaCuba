@@ -4,6 +4,7 @@ import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.service.ContabiService;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.Button;
+import com.haulmont.cuba.gui.components.Filter;
 import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.screen.*;
@@ -27,6 +28,15 @@ public class FacturaProveedorBrowse extends StandardLookup<FacturaProveedor> {
     private ContabiService contabiService;
     @Inject
     private Notifications notifications;
+    @Inject
+    private Filter filter;
+
+    @Subscribe
+    public void onAfterShow(AfterShowEvent event) {
+        filter.setCollapsable(false);
+    }
+
+
 
     private void doTableReport(){
         List<FacturaProveedor> ffpp = (List<FacturaProveedor>)facturaProveedorsTable.getItems().getItems();

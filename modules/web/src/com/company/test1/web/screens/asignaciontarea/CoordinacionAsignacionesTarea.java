@@ -125,7 +125,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
     @Inject
     private CicloService cicloService;
 
-    private boolean habilitarDesmonitorizacionRapidaDeEntradas = true;
+    private boolean habilitarDesmonitorizacionRapidaDeEntradas = false;
 
     private void populateColors(){
         colors.put("red", "#FF0000");
@@ -438,7 +438,9 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         gl.add(lev, 1, rowCounter);
 
                         Label lev2 = uiComponents.create(Label.NAME);
-                        lev2.setValue(at.getGestionPresupuestaria().name());
+                        if (at.getGestionPresupuestaria()!=null)
+                            lev2.setValue(at.getGestionPresupuestaria().name());
+                        else lev2.setValue("!PENDIENTE ASIGNAR GESTION PRESUPUESTARIA");
                         gl.add(lev2, 2, rowCounter);
 
                     }
@@ -458,7 +460,10 @@ public class CoordinacionAsignacionesTarea extends Screen {
 
         }catch(Exception exc){
             String m = "";
-            if (exc.getMessage().trim().length()==0){
+            if (exc.getMessage()==null){
+                m = exc.getClass().getSimpleName();
+            }
+            else if (exc.getMessage().trim().length()==0){
                 m = exc.getClass().getSimpleName();
             }else{
                 m = exc.getMessage();
@@ -1077,10 +1082,11 @@ public class CoordinacionAsignacionesTarea extends Screen {
     public List<AsignacionTarea> getAsignacionesTareasGestionPresupuestaria() throws Exception{
         String hql = "SELECT at from test1_AsignacionTarea at join at.ordenTrabajo ot join ot.entrada e " +
                 "join e.ciclo c join c.departamento d where at.fechaFinalizacion is null and " +
-                "at.gestionPresupuestaria is not null and " +
-                "at.gestionPresupuestaria <> :ejsinppto and " +
-                "at.gestionPresupuestaria <> :pptoaprob and " +
-                "c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null)";
+                "((at.gestionPresupuestaria is null) or " +
+                "(at.gestionPresupuestaria is not null and at.gestionPresupuestaria <> :ejsinppto and " +
+                "at.gestionPresupuestaria <> :pptoaprob)) and " +
+                "c.estadoCiclo = 1 and c.tipoCiclo = 'OPERATIVO' and d.piso <> 'FINCA' and (ot.excluirDeMonitorizacionEncargado = false or ot.excluirDeMonitorizacionEncargado is null) " +
+                "";
         List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
                 .parameter("ejsinppto", GestionPresupuestariaEnum.SIN_PRESUPUESTO)
                 .parameter("pptoaprob", GestionPresupuestariaEnum.PRESUPUESTO_APROBADO)
