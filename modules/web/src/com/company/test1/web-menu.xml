@@ -198,9 +198,15 @@
             <item screen="test1_RealizacionPago.browse" id="filtradoRealizacionesPago"/>
         </menu>
         <menu id="cobros_">
-            <item screen="test1_OrdenCobro.browse" id="filtradoCobros"/>
+            <menu id="tipocobro">
+                <item screen="test1_OrdenCobro.browse" id="filtradoCobros"/>
+                <item screen="test1_OrdenCobroSinRemesa.browse"/>
+            </menu>
+
             <item screen="test1_RealizacionCobro.browse" id="filtradoRealizacionesCobro"/>
+            <separator></separator>
             <item screen="test1_GeneracionOrdenCobroManualmente"/>
+            <item screen="test1_GeneracionOrdenCobroManualmenteSinRemesa"/>
         </menu>
         <item screen="test1_ArchivoAdjunto.browse" openType="NEW_TAB"/>
     </menu>

@@ -97,16 +97,19 @@ public class RealizacionCobroBrowse extends StandardLookup<RealizacionCobro> {
             Recibo r = oc.getRecibo();
             oc.setRealizacionCobro(null);
             toupdate.add(oc);
-            r = dataManager.reload(r, "recibo-view");
-            for (int j = 0; j < r.getRecibosCobrados().size(); j++) {
-                ReciboCobrado rcb = r.getRecibosCobrados().get(j);
-                if (rcb.getModoIngreso()== ReciboCobradoModoIngreso.BANCARIO){
-                    if (rcb.getTotalIngreso().doubleValue()==oc.getImporte().doubleValue()){
-                        toremove.add(rcb);
+            if (r!=null){
+                r = dataManager.reload(r, "recibo-view");
+                for (int j = 0; j < r.getRecibosCobrados().size(); j++) {
+                    ReciboCobrado rcb = r.getRecibosCobrados().get(j);
+                    if (rcb.getModoIngreso()== ReciboCobradoModoIngreso.BANCARIO){
+                        if (rcb.getTotalIngreso().doubleValue()==oc.getImporte().doubleValue()){
+                            toremove.add(rcb);
+                        }
                     }
-                }
 
+                }
             }
+
         }
 
         dataManager.commit(new CommitContext(new ArrayList(), toremove));

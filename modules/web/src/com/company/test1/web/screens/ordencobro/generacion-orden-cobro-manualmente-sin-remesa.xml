@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://generacionOrdenCobroManualmenteSinRemesa.caption"
+        messagesPack="com.company.test1.web.screens.ordencobro">
+    <data>
+        <collection id="personasDc" class="com.company.test1.entity.Persona" view="persona-view"/>
+        <collection id="cuentasDc" class="com.company.test1.entity.CuentaBancaria">
+            <loader id="cuentasDl"/>
+        </collection>
+     </data>
+    <layout expand="empty" spacing="true">
+        <label value="Seleccionar la Persona que ingresará el cobro del giro"/>
+        <lookupPickerField id="creditorField" metaClass="test1_Persona" captionProperty="nombreCompleto"
+                           caption="Creditor" />
+        <label value="Seleccionar una persona a quien girar el cobro"/>
+        <lookupPickerField id="titularField" metaClass="test1_Persona" captionProperty="nombreCompleto"
+                     caption="Deudor" />
+        <label value="Cuenta Bancaria Deudora"/>
+        <lookupField id="cuentaField" optionsContainer="cuentasDc" captionProperty="textoCuentaBancariaCompleta" />
+        <label value="Fecha de Giro"/>
+        <dateField caption="Fecha de Giro" id="fechaGiroField"/>
+        <label value="Importe a Girar"/>
+        <textField caption="Importe a Girar" datatype="double" id="importeField"/>
+        <textField caption="Concepto" datatype="string" id="conceptoField"/>
+
+        <vbox id="empty"/>
+
+        <buttonsPanel>
+            <button invoke="realizarOrdenCobro" caption="Realizar OC"/>
+        </buttonsPanel>
+    </layout>
+</window>

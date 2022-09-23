@@ -1186,6 +1186,11 @@
             <property name="fechaValor"/>
             <property name="identificador"/>
         </property>
+        <property name="nombreDeudor"/>
+        <property name="departamento"/>
+        <property name="deudor" view="_base"/>
+        <property name="creditor" view="_base"/>
+        <property name="cuentaBancariaDeudora" view="_base"/>
         <property name="recibo" view="_base">
             <property name="ordenanteRemesa" view="_minimal">
                 <property name="remesa" view="_minimal">

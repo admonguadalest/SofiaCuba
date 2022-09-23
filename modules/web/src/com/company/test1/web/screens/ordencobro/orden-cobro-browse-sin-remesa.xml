@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://ordenCobroBrowseSinRemesa.caption"
+        focusComponent="ordenCobroesTable"
+        messagesPack="com.company.test1.web.screens.ordencobro">
+    <data readOnly="true">
+        <collection id="ordenCobroesDc"
+                    class="com.company.test1.entity.ordenescobro.OrdenCobro"
+                    view="ordenCobro-view">
+            <loader id="ordenCobroesDl">
+
+            </loader>
+        </collection>
+        <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
+            <loader>
+                <query><![CDATA[select e from test1_Propietario e ]]></query>
+            </loader>
+        </collection>
+        <collection id="cuentaBancariasDc" class="com.company.test1.entity.CuentaBancaria">
+            <loader id="cuentaBancariasDl">
+                <query><![CDATA[select e from test1_CuentaBancaria e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="ordenCobroesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="ordenCobroesTable"
+                dataLoader="ordenCobroesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="ordenCobroesTable"
+                    width="100%"
+                    dataContainer="ordenCobroesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="creditor.nombreCompleto"/>
+                <column id="deudor.nombreCompleto"/>
+                <column id="cuentaBancariaDeudora.textoCuentaBancariaCompleta"/>
+                <column id="fechaValor"/>
+                <column id="importe"/>
+                <column id="descripcion"/>
+                <column id="realizacionCobro.identificador"/>
+
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+
+                <button id="removeBtn" action="ordenCobroesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <groupBox orientation="horizontal" spacing="true" caption="Generacion de Realizacion de Cobro" width="100%">
+            <lookupField id="lkpPresentador" caption="Presentador" width="100%" optionsContainer="propietariosDc"
+                         captionProperty="persona.nombreCompleto"/>
+            <lookupField id="lkpCB" caption="Cuenta Bancaria" width="100%" optionsContainer="cuentaBancariasDc" captionProperty="textoCuentaBancariaCompleta"/>
+            <button id="btnCrearRP" caption="Crear Cobro Bancario" align="BOTTOM_LEFT" invoke="onBtnCrearRealizacionCobroClick"/>
+        </groupBox>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -9,7 +9,7 @@
                     view="ordenCobro-view">
             <loader id="ordenCobroesDl">
                 <query>
-                    <![CDATA[select e from test1_OrdenCobro e]]>
+                    <![CDATA[select e from test1_OrdenCobro e join e.recibo r where r is not null]]>
                 </query>
             </loader>
         </collection>

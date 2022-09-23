@@ -1,6 +1,9 @@
 package com.company.test1.entity.ordenescobro;
 
+import com.company.test1.entity.CuentaBancaria;
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.recibos.Recibo;
+import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
@@ -39,6 +42,18 @@ public class OrdenCobro extends StandardEntity {
 
     @Column(name = "ENT_TO_ENT_ID")
     protected String entToEntId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEUDOR_ID")
+    private Persona deudor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREDITOR_ID")
+    private Persona creditor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUENTA_BANCARIA_DEUDORA_ID")
+    private CuentaBancaria cuentaBancariaDeudora;
 
     public String getEntToEntId() {
         return entToEntId;
@@ -89,15 +104,13 @@ public class OrdenCobro extends StandardEntity {
     }
 
 
-
-    public String getDato(){
+    public String getDato() {
         return getRecibo().getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
 //        return "";
     }
 
 
-
-    public static Comparator comparadorOrdenCobroPorDato =  new Comparator() {
+    public static Comparator comparadorOrdenCobroPorDato = new Comparator() {
 
 
         public int compare(Object o1, Object o2) {
@@ -115,4 +128,46 @@ public class OrdenCobro extends StandardEntity {
             return oc1.getDato().compareTo(oc2.getDato());
         }
     };
+
+    @MetaProperty
+    public String getDepartamento() {
+        if (this.getRecibo()!=null){
+            return this.getRecibo().getUtilitarioContratoInquilino().getDepartamento().getNombreDescriptivoCompleto();
+        }else{
+            return "N/A";
+        }
+    }
+
+    @MetaProperty
+    public String getNombreDeudor() {
+        if (this.getRecibo()!=null){
+            return this.getRecibo().getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
+        }else{
+            return this.getDeudor().getNombreCompleto();
+        }
+    }
+
+    public Persona getCreditor() {
+        return creditor;
+    }
+
+    public void setCreditor(Persona creditor) {
+        this.creditor = creditor;
+    }
+
+    public CuentaBancaria getCuentaBancariaDeudora() {
+        return cuentaBancariaDeudora;
+    }
+
+    public void setCuentaBancariaDeudora(CuentaBancaria cuentaBancariaDeudora) {
+        this.cuentaBancariaDeudora = cuentaBancariaDeudora;
+    }
+
+    public Persona getDeudor() {
+        return deudor;
+    }
+
+    public void setDeudor(Persona deudor) {
+        this.deudor = deudor;
+    }
 }

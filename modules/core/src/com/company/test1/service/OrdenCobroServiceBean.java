@@ -171,7 +171,13 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
 //            if (oc instanceof OrdenCobroLiquidacion){
 //                p = ((OrdenCobroLiquidacion) oc).getLiquidacion().getPropietario().getPersona();
 //            }
-            p = oc.getRecibo().getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona();
+
+            if (oc.getRecibo()!=null){
+                p = oc.getRecibo().getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona();
+            }else{
+                p = oc.getCreditor();
+            }
+
             List<OrdenCobro> l = htCreditores.get(p);
             if (l==null){
                 l = new ArrayList<OrdenCobro>();
@@ -224,20 +230,13 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
 //                    dateOfSignature = ((OrdenCobroRecibo) oc).getRecibo().getUtilitarioContratoInquilino().getFechaRealizacion();
 //                    mandateIdentification = ((OrdenCobroRecibo) oc).getRecibo().getUtilitarioContratoInquilino().getReferenciaMandato();
 //                }
-                dateOfSignature = oc.getRecibo().getUtilitarioContratoInquilino().getFechaRealizacion();
-                mandateIdentification = oc.getRecibo().getUtilitarioContratoInquilino().getReferenciaMandato();
-//                if (oc instanceof OrdenCobroLiquidacion){
-//                    Liquidacion l = ((OrdenCobroLiquidacion) oc).getLiquidacion();
-//                    //debido a la restriccion que la liquidacion no puede estar vacia de registros, y todos los
-//                    //registros deben corresponder al mismo contratoPropitario, lo siguiente es válido
-//                    ContratoPropietario cp = l.getRegistrosLiquidaciones().get(0).getContratoPropietario();
-//                    dateOfSignature = cp.getFechaMandato();
-//                    mandateIdentification = cp.getReferenciaMandato();
-//                }
-//                if (oc instanceof OrdenCobroFacturaPropietario){
-//                    dateOfSignature = ((OrdenCobroFacturaPropietario) oc).getFacturaPropietario().
-//                    mandateIdentification = ((OrdenCobroRecibo) oc).getRecibo().getProgramacionRecibo().getContratoInquilino().getReferenciaMandato();
-//                }
+                if (oc.getRecibo()!=null){
+                    dateOfSignature = oc.getRecibo().getUtilitarioContratoInquilino().getFechaRealizacion();
+                    mandateIdentification = oc.getRecibo().getUtilitarioContratoInquilino().getReferenciaMandato();
+                }else{
+                    dateOfSignature = oc.getFechaValor();
+                    mandateIdentification = "PENDIENTE";
+                }
 
                 spi.setDateOfSignature(dateOfSignature);
                 spi.setMandateIdentification(mandateIdentification);
@@ -261,7 +260,12 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
 //        if (this instanceof OrdenCobroLiquidacion){
 //            cb = ((OrdenCobroLiquidacion) this).getLiquidacion().getCuentaBancaria();
 //        }
-        return oc.getRecibo().getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
+        if (oc.getRecibo()!=null){
+            return oc.getRecibo().getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaPagador();
+        }else{
+            return oc.getCuentaBancariaDeudora();
+        }
+
 
 
     }
@@ -274,7 +278,12 @@ public class OrdenCobroServiceBean implements OrdenCobroService {
 //        if (this instanceof OrdenCobroLiquidacion){
 //            p = ((OrdenCobroLiquidacion) this).getLiquidacion().getPropietario().getPersona();
 //        }
-        return oc.getRecibo().getUtilitarioContratoInquilino().getInquilino();
+        if (oc.getRecibo()!=null){
+            return oc.getRecibo().getUtilitarioContratoInquilino().getInquilino();
+        }else{
+            return oc.getDeudor();
+        }
+
 
 
     }

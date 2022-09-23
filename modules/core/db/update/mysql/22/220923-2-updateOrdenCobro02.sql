@@ -1,0 +1,2 @@
+alter table TEST1_ORDEN_COBRO add constraint FK_TEST1_ORDEN_COBRO_ON_DEUDOR foreign key (DEUDOR_ID) references PERSONA(ID);
+create index IDX_TEST1_ORDEN_COBRO_ON_DEUDOR on TEST1_ORDEN_COBRO (DEUDOR_ID);

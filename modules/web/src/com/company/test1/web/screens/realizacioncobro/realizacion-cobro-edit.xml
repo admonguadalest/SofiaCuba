@@ -26,8 +26,8 @@
                     <tab id="tabOrdenes" caption="Ordenes" margin="true,false,false,false" spacing="true">
                         <table height="400px" width="100%" dataContainer="ordenesCobroDc">
                             <columns>
-                                <column id="recibo.utilitarioInquilino.nombreCompleto"/>
-                                <column id="recibo.utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
+                                <column id="nombreDeudor"/>
+                                <column id="departamento"/>
                                 <column id="fechaValor"/>
                                 <column id="importe"/>
                                 <column id="descripcion"/>
