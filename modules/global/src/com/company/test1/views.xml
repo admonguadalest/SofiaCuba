@@ -422,7 +422,9 @@
     </view>
     <view entity="test1_NotaIntervencion" name="notaIntervencion-view" extends="_local"/>
     <view entity="test1_AsignacionTarea" name="asignacionTarea-view" extends="_local">
-        <property name="proveedor" view="_base"/>
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
+        </property>
 
     </view>
 

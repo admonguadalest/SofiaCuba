@@ -7,6 +7,7 @@ import com.company.test1.entity.documentosfotograficos.CarpetaDocumentosFotograf
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Table;
@@ -40,7 +41,8 @@ public class OrdenTrabajoFragment extends ScreenFragment {
     private ScreenBuilders screenBuilders;
     @Inject
     private InstanceContainer<OrdenTrabajo> ordenTrabajoDc;
-
+    @Inject
+    private Notifications notifications;
 
 
     @Subscribe
@@ -89,6 +91,12 @@ public class OrdenTrabajoFragment extends ScreenFragment {
 
     @Subscribe("tableAsignacionesTareas.edit")
     private void onTableAsignacionesTareasEdit(Action.ActionPerformedEvent event) {
+        AsignacionTarea at = tableAsignacionesTareas.getSingleSelected();
+        if (at==null){
+            notifications.create().withCaption("Asignacion Tarea").withDescription("Seleccionar una AT").show();
+            return;
+        }
+        at = dataManager.reload(at, "asignacionTarea-view");
         ScreenLaunchUtil.launchEditEntityScreen(tableAsignacionesTareas.getSingleSelected(), null, tableAsignacionesTareas, screenBuilders, this, OpenMode.DIALOG, dataContext, null);
     }
 
