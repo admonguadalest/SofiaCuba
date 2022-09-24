@@ -4,6 +4,7 @@
         <menu id="Remesas">
             <item screen="test1_DefinicionRemesa.browse"/>
         </menu>
+
         <menu id="mnuContratos">
             <menu id="inquilinos">
                 <item screen="test1_Concepto.browse" id="conceptos"/>
@@ -16,6 +17,8 @@
                 </menu>
             </menu>
         </menu>
+        <item screen="test1_Serie.browse"/>
+        <separator></separator>
         <menu id="IPCs">
             <item screen="test1_RegistroIndiceReferencia.browse"/>
         </menu>
