@@ -6,6 +6,7 @@ import com.company.test1.entity.enums.conceptosadicionales.ConceptosAdicionalesI
 import com.company.test1.entity.enums.conceptosadicionales.ConceptosAdicionalesIVA;
 import com.company.test1.entity.recibos.ImplementacionConcepto;
 import com.company.test1.entity.recibos.Recibo;
+import com.company.test1.service.NumberUtilsService;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.model.InstanceContainer;
@@ -36,6 +37,8 @@ public class RegistroAplicacionConceptoAdicionalEdit extends StandardEditor<Regi
     private TextField<Double> baseField;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private NumberUtilsService numberUtilsService;
 
     @Subscribe
     private void onAfterShow1(AfterShowEvent event) {
@@ -77,7 +80,9 @@ public class RegistroAplicacionConceptoAdicionalEdit extends StandardEditor<Regi
             perc = ((double)cairpf.getId()/ 100);
         }
         registroAplicacionConceptoAdicionalDc.getItem().setPorcentaje(perc);
-        registroAplicacionConceptoAdicionalDc.getItem().setImporteAplicado(registroAplicacionConceptoAdicionalDc.getItem().getBase()*perc);
+        Double cuota = registroAplicacionConceptoAdicionalDc.getItem().getBase()*perc;
+        cuota = numberUtilsService.roundTo2Decimals(cuota);
+        registroAplicacionConceptoAdicionalDc.getItem().setImporteAplicado(cuota);
     }
     
     

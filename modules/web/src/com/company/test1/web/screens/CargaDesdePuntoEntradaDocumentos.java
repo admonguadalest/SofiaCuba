@@ -1,13 +1,11 @@
 package com.company.test1.web.screens;
 
-import com.company.test1.entity.MailStructure;
-import com.company.test1.entity.PuntoEntradaDocumentos;
-import com.company.test1.entity.StorageElement;
-import com.company.test1.entity.TipoPuntoEntradaDocumentosEnum;
+import com.company.test1.entity.*;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
 import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
+import com.company.test1.web.screens.facturaproveedor.FacturaProveedorWithAttachmentEdit;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileLoader;
@@ -135,6 +133,23 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     private CollectionContainer<StorageElement> storageElementsDc;
 
     EmailChecker currentEmailChecker;
+    @Inject
+    private VBoxLayout vbrossum;
+    @Inject
+    private CollectionLoader<RossumAnnotation> rossumAnnotationsDl;
+
+    @Inject
+    private DataGrid<RossumAnnotation> dataGridRossumAnnotations;
+
+    RossumCommonDialogs rcd = null;
+
+    @Subscribe("dataGridRossumAnnotations")
+    public void onDataGridRossumAnnotationsItemClick(DataGrid.ItemClickEvent<RossumAnnotation> event) {
+
+
+    }
+
+
 
     @Subscribe("btnBuscar")
     public void onBtnBuscarClick(Button.ClickEvent event) {
@@ -214,12 +229,25 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
             this.mimeTypeDocumentoSeleccionado = se.getMimeType();
         }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM){
+            email = "";
+            try {
+                this.nombreDocumentoSeleccionado = "adjunto.pdf";
+                Integer documentId = dataGridRossumAnnotations.getSingleSelected().getDocumentId();
+                this.representacionSerialDocumentoSeleccionado = this.rcd.getOriginalDocumentFromDocumentId(documentId);
+                this.mimeTypeDocumentoSeleccionado = "application/pdf";
+            }catch(Exception exc){
+
+            }
+        }
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
         MapScreenOptions mso = new MapScreenOptions(map);
-        screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_FacturaProveedorWithAttachment.edit")
-                .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build().show();
+        FacturaProveedorWithAttachmentEdit fpae = (FacturaProveedorWithAttachmentEdit) screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_FacturaProveedorWithAttachment.edit")
+                .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build();
+        fpae.setRossumAnnotation(dataGridRossumAnnotations.getSingleSelected());
+        fpae.show();
 
     }
 
@@ -431,6 +459,63 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         splt2.setSplitPosition(50, SizeUnit.PERCENTAGE);
     }
 
+    public void cargarFacturasRossum(PuntoEntradaDocumentos ped){
+        vboxped.add(vbrossum);
+        vbrossum.setWidth("100%");
+        vbrossum.setHeight("100%");
+        vboxped.setHeightFull();
+        splt2.setSplitPosition(50, SizeUnit.PERCENTAGE);
+
+        rossumAnnotationsDl.load();
+    }
+
+    @Install(to = "rossumAnnotationsDl", target = Target.DATA_LOADER)
+    private List<RossumAnnotation> rossumAnnotationsDlLoadDelegate(LoadContext<RossumAnnotation> loadContext) {
+        //loggeando e rossum
+        ArrayList<RossumAnnotation> invoices = new ArrayList<RossumAnnotation>();
+        try{
+            this.rcd = new RossumCommonDialogs();
+            rcd.getAuthToken("","");
+            rcd.getQueues();
+
+            ArrayList<Integer> queues =  new ArrayList(rcd.queues.keySet());
+            Integer queueId = queues.get(0);
+            Map confirmedAnnotations = rcd.getAnnotationsWithStatus(queueId, "confirmed");
+            ArrayList<Integer> annotationsIds = new ArrayList(confirmedAnnotations.keySet());
+
+            for (int i = 0; i < annotationsIds.size(); i++) {
+                Integer annotationId = annotationsIds.get(i);
+                Map annotationExportedData = rcd.getAnnotationExportedDataAndOriginalUrl(queueId, annotationId);
+                RossumAnnotation rbi = rcd.getInvoiceStructFromMap(annotationExportedData);
+                invoices.add(rbi);
+            }
+        }catch(Exception exc){
+
+        }
+        return invoices;
+    }
+
+    @Subscribe("dataGridRossumAnnotations")
+    public void onDataGridRossumAnnotationsSelection(DataGrid.SelectionEvent<RossumAnnotation> event) {
+        RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
+        if (ra==null){
+            notifications.create().withDescription("Seleccionar registro").show();
+            return;
+        }
+        try {
+            byte[] bb = this.rcd.getOriginalDocumentFromDocumentId(ra.getDocumentId());
+            brwAttachmentPreview.setSource(StreamResource.class)
+                    .setStreamSupplier(() -> new ByteArrayInputStream(bb))
+                    .setMimeType("application/pdf");
+        }catch(Exception exc){
+            notifications.create().withDescription("No se pudo cargar el documento").show();
+            return;
+        }
+    }
+
+
+
+
     @Subscribe("pkrPuntoEntradaDocumentos")
     public void onPkrPuntoEntradaDocumentosValueChange(HasValue.ValueChangeEvent event) {
         PuntoEntradaDocumentos ped = (PuntoEntradaDocumentos)event.getValue();
@@ -452,6 +537,9 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             vboxped.setHeightFull();
             botoneraClientStorage.setVisible(true);
             botoneraStorage.setVisible(false);
+        }
+        if (ped.getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM){
+            cargarFacturasRossum(ped);
         }
     }
 
@@ -746,6 +834,14 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             }
         }
     }
+
+    /*
+
+    METODOS PARA CATEGORIA ROSSUM
+
+     */
+
+
 
 
 

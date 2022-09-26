@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Table(name = "PUNTO_ENTRADA_DOCUMENTOS")
 @Entity(name = "test1_PuntoEntradaDocumentos")
-public class PuntoEntradaDocumentos extends StandardEntity {
+public  class PuntoEntradaDocumentos extends StandardEntity {
     private static final long serialVersionUID = 3966568833825898326L;
 
     @Column(name = "TITULO")

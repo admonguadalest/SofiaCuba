@@ -2,10 +2,13 @@ package com.company.test1.web.screens.facturaproveedor;
 
 import com.company.test1.entity.*;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
+import com.company.test1.entity.conceptosadicionales.ConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.NumberUtilsService;
+import com.company.test1.service.RossumIngegrationService;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
@@ -22,6 +25,7 @@ import com.company.test1.entity.documentosImputables.FacturaProveedor;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -58,8 +62,30 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
     @Inject
     private BrowserFrame brwDocumentPreview;
+    @Inject
+    private RossumIngegrationService rossumIngegrationService;
 
     Consumer<Integer> attachmentConsumer;
+
+    RossumAnnotation rossumAnnotation = null;
+    @Inject
+    private LookupPickerField<Persona> titularField;
+    @Inject
+    private LookupPickerField<Proveedor> proveedorField;
+    @Inject
+    private TextField<String> numDocumentoField;
+    @Inject
+    private DateField<Date> fechaEmisionField;
+    @Inject
+    private TextField<Double> importePostCCAAField;
+    @Inject
+    private TextField<Double> importeTotalBaseField;
+    @Inject
+    private NumberUtilsService numberUtilsService;
+
+    public void setRossumAnnotation(RossumAnnotation ra){
+        this.rossumAnnotation = ra;
+    }
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -151,7 +177,75 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                     attachmentConsumer.accept(0);
                 }
         }
-        int y = 2;
+
+        if (this.rossumAnnotation!=null){
+            //populate data
+            int y = 2;
+            try{
+                Persona titular = rossumIngegrationService.getBestMatchPersonaForString(this.rossumAnnotation.getVendorCustomer_customerName());
+                Persona proveedor = rossumIngegrationService.getBestMatchPersonaForString(this.rossumAnnotation.getVendorCustomer_vendorName());
+                titularField.setValue(titular);
+                if (proveedor!=null){
+                    if (proveedor instanceof PersonaJuridica){
+                        proveedor = dataManager.reload(proveedor, "personaJuridica-view");
+                    }
+                    if (proveedor instanceof PersonaFisica){
+                        proveedor = dataManager.reload(proveedor, "personaFisica-view");
+                    }
+                    proveedorField.setValue(proveedor.getProveedor());
+                }
+                try{
+                    Date issueDate = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getBasicInformationIssueDate());
+                    fechaEmisionField.setValue(issueDate);
+                }catch(Exception exc){
+
+                }
+                try{
+                    String numFra = this.rossumAnnotation.getBasicInformation_documentId();
+                    numDocumentoField.setValue(numFra);
+                }catch(Exception exc){
+
+                }
+                try{
+                    Double totalFactura = Double.valueOf(this.rossumAnnotation.getTotals_amountDue());
+                    importePostCCAAField.setValue(totalFactura);
+                }catch(Exception exc){
+
+                }
+
+
+                try{
+                    Date issueDate = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getBasicInformationIssueDate());
+                    Double totalDue = Double.valueOf(this.rossumAnnotation.getTotals_amountDue());
+                    Double totalTax = Double.valueOf(this.rossumAnnotation.getTotals_totalTax());
+                    Double totalBase = totalDue - totalTax;
+                    RegistroAplicacionConceptoAdicional raca = dataManager.create(RegistroAplicacionConceptoAdicional.class);
+                    importeTotalBaseField.setValue(totalBase);
+                    importePostCCAAField.setValue(totalDue);
+                    raca.setBase(totalBase);
+                    ConceptoAdicional ca = dataManager.load(ConceptoAdicional.class).query("select ca from test1_ConceptoAdicional ca where ca.abreviacion like 'IVA'").one();
+                    raca.setConceptoAdicional(ca);
+                    raca.setDocumentoImputable(this.facturaProveedorDc.getItem());
+                    raca.setFechaValor(issueDate);
+                    raca.setImporteAplicado(totalTax);
+                    raca.setNumDocumento(this.rossumAnnotation.getBasicInformation_documentId());
+                    raca.setNifDni(proveedor.getNifDni());
+
+                    raca.setPorcentaje(numberUtilsService.roundTo2Decimals((totalTax/totalBase)));
+
+                    this.registroAplicacionConceptosAdicionalesDc.getMutableItems().add(raca);
+                }catch(Exception exc){
+
+                }
+
+                y = 2;
+
+            }catch(Exception exc){
+
+            }
+
+        }
+
     }
 
 
@@ -219,19 +313,21 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
         Proveedor prov = facturaProveedorDc.getItem().getProveedor();
         prov = dataManager.reload(prov, "proveedor-view");
         if (prov!=null){
-            List<ProgramacionConceptoAdicional> pca = prov.getProgramacionesConceptosAdicionales();
-            facturaProveedorDc.getItem().getRegistroAplicacionConceptosAdicionales().clear();
-            for(int i = 0;i < pca.size();i++) {
-                RegistroAplicacionConceptoAdicional raca = dataContext.create(RegistroAplicacionConceptoAdicional.class);
-                raca.setNifDni(prov.getPersona().getNifDni());
-                raca.setDocumentoImputable(this.getEditedEntity());
-                raca.setFechaValor(this.getEditedEntity().getFechaEmision());
-                raca.setNumDocumento(this.getEditedEntity().getNumDocumento());
-                raca.setConceptoAdicional(pca.get(i).getConceptoAdicional());
-                raca.setBase(0.0);
-                raca.setImporteAplicado(0.0);
-                registroAplicacionConceptosAdicionalesDc.getMutableItems().add(raca);
-            }
+
+                List<ProgramacionConceptoAdicional> pca = prov.getProgramacionesConceptosAdicionales();
+                facturaProveedorDc.getItem().getRegistroAplicacionConceptosAdicionales().clear();
+                for (int i = 0; i < pca.size(); i++) {
+                    RegistroAplicacionConceptoAdicional raca = dataContext.create(RegistroAplicacionConceptoAdicional.class);
+                    raca.setNifDni(prov.getPersona().getNifDni());
+                    raca.setDocumentoImputable(this.getEditedEntity());
+                    raca.setFechaValor(this.getEditedEntity().getFechaEmision());
+                    raca.setNumDocumento(this.getEditedEntity().getNumDocumento());
+                    raca.setConceptoAdicional(pca.get(i).getConceptoAdicional());
+                    raca.setBase(0.0);
+                    raca.setImporteAplicado(0.0);
+                    registroAplicacionConceptosAdicionalesDc.getMutableItems().add(raca);
+                }
+
 
 
         }

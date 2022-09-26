@@ -36,6 +36,7 @@
                 <entry key="test1_ContabiService" value="com.company.test1.service.ContabiService"/>
                 <entry key="test1_NoEmitidosOAnomalosService"
                        value="com.company.test1.service.NoEmitidosOAnomalosService"/>
+                <entry key="test1_RossumIngegrationService" value="com.company.test1.service.RossumIngegrationService"/>
 
             </map>
         </property>

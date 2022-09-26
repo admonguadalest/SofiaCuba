@@ -9,7 +9,8 @@ public enum TipoPuntoEntradaDocumentosEnum implements EnumClass<String> {
 
     MAIL("MAIL"),
     STORAGE("STORAGE"),
-    CLIENTSTORAGE("CLIENTSTORAGE");
+    CLIENTSTORAGE("CLIENTSTORAGE"),
+    ROSSUM("ROSSUM");
 
     private String id;
 
