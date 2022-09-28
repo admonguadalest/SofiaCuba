@@ -1,0 +1,57 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `longest_common_substring`(short_str TEXT, long_str TEXT) RETURNS text CHARSET utf8mb3
+    NO SQL
+    DETERMINISTIC
+BEGIN
+-- http://stackoverflow.com/questions/35545281/mysql-longest-common-substring
+DECLARE short_len INT DEFAULT CHAR_LENGTH(short_str);
+DECLARE long_len INT DEFAULT CHAR_LENGTH(long_str);
+DECLARE swap_str TEXT;
+
+DECLARE max_matched_len INT DEFAULT 0;
+DECLARE max_at_left_marker INT DEFAULT NULL;
+DECLARE max_at_match_len INT DEFAULT NULL;
+DECLARE left_marker INT DEFAULT 0;
+DECLARE match_len INT DEFAULT NULL;
+
+IF short_str IS NULL OR long_str IS NULL THEN
+  RETURN NULL;
+ELSEIF short_str = long_str THEN
+  RETURN short_str;
+END IF;
+
+IF short_len > long_len THEN
+  SET swap_str = long_str;
+  SET long_str = short_str;
+  SET short_str = swap_str;
+  SET short_len = long_len;
+  SET long_len = CHAR_LENGTH(long_str);
+END IF;
+
+left_loop:
+LOOP
+  SET left_marker = left_marker + 1;
+  IF left_marker + max_matched_len > short_len THEN
+    LEAVE left_loop;
+  END IF;
+  SET match_len = max_matched_len;
+  right_loop:
+  LOOP
+    SET match_len = match_len + 1;
+    IF 1 - left_marker + match_len > short_len THEN
+      LEAVE right_loop;
+    END IF;
+    IF long_str LIKE CONCAT ('%',SUBSTRING(short_str FROM left_marker FOR match_len),'%') THEN
+      SET max_matched_len = match_len, max_at_left_marker = left_marker;
+    ELSE
+      LEAVE right_loop;
+    END IF;
+  END LOOP;
+END LOOP;
+
+IF (max_matched_len) THEN
+  RETURN SUBSTRING(short_str FROM max_at_left_marker FOR max_matched_len);
+ELSE
+  RETURN NULL;
+END IF;
+
+END
