@@ -9,6 +9,12 @@ public class RossumAnnotation extends BaseUuidEntity {
     private static final long serialVersionUID = 3531652001822465792L;
 
     @MetaProperty
+    private Integer annotationId;
+
+    @MetaProperty
+    private Integer queueId;
+
+    @MetaProperty
     private String basicInformation_documentId;
 
     @MetaProperty
@@ -64,6 +70,22 @@ public class RossumAnnotation extends BaseUuidEntity {
 
     @MetaProperty
     private String originalDocumentUrl;
+
+    public void setAnnotationId(Integer annotationId) {
+        this.annotationId = annotationId;
+    }
+
+    public Integer getAnnotationId() {
+        return annotationId;
+    }
+
+    public void setQueueId(Integer queueId) {
+        this.queueId = queueId;
+    }
+
+    public Integer getQueueId() {
+        return queueId;
+    }
 
     public void setTotals_subtotal(String totals_subtotal) {
         this.totals_subtotal = totals_subtotal;

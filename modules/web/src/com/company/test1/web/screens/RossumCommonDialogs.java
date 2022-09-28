@@ -292,7 +292,7 @@ public class RossumCommonDialogs {
             throw new RuntimeException("Failed : HTTP Error code : "
                     + conn.getResponseCode());
         }
-
+        conn.disconnect();
         return true;
     }
 
@@ -321,8 +321,10 @@ public class RossumCommonDialogs {
         return json;
     }
 
-    public RossumAnnotation getInvoiceStructFromMap(Map m) throws Exception{
+    public RossumAnnotation getInvoiceStructFromMap(Integer queueId, Integer annotationId, Map m) throws Exception{
         RossumAnnotation rbi = new RossumAnnotation();
+        rbi.setQueueId(queueId);
+        rbi.setAnnotationId(annotationId);
         rbi.setBasicInformation_documentId((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(0)).get("value"));
         rbi.setBasicInformation_purchaseOrderNumber((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(1)).get("value"));
         rbi.setBasicInformationIssueDate((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(2)).get("value"));

@@ -5,12 +5,14 @@ import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
 import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
+import com.company.test1.service.ContabiService;
 import com.company.test1.web.screens.facturaproveedor.FacturaProveedorWithAttachmentEdit;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileLoader;
 import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
@@ -22,6 +24,7 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.impl.CollectionContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
+import com.sun.glass.ui.CommonDialogs;
 import com.sun.mail.imap.OlderTerm;
 import com.sun.mail.imap.YoungerTerm;
 import com.sun.mail.util.BASE64DecoderStream;
@@ -142,6 +145,12 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     private DataGrid<RossumAnnotation> dataGridRossumAnnotations;
 
     RossumCommonDialogs rcd = null;
+    @Inject
+    private Dialogs dialogs;
+    @Inject
+    private CollectionContainer<RossumAnnotation> rossumAnnotationsDc;
+    @Inject
+    private ContabiService contabiService;
 
     @Subscribe("dataGridRossumAnnotations")
     public void onDataGridRossumAnnotationsItemClick(DataGrid.ItemClickEvent<RossumAnnotation> event) {
@@ -244,9 +253,66 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
         MapScreenOptions mso = new MapScreenOptions(map);
-        FacturaProveedorWithAttachmentEdit fpae = (FacturaProveedorWithAttachmentEdit) screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_FacturaProveedorWithAttachment.edit")
+        final FacturaProveedorWithAttachmentEdit fpae = (FacturaProveedorWithAttachmentEdit) screenBuilders.editor(FacturaProveedor.class, this).withScreenId("test1_FacturaProveedorWithAttachment.edit")
                 .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build();
         fpae.setRossumAnnotation(dataGridRossumAnnotations.getSingleSelected());
+        fpae.addAfterCloseListener(e->{
+            if (pkrPuntoEntradaDocumentos.getValue().getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM) {
+                if (!fpae.hasUnsavedChanges()) {
+                    dialogs.createOptionDialog().withCaption("¿Desea purgar la anotación seleccionada en Rossum?").withActions(
+                            new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e2 -> {
+
+                                try {
+                                    RossumCommonDialogs rcd = new RossumCommonDialogs();
+                                    rcd.getAuthToken("", "");
+                                    RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
+                                    Integer annotationId = ra.getAnnotationId();
+                                    Integer queueId = ra.getQueueId();
+                                    if (ra == null) {
+                                        notifications.create().withDescription("Seleccionar registro").show();
+                                        return;
+                                    }
+
+                                    boolean deleted = rcd.switchAnnotationToDeleted(annotationId);
+                                    boolean purged = rcd.purgeDeletedAnnotations(queueId);
+
+                                    if ((deleted) && (purged)) {
+                                        notifications.create().withCaption("La anotación fue eliminada satisfactoriamente").show();
+                                        dialogs.createOptionDialog().withCaption("¿Desea contabilizar en Contabilidad la factura creada?")
+                                                .withActions(
+                                                        new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e3 -> {
+                                                            try {
+                                                                FacturaProveedor fprov = fpae.getEditedEntity();
+                                                                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                                                                if (res){
+                                                                    notifications.create().withCaption("Factura publicada corréctamente").show();
+                                                                }
+                                                            } catch (Exception ee) {
+                                                                notifications.create().withCaption("Error al publicar").withDescription(ee.getMessage()).show();
+                                                                return;
+                                                            }
+                                                        })
+                                                        ,new DialogAction(DialogAction.Type.NO)
+                                                        )
+                                                .show();
+                                        rossumAnnotationsDc.getMutableItems().remove(ra);
+                                        return;
+                                    } else {
+                                        notifications.create().withCaption("La operación de eliminación de la anotación no finalizó exitósamente. Por favor realizar comprobación manual.").show();
+                                        return;
+                                    }
+
+                                } catch (Exception exc) {
+                                    notifications.create().withDescription("No se pudo eliminar la anotación. Por favor proceder manualmente.").show();
+                                    return;
+                                }
+                            }),
+                            new DialogAction(DialogAction.Type.NO)
+                    ).show();
+                }
+            }
+        });
+
         fpae.show();
 
     }
@@ -486,7 +552,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             for (int i = 0; i < annotationsIds.size(); i++) {
                 Integer annotationId = annotationsIds.get(i);
                 Map annotationExportedData = rcd.getAnnotationExportedDataAndOriginalUrl(queueId, annotationId);
-                RossumAnnotation rbi = rcd.getInvoiceStructFromMap(annotationExportedData);
+                RossumAnnotation rbi = rcd.getInvoiceStructFromMap(queueId, annotationId,annotationExportedData);
                 invoices.add(rbi);
             }
         }catch(Exception exc){
@@ -497,6 +563,9 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
     @Subscribe("dataGridRossumAnnotations")
     public void onDataGridRossumAnnotationsSelection(DataGrid.SelectionEvent<RossumAnnotation> event) {
+        if (!event.isUserOriginated()){
+            return;
+        }
         RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
         if (ra==null){
             notifications.create().withDescription("Seleccionar registro").show();

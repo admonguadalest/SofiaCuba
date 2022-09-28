@@ -4,10 +4,15 @@ import com.company.test1.NumberUtils;
 import com.company.test1.entity.ColeccionArchivosAdjuntos;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
+import com.company.test1.service.NumberUtilsService;
+import com.haulmont.cuba.core.global.AppBeans;
 
+import javax.inject.Inject;
 import javax.validation.ConstraintValidatorContext;
 
 public class Commons {
+
+
 
     public static boolean applyCommonValidations(DocumentoProveedor value, ConstraintValidatorContext context){
         boolean isvalid = true;
@@ -26,7 +31,9 @@ public class Commons {
         cumPerc = NumberUtils.roundTo2Decimals(cumPerc);
         cumImporte = NumberUtils.roundTo2Decimals(cumImporte);
 
-        if ((cumPerc != 1.0) || (cumImporte!=value.getImporteTotalBase().doubleValue())){
+        Double val = ((NumberUtilsService)AppBeans.get("test1_NumberUtilsService")).roundTo2Decimals(value.getImporteTotalBase());
+
+        if ((cumPerc != 1.0) || (cumImporte!=val)){
             context.buildConstraintViolationWithTemplate("La suma de importes/porcentajes de las imputaciones asociadas no corresponden con el documento").addConstraintViolation();
             isvalid = false;
         }
