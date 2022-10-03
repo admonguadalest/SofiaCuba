@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://ordenesPagoProveedorPendientesCompensacion.caption"
+        messagesPack="com.company.test1.web.screens.ordenpago">
+    <data>
+        <collection id="ordenesPagoDc" view="ordenPago-view" class="com.company.test1.entity.ordenespago.OrdenPago">
+            <loader id="ordenesPagoDl"/>
+        </collection>
+    </data>
+    <layout expand="tblOOPP" spacing="true">
+        <lookupPickerField id="lkpProveedorField" metaClass="test1_Proveedor" captionProperty="persona.nombreCompleto"/>
+        <groupTable id="tblOOPP" dataContainer="ordenesPagoDc" width="100%">
+            <columns>
+                <column id="beneficiario.nombreCompleto" caption="Beneficiario"></column>
+                <column id="nombreTipo"/>
+                <column id="emisor.nombreCompleto"/>
+                <column id="fechaValor"/>
+                <column id="importe"/>
+                <column id="descripcion"/>
+
+            </columns>
+            <rows/>
+        </groupTable>
+        <buttonsPanel>
+            <button id="btnReport" caption="Hacer Report" invoke="report"/>
+        </buttonsPanel>
+    </layout>
+</window>

@@ -199,6 +199,7 @@
         <menu id="pagos">
             <item screen="test1_OrdenPago.browse" id="filtradoPagos"/>
             <item screen="test1_RealizacionPago.browse" id="filtradoRealizacionesPago"/>
+            <item screen="test1_OrdenesPagoProveedorPendientesCompensacion"/>
         </menu>
         <menu id="cobros_">
             <menu id="tipocobro">
