@@ -69,10 +69,10 @@ public class HistoricoCobrosInquilino extends Screen {
         Date fechaDesde = this.fechaDesde.getValue();
         Date fechaHasta = this.fechaHasta.getValue();
 
-        String q = "SELECT r FROM test1_Recibo r join r.utilitarioContratoInquilino ci WHERE ci.numeroContrato = :nc " +
+        String q = "SELECT r FROM test1_Recibo r join r.utilitarioContratoInquilino ci WHERE ci.id = :nc " +
                 "and r.fechaEmision >= :fd and r.fechaEmision <= :fh";
         List<Recibo> rr = dataManager.load(Recibo.class).query(q)
-                .parameter("nc", ci.getNumeroContrato())
+                .parameter("nc", ci.getId())
                 .parameter("fd", fechaDesde)
                 .parameter("fh", fechaHasta)
                 .list();
@@ -98,6 +98,13 @@ public class HistoricoCobrosInquilino extends Screen {
                 fmc.setInformacionRecibo(r.getNumRecibo());
                 fmc.setNominalRecibo(r.getTotalReciboPostCCAA());
                 fmc.setConcepto("EMISIÓN RECIBO");
+                if (r.getOrdenanteRemesa()!=null){
+                    if (r.getOrdenanteRemesa().getRemesa()!=null){
+                        if (r.getOrdenanteRemesa().getRemesa().getDefinicionRemesa()!=null){
+                            fmc.setInformacionRemesa(r.getOrdenanteRemesa().getRemesa().getIdentificadorRemesa());
+                        }
+                    }
+                }
             }
             FlujoMonetarioContrato fmcr = importes.get(fe);
             if (r.getTotalReciboPostCCAA()>=0.0) {
@@ -211,7 +218,11 @@ public class HistoricoCobrosInquilino extends Screen {
     @Subscribe("pckContrato")
     public void onPckContratoValueChange(HasValue.ValueChangeEvent<ContratoInquilino> event) {
         fechaDesde.setValue(pckContrato.getValue().getFechaOcupacion());
-        fechaHasta.setValue(new Date());
+        Date d = new Date();
+        if (pckContrato.getValue().getFechaDesocupacion()!=null){
+            d = pckContrato.getValue().getFechaDesocupacion();
+        }
+        fechaHasta.setValue(d);
         flujosDl.load();
     }
 

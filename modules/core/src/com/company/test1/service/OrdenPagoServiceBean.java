@@ -67,10 +67,15 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
     @Override
     public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov) {
         String provId = prov.getId().toString().replace("-", "");
-        String nativeSql = "SELECT OP.ID, OP.DTYPE, OP.REALIZACION_PAGO_ID, OP.IMPORTE, coalesce(sum(COPP.importe), 0) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
-                "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
-                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' " +
-                "group by OP.ID, OP.DTYPE, OP.IMPORTE";
+//        String nativeSql = "SELECT OP.ID, OP.DTYPE, OP.REALIZACION_PAGO_ID, OP.IMPORTE, sum(coalesce(COPP.importe, 0)) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
+//                "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
+//                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' " +
+//                "group by OP.ID, OP.DTYPE, op.realizacion_pago_id, OP.IMPORTE";
+
+        String nativeSql = "SELECT OP.ID, OP.DTYPE, OP.REALIZACION_PAGO_ID, OP.IMPORTE, coalesce(sum(COPP.importe),0) as SUM, coalesce(sum(COPP2.importe),0) as SUM2 FROM cubatest1.ORDEN_PAGO OP \n" +
+                "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\n" +
+                "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP2 on COPP2.ORDEN_PAGO_ABONO_ID = OP.ID\n" +
+                "WHERE OP.PROVEEDOR_ID = '" + provId + "' OR OP.PROVEEDOR_AB_ID = '" + provId + "' group by OP.ID, OP.DTYPE, op.realizacion_pago_id, OP.IMPORTE";
         ArrayList<String> ids = new ArrayList<String>();
         Transaction t = persistence.createTransaction();
         List<Object[]> results = persistence.getEntityManager().createNativeQuery(nativeSql).getResultList();
@@ -84,7 +89,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
                 continue;
             }
             Double importe = (Double) objects[3];
-            Double sum = (Double) objects[4];
+            Double sum = ((Double) objects[4]) + ((Double) objects[5]);
             if ((importe - sum)>0.00001){
                 ids.add((String) objects[0]);
             }

@@ -31,6 +31,13 @@ public class FlujoMonetarioContrato extends BaseUuidEntity {
     @MetaProperty
     private String concepto = "";
 
+    @MetaProperty
+    private String informacionRemesa = "";
+
+    public String getInformacionRemesa(){return informacionRemesa;}
+
+    public void setInformacionRemesa(String informacionRemesa) {this.informacionRemesa = informacionRemesa;}
+
     public Double getNominalRecibo() {
         return nominalRecibo;
     }

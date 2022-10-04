@@ -90,6 +90,7 @@ public class OrdenesPagoProveedorPendientesCompensacion extends Screen {
                     opa = dataManager.reload(opa, "ordenPagoAbono-view");
                     oopp.set(i, opa);
                 }
+
             }
             return oopp;
         }else{

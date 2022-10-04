@@ -22,6 +22,7 @@
 
                 <groupTable id="tblFlujos" dataContainer="flujosDc" caption="Movimientos" width="50%" >
                     <columns>
+                        <column id="informacionRemesa" caption="Remesa"/>
                         <column id="informacionRecibo" caption="Num.Recibo"/>
                         <column id="nominalRecibo" caption="Total Rbo"/>
                         <column id="fechaMovimiento" caption="Fecha"></column>
