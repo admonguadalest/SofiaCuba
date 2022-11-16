@@ -36,6 +36,7 @@
                         <action id="clear" type="picker_clear"/>
                     </actions>
                 </pickerField>
+                <checkBox caption="Abonado A Delegado" property="abonadoADelegado"/>
                 <fragment width="100%" screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>
             </column>
         </form>

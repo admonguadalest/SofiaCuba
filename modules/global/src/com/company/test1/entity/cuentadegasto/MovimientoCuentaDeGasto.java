@@ -16,6 +16,9 @@ public class MovimientoCuentaDeGasto extends StandardEntity {
     @JoinColumn(name = "CUENTA_DE_GASTO_ID")
     private CuentaDeGasto cuentaDeGasto;
 
+    @Column(name = "ABONADO_A_DELEGADO")
+    private Boolean abonadoADelegado;
+
     @Column(name = "TIPO_DE_GASTO")
     private String tipoDeGasto;
 
@@ -36,6 +39,14 @@ public class MovimientoCuentaDeGasto extends StandardEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FACTURA_PROVEEDOR_ASOCIADO_ID")
     private FacturaProveedor facturaProveedorAsociado;
+
+    public Boolean getAbonadoADelegado() {
+        return abonadoADelegado;
+    }
+
+    public void setAbonadoADelegado(Boolean abonadoADelegado) {
+        this.abonadoADelegado = abonadoADelegado;
+    }
 
     public FacturaProveedor getFacturaProveedorAsociado() {
         return facturaProveedorAsociado;
