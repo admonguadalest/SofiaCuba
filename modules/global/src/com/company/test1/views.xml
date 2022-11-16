@@ -816,6 +816,7 @@
         </property>
     </view>
     <view entity="test1_Remesa" name="remesa-view" extends="_local">
+        <property name="createTs"/>
         <property name="definicionRemesa" view="_minimal">
             <property name="nombreRemesa"/>
             <property name="tipoGiro"/>

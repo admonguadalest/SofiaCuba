@@ -227,7 +227,7 @@ public class RossumCommonDialogs {
         m.put("url", urlToOriginalDocument);
         m.put("data", jarrContent);
         m.put("documentId", Integer.valueOf(urlToOriginalDocument.substring(urlToOriginalDocument.lastIndexOf("/")+1)));
-
+        m.put("document", document);
         return m;
     }
 
@@ -321,8 +321,30 @@ public class RossumCommonDialogs {
         return json;
     }
 
+    public String getContentTypeFromFileNameExtension(String filename){
+        String extension = filename.substring(filename.lastIndexOf(".")+1);
+        if (extension.compareTo("pdf")==0){
+            return "application/pdf";
+        }
+        if ((extension.compareTo("jpg")==0)||(extension.compareTo("jpeg")==0)){
+            return "image/jpg";
+        }
+        if (extension.compareTo("png")==0){
+            return "image/png";
+        }
+        if (extension.compareTo("gif")==0){
+            return "image/gif";
+        }
+        if (extension.compareTo("docx")==0){
+            return "application/docx";
+        }
+        return extension;
+    }
+
     public RossumAnnotation getInvoiceStructFromMap(Integer queueId, Integer annotationId, Map m) throws Exception{
         RossumAnnotation rbi = new RossumAnnotation();
+        JSONObject document = (JSONObject)m.get("document");
+        rbi.setContentType(getContentTypeFromFileNameExtension(document.getString("file_name")));
         rbi.setQueueId(queueId);
         rbi.setAnnotationId(annotationId);
         rbi.setBasicInformation_documentId((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(0)).get("value"));
@@ -351,6 +373,8 @@ public class RossumCommonDialogs {
         rbi.setOtherNotes((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(4)).get("children")).get(0)).get("value"));
 
         rbi.setDocumentId((Integer)m.get("documentId"));
+
+
 
         return rbi;
 

@@ -8,7 +8,11 @@
         </collection>
     </data>
     <layout expand="tblOOPP" spacing="true">
-        <lookupPickerField id="lkpProveedorField" metaClass="test1_Proveedor" captionProperty="persona.nombreCompleto"/>
+        <hbox spacing="true">
+            <lookupPickerField id="lkpProveedorField" metaClass="test1_Proveedor" captionProperty="persona.nombreCompleto"/>
+            <checkBox id="chbIncluirCompensadas" caption="Incluír Compensadas"/>
+        </hbox>
+
         <groupTable id="tblOOPP" dataContainer="ordenesPagoDc" width="100%">
             <columns>
                 <column id="beneficiario.nombreCompleto" caption="Beneficiario"></column>

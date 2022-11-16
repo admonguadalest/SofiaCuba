@@ -65,7 +65,7 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
 //    }
 
     @Override
-    public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov) {
+    public List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov, boolean incluirCompensadas) {
         String provId = prov.getId().toString().replace("-", "");
 //        String nativeSql = "SELECT OP.ID, OP.DTYPE, OP.REALIZACION_PAGO_ID, OP.IMPORTE, sum(coalesce(COPP.importe, 0)) as SUM FROM cubatest1.ORDEN_PAGO OP \n" +
 //                "LEFT join cubatest1.COMP_OP_PROVEEDOR COPP on COPP.OP_PROVEEDOR_ID = OP.ID\t\n" +
@@ -90,9 +90,14 @@ public class OrdenPagoServiceBean implements OrdenPagoService {
             }
             Double importe = (Double) objects[3];
             Double sum = ((Double) objects[4]) + ((Double) objects[5]);
-            if ((importe - sum)>0.00001){
+            if (!incluirCompensadas){
+                if ((importe - sum)>0.00001){
+                    ids.add((String) objects[0]);
+                }
+            }else{
                 ids.add((String) objects[0]);
             }
+
         }
         ArrayList<OrdenPago> ordenes = new ArrayList<OrdenPago>();
         for (int i = 0; i < ids.size(); i++) {

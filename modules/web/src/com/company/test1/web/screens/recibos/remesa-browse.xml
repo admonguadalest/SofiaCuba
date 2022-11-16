@@ -40,6 +40,7 @@
                 <column id="definicionRemesa.propietario.persona.nombreCompleto"/>
                 <column id="definicionRemesa.nombreRemesa"/>
                 <column id="identificadorRemesa"/>
+                <column id="createTs"/>
                 <column id="fechaValor"/>
                 <column id="totalRemesa" caption="Totales" />
             </columns>

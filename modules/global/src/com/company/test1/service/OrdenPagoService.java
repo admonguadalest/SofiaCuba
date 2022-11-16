@@ -16,7 +16,7 @@ public interface OrdenPagoService {
 
 
 
-    List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov);
+    List<OrdenPago> devuelveOrdenesPagoPendientesDeCompensacion(Proveedor prov, boolean incluirCompensadas);
     Double getTotalImporteCompensadoDeOrdenPago(OrdenPago op);
     void guardaOrdenPagoFacturaProveedor(OrdenPagoFacturaProveedor opfp);
     List<CuentaBancaria> devuelveCuentasBancariasPropietariosRegistrados();

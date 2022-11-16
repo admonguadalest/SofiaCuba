@@ -11,10 +11,7 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.UiComponents;
-import com.haulmont.cuba.gui.components.GroupTable;
-import com.haulmont.cuba.gui.components.HasValue;
-import com.haulmont.cuba.gui.components.Label;
-import com.haulmont.cuba.gui.components.LookupPickerField;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionContainer;
@@ -49,6 +46,9 @@ public class OrdenesPagoProveedorPendientesCompensacion extends Screen {
     @Inject
     private Notifications notifications;
 
+    @Inject
+    private CheckBox chbIncluirCompensadas;
+
     @Subscribe("lkpProveedorField")
     public void onLkpProveedorFieldValueChange(HasValue.ValueChangeEvent<Proveedor> event) {
         ordenesPagoDl.load();
@@ -76,8 +76,14 @@ public class OrdenesPagoProveedorPendientesCompensacion extends Screen {
     @Install(to = "ordenesPagoDl", target = Target.DATA_LOADER)
     private List<OrdenPago> ordenesPagoProveedorDlLoadDelegate(LoadContext<OrdenPagoProveedor> loadContext) {
         Proveedor prov = lkpProveedorField.getValue();
+        boolean incluirCompensadas = false;
+        if (chbIncluirCompensadas.getValue()==null){
+            incluirCompensadas = false;
+        }else{
+            incluirCompensadas = chbIncluirCompensadas.getValue();
+        }
         if (prov!=null){
-            List<OrdenPago> oopp = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(prov);
+            List<OrdenPago> oopp = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(prov, incluirCompensadas);
             for (int i = 0; i < oopp.size(); i++) {
                 OrdenPago op = oopp.get(i);
                 if (op instanceof OrdenPagoProveedor){

@@ -96,7 +96,7 @@ public class GeneracionOrdenPagoFacturaProveedor extends Screen {
     @Install(to = "ordenesPagoDl", target = Target.DATA_LOADER)
     private List<OrdenPago> ordenesPagoDlLoadDelegate(LoadContext<OrdenPago> loadContext) {
 
-            List<OrdenPago> oopp = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(facturaProveedor.getProveedor());
+            List<OrdenPago> oopp = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(facturaProveedor.getProveedor(), false);
             ArrayList al = new ArrayList();
             Double importePendiente = 0.0;
         for (int i = 0; i < oopp.size(); i++) {

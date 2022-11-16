@@ -2,11 +2,14 @@ package com.company.test1.web.screens.presupuesto;
 
 import com.company.test1.entity.*;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
+import com.company.test1.entity.conceptosadicionales.ConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.NumberUtilsService;
+import com.company.test1.service.RossumIngegrationService;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
@@ -23,6 +26,7 @@ import com.company.test1.entity.documentosImputables.Presupuesto;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -40,6 +44,8 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
     private Table<RegistroAplicacionConceptoAdicional> tableRegistrosAplicacionesCCAA;
 //    @Inject
 //    private Table<ImputacionDocumentoImputable> tableImputaciones;
+
+    private RossumAnnotation rossumAnnotation;
 
 
     @Inject
@@ -63,7 +69,33 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
     private BrowserFrame brwDocumentPreview;
     @Inject
     private ValidacionesService validacionesService;
+    @Inject
+    private RossumIngegrationService rossumIngegrationService;
+    @Inject
+    private PickerField<Persona> titularField;
+    @Inject
+    private PickerField<Proveedor> proveedorField;
+    @Inject
+    private DateField<Date> fechaEmisionField;
+    @Inject
+    private TextField<String> numDocumentoField;
+    @Inject
+    private TextField<Double> importePostCCAAField;
+    @Inject
+    private TextField<Double> importeTotalBaseField;
+    @Inject
+    private NumberUtilsService numberUtilsService;
+    @Inject
+    private Table<ImputacionDocumentoImputable> tableImputaciones;
 
+
+    public RossumAnnotation getRossumAnnotation(){
+        return this.rossumAnnotation;
+    }
+
+    public void setRossumAnnotation(RossumAnnotation ra){
+        this.rossumAnnotation = ra;
+    }
 
     private Persona getPersonaFromMail(String mail){
         if (mail.trim().length()==0) return null;
@@ -156,6 +188,78 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
 
         if (attachmentConsumer!=null){
             attachmentConsumer.accept(0);
+        }
+
+        populateRossumData();
+    }
+
+    private void populateRossumData(){
+        if (this.rossumAnnotation!=null){
+            //populate data
+            int y = 2;
+            try{
+                Persona titular = rossumIngegrationService.getBestMatchPersonaForString(this.rossumAnnotation.getVendorCustomer_customerName());
+                Persona proveedor = rossumIngegrationService.getBestMatchPersonaForString(this.rossumAnnotation.getVendorCustomer_vendorName());
+                titularField.setValue(titular);
+                if (proveedor!=null){
+                    if (proveedor instanceof PersonaJuridica){
+                        proveedor = dataManager.reload(proveedor, "personaJuridica-view");
+                    }
+                    if (proveedor instanceof PersonaFisica){
+                        proveedor = dataManager.reload(proveedor, "personaFisica-view");
+                    }
+                    proveedorField.setValue(proveedor.getProveedor());
+                }
+                try{
+                    Date issueDate = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getBasicInformationIssueDate());
+                    fechaEmisionField.setValue(issueDate);
+                }catch(Exception exc){
+
+                }
+                try{
+                    String numFra = this.rossumAnnotation.getBasicInformation_documentId();
+                    numDocumentoField.setValue(numFra);
+                }catch(Exception exc){
+
+                }
+                try{
+                    Double totalFactura = Double.valueOf(this.rossumAnnotation.getTotals_amountDue());
+                    importePostCCAAField.setValue(totalFactura);
+                }catch(Exception exc){
+
+                }
+
+
+                try{
+                    Date issueDate = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getBasicInformationIssueDate());
+                    Double totalDue = Double.valueOf(this.rossumAnnotation.getTotals_amountDue());
+                    Double totalTax = 0.0; //override
+                    Double totalBase = totalDue - totalTax;
+                    RegistroAplicacionConceptoAdicional raca = dataManager.create(RegistroAplicacionConceptoAdicional.class);
+                    importeTotalBaseField.setValue(totalBase);
+                    importePostCCAAField.setValue(totalDue);
+                    raca.setBase(totalBase);
+                    ConceptoAdicional ca = dataManager.load(ConceptoAdicional.class).query("select ca from test1_ConceptoAdicional ca where ca.abreviacion like 'IVA'").one();
+                    raca.setConceptoAdicional(ca);
+                    raca.setDocumentoImputable(this.presupuestoDc.getItem());
+                    raca.setFechaValor(issueDate);
+                    raca.setImporteAplicado(totalTax);
+                    raca.setNumDocumento(this.rossumAnnotation.getBasicInformation_documentId());
+                    raca.setNifDni(proveedor.getNifDni());
+
+                    raca.setPorcentaje(numberUtilsService.roundTo2Decimals((totalTax/totalBase)));
+
+                    this.registroAplicacionConceptosAdicionalesDc.getMutableItems().add(raca);
+                }catch(Exception exc){
+
+                }
+
+                y = 2;
+
+            }catch(Exception exc){
+
+            }
+
         }
     }
 
@@ -292,36 +396,36 @@ public class PresupuestoEditWithAttachment extends StandardEditor<Presupuesto> {
 
     }
 
-//    @Subscribe("tableImputaciones.create")
-//    private void onTableImputacionesCreate(Action.ActionPerformedEvent event) {
-//        ImputacionDocumentoImputable idi = new ImputacionDocumentoImputable();
-//        idi.setDocumentoImputable(this.getEditedEntity());
-////        ScreenLaunchUtil.launchEditEntityScreen(idi, null, tableImputaciones, screenBuilders, this, OpenMode.DIALOG,
-////                dataContext, null);
-//        HashMap hm = new HashMap();
-//        hm.put("fromScreen", this.getId());
-//        MapScreenOptions mso = new MapScreenOptions(hm);
-//        EditorBuilder eb = screenBuilders.editor(ImputacionDocumentoImputable.class, this)
-//                .withLaunchMode(OpenMode.DIALOG)
-//                .newEntity(idi).withParentDataContext(dataContext).withListComponent(tableImputaciones).withOptions(mso);
-//        Screen s = eb.build().show();
-//    }
-
-//    @Subscribe("tableImputaciones.edit")
-//    private void onTableImputacionesEdit(Action.ActionPerformedEvent event) {
-//        ImputacionDocumentoImputable idi = tableImputaciones.getSingleSelected();
-//        idi.setDocumentoImputable(this.getEditedEntity());
-//        Persona p = this.getEditedEntity().getProveedor().getPersona();
-//        if (p instanceof PersonaFisica){
-//            p = dataManager.reload(p, "personaFisica-view");
-//        }
-//        if (p instanceof PersonaJuridica){
-//            p = dataManager.reload(p, "personaJuridica-view");
-//        }
-//        this.getEditedEntity().getProveedor().setPersona(p);
-//        ScreenLaunchUtil.launchEditEntityScreen(tableImputaciones.getSingleSelected(), null, tableImputaciones, screenBuilders, this, OpenMode.DIALOG,
+    @Subscribe("tableImputaciones.create")
+    private void onTableImputacionesCreate(Action.ActionPerformedEvent event) {
+        ImputacionDocumentoImputable idi = dataManager.create(ImputacionDocumentoImputable.class);
+        idi.setDocumentoImputable(this.getEditedEntity());
+//        ScreenLaunchUtil.launchEditEntityScreen(idi, null, tableImputaciones, screenBuilders, this, OpenMode.DIALOG,
 //                dataContext, null);
-//    }
+        HashMap hm = new HashMap();
+        hm.put("fromScreen", this.getId());
+        MapScreenOptions mso = new MapScreenOptions(hm);
+        EditorBuilder eb = screenBuilders.editor(ImputacionDocumentoImputable.class, this)
+                .withLaunchMode(OpenMode.DIALOG)
+                .newEntity(idi).withParentDataContext(dataContext).withListComponent(tableImputaciones).withOptions(mso);
+        Screen s = eb.build().show();
+    }
+
+    @Subscribe("tableImputaciones.edit")
+    private void onTableImputacionesEdit(Action.ActionPerformedEvent event) {
+        ImputacionDocumentoImputable idi = tableImputaciones.getSingleSelected();
+        idi.setDocumentoImputable(this.getEditedEntity());
+        Persona p = this.getEditedEntity().getProveedor().getPersona();
+        if (p instanceof PersonaFisica){
+            p = dataManager.reload(p, "personaFisica-view");
+        }
+        if (p instanceof PersonaJuridica){
+            p = dataManager.reload(p, "personaJuridica-view");
+        }
+        this.getEditedEntity().getProveedor().setPersona(p);
+        ScreenLaunchUtil.launchEditEntityScreen(tableImputaciones.getSingleSelected(), null, tableImputaciones, screenBuilders, this, OpenMode.DIALOG,
+                dataContext, null);
+    }
 
 
 

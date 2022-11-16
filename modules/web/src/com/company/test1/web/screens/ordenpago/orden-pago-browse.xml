@@ -57,6 +57,7 @@
                 <button id="editBtn" action="ordenPagosTable.edit"/>
                 <button id="removeBtn" action="ordenPagosTable.remove" caption="Retroceder Orden"/>
                 <button id="viewReportBtn" invoke="OnBtnVerReportClick" caption="Ver Report"/>
+                <button id="downloadRelatedRealizacionPago" invoke="donwloadRelatedRealizacionPago" caption="Descargar RP Asociado"/>
             </buttonsPanel>
         </table>
         <groupBox orientation="horizontal" spacing="true" width="100%" caption="Crear Realizacion Pago Desde Cuenta"

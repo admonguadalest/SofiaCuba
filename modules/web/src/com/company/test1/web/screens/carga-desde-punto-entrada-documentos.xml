@@ -90,6 +90,9 @@
                         </dataGrid>
                     </vbox>
                     <vbox id="vbrossum" width="100%" height="100%" expand="dataGridRossumAnnotations" spacing="true">
+                        <buttonsPanel>
+                            <button caption="Purgar Anotación Seleccionada" invoke="purgarAnnotationSeleccionada"/>
+                        </buttonsPanel>
                         <dataGrid dataContainer="rossumAnnotationsDc" id="dataGridRossumAnnotations" width="100%">
                             <columns>
                                 <column property="vendorCustomer_vendorName" caption="Proveedor"></column>

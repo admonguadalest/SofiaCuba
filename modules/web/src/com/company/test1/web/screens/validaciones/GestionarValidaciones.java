@@ -459,7 +459,7 @@ public class GestionarValidaciones extends Screen {
                 }
 
                 Proveedor prov = fp.getProveedor();
-                List<OrdenPago> oopppc = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(prov);
+                List<OrdenPago> oopppc = ordenPagoService.devuelveOrdenesPagoPendientesDeCompensacion(prov, false);
 
 
                 final FacturaProveedor fp2 = fp;

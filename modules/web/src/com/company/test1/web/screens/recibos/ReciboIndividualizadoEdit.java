@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.recibos;
 
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
+import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
 import com.company.test1.entity.extroles.Propietario;
@@ -205,6 +206,17 @@ public class ReciboIndividualizadoEdit extends StandardEditor<Recibo> {
 
     public void onBtnRealizarClick() {
         Recibo r = this.getEditedEntity();
+
+        DefinicionRemesa dr_ = remesaField.getValue();
+        Departamento d = r.getUtilitarioContratoInquilino().getDepartamento();
+        d = dataManager.reload(d, "departamento-view");
+        dr_ = dataManager.reload(dr_, "definicionRemesa-view");
+        if (d.getPropietarioEfectivo().getId().compareTo(dr_.getPropietario().getId())!=0){
+            notifications.create().withCaption("Los propietarios de la Definición de Remesa y del Departamento afectado no coinciden").show();
+            return;
+        }
+
+
         if ((r.getTotalRecibo()==null)||(r.getImplementacionesConceptos().size()==0)){
             notifications.create().withCaption("Por favor completar datos").show();
             return;

@@ -71,6 +71,13 @@ public class RossumAnnotation extends BaseUuidEntity {
     @MetaProperty
     private String originalDocumentUrl;
 
+    @MetaProperty
+    private String contentType;
+
+    public String getContentType(){return this.contentType;}
+
+    public void setContentType(String s){this.contentType = s;}
+
     public void setAnnotationId(Integer annotationId) {
         this.annotationId = annotationId;
     }

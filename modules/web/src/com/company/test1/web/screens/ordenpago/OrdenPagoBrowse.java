@@ -9,6 +9,7 @@ import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
@@ -59,6 +60,8 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
     private Filter filter;
     @Inject
     private ExportDisplay exportDisplay;
+    @Inject
+    private Dialogs dialogs;
 
 
     @Subscribe("ordenPagosTable.create")
@@ -217,11 +220,23 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
 //            }
         }
 
-        RealizacionPago rp = null;
+
         try {
-            rp = ordenPagoService.crearRealizacionPagoDesdeListaOrdenesPago(ordenesParaCreacionRealizacionPago, lkpCB.getValue());
+            RealizacionPago rp = ordenPagoService.crearRealizacionPagoDesdeListaOrdenesPago(ordenesParaCreacionRealizacionPago, lkpCB.getValue());
             ordenPagoService.guardaRealizacionPago(rp);
-            notifications.create().withCaption("Archivo de Pago " + rp.getIdentificador() + " guardado existosamente").withDescription("Acceda a los detalles mediante la pantalla de Realizaciones Pagos").show();
+            //notifications.create().withCaption("Archivo de Pago " + rp.getIdentificador() + " guardado existosamente").withDescription("Acceda a los detalles mediante la pantalla de Realizaciones Pagos").show();
+            final RealizacionPago rp_f = dataManager.reload(rp,"realizacionPago-view");
+            dialogs.createOptionDialog(Dialogs.MessageType.CONFIRMATION)
+                    .withMessage("Archivo de Pagos generador corréctamente. ¿Deseas descargarlo ahora?")
+                    .withActions(
+                            new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e->{
+                                byte[] bb = rp_f.getSepa().getBytes();
+                                exportDisplay.show(new ByteArrayDataProvider(bb), rp.getIdentificador() + ".xml");
+                            }),
+                            new DialogAction(DialogAction.Type.NO, Action.Status.PRIMARY).withHandler(e->{
+
+                            })
+                    );
         } catch (Exception e) {
             e.printStackTrace();
             notifications.create().withCaption("Error").withDescription(e.getMessage()).show();
@@ -234,6 +249,22 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
     public void OnBtnVerReportClick(){
         byte[] bb = DynamicReportHelper.getReportDinamico("Listado Ordenes Pago", OrdenPago.class, ordenPagosTable);
         exportDisplay.show(new ByteArrayDataProvider(bb), "Listado Ordenes Pago.pdf");
+    }
+
+    public void donwloadRelatedRealizacionPago(){
+        try {
+            RealizacionPago rp = ordenPagosTable.getSingleSelected().getRealizacionPago();
+            if (rp==null){
+                notifications.create().withCaption("Seleccionar Orden de Pago con Archivo de Pagos asociado").show();
+                return;
+            }
+            byte[] bb = rp.getSepa().getBytes();
+            exportDisplay.show(new ByteArrayDataProvider(bb), rp.getIdentificador() + ".xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            notifications.create().withCaption("Error").withDescription(e.getMessage()).show();
+
+        }
     }
 
 //    public Component EmisorColumn(OrdenPago op){

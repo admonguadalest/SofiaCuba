@@ -178,6 +178,11 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                 }
         }
 
+        populateRossumData();
+
+    }
+
+    private void populateRossumData(){
         if (this.rossumAnnotation!=null){
             //populate data
             int y = 2;
@@ -245,7 +250,6 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
             }
 
         }
-
     }
 
 

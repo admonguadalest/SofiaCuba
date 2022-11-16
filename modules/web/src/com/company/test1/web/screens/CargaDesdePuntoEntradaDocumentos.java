@@ -7,6 +7,7 @@ import com.company.test1.entity.documentosfotograficos.FotoDocumentoFotografico;
 import com.company.test1.entity.documentosfotograficos.FotoThumbnail;
 import com.company.test1.service.ContabiService;
 import com.company.test1.web.screens.facturaproveedor.FacturaProveedorWithAttachmentEdit;
+import com.company.test1.web.screens.presupuesto.PresupuestoEditWithAttachment;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileLoader;
@@ -215,7 +216,27 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         return andTerm;
     }
 
+    public void purgarAnnotationSeleccionada(){
+        try {
+            RossumCommonDialogs rcd = new RossumCommonDialogs();
+            rcd.getAuthToken("", "");
+            RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
+            Integer annotationId = ra.getAnnotationId();
+            Integer queueId = ra.getQueueId();
+            if (ra == null) {
+                notifications.create().withDescription("Seleccionar registro").show();
+                return;
+            }
 
+            boolean deleted = rcd.switchAnnotationToDeleted(annotationId);
+            boolean purged = rcd.purgeDeletedAnnotations(queueId);
+            notifications.create().withCaption("La anotación seleccionada fue purgada exitósamente").show();
+            rossumAnnotationsDc.getMutableItems().remove(ra);
+        }catch(Exception exc){
+            notifications.create().withCaption("No se pudo purgar la anotación seleccionada: " + exc.getMessage()).show();;
+            return;
+        }
+    }
 
 
     @Subscribe("btnNuevaFactura")
@@ -244,7 +265,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 this.nombreDocumentoSeleccionado = "adjunto.pdf";
                 Integer documentId = dataGridRossumAnnotations.getSingleSelected().getDocumentId();
                 this.representacionSerialDocumentoSeleccionado = this.rcd.getOriginalDocumentFromDocumentId(documentId);
-                this.mimeTypeDocumentoSeleccionado = "application/pdf";
+                this.mimeTypeDocumentoSeleccionado = dataGridRossumAnnotations.getSingleSelected().getContentType();
             }catch(Exception exc){
 
             }
@@ -337,12 +358,65 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
             this.representacionSerialDocumentoSeleccionado = se.getRepresentacionSerial();
             this.mimeTypeDocumentoSeleccionado = se.getMimeType();
         }
+        if (pkrPuntoEntradaDocumentos.getValue().getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM){
+            email = "";
+            try {
+                this.nombreDocumentoSeleccionado = "adjunto.pdf";
+                Integer documentId = dataGridRossumAnnotations.getSingleSelected().getDocumentId();
+                this.representacionSerialDocumentoSeleccionado = this.rcd.getOriginalDocumentFromDocumentId(documentId);
+                this.mimeTypeDocumentoSeleccionado = dataGridRossumAnnotations.getSingleSelected().getContentType();
+            }catch(Exception exc){
+
+            }
+        }
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("newEntityWithAttachment", new Object[]{email, this.nombreDocumentoSeleccionado, this.representacionSerialDocumentoSeleccionado, this.mimeTypeDocumentoSeleccionado});
         MapScreenOptions mso = new MapScreenOptions(map);
-        screenBuilders.editor(Presupuesto.class, this).withScreenId("test1_PresupuestoWithAttachment.edit")
-                .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build().show();
+
+        final PresupuestoEditWithAttachment pewa = (PresupuestoEditWithAttachment) screenBuilders.editor(Presupuesto.class, this).withScreenId("test1_PresupuestoWithAttachment.edit")
+                .withOptions(mso).withOpenMode(OpenMode.NEW_TAB).build();
+        pewa.setRossumAnnotation(dataGridRossumAnnotations.getSingleSelected());
+        pewa.addAfterCloseListener(e->{
+            if (pkrPuntoEntradaDocumentos.getValue().getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM) {
+                if (!pewa.hasUnsavedChanges()) {
+                    dialogs.createOptionDialog().withCaption("¿Desea purgar la anotación seleccionada en Rossum?").withActions(
+                            new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e2 -> {
+
+                                try {
+                                    RossumCommonDialogs rcd = new RossumCommonDialogs();
+                                    rcd.getAuthToken("", "");
+                                    RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
+                                    Integer annotationId = ra.getAnnotationId();
+                                    Integer queueId = ra.getQueueId();
+                                    if (ra == null) {
+                                        notifications.create().withDescription("Seleccionar registro").show();
+                                        return;
+                                    }
+
+                                    boolean deleted = rcd.switchAnnotationToDeleted(annotationId);
+                                    boolean purged = rcd.purgeDeletedAnnotations(queueId);
+
+                                    if ((deleted) && (purged)) {
+                                        notifications.create().withCaption("La anotación fue eliminada satisfactoriamente").show();
+                                        rossumAnnotationsDc.getMutableItems().remove(ra);
+                                        return;
+                                    } else {
+                                        notifications.create().withCaption("La operación de eliminación de la anotación no finalizó exitósamente. Por favor realizar comprobación manual.").show();
+                                        return;
+                                    }
+
+                                } catch (Exception exc) {
+                                    notifications.create().withDescription("No se pudo eliminar la anotación. Por favor proceder manualmente.").show();
+                                    return;
+                                }
+                            }),
+                            new DialogAction(DialogAction.Type.NO)
+                    ).show();
+                }
+            }
+        });
+        pewa.show();
     }
 
     @Subscribe
