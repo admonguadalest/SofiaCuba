@@ -21,6 +21,8 @@
                         property="cuentasBancarias">
 
             </collection>
+
+
             <instance id="proveedorDc" property="proveedor">
 
                 <collection id="programacionesConceptosAdicionalesDc" property="programacionesConceptosAdicionales"/>
@@ -28,6 +30,10 @@
             <instance id="propietarioDc" property="propietario">
             </instance>
         </instance>
+        <collection id="cuentasDeGastoDc" class="com.company.test1.entity.cuentadegasto.CuentaDeGasto">
+            <loader id="cuentasDeGastoDl"/>
+
+        </collection>
     </data>
     <dialogMode height="600"
                 width="800"/>
@@ -127,6 +133,24 @@
                             <scrollBox height="100%">
                                 <checkBox id="chkPropietario" caption="Activar como Propietario"/>
                                 <vbox id="sbxPropietario" height="432px"/>
+                            </scrollBox>
+                        </tab>
+                        <tab id="tabCuentasDeGasto" caption="Cuentas de Gasto" margin="true,false,false,false" spacing="true">
+                            <scrollBox height="100%">
+
+                                <table dataContainer="cuentasDeGastoDc" id="cuentasDeGastoTable" width="100%" height="200px">
+                                    <buttonsPanel>
+                                        <button id="btnNuevaCuenta" caption="Nueva" invoke="nuevaCuentaDeGasto"/>
+                                        <button id="btnEditarCuenta" caption="Editar" invoke="editarCuentaDeGasto"/>
+
+                                    </buttonsPanel>
+                                    <columns>
+                                        <column id="titular.nombreCompleto"/>
+                                        <column id="nombre"></column>
+                                        <column id="ampliacion"></column>
+                                    </columns>
+                                    <rows/>
+                                </table>
                             </scrollBox>
                         </tab>
                     </tabSheet>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://cuentaDeGastoEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.cuentadegasto">
+    <data>
+        <instance id="cuentaDeGastoDc"
+                  class="com.company.test1.entity.cuentadegasto.CuentaDeGasto"
+                  view="cuentaDeGasto-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="cuentaDeGastoDc">
+            <column width="350px">
+                <textField id="nombreField" property="nombre"/>
+                <textArea id="ampliacionField" property="ampliacion" rows="5"/>
+                <lookupPickerField id="titularField" property="titular"
+                                   captionProperty="nombreCompleto"/>
+                <lookupPickerField id="personaField" property="persona" captionProperty="nombreCompleto"/>
+                <checkBox id="tarjetaBancariaField" property="tarjetaDeCreditoBancaria" caption="Desde Tarjeta Bancaria"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

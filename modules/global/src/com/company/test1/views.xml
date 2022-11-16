@@ -1961,5 +1961,43 @@
             <property name="companiaAseguradora"/>
         </property>
     </view>
+    <view entity="test1_MovimientoCuentaDeGasto" name="movimientoCuentaDeGasto-browseView">
+
+        <property name="cuentaDeGasto" view="_minimal">
+            <property name="nombre"/>
+            <property name="ampliacion"/>
+            <property name="titular">
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="persona">
+                <property name="nombreCompleto"/>
+            </property>
+        </property>
+        <property name="tipoDeGasto"/>
+        <property name="fecha"/>
+        <property name="importeBase"/>
+        <property name="importePostCCAA"/>
+        <property name="facturaProveedorAsociado" view="_minimal">
+            <property name="importePostCCAA"/>
+            <property name="numDocumento"/>
+            <property name="proveedor" view="_minimal">
+                <property name="persona" view="_minimal">
+                    <property name="nombreCompleto"/>
+                </property>
+            </property>
+            <property name="titular" view="_minimal"/>
+        </property>
+        <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+    </view>
+    <view entity="test1_CuentaDeGasto" name="cuentaDeGasto-view" extends="_local">
+        <property name="titular" view="_minimal">
+            <property name="nombreCompleto"/>
+        </property>
+        <property name="persona" view="_minimal">
+            <property name="nombreCompleto"/>
+        </property>
+
+
+    </view>
 
 </views>

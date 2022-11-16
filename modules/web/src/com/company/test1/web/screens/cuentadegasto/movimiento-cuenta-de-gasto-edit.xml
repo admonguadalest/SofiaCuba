@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://movimientoCuentaDeGastoEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.cuentadegasto">
+    <data>
+        <instance id="movimientoCuentaDeGastoDc"
+                  class="com.company.test1.entity.cuentadegasto.MovimientoCuentaDeGasto"
+                  view="movimientoCuentaDeGasto-browseView">
+            <loader/>
+            <instance id="coleccionArchivosAdjuntosDc" property="coleccionArchivosAdjuntos"/>
+        </instance>
+        <collection id="cuentasDeGastoDc" class="com.company.test1.entity.cuentadegasto.CuentaDeGasto">
+            <loader id="cuentasDeGastoDl"/>
+        </collection>
+    </data>
+<!--    <dialogMode height="600"-->
+<!--                width="800"/>-->
+    <layout expand="editActions" spacing="true" width="100%">
+        <form id="form" dataContainer="movimientoCuentaDeGastoDc" width="100%">
+            <column width="100%">
+
+                <lookupField id="cuentaDeGastoField" property="cuentaDeGasto" optionsContainer="cuentasDeGastoDc"
+                    captionProperty="nombre">
+
+                </lookupField>
+
+                <textField id="tipoDeGastoField" property="tipoDeGasto"/>
+                <dateField id="fechaField" property="fecha"/>
+                <textField id="importeBaseField" property="importeBase"/>
+                <textField id="importePostCCAAField" property="importePostCCAA"/>
+
+                <pickerField editable="false" id="facturaProveedorAsociadoField" property="facturaProveedorAsociado">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <fragment width="100%" screen="test1_ColeccionArchivosAdjuntosFragment" id="coleccionArchivosAdjuntosFragment"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

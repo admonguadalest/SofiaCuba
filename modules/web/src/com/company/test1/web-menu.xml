@@ -180,6 +180,9 @@
             </item>
             <separator></separator>
             <item screen="test1_CargaDesdePuntoEntradaDocumentos" />
+            <separator></separator>
+            <item screen="test1_CuentaDeGasto.browse"/>
+            <item screen="test1_MovimientoCuentaDeGasto.browse"/>
         </menu>
         <menu id="ciclos">
             <item screen="test1_Ciclo.browse" id="consultarCiclos"/>

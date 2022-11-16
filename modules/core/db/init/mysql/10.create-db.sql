@@ -176,7 +176,7 @@ create table NOTIFICACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONTENIDO_IMPLEMENTADO longtext,
     ENVIADO boolean,
@@ -436,7 +436,7 @@ create table DOCUMENTO_IMPUTABLE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     DESCRIPCION_DOCUMENTO longtext,
     MARCAJES_PROVISIONAL varchar(255),
@@ -545,7 +545,7 @@ create table INCREMENTO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONCEPTO_RECIBO_ATRASOS_ID varchar(32),
     FECHA_INCREMENTO date,
@@ -1454,7 +1454,7 @@ create table ORDEN_PAGO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     EMISOR_PERSONA_ID varchar(32),
     BENEFICIARIO_PERSONA_ID varchar(32),
@@ -1530,7 +1530,7 @@ create table VALIDACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     PROPIETARIO_ID varchar(32),
     ESTADO_VALIDACION integer,
@@ -1907,3 +1907,44 @@ create table TEST1_SINIESTRO (
     primary key (ID)
 )^
 -- end TEST1_SINIESTRO
+-- begin TEST1_CUENTA_DE_GASTO
+create table TEST1_CUENTA_DE_GASTO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    NOMBRE varchar(255),
+    TITULAR_EMPRESA_PROPIETARIA_ID varchar(32),
+    AMPLIACION longtext,
+    PERSONA_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end TEST1_CUENTA_DE_GASTO
+-- begin TEST1_MOVIMIENTO_CUENTA_DE_GASTO
+create table TEST1_MOVIMIENTO_CUENTA_DE_GASTO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    CUENTA_DE_GASTO_ID varchar(32),
+    TIPO_DE_GASTO varchar(255),
+    FECHA date,
+    IMPORTE_BASE double precision,
+    IMPORTE_POST_CCAA double precision,
+    COLECCION_ARCHIVOS_ADJUNTOS_ID varchar(32),
+    FACTURA_PROVEEDOR_ASOCIADO_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end TEST1_MOVIMIENTO_CUENTA_DE_GASTO

@@ -96,6 +96,8 @@
         <class>com.company.test1.entity.PuntoEntradaDocumentos</class>
         <class>com.company.test1.entity.PolizaDeSeguros</class>
         <class>com.company.test1.entity.Siniestro</class>
+        <class>com.company.test1.entity.cuentadegasto.CuentaDeGasto</class>
+        <class>com.company.test1.entity.cuentadegasto.MovimientoCuentaDeGasto</class>
 
 
     </persistence-unit>

@@ -4,10 +4,12 @@ import com.company.test1.entity.CuentaBancaria;
 import com.company.test1.entity.DatoDeContacto;
 import com.company.test1.entity.Direccion;
 import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional;
+import com.company.test1.entity.cuentadegasto.CuentaDeGasto;
 import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.modeloscontratosinquilinos.ModeloContrato;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.company.test1.web.screens.cuentadegasto.CuentaDeGastoEdit;
 import com.company.test1.web.screens.direccion.DireccionEdit;
 import com.company.test1.web.screens.direccion.DireccionEdit;
 import com.haulmont.cuba.core.app.PersistenceManagerService;
@@ -18,6 +20,7 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.Fragments;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.actions.list.CreateAction;
 import com.haulmont.cuba.gui.components.*;
@@ -43,6 +46,8 @@ import java.util.Set;
 public class PersonaFisicaEdit extends StandardEditor<PersonaFisica> {
 
 
+    @Inject
+    private CollectionContainer<CuentaDeGasto> cuentasDeGastoDc;
     @Inject
     private ScreenBuilders screenBuilders;
     @Inject
@@ -96,6 +101,12 @@ public class PersonaFisicaEdit extends StandardEditor<PersonaFisica> {
     private VBoxLayout sbxProveedor;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private CollectionLoader<CuentaDeGasto> cuentasDeGastoDl;
+    @Inject
+    private Table<CuentaDeGasto> cuentasDeGastoTable;
+    @Inject
+    private Notifications notifications;
 
 
     @Subscribe
@@ -329,6 +340,52 @@ public class PersonaFisicaEdit extends StandardEditor<PersonaFisica> {
     private void onTableDatosDeContactoEdit(Action.ActionPerformedEvent event) {
         ScreenLaunchUtil.launchEditEntityScreen(tableDatosDeContacto.getSingleSelected(), null, tableDatosDeContacto, screenBuilders, this, OpenMode.DIALOG, dataContext, null);
     }
+
+    @Install(to = "cuentasDeGastoDl", target = Target.DATA_LOADER)
+    private List<CuentaDeGasto> cuentasDeGastoDlLoadDelegate(LoadContext<CuentaDeGasto> loadContext) {
+        String hql = "select cdg from test1_CuentaDeGasto cdg where cdg.persona.id = :pid";
+        List<CuentaDeGasto> ccddgg = dataManager.loadValue(hql, CuentaDeGasto.class)
+                .parameter("pid", this.getEditedEntity().getId())
+                .list();
+        for (int i = 0; i < ccddgg.size(); i++) {
+            CuentaDeGasto cdg = ccddgg.get(i);
+            cdg = dataManager.reload(cdg, "cuentaDeGasto-view");
+            ccddgg.set(i, cdg);
+        }
+        return ccddgg;
+
+    }
+
+    public void nuevaCuentaDeGasto(){
+        CuentaDeGastoEdit cdge = (CuentaDeGastoEdit) screenBuilders.editor(CuentaDeGasto.class, this)
+                .newEntity()
+                .withOpenMode(OpenMode.DIALOG)
+                .build();
+        cdge.addAfterCloseListener(e->{
+           cuentasDeGastoDl.load();
+        });
+        cdge.show();
+
+    }
+
+    public void editarCuentaDeGasto(){
+        CuentaDeGasto cdg = cuentasDeGastoTable.getSingleSelected();
+        if (cdg == null){
+            notifications.create().withCaption("Seleccionar una cuenta de gasto a editar").show();
+            return;
+        }
+        cdg = dataManager.reload(cdg, "cuentaDeGasto-view");
+        CuentaDeGastoEdit cdge = (CuentaDeGastoEdit) screenBuilders.editor(CuentaDeGasto.class, this)
+                .editEntity(cdg)
+                .withOpenMode(OpenMode.DIALOG)
+                .build();
+        cdge.addAfterCloseListener(e->{
+            cuentasDeGastoDl.load();
+        });
+        cdge.show();
+    }
+
+
 
 
     
