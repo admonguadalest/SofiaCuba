@@ -1,0 +1,1 @@
+alter table TEST1_MOVIMIENTO_CUENTA_DE_GASTO add column ABONADO_A_DELEGADO boolean ;

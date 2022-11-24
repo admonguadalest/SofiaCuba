@@ -1,0 +1,1 @@
+alter table TEST1_CUENTA_DE_GASTO add column TARJETA_DE_CREDITO_BANCARIA boolean ;

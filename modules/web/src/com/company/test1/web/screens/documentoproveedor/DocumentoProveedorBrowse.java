@@ -27,6 +27,7 @@ import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
+import org.apache.http.client.utils.DateUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -119,6 +120,10 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
         DocumentoImputable fprov = documentoProveedorsTable.getSingleSelected();
         if (fprov==null){
             notifications.create().withCaption("Seleccionar un registro").show();
+            return;
+        }
+        if (DateUtils.parseDate("31-12-2021", new String[]{"dd-MM-yyyy"}).getTime()>fprov.getFechaEmision().getTime()){
+            notifications.create().withCaption("Solo se pueden publicar facturas con fecha posterior a 31-12-2021").show();
             return;
         }
         if (fprov instanceof FacturaProveedor){
