@@ -48,6 +48,7 @@
                     <columns>
                         <column id="informacionOrdenPago" generator="getColumnOrdenPagoCompensacion" caption="Info. Compensacion"/>
                         <column id="importe"/>
+                        <column id="infoRealizacionPago" generator="getColumnInfoRealizacionPago" caption="Ident.Pago"/>
                     </columns>
                 </table>
             </column>

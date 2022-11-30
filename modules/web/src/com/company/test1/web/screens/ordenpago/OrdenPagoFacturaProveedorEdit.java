@@ -56,6 +56,19 @@ public class OrdenPagoFacturaProveedorEdit extends StandardEditor<OrdenPagoFactu
     @Inject
     private PickerField<Persona> beneficiario;
 
+    public Component getColumnInfoRealizacionPago(CompensacionOrdenPagoProveedor copp){
+        Label l = uiComponents.create(Label.NAME);
+        String t = "";
+        if (copp.getOrdenPagoProveedor()!=null){
+            t = copp.getOrdenPagoProveedor().getRealizacionPago().getIdentificador();
+        }else{
+            t = "";
+        }
+
+        l.setValue(t);
+        return l;
+    }
+
     public Component getColumnOrdenPagoCompensacion(CompensacionOrdenPagoProveedor copp){
         Label l = uiComponents.create(Label.NAME);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

@@ -29,6 +29,7 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import org.apache.http.client.utils.DateUtils;
 
+
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -72,7 +73,12 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
                 Button b = uiComponents.create(Button.NAME);
                 b.setCaption("Ver");
                 b.addClickListener(e->{
-                    ScreenLaunchUtil.launchEditEntityScreen(opfp, null, null, screenBuilders, DocumentoProveedorBrowse.this, OpenMode.NEW_TAB, null, null);
+                    screenBuilders.editor(OrdenPagoFacturaProveedor.class, DocumentoProveedorBrowse.this)
+                            .editEntity(opfp)
+                            .withOpenMode(OpenMode.DIALOG)
+                            .build()
+                            .show();
+                    //ScreenLaunchUtil.launchEditEntityScreen(opfp, null, null, screenBuilders, DocumentoProveedorBrowse.this, OpenMode.NEW_TAB, null, null);
                 });
                 hbx.add(b);
             }

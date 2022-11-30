@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 public enum UsoContratoEnum implements EnumClass<Integer> {
 
     VIVIENDA(5),
+    TEMPORADA(6),
     LOCAL(1),
     ESTUDIO(2);
 
