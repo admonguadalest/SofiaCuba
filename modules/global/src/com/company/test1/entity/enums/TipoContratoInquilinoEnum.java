@@ -8,7 +8,8 @@ import javax.annotation.Nullable;
 public enum TipoContratoInquilinoEnum implements EnumClass<Integer> {
 
     ANTIGUA_LAU(0),
-    NUEVA_LAU(1);
+    NUEVA_LAU(1),
+    TEMPORADA(2);
 
     private Integer id;
 
