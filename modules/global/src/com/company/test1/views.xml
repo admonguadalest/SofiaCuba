@@ -1598,6 +1598,24 @@
         <property name="importePendienteCompensacion"/>
         <property name="realizacionPago" view="_minimal"/>
     </view>
+    <view entity="test1_OrdenPagoAbono" name="ordenPagoAbono-viewext" extends="_local">
+        <property name="emisor" view="_base"/>
+        <property name="beneficiario" view="_base"/>
+        <property name="compensaciones" view="_local">
+            <property name="ordenPagoProveedor" view="_minimal"/>
+            <property name="ordenPagoAbono" view="_minimal"/>
+            <property name="ordenPagoFacturaProveedor" view="_minimal"/>
+        </property>
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_minimal">
+                <property name="nombreCompleto"/>
+            </property>
+            <property name="nombreComercial"/>
+        </property>
+        <property name="facturaProveedor" view="_base"/>
+        <property name="importePendienteCompensacion"/>
+        <property name="realizacionPago" view="_minimal"/>
+    </view>
     <view entity="test1_CompensacionOrdenPagoProveedor" name="compensacionOrdenPagoProveedor-view" extends="_local">
         <property name="ordenPagoFacturaProveedor" view="_minimal">
             <property name="facturaProveedor" view="_minimal">
@@ -1988,6 +2006,7 @@
             <property name="titular" view="_minimal"/>
         </property>
         <property name="coleccionArchivosAdjuntos" view="coleccionArchivosAdjuntos-view"/>
+        <property name="abonadoADelegado"/>
     </view>
     <view entity="test1_CuentaDeGasto" name="cuentaDeGasto-view" extends="_local">
         <property name="titular" view="_minimal">

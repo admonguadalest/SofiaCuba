@@ -2,6 +2,8 @@ package com.company.test1.web.screens.ordenpago;
 
 import com.company.test1.entity.Persona;
 import com.company.test1.entity.ordenespago.CompensacionOrdenPagoProveedor;
+import com.company.test1.entity.ordenespago.OrdenPagoAbono;
+import com.company.test1.entity.ordenespago.OrdenPagoProveedor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.Component;
@@ -56,11 +58,26 @@ public class OrdenPagoFacturaProveedorEdit extends StandardEditor<OrdenPagoFactu
     @Inject
     private PickerField<Persona> beneficiario;
 
+    public Component getColumnInfoFraAbono(CompensacionOrdenPagoProveedor copp){
+        Label l = uiComponents.create(Label.NAME);
+        String t = "";
+        if (copp.getOrdenPagoAbono()!=null){
+            OrdenPagoAbono opa = dataManager.reload(copp.getOrdenPagoAbono(),  "ordenPagoAbono-viewext");
+            t = opa.getFacturaProveedor().getNumDocumento();
+        }else{
+            t = "";
+        }
+
+        l.setValue(t);
+        return l;
+    }
+
     public Component getColumnInfoRealizacionPago(CompensacionOrdenPagoProveedor copp){
         Label l = uiComponents.create(Label.NAME);
         String t = "";
         if (copp.getOrdenPagoProveedor()!=null){
-            t = copp.getOrdenPagoProveedor().getRealizacionPago().getIdentificador();
+            OrdenPagoProveedor opp = dataManager.reload(copp.getOrdenPagoProveedor(),  "ordenPagoProveedor-view");
+            t = opp.getRealizacionPago().getIdentificador();
         }else{
             t = "";
         }

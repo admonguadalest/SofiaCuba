@@ -48,6 +48,8 @@
                 <button id="createBtn" action="movimientoCuentaDeGastoesTable.create"/>
                 <button id="editBtn" action="movimientoCuentaDeGastoesTable.edit"/>
                 <button id="removeBtn" action="movimientoCuentaDeGastoesTable.remove"/>
+                <button id="createFraBtn" caption="Crear Factura Asoc."/>
+                <button id="btnVerReport" caption="Ver Report"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

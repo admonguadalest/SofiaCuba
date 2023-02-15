@@ -46,9 +46,9 @@
                 <table id="tblCompensaciones" dataContainer="compensacionOrdenPagoProveedorsDc" width="100%"
                        height="200px">
                     <columns>
-                        <column id="informacionOrdenPago" generator="getColumnOrdenPagoCompensacion" caption="Info. Compensacion"/>
+                        <column id="informacionOrdenPago" generator="getColumnOrdenPagoCompensacion" caption="Info. Compensación"/>
                         <column id="importe"/>
-                        <column id="infoRealizacionPago" generator="getColumnInfoRealizacionPago" caption="Ident.Pago"/>
+                        <column id="infoFraAbono" generator="getColumnInfoFraAbono" caption="Info.Abono"/>
                     </columns>
                 </table>
             </column>

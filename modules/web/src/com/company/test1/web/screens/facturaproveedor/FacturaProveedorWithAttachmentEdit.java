@@ -7,6 +7,7 @@ import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicion
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.service.NumberUtilsService;
 import com.company.test1.service.RossumIngegrationService;
 import com.company.test1.service.ValidacionesService;
@@ -82,6 +83,8 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     private TextField<Double> importeTotalBaseField;
     @Inject
     private NumberUtilsService numberUtilsService;
+    @Inject
+    private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
 
     public void setRossumAnnotation(RossumAnnotation ra){
         this.rossumAnnotation = ra;
@@ -166,16 +169,41 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
         if (PersistenceHelper.isNew(facturaProveedorDc.getItem())) {
+                if (facturaProveedorDc.getItem().getColeccionArchivosAdjuntos()==null) {
+                    ColeccionArchivosAdjuntos caa = dataContext.create(ColeccionArchivosAdjuntos.class);
+                    coleccionArchivosAdjuntosDc.setItem(caa);
+                    caa.setNombre("Factura");
+                    FacturaProveedor fp = facturaProveedorDc.getItem();
+                    fp.setColeccionArchivosAdjuntos(caa);
 
-                ColeccionArchivosAdjuntos caa = dataContext.create(ColeccionArchivosAdjuntos.class);
-                coleccionArchivosAdjuntosDc.setItem(caa);
-                caa.setNombre("Factura");
-                FacturaProveedor fp = facturaProveedorDc.getItem();
-                fp.setColeccionArchivosAdjuntos(caa);
-
-                if (attachmentConsumer!=null){
-                    attachmentConsumer.accept(0);
+                    if (attachmentConsumer != null) {
+                        attachmentConsumer.accept(0);
+                    }
+                }else{
+                    //si tengo pdf del adjunto lo muestro
+                    ArchivoAdjunto aa = facturaProveedorDc.getItem().getColeccionArchivosAdjuntos().getArchivos().get(0);
+                    byte[] bb = aa.getRepresentacionSerial();
+                    if (bb==null){
+                        ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
+                        bb = aaext.getRepresentacionSerial();
+                    }
+                    bb = Base64.getMimeDecoder().decode(bb);
+                    bb = Base64.getMimeDecoder().decode(bb);
+                    final byte[] bb_ = bb;
+                    brwDocumentPreview.setSource(StreamResource.class)
+                            .setStreamSupplier(() -> new ByteArrayInputStream(bb_))
+                            .setMimeType(aa.getMimeType());
                 }
+        }else{
+            //si tengo pdf del adjunto lo muestro
+            ArchivoAdjunto aa = facturaProveedorDc.getItem().getColeccionArchivosAdjuntos().getArchivos().get(0);
+            byte[] bb = aa.getRepresentacionSerial();
+            bb = Base64.getMimeDecoder().decode(bb);
+            bb = Base64.getMimeDecoder().decode(bb);
+            final byte[] bb_ = bb;
+            brwDocumentPreview.setSource(StreamResource.class)
+                    .setStreamSupplier(() -> new ByteArrayInputStream(bb_))
+                    .setMimeType(aa.getMimeType());
         }
 
         populateRossumData();
