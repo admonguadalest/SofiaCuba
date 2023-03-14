@@ -36,12 +36,20 @@ public class MovimientoCuentaDeGastoEdit extends StandardEditor<MovimientoCuenta
     @Install(to = "cuentasDeGastoDl", target = Target.DATA_LOADER)
     private List<CuentaDeGasto> cuentasDeGastoDlLoadDelegate(LoadContext<CuentaDeGasto> loadContext) {
         User u = userSession.getUser();
-        String hql = "select p from test1_Persona p where p.usuario.id = :uid";
-        Persona p = dataManager.loadValue(hql, Persona.class).parameter("uid",u.getId()).one();
-        hql = "select cdg from test1_CuentaDeGasto cdg where cdg.persona.id = :pid";
-        List<CuentaDeGasto> cdgs = dataManager.loadValue(hql, CuentaDeGasto.class).parameter("pid", p.getId())
-                .list();
-        return cdgs;
+        if (u.getLogin().compareTo("carlosconti")!=0){
+            String hql = "select p from test1_Persona p where p.usuario.id = :uid";
+            Persona p = dataManager.loadValue(hql, Persona.class).parameter("uid", u.getId()).one();
+            hql = "select cdg from test1_CuentaDeGasto cdg where cdg.persona.id = :pid";
+            List<CuentaDeGasto> cdgs = dataManager.loadValue(hql, CuentaDeGasto.class).parameter("pid", p.getId())
+                    .list();
+            return cdgs;
+        }else{
+
+            String hql = "select cdg from test1_CuentaDeGasto cdg";
+            List<CuentaDeGasto> cdgs = dataManager.loadValue(hql, CuentaDeGasto.class)
+                    .list();
+            return cdgs;
+        }
 
     }
 

@@ -206,44 +206,48 @@ public class Util {
                     importeAnualOperaciones, noTotalInmuebles, importeTotalOpsArrendamientoNegocio, "", "");
 
             for (int i = 0; i < all.size(); i++) {
-                Object get = all.get(i);
-                List l = Arrays.asList((Object[]) get);
-                String nifDeclarado = (String) l.get(0);
-                String nifRepresentanteLegal = "";
-                String nombreRazonSocialDeclarado = (String) l.get(1);
-                String codProvincia = "08";
-                String codPais = "";
-                Double importeAnualOps = (Double) l.get(6);
-                String arrendamientoLocalNegocio = "";
-                Double importeAnualPercibidoSujetasIva = 0.0;
-                Double importeOpsPrimerTrimSujetas = 0.0;
-                Double importeOpsSegundoTrimSujetas = 0.0;
-                Double importeOpsTercerTrimSujetas = 0.0;
-                Double importeOpsCuartoTrimSujetas = 0.0;
-                if (((String)l.get(3)).compareTo("L")==0){
-                    arrendamientoLocalNegocio = "X";
-                    importeAnualPercibidoSujetasIva = (Double) l.get(6);
-                    importeOpsPrimerTrimSujetas = (Double) l.get(7);
-                    importeOpsSegundoTrimSujetas = (Double) l.get(8);
-                    importeOpsTercerTrimSujetas = (Double) l.get(9);
-                    importeOpsCuartoTrimSujetas = (Double) l.get(10);
+                try{
+                    Object get = all.get(i);
+                    List l = Arrays.asList((Object[]) get);
+                    String nifDeclarado = (String) l.get(0);
+                    String nifRepresentanteLegal = "";
+                    String nombreRazonSocialDeclarado = (String) l.get(1);
+                    String codProvincia = "08";
+                    String codPais = "";
+                    Double importeAnualOps = (Double) l.get(6);
+                    String arrendamientoLocalNegocio = "";
+                    Double importeAnualPercibidoSujetasIva = 0.0;
+                    Double importeOpsPrimerTrimSujetas = 0.0;
+                    Double importeOpsSegundoTrimSujetas = 0.0;
+                    Double importeOpsTercerTrimSujetas = 0.0;
+                    Double importeOpsCuartoTrimSujetas = 0.0;
+                    if (((String)l.get(3)).compareTo("L")==0){
+                        arrendamientoLocalNegocio = "X";
+                        importeAnualPercibidoSujetasIva = (Double) l.get(6);
+                        importeOpsPrimerTrimSujetas = (Double) l.get(7);
+                        importeOpsSegundoTrimSujetas = (Double) l.get(8);
+                        importeOpsTercerTrimSujetas = (Double) l.get(9);
+                        importeOpsCuartoTrimSujetas = (Double) l.get(10);
+                    }
+                    Double importeOpsPrimerTrim = (Double) l.get(7);
+                    Double importeOpsSegundoTrim = (Double) l.get(8);
+                    Double importeOpsTercerTrim = (Double) l.get(9);
+                    Double importeOpsCuartoTrim = (Double) l.get(10);
+
+                    String nifOperadorComunitario = "";
+
+                    txt += Registro347_TR2.escribeRegistro(
+                            ejercicio,
+                            nifDeclarante, nifDeclarado, nifRepresentanteLegal, nombreRazonSocialDeclarado, "D", codProvincia, codPais,
+                            "B", importeAnualOps, "",
+                            arrendamientoLocalNegocio, 0.0, importeAnualPercibidoSujetasIva,
+                            ejercicio, importeOpsPrimerTrim, importeOpsPrimerTrimSujetas, importeOpsSegundoTrim, importeOpsSegundoTrimSujetas,
+                            importeOpsTercerTrim, importeOpsTercerTrimSujetas, importeOpsCuartoTrim, importeOpsCuartoTrimSujetas,
+                            nifOperadorComunitario, "", "", "", 0.0);
+                    System.out.println(i);
+                }catch(Exception exc){
+                    int y = 2;
                 }
-                Double importeOpsPrimerTrim = (Double) l.get(7);
-                Double importeOpsSegundoTrim = (Double) l.get(8);
-                Double importeOpsTercerTrim = (Double) l.get(9);
-                Double importeOpsCuartoTrim = (Double) l.get(10);
-
-                String nifOperadorComunitario = "";
-
-                txt += Registro347_TR2.escribeRegistro(
-                        ejercicio,
-                        nifDeclarante, nifDeclarado, nifRepresentanteLegal, nombreRazonSocialDeclarado, "D", codProvincia, codPais,
-                        "B", importeAnualOps, "",
-                        arrendamientoLocalNegocio, 0.0, importeAnualPercibidoSujetasIva,
-                        ejercicio, importeOpsPrimerTrim, importeOpsPrimerTrimSujetas, importeOpsSegundoTrim, importeOpsSegundoTrimSujetas,
-                        importeOpsTercerTrim, importeOpsTercerTrimSujetas, importeOpsCuartoTrim, importeOpsCuartoTrimSujetas,
-                        nifOperadorComunitario, "", "", "", 0.0);
-                System.out.println(i);
             }
             //locales: registros inmuebles
 //            for (int i = 0; i < negocios.size(); i++) {
@@ -288,48 +292,53 @@ public class Util {
 //            }
 
             for (int i = 0; i < negocios.size(); i++) {
-                Object get = negocios.get(i);
-                List l = Arrays.asList((Object[]) get);
-                String nifDeclarado = (String) l.get(0);
-                String nifRepresentanteLegal = "";
-                String nombreRazonSocialDeclarado = (String) l.get(1);
-                String codProvincia = "08";
-                String codPais = "";
-                String refCatastral = (String) l.get(4);
-                Double importeAnualOps = (Double) l.get(6);
-                String arrendamientoLocalNegocio = "";
-                Double importeAnualPercibidoSujetasIva = 0.0;
-                Double importeOpsPrimerTrimSujetas = 0.0;
-                Double importeOpsSegundoTrimSujetas = 0.0;
-                Double importeOpsTercerTrimSujetas = 0.0;
-                Double importeOpsCuartoTrimSujetas = 0.0;
-                if (((String)l.get(3)).compareTo("L")==0){
-                    arrendamientoLocalNegocio = "X";
-                    importeAnualPercibidoSujetasIva = (Double) l.get(6);
-                    importeOpsPrimerTrimSujetas = (Double) l.get(7);
-                    importeOpsSegundoTrimSujetas = (Double) l.get(8);
-                    importeOpsTercerTrimSujetas = (Double) l.get(9);
-                    importeOpsCuartoTrimSujetas = (Double) l.get(10);
+                try{
+                    Object get = negocios.get(i);
+                    List l = Arrays.asList((Object[]) get);
+                    String nifDeclarado = (String) l.get(0);
+                    String nifRepresentanteLegal = "";
+                    String nombreRazonSocialDeclarado = (String) l.get(1);
+                    String codProvincia = "08";
+                    String codPais = "";
+                    String refCatastral = (String) l.get(4);
+                    Double importeAnualOps = (Double) l.get(6);
+                    String arrendamientoLocalNegocio = "";
+                    Double importeAnualPercibidoSujetasIva = 0.0;
+                    Double importeOpsPrimerTrimSujetas = 0.0;
+                    Double importeOpsSegundoTrimSujetas = 0.0;
+                    Double importeOpsTercerTrimSujetas = 0.0;
+                    Double importeOpsCuartoTrimSujetas = 0.0;
+                    if (((String)l.get(3)).compareTo("L")==0){
+                        arrendamientoLocalNegocio = "X";
+                        importeAnualPercibidoSujetasIva = (Double) l.get(6);
+                        importeOpsPrimerTrimSujetas = (Double) l.get(7);
+                        importeOpsSegundoTrimSujetas = (Double) l.get(8);
+                        importeOpsTercerTrimSujetas = (Double) l.get(9);
+                        importeOpsCuartoTrimSujetas = (Double) l.get(10);
+                    }
+                    Double importeOpsPrimerTrim = (Double) l.get(7);
+                    Double importeOpsSegundoTrim = (Double) l.get(8);
+                    Double importeOpsTercerTrim = (Double) l.get(9);
+                    Double importeOpsCuartoTrim = (Double) l.get(10);
+
+                    String nifOperadorComunitario = "";
+
+                    Transaction t = AppBeans.get(Persistence.class).createTransaction();
+                    Departamento d = (Departamento) AppBeans.get(Persistence.class).getEntityManager().find(Departamento.class, StringUtils.toUUID((String)l.get(11)));
+                    d = AppBeans.get(DataManager.class).reload(d, "departamento-view");
+                    t.close();
+                    Direccion dir = d.getUbicacion().getDireccion();
+                    dir.setPiso(d.getPiso());
+                    dir.setPuerta((d.getPuerta()));
+                    String direccionCompleta = Registro347_TR2_RI.formateaDireccion(dir);
+
+                    txt += Registro347_TR2_RI.escribeRegistro(
+                            ejercicio, nifDeclarante, nifDeclarado, nifRepresentanteLegal, nombreRazonSocialDeclarado,
+                            "I",importeAnualOps,"1",refCatastral,direccionCompleta);
+
+                }catch(Exception exc){
+                    int y = 2;
                 }
-                Double importeOpsPrimerTrim = (Double) l.get(7);
-                Double importeOpsSegundoTrim = (Double) l.get(8);
-                Double importeOpsTercerTrim = (Double) l.get(9);
-                Double importeOpsCuartoTrim = (Double) l.get(10);
-
-                String nifOperadorComunitario = "";
-
-                Transaction t = AppBeans.get(Persistence.class).createTransaction();
-                Departamento d = (Departamento) AppBeans.get(Persistence.class).getEntityManager().find(Departamento.class, StringUtils.toUUID((String)l.get(11)));
-                d = AppBeans.get(DataManager.class).reload(d, "departamento-view");
-                t.close();
-                Direccion dir = d.getUbicacion().getDireccion();
-                dir.setPiso(d.getPiso());
-                dir.setPuerta((d.getPuerta()));
-                String direccionCompleta = Registro347_TR2_RI.formateaDireccion(dir);
-
-                txt += Registro347_TR2_RI.escribeRegistro(
-                        ejercicio, nifDeclarante, nifDeclarado, nifRepresentanteLegal, nombreRazonSocialDeclarado,
-                        "I",importeAnualOps,"1",refCatastral,direccionCompleta);
 
 
             }

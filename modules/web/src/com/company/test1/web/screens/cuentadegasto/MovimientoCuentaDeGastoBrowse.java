@@ -188,10 +188,18 @@ public class MovimientoCuentaDeGastoBrowse extends StandardLookup<MovimientoCuen
             Persona p = dataManager.load(Persona.class).query(hql).parameter("uid",currentUser.getId()).one();
             List<MovimientoCuentaDeGasto> mm_ = new ArrayList();
             for (int i = 0; i < mm.size(); i++) {
-                MovimientoCuentaDeGasto m = mm.get(i);
-                if (m.getCuentaDeGasto().getPersona().getId().compareTo(p.getId())==0){
-                    mm_.add(m);
+                try{
+                    MovimientoCuentaDeGasto m = mm.get(i);
+                    if (m.getCuentaDeGasto()==null){
+                        continue;
+                    }
+                    if (m.getCuentaDeGasto().getPersona().getId().compareTo(p.getId())==0){
+                        mm_.add(m);
+                    }
+                }catch(Exception exc){
+                    int y = 2;
                 }
+
             }
             return mm_;
         }

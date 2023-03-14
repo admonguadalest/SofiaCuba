@@ -18,19 +18,18 @@ import com.haulmont.cuba.core.global.Sort;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.UiComponents;
-import com.haulmont.cuba.gui.components.Button;
-import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.cuba.gui.components.HBoxLayout;
-import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
+import com.haulmont.cuba.gui.screen.LookupComponent;
 import org.apache.http.client.utils.DateUtils;
 
 
 import javax.inject.Inject;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -64,6 +63,8 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
     @Inject
     private ContabiService contabiService;
+    @Inject
+    private Label<String> lblTotales;
 
     public Component getOrdenPagoColumn(DocumentoProveedor dp){
         HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
@@ -170,11 +171,22 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
 
     @Install(to = "facturaProveedorDl", target = Target.DATA_LOADER)
     private List<FacturaProveedor> facturaProveedorDlLoadDelegate(LoadContext<FacturaProveedor> loadContext) {
+        List<FacturaProveedor> ffpp = null;
         if (loadContext.getQuery().getParameters().size()==0){
-            return dataManager.loadList(loadContext);
+            ffpp =  dataManager.loadList(loadContext);
         }else{
-            return dataManager.loadList(loadContext);
+            ffpp  = dataManager.loadList(loadContext);
         }
+        double total = 0.0;
+        for (int i = 0; i < ffpp.size(); i++) {
+            FacturaProveedor fp = ffpp.get(i);
+            if (fp.getImportePostCCAA()!=null) {
+                total += fp.getImportePostCCAA();
+            }
+        }
+        DecimalFormat df = new DecimalFormat();
+        lblTotales.setValue(df.format(total));
+        return ffpp;
     }
 
 
