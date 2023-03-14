@@ -5,6 +5,7 @@ import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name = "TEST1_MOVIMIENTO_CUENTA_DE_GASTO")
@@ -14,6 +15,7 @@ public class MovimientoCuentaDeGasto extends StandardEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUENTA_DE_GASTO_ID")
+    @NotNull(message = "Asignar cuenta de gasto")
     private CuentaDeGasto cuentaDeGasto;
 
     @Column(name = "ABONADO_A_DELEGADO")
