@@ -655,18 +655,45 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         try{
             this.rcd = new RossumCommonDialogs();
             rcd.getAuthToken(user, "","");
-            rcd.getQueues();
+            // INICIO AJUSTE QUEUES ESCISION
+            //desde la escision asigno a cada usuario la cola que le pertenece mediante HARDCODE
+            //rcd.getQueues();
 
-            ArrayList<Integer> queues =  new ArrayList(rcd.queues.keySet());
-            Integer queueId = queues.get(0);
-            Map confirmedAnnotations = rcd.getAnnotationsWithStatus(queueId, "confirmed");
-            ArrayList<Integer> annotationsIds = new ArrayList(confirmedAnnotations.keySet());
+            //ArrayList<Integer> queues =  new ArrayList(rcd.queues.keySet());
+            //Integer queueId = queues.get(0);
+            //Map confirmedAnnotations = rcd.getAnnotationsWithStatus(queueId, "confirmed");
+            //ArrayList<Integer> annotationsIds = new ArrayList(confirmedAnnotations.keySet());
 
-            for (int i = 0; i < annotationsIds.size(); i++) {
-                Integer annotationId = annotationsIds.get(i);
-                Map annotationExportedData = rcd.getAnnotationExportedDataAndOriginalUrl(queueId, annotationId);
-                RossumAnnotation rbi = rcd.getInvoiceStructFromMap(queueId, annotationId,annotationExportedData);
-                invoices.add(rbi);
+            String userLogin = user.getLogin();
+            Map<Integer, Integer[]> queueAnnotationsIds = new HashMap<>();
+            Integer[] queueIds = null;
+            //los siguientes valores se extraen de rossum! -> seleccionar cola -> ajustes y scroll down
+            if ((userLogin.compareTo("bellamateos")==0)||(userLogin.compareTo("pilarconti")==0)){
+                queueIds = new Integer[]{291745};
+            }
+            if (userLogin.compareTo("carlosconti")==0){
+                queueIds = new Integer[]{2573590,2573591};
+            }
+            for (int i = 0; i < queueIds.length; i++) {
+                Integer queueId = queueIds[i];
+                Map confirmedAnnotations = rcd.getAnnotationsWithStatus(queueId, "confirmed");
+                ArrayList<Integer> queueAnnotations = new ArrayList(confirmedAnnotations.keySet());
+                queueAnnotationsIds.put(queueId, queueAnnotations.toArray(new Integer[0]));
+            }
+
+            // FIN AJUSTE QUEUES
+
+
+            for (int i = 0; i < queueIds.length; i++) {
+                Integer queueId = queueIds[i];
+                Integer[] annotationIds = queueAnnotationsIds.get(queueId);
+                for (int j = 0; j < annotationIds.length; j++) {
+                    Integer annotationId = annotationIds[j];
+                    Map annotationExportedData = rcd.getAnnotationExportedDataAndOriginalUrl(queueId, annotationId);
+                    RossumAnnotation rbi = rcd.getInvoiceStructFromMap(queueId, annotationId,annotationExportedData);
+                    invoices.add(rbi);
+                }
+
             }
         }catch(Exception exc){
             notifications.create(Notifications.NotificationType.ERROR)

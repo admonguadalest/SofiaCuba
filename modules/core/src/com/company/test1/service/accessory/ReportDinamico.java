@@ -71,7 +71,13 @@ public class ReportDinamico {
         jrdLogo.setValueClassName(net.sf.jasperreports.engine.JRRenderable.class.getName());
         jasperReportDesign.addParameter(jrdLogo);
 
-        JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+        JRRenderable jrr = null;
+        try{
+            jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+        }catch(Exception exc){
+
+        }
+
 
         double altoImagen = 30.0;
         double anchoImagen = jrr.getDimension().getWidth() * (30.0 / jrr.getDimension().getHeight());
@@ -89,7 +95,10 @@ public class ReportDinamico {
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportDesign);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("P_LOGO", jrr);
+        if (jrr !=null){
+            params.put("P_LOGO", jrr);
+        }
+
 
         DynamicColumnDataSource pdfDataSource = new DynamicColumnDataSource(columnHeaders, rows);
 
