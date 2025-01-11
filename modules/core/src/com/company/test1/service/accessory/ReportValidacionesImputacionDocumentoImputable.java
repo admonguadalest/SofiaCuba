@@ -3,10 +3,7 @@ package com.company.test1.service.accessory;
 import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 import com.company.test1.entity.enums.DocumentoImputableTipoEnum;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
@@ -60,6 +57,22 @@ public class ReportValidacionesImputacionDocumentoImputable {
                 datasources.add(hlpVIDI);
 
             }
+
+            Collections.sort(datasources, new Comparator<HelperReportValidacionesImputacionDocumentoImputable>() {
+
+
+                @Override
+                public int compare(HelperReportValidacionesImputacionDocumentoImputable h1, HelperReportValidacionesImputacionDocumentoImputable h2) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Date d1 = sdf.parse(h1.getFechaEmision());
+                        Date d2 = sdf.parse(h2.getFechaEmision());
+                        return d1.compareTo(d2);
+                    }catch(Exception exc){
+                        return 0;
+                    }
+                }
+            });
 
             Hashtable pams = new Hashtable();
             SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yyyy");

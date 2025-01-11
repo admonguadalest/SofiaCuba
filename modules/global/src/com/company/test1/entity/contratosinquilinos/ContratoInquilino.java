@@ -79,6 +79,8 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     @Column(name = "LUGAR_REALIZACION")
     protected String lugarRealizacion;
 
+
+
     @NotNull(message = "Indicar mes/anno de referencia de aplicacion de IPC")
     @Column(name = "MES_ANYO_APLICACION_IPC", length = 50)
     protected String mesAnyoAplicacionIPC;
@@ -278,6 +280,17 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     @OnDelete(DeletePolicy.CASCADE)
     @OneToMany(mappedBy = "contratoInquilino")
     protected List<OrdenPagoContratoInquilino> ordenesPagoContratoInquilino;
+
+    @Column(name = "NOMBRES_ADICIONALES")
+    protected String nombresAdicionales;
+
+    public String getNombresAdicionales() {
+        return nombresAdicionales;
+    }
+
+    public void setNombresAdicionales(String nombresAdicionales) {
+        this.nombresAdicionales = nombresAdicionales;
+    }
 
     public List<OrdenPagoContratoInquilino> getOrdenesPagoContratoInquilino() {
         return ordenesPagoContratoInquilino;

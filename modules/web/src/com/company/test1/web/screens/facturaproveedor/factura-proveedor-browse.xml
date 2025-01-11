@@ -38,6 +38,7 @@
                 <column id="numDocumento"/>
                 <column id="fechaEmision"/>
                 <column id="importePostCCAA"/>
+                <column id="createTs"/>
 
             </columns>
             <rowsCount/>

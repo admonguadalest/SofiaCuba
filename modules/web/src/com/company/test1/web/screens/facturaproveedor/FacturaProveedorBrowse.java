@@ -2,6 +2,8 @@ package com.company.test1.web.screens.facturaproveedor;
 
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.service.ContabiService;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.Filter;
@@ -9,6 +11,8 @@ import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -30,11 +34,25 @@ public class FacturaProveedorBrowse extends StandardLookup<FacturaProveedor> {
     private Notifications notifications;
     @Inject
     private Filter filter;
+    @Inject
+    private DataManager dataManager;
+    @Inject
+    private UserSession userSession;
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
         filter.setCollapsable(false);
     }
+
+    @Install(to = "facturaProveedorsDl", target = Target.DATA_LOADER)
+    private List<FacturaProveedor> facturaProveedorsDlLoadDelegate(LoadContext<FacturaProveedor> loadContext) {
+        if (loadContext.getQuery().getParameters().isEmpty()){
+            return new ArrayList();
+        }
+        return dataManager.loadList(loadContext);
+    }
+
+
 
 
 
@@ -65,13 +83,14 @@ public class FacturaProveedorBrowse extends StandardLookup<FacturaProveedor> {
     @Subscribe("btnPublicarContabilidad")
     public void onBtnPublicarContabilidadClick(Button.ClickEvent event) {
         DocumentoImputable fprov = facturaProveedorsTable.getSingleSelected();
+        User user = userSession.getUser();
         if (fprov==null){
             notifications.create().withCaption("Seleccionar un registro").show();
             return;
         }
         if (fprov instanceof FacturaProveedor){
             try {
-                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                boolean res = contabiService.publicaContabilizacionFacturaProveedor(user, (FacturaProveedor) fprov);
                 if (res){
                     notifications.create().withCaption("Factura publicada corréctamente").show();
                 }

@@ -92,6 +92,7 @@
                     <vbox id="vbrossum" width="100%" height="100%" expand="dataGridRossumAnnotations" spacing="true">
                         <buttonsPanel>
                             <button caption="Purgar Anotación Seleccionada" invoke="purgarAnnotationSeleccionada"/>
+                            <button caption="Refrescar (Rossum)" invoke="refrescar" id="refreshRossum"/>
                         </buttonsPanel>
                         <dataGrid dataContainer="rossumAnnotationsDc" id="dataGridRossumAnnotations" width="100%">
                             <columns>

@@ -236,7 +236,8 @@ public class OrdenPagoBrowse extends StandardLookup<OrdenPago> {
                             new DialogAction(DialogAction.Type.NO, Action.Status.PRIMARY).withHandler(e->{
 
                             })
-                    );
+                    ).show();
+            ordenesParaCreacionRealizacionPago.clear();
         } catch (Exception e) {
             e.printStackTrace();
             notifications.create().withCaption("Error").withDescription(e.getMessage()).show();

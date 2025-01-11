@@ -12,11 +12,11 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="editActions" spacing="true">
+    <layout expand="form" spacing="true" >
         <form id="form" dataContainer="registroContrasenaDc" width="100%">
             <column width="100%">
                 <textField id="tituloField" property="titulo"/>
-                <richTextArea id="contenidoField" property="contenido" width="100%"/>
+                <richTextArea id="contenidoField" property="contenido" width="75%" height="500px"/>
                 <checkBox id="privadoPublicoField" property="privadoPublico"/>
                 <pickerField id="usuarioField" property="usuario">
                     <actions>

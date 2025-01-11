@@ -18,10 +18,8 @@ import com.haulmont.cuba.core.global.DataManager;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service(ValidacionesService.NAME)
 public class ValidacionesServiceBean implements ValidacionesService {
@@ -168,6 +166,30 @@ public class ValidacionesServiceBean implements ValidacionesService {
         }
 
 
+    }
+
+    public List<Proveedor> devuelveIdsProveedoresConValidacionesPagoPendientes(java.util.Date fechaDesde) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String strFecha = sdf.format(fechaDesde);
+        String nsql = "SELECT distinct p.id FROM validacion v \n" +
+                "\tinner join imputacion_documento_imputable idi on v.id = idi.validacion_imputacion_id\n" +
+                "    inner join documento_imputable di on idi.DOCUMENTO_IMPUTABLE_ID = di.id\n" +
+                "    inner join proveedor p on di.proveedor_id = p.id\n" +
+                "    inner join persona ps on p.persona_id = ps.id\n" +
+                "where v.DTYPE = 'VIDI' and di.DTYPE = 'FP' and di.FECHA_EMISION >= '" + strFecha + "' and v.ESTADO_VALIDACION = 1\n" +
+                "and p.MODO_DE_PAGO_TELEMATICO = 1\n" +
+                "order by ps.nombre_completo";
+        Transaction t = persistence.createTransaction();
+        List<String> vals = persistence.getEntityManager().createNativeQuery(nsql).getResultList();
+        t.close();
+        ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
+        for (int i = 0; i < vals.size(); i++) {
+            String uid = vals.get(i);
+            uid = uid.substring(0,8)+"-"+uid.substring(8,12)+"-"+uid.substring(12,16)+"-"+uid.substring(16,20)+"-"+uid.substring(20);
+            Proveedor prov = (Proveedor) dataManager.load(Proveedor.class).id(UUID.fromString(uid)).one();
+            proveedores.add(prov);
+        }
+        return proveedores;
     }
 
 

@@ -20,9 +20,10 @@
             spacing="true">
         <filter id="filter"
                 applyTo="reciboesTable"
-                dataLoader="reciboesDl">
+                dataLoader="reciboesDl" collapsed="false" collapsable="true">
             <property caption="Fecha Emision" name="fechaEmision"/>
             <property caption="Nombre Inquilino" name="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
+            <property caption="Nombres Adicionales" name="utilitarioContratoInquilino.nombresAdicionales"/>
             <property caption="Ubicacion" name="utilitarioContratoInquilino.departamento.ubicacion.nombre"/>
             <property caption="Piso" name="utilitarioContratoInquilino.departamento.piso"/>
             <property caption="Puerta" name="utilitarioContratoInquilino.departamento.puerta"/>
@@ -30,7 +31,7 @@
         </filter>
         <table id="reciboesTable"
                width="100%"
-               dataContainer="reciboesDc">
+               dataContainer="reciboesDc" multiselect="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -38,12 +39,14 @@
             </actions>
             <columns>
                 <column id="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
+                <column id="utilitarioContratoInquilino.nombresAdicionales"/>
                 <column id="utilitarioContratoInquilino.departamento.nombreDescriptivoCompleto"/>
                 <column id="infoRemesa"/>
                 <column id="totalReciboPostCCAA"/>
                 <column id="totalCobrado"/>
                 <column id="numRecibo"/>
                 <column id="fechaEmision"/>
+                <column id="ampliacion"/>
 
             </columns>
             <rowsCount/>
@@ -52,6 +55,7 @@
                 <button id="editBtn" action="reciboesTable.edit"/>
                 <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
                 <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
+                <button id="btnEmail" caption="Enviar por Email" invoke="onBtnEmail"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

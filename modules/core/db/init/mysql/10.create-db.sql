@@ -757,6 +757,7 @@ create table CONTRATO_INQUILINO (
     FECHA_COMUNICACION date,
     CARPETA_DOCUMENTO_FOTOGRAFICO_FIRMA_ID varchar(32),
     RM2ID integer,
+    NOMBRES_ADICIONALES varchar(255),
     --
     primary key (ID)
 )^
@@ -1311,6 +1312,7 @@ create table UBICACION (
     FOTO_FACHADA_ID varchar(32),
     NOMBRE_DISTRITO varchar(255),
     RM2ID integer,
+    AMPLIACION longtext,
     --
     primary key (ID)
 )^
@@ -1671,6 +1673,7 @@ create table REALIZACION_PAGO (
     IDENTIFICADOR varchar(255),
     IMPORTE_TOTAL double precision,
     RM2ID integer,
+    ES_COMPENSACION boolean,
     --
     primary key (ID)
 )^

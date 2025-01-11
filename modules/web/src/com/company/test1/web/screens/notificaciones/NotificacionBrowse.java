@@ -4,6 +4,7 @@ import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.DatoDeContacto;
 import com.company.test1.entity.Persona;
 import com.company.test1.entity.PersonaFisica;
+import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.enums.TipoDeDatoDeContactoEnum;
 import com.company.test1.entity.notificaciones.NotificacionContratoInquilino;
 import com.company.test1.service.NotificacionService;
@@ -25,6 +26,7 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.notificaciones.Notificacion;
 
 import javax.inject.Inject;
+import javax.mail.internet.InternetAddress;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -64,61 +66,93 @@ public class NotificacionBrowse extends StandardLookup<Notificacion> {
                 .withMessage("¿Está seguro que desea enviar esta notificación a su destinatario?")
                 .withActions(
                         new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e -> {
-                            doSendNotification();
+                            try{
+                                doSendNotification();
+                            }catch(Exception exc){
+                                notifications.create().withCaption(exc.getMessage()).show();
+                            }
+
                         }),
                         new DialogAction(DialogAction.Type.NO)
                 )
                 .show();
     }
 
-    private void doSendNotification(){
-        Notificacion n = notificacionsTable.getSingleSelected();
-        if (n==null){
-            notifications.create().withCaption("Seleccionar una notificación a enviar.").show();
-            return;
-        }
-        String emails = null;
-        if (n instanceof NotificacionContratoInquilino){
-            NotificacionContratoInquilino nci = (NotificacionContratoInquilino)n;
-            Persona inquilino = nci.getContratoInquilino().getInquilino();
-            if (inquilino instanceof PersonaFisica){
-                inquilino = dataManager.reload(inquilino, "personaFisica-view");
-            }else{
-                inquilino = dataManager.reload(inquilino, "personaJuridica-view");
+    private void doSendNotification() throws Exception{
+        List<Notificacion> nn = new ArrayList(notificacionsTable.getSelected());
+        for (int j = 0; j < nn.size(); j++) {
+            Notificacion n = nn.get(j);
+            if (n==null){
+                notifications.create().withCaption("Seleccionar una notificación a enviar.").show();
+                return;
             }
+            String emails = null;
+            String ampliacionVivienda = "";
+            if (n instanceof NotificacionContratoInquilino){
+                NotificacionContratoInquilino nci = (NotificacionContratoInquilino)n;
+                ampliacionVivienda = nci.getContratoInquilino().getDepartamento().getNombreDescriptivoCompleto();
+                Departamento dTO = nci.getContratoInquilino().getDepartamento();
+                if (dTO.getViviendaLocal()){
+                    ampliacionVivienda = " VIVIENDA " + ampliacionVivienda;
+                }else{
+                    ampliacionVivienda = " ALQUILER " + ampliacionVivienda;
+                }
+                Persona inquilino = nci.getContratoInquilino().getInquilino();
+                if (inquilino instanceof PersonaFisica){
+                    inquilino = dataManager.reload(inquilino, "personaFisica-view");
+                }else{
+                    inquilino = dataManager.reload(inquilino, "personaJuridica-view");
+                }
 
-            List<DatoDeContacto> ddc = inquilino.getDatosDeContacto();
-            for (int i = 0; i < ddc.size(); i++) {
-                DatoDeContacto d = ddc.get(i);
-                if (d.getTipoDeDato()== TipoDeDatoDeContactoEnum.CORREO_ELECTRONICO){
-                    if (emails == null){
-                        emails = d.getDato().replace(";","").toLowerCase().trim();
-                    }else{
-                        emails += "," + d.getDato().replace(";","").toLowerCase().trim();
+                List<DatoDeContacto> ddc = inquilino.getDatosDeContacto();
+
+                for (int i = 0; i < ddc.size(); i++) {
+                    DatoDeContacto d = ddc.get(i);
+                    if (d.getTipoDeDato()== TipoDeDatoDeContactoEnum.CORREO_ELECTRONICO){
+
+                        if (emails == null){
+                            emails = d.getDato().replace(";","").toLowerCase().trim();
+                        }else{
+                            emails += "," + d.getDato().replace(";","").toLowerCase().trim();
+                        }
                     }
                 }
             }
-        }
-        EmailInfo emailInfo = new EmailInfo("","","");
-        emailInfo.setAddresses(emails);
-        emailInfo.setCaption("NOTIFICACION IMPORTATE SOBRE SU VIVIENDA ARRENDADA");
-        emailInfo.setBody("Ponemos a su disposición la notificación adjunta.\nAténtamente,\nLa Administración.");
-        emailInfo.setBodyContentType(EmailInfo.HTML_CONTENT_TYPE);
-        emailInfo.setFrom("noreply@cgc-guadalest.com");
+            EmailInfo emailInfo = new EmailInfo("","","");
+            emails += "," + "notificacioneslegales@domusvcs.com";
+            emailInfo.setAddresses(emails);
+            emailInfo.setBcc("notificacioneslegales@domusvcs.com");
+            emailInfo.setCaption("NOTIFICACION IMPORTANTE SOBRE SU " + ampliacionVivienda);
+            emailInfo.setBody("Ponemos a su disposición la notificación adjunta.\nAténtamente,\nLa Administración.");
+            emailInfo.setBodyContentType(EmailInfo.HTML_CONTENT_TYPE);
+            emailInfo.setFrom("NoReply Grupo Domus <noreply@domusvcs.com>");
 
-        //email attachments
-        List<EmailAttachment> attachments = new ArrayList<EmailAttachment>();
-        List<ArchivoAdjunto> aas = null;
-        EmailAttachment ea = new EmailAttachment(n.getVersionPdf(), "NOTIFICACION.pdf");
 
-        emailInfo.setAttachments(new EmailAttachment[]{ea});
-        try {
-            emailService.sendEmail(emailInfo);
-        } catch (EmailException e) {
-            e.printStackTrace();
+
+
+            //email attachments
+            List<EmailAttachment> attachments = new ArrayList<EmailAttachment>();
+            List<ArchivoAdjunto> aas = null;
+            EmailAttachment ea = new EmailAttachment(n.getVersionPdf(), "NOTIFICACION.pdf");
+
+            emailInfo.setAttachments(new EmailAttachment[]{ea});
+            try {
+
+                emailService.sendEmail(emailInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                String ampliacion = emails;
+
+                notifications.create().withCaption(e.getMessage())
+                        .withDescription("La notificacion dirigida a '" + emails + "' falló. Las anteriores han sido exitosas y las posteriores no.").show();
+            }
         }
 
         notifications.create().withCaption("Mailing programado exitósamente").show();
+
+
+
 
     }
 

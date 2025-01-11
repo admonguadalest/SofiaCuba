@@ -42,7 +42,7 @@
         <item screen="test1_AccionMailing"/>
 
         <item screen="test1_PuntoEntradaDocumentos.browse"/>
-
+        <item screen="test1_ListaProveedoresValidacionesPagoTelematico"/>
 
 
     </menu>
@@ -154,6 +154,7 @@
         <menu id="cobros">
             <item screen="test1_Recibo.browse" id="gestion-cobros"/>
             <item screen="test1_HistoricoCobrosInquilino"/>
+            <item screen="test1_EnvioRecibosMail"/>
         </menu>
         <menu id="notificaciones">
             <item screen="test1_Notificacion.browse" id="notificaciones-browse" openType="NEW_TAB"/>
@@ -198,6 +199,7 @@
         </menu>
         <menu id="validaciones">
             <item screen="test1_GestionarValidaciones" id="gestionarValidaciones"/>
+            <item screen="test1_ListaProveedoresValidacionesPagoTelematico" id="proveedoresValidacionesPendientes"/>
         </menu>
         <menu id="pagos">
             <item screen="test1_OrdenPago.browse" id="filtradoPagos"/>

@@ -21,11 +21,7 @@
         <filter id="filter"
                 applyTo="documentoProveedorsTable"
                 dataLoader="facturaProveedorDl">
-            <property name="proveedor.persona.nombreCompleto"/>
-            <property name="fechaEmision"/>
-            <property name="numDocumento"/>
-            <property name="importeTotalBase"/>
-            <property name="titular.nombreCompleto" caption="Titular"/>
+            <properties include=".*"/>
         </filter>
         <buttonsPanel caption="Contabilidad">
             <button id="btnComprobarPublicacion" caption="Comprobar Publicacion"/>
@@ -49,6 +45,9 @@
                 <column id="ordenPago" caption="Pago" generator="getOrdenPagoColumn"/>
                 <column id="importePostCCAA"/>
                 <column id="textoImputaciones"/>
+                <column id="consideracionesDocumentoImputable"/>
+                <column id="createTs"/>
+                <column id="createdBy"/>
                 <column id="id"/>
 
             </columns>

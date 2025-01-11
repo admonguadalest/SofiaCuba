@@ -40,12 +40,12 @@
         <label dataContainer="contratoInquilinoDc" property="id"/>
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="contratoInquilinoDc" width="100%">
-                <column width="50%">
+                <column width="100%">
                     <pickerField id="inquilinoField" dataContainer="contratoInquilinoDc" property="inquilino"
                                  captionProperty="nombreCompleto"/>
 
                 </column>
-                <column width="50%">
+                <column width="100%">
                     <pickerField id="departamentoField" dataContainer="contratoInquilinoDc" property="departamento"
                                  captionProperty="nombreDescriptivoCompleto"/>
                 </column>
@@ -78,6 +78,7 @@
                     </buttonsPanel>
                 </table>
             </groupBox>
+            <textArea caption="Nombres Adicionales" dataContainer="contratoInquilinoDc" property="nombresAdicionales" width="100%"/>
             <vbox spacing="true">
                 <hbox spacing="true">
                     <lookupField caption="Estado Contrato" id="estadoContratoField" property="estadoContrato"

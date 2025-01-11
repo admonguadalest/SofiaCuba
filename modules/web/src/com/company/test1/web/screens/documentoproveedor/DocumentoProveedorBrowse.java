@@ -1,5 +1,6 @@
 package com.company.test1.web.screens.documentoproveedor;
 
+import com.company.test1.StringUtils;
 import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.ArchivoAdjuntoExt;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
@@ -25,6 +26,8 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.haulmont.cuba.gui.screen.LookupComponent;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 import org.apache.http.client.utils.DateUtils;
 
 
@@ -65,6 +68,8 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private ContabiService contabiService;
     @Inject
     private Label<String> lblTotales;
+    @Inject
+    private UserSession userSession;
 
     public Component getOrdenPagoColumn(DocumentoProveedor dp){
         HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
@@ -96,6 +101,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     public void onBtnVerEscaneosClick() {
         List<DocumentoProveedor> ffpp = new ArrayList(documentoProveedorsTable.getSelected());
         List<byte[]> documentos = new ArrayList<byte[]>();
+        String nombreDescargable = "Escaneos Documento Proveedor.pdf";
         for (int i = 0; i < ffpp.size(); i++) {
             DocumentoProveedor dp = ffpp.get(i);
             if (dp instanceof FacturaProveedor){
@@ -115,8 +121,14 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
 
             }
         }
+        if (ffpp.size()==1){
+            DocumentoProveedor dp = ffpp.get(0);
+            nombreDescargable = dp.getProveedor().getPersona().getNombreCompleto() + " " + dp.getNumDocumento();
+            nombreDescargable = StringUtils.obtenerStringSinCaracteresIncorrectos(nombreDescargable);
+            nombreDescargable = nombreDescargable + ".pdf";
+        }
         byte[] bb = pdfService.concatPdfs(documentos, false);
-        exportDisplay.show(new ByteArrayDataProvider(bb), "Escaneos Documentos Proveedor.pdf");
+        exportDisplay.show(new ByteArrayDataProvider(bb), nombreDescargable);
     }
 
     @Inject
@@ -124,6 +136,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
 
     @Subscribe("btnPublicarContabilidad")
     public void onBtnPublicarContabilidadClick(Button.ClickEvent event) {
+        User user = userSession.getUser();
         DocumentoImputable fprov = documentoProveedorsTable.getSingleSelected();
         if (fprov==null){
             notifications.create().withCaption("Seleccionar un registro").show();
@@ -135,7 +148,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
         }
         if (fprov instanceof FacturaProveedor){
             try {
-                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                boolean res = contabiService.publicaContabilizacionFacturaProveedor(user, (FacturaProveedor) fprov);
                 if (res){
                     notifications.create().withCaption("Factura publicada corréctamente").show();
                 }
@@ -153,12 +166,13 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     @Subscribe("btnComprobarPublicacion")
     public void onBtnComprobarPublicacionClick(Button.ClickEvent event) {
         DocumentoImputable fprov = documentoProveedorsTable.getSingleSelected();
+        User user = userSession.getUser();
         if (fprov==null){
             notifications.create().withCaption("Seleccionar un registro").show();
             return;
         }
         try {
-            String auth_token = contabiService.getAuthToken("admin", "r21613a");
+            String auth_token = contabiService.getAuthToken(user, "admin", "r21613a");
             if (contabiService.comprobarPublicacionFacturaProveedor((FacturaProveedor) fprov, auth_token)) {
                 notifications.create().withCaption("Factura ya publicada en Contabilidad").show();
             } else {
@@ -173,7 +187,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private List<FacturaProveedor> facturaProveedorDlLoadDelegate(LoadContext<FacturaProveedor> loadContext) {
         List<FacturaProveedor> ffpp = null;
         if (loadContext.getQuery().getParameters().size()==0){
-            ffpp =  dataManager.loadList(loadContext);
+            ffpp =  new ArrayList();
         }else{
             ffpp  = dataManager.loadList(loadContext);
         }

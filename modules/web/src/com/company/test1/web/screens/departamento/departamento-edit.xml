@@ -42,6 +42,7 @@
                 <checkBox id="conSalidaDeHumosField" property="conSalidaDeHumos"/>
                 <textField id="numBanosField" property="numBanos"/>
                 <checkBox id="esEstudioField" property="esEstudio"/>
+                <textField id="rm2Id" property="rm2id" editable="false"/>
             </column>
             <column>
                 <pickerField id="propietarioField" dataContainer="departamentoDc" property="propietario"

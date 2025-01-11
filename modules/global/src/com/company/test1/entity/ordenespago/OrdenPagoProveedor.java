@@ -6,6 +6,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

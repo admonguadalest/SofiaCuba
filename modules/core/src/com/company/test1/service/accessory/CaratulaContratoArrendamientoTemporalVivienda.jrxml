@@ -199,7 +199,7 @@
             <textField isStretchWithOverflow="true">
                 <reportElement x="175" y="461" width="380" height="153"/>
                 <textElement textAlignment="Justified" lineSpacing="1_1_2" markup="html"/>
-                <textFieldExpression class="java.lang.String"><![CDATA["<b><i>" + $P{nombres_y_dnis_todos_arrendataria} + "</i></b>  con domicilio en " + $P{domicilio_arrendataria} + " como arrendataria hemos concertado el arrendamiento de la vivienda indicada en el encabezamiento de este contrato, por el tiempo de <b><i>" + $P{plazo_anyos} + " MES(-ES) </b>, y precio de <b><i>" + $P{precio_arrendamiento} + "</i></b> pagaderos por MESES ANTICIPADOS con las demás condiciones anexas que se unen al presente contratoInquilino."]]></textFieldExpression>
+                <textFieldExpression class="java.lang.String"><![CDATA["<b><i>" + $P{nombres_y_dnis_todos_arrendataria} + "</i></b>  con domicilio en " + $P{domicilio_arrendataria} + " como arrendataria hemos concertado el arrendamiento de la vivienda indicada en el encabezamiento de este contrato, por el tiempo de <b><i>" + $P{plazo_anyos} + " MES(-ES) </b>, y precio de <b><i>" + $P{precio_arrendamiento} + "</i></b> pagaderos por MESES ANTICIPADOS con las demás condiciones anexas que se unen al presente contrato."]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">
                 <reportElement x="166" y="206" width="389" height="25"/>

@@ -47,6 +47,7 @@
                 <textField id="longitudField" property="longitud"/>
             </column>
         </form>
+        <textArea caption="Ampliación" width="100%" property="ampliacion" id="ampliacionField"/>
         <groupBox orientation="horizontal" spacing="true" width="100%" caption="Direccion">
             <fragment screen="test1_DireccionFragment"/>
         </groupBox>

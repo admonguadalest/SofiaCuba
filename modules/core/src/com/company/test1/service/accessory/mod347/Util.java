@@ -33,6 +33,7 @@ public class Util {
     public static String escribeCampo(int posHasta, int posDesde, Object valor, TipoValor tipo ) throws Exception{
         DecimalFormat df = new DecimalFormat("#,##0.00");
         if (tipo == TipoValor.NUMERICO_SIGNED){
+            if (valor==null) valor = 0;
             String s = devuelveNumeroFormateado((Number) valor, 2);
             int relleno = posHasta - posDesde - s.length();
             relleno-=1;
@@ -49,6 +50,7 @@ public class Util {
             return s;
         }
         if (tipo == TipoValor.NUMERICO_UNSIGNED){
+            if (valor == null) valor = 0;
             String s = devuelveNumeroFormateado((Number) valor, 0);
             int relleno = posHasta - posDesde - s.length();
 
@@ -61,6 +63,7 @@ public class Util {
             return s;
         }
         if (tipo == TipoValor.ALFANUMERICO_TEXTO){
+            if (valor == null) valor = "";
             String s = (String) valor;
             s = traduceACadenaTextoValida(s);
             int relleno = posHasta - posDesde - s.length();
@@ -73,6 +76,7 @@ public class Util {
 
         }
         if (tipo == TipoValor.ALFANUMERICO_IMPORTE){
+            if (valor == null) valor = 0;
             Object valorSinSigno = new Double(Math.abs(((Number)valor).doubleValue()));
             String s = devuelveNumeroFormateado((Number) valorSinSigno, 2);
             String parteEntera = s.substring(0, s.length()-2);
@@ -190,11 +194,17 @@ public class Util {
             Integer noSustitutivoDeclAnterior = 0;
 
             List all = devuelveTodosRegistrosParaPresentacion(p,fechaDesde, fechaHasta);
+
+            List allSuppliers = devuelveRegistrosProveedoresParaPresentacion(p, fechaDesde, fechaHasta) ;
+
             List negocios = devuelveRegistrosNegociosParaPresentacion(p,fechaDesde, fechaHasta);
 
-            Integer noPersonasYEntidades = cuentaDistintos(all, 0); /* pendiente */
+            List allWithSuppliers = new ArrayList(all);
+            allWithSuppliers.addAll(allSuppliers);
 
-            Double importeAnualOperaciones = sumaCampo(all, 6); /*pendiente sql */
+            Integer noPersonasYEntidades = cuentaDistintos(allWithSuppliers, 0); /* pendiente */
+
+            Double importeAnualOperaciones = sumaCampo(allWithSuppliers, 6); /*pendiente sql */
 
             Integer noTotalInmuebles = all.size(); /* pendiente */
 
@@ -205,9 +215,9 @@ public class Util {
                     nombreCompletoRepresentante, 347, " ", " ", noSustitutivoDeclAnterior, noPersonasYEntidades,
                     importeAnualOperaciones, noTotalInmuebles, importeTotalOpsArrendamientoNegocio, "", "");
 
-            for (int i = 0; i < all.size(); i++) {
+            for (int i = 0; i < allWithSuppliers.size(); i++) {
                 try{
-                    Object get = all.get(i);
+                    Object get = allWithSuppliers.get(i);
                     List l = Arrays.asList((Object[]) get);
                     String nifDeclarado = (String) l.get(0);
                     String nifRepresentanteLegal = "";
@@ -522,4 +532,165 @@ public class Util {
         t.close();
         return l;
     }
+
+    private static List devuelveRegistrosProveedoresParaPresentacion(Propietario p, Date fechaDesde, Date fechaHasta) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String propietarioPersonaId = p.getPersona().getId().toString().replace("-","");
+        String sql = "SELECT * FROM \n" +
+                "(\n" +
+                "select nombre_completo, nif_dni, (q1+q2+q3+q4) as anual, q1,q2,q3,q4\n" +
+                "from\n" +
+                "(\n" +
+                "select nombre_completo, nif_dni, sum(q1) as q1, sum(q2) as q2, sum(q3) as q3, sum(q4) as q4\n" +
+                "from\n" +
+                "(\n" +
+                "select nombre_completo, nif_dni,\n" +
+                "if (Q=1,total,0) as q1,\n" +
+                "if (Q=2,total,0) as q2,\n" +
+                "if (Q=3,total,0) as q3,\n" +
+                "if (Q=4,total,0) as q4\n" +
+                "from\n" +
+                "(\n" +
+                "select p2.nombre_completo as titular, p.nombre_completo, p.nif_dni, di.fecha_emision, QUARTER(di.fecha_emision) as Q, di.num_documento, di.importe_post_ccaa as total \n" +
+                "from documento_imputable di inner join proveedor prov on di.proveedor_id = prov.id\n" +
+                "inner join persona p on prov.persona_id = p.id \n" +
+                "inner join persona p2 on di.titular_persona_id = p2.id\n" +
+                "where di.fecha_emision >= '" + sdf.format(fechaDesde) + "' and di.fecha_emision <= '" + sdf.format(fechaHasta) + "' \n" +
+                "AND di.dtype = 'FP'\n" +
+                "and p2.id like '" + propietarioPersonaId + "'\n" +
+                "order by p.nombre_completo asc, di.fecha_emision asc\n" +
+                ")\n" +
+                "as st1\n" +
+                ") as st2\n" +
+                "\n" +
+                "group by nombre_completo, nif_dni\n" +
+                "order by nombre_completo\n" +
+                ") as st3\n" +
+                ") AS ST4 where anual > 3005";
+        Transaction t = AppBeans.get(Persistence.class).createTransaction();
+        List lProv = AppBeans.get(Persistence.class).getEntityManager().createNativeQuery(sql).getResultList();
+        t.close();
+        //obteniendo las direcciones
+
+        String nifs = "";
+        for (int i = 0; i < lProv.size(); i++) {
+            Object[] r = (Object[])lProv.get(i);
+            String nif = (String) r[1];
+            if (i==0) {
+                nifs += "'" + nif + "'";
+            }else{
+                nifs += ", '" + nif + "'";
+            }
+
+        }
+        String sqldirs = "SELECT p.nif_dni, min(d.nombre_via) as nombre_via, min(d.numero_via) as numero_via, " +
+                " min(d.piso) as piso, min(d.puerta) as puerta, min(d.codigo_postal) as codigo_postal FROM direccion d " +
+                " inner join persona p on d.persona_id = p.id where p.nif_dni in ([nifs]) group by p.nif_dni;";
+        sqldirs = sqldirs.replace("[nifs]", nifs);
+        t = AppBeans.get(Persistence.class).createTransaction();
+        List lDirs = AppBeans.get(Persistence.class).getEntityManager().createNativeQuery(sqldirs).getResultList();
+        t.close();
+        //fin obtencion de direcciones
+
+        //construyendo la lista resultado
+        List l = new ArrayList();
+        for (int i = 0; i < lProv.size(); i++) {
+            Object[] rprov = (Object[]) lProv.get(i);
+            Object[] rdir = devuelveRegistroDireccionParaNif((String) rprov[1], lDirs);
+            ArrayList record = new ArrayList();
+            record.add(rprov[1]);
+            record.add(rprov[0]);
+            if (rdir[5]!=null){
+                String s = (String)rdir[5];
+                if (s.length()>2){
+                    s = s.substring(0,2);
+                    record.add(((String)rdir[5]).substring(0,2));
+                }else{
+                    record.add("NA");
+                }
+
+            }else{
+                record.add("NA");
+            }
+            record.add("");
+            record.add("");
+
+            String direccion = "";
+            if (rdir[1]!=null){
+                direccion += " " + ((String)rdir[1]);
+            }else{
+                direccion += " NA";
+            }
+            if (rdir[2]!=null){
+                direccion += " " + ((String)rdir[2]);
+            }else{
+                direccion += " NA";
+            }
+            if (rdir[3]!=null){
+                direccion += " " + ((String)rdir[3]);
+            }else{
+                direccion += " NA";
+            }
+            if (rdir[4]!=null){
+                direccion += " " + ((String)rdir[4]);
+            }else{
+                direccion += " NA";
+            }
+            record.add(direccion);
+            if (rprov[2]!=null){
+                record.add(rprov[2]);
+            }else record.add("NA");
+            if (rprov[3]!=null){
+                record.add(rprov[3]);
+            }else record.add("NA");
+            if (rprov[4]!=null){
+                record.add(rprov[4]);
+            }else record.add("NA");
+            if (rprov[5]!=null){
+                record.add(rprov[5]);
+            }else record.add("NA");
+            if (rprov[6]!=null){
+                record.add(rprov[6]);
+            }else record.add("NA");
+            /*Object[] res = new Object[]{
+                    rprov[1],
+                    rprov[0],
+                    ((String)rdir[6]).substring(0,2),
+                    "",
+                    "",
+                    rdir[1],
+                    rdir[2],
+                    rdir[3],
+                    rdir[4],
+                    rprov[2],
+                    rprov[3],
+                    rprov[4],
+                    rprov[5],
+                    rprov[6]
+
+
+            };*/
+            Object[] res = record.toArray();
+            l.add(res);
+        }
+        return l;
+    }
+
+    /**
+     * deveulvo registro con valores N/A en caso de no hallar el nif
+     * @param nif
+     * @param registros;
+     * @return
+     */
+    private static Object[] devuelveRegistroDireccionParaNif(String nif, List registros){
+        for (int i = 0; i < registros.size(); i++) {
+            Object[] r = (Object[]) registros.get(i);
+            String nif_ = (String) r[0];
+            if (nif.compareTo(nif_)==0){
+                return r;
+            }
+        }
+        return new Object[]{nif, "NA", "NA", "NA", "NA", "NA" };
+    }
+
 }

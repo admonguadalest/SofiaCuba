@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.test1.entity.RossumAnnotation;
+import com.haulmont.cuba.security.entity.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -43,7 +44,7 @@ public class RossumCommonDialogs {
     public Map<Integer, JSONObject> queues = null;
 
 
-    public String getAuthToken(String user, String pwd) throws Exception{
+    public String getAuthToken(User cubaUser, String user, String pwd) throws Exception{
         try {
 
             URL url = new URL("https://elis.rossum.ai/api/v1/auth/login");//your url i.e fetch data from .
@@ -52,7 +53,14 @@ public class RossumCommonDialogs {
             conn.addRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
-            String data = "{\"username\": \"info@cgc-guadalest.com\", \"password\": \"pknrp2h8pk\"}";
+            String data = null;
+            if (cubaUser.getLogin().compareTo("bellamateos")==0){
+                data = "{\"username\": \"udedos2024@gmail.com\", \"password\": \"bmA_r115bacN\"}";
+            }
+            if (cubaUser.getLogin().compareTo("carlosconti")==0){
+                data = "{\"username\": \"nsola@domusvcs.com\", \"password\": \"Pknrp2h8@@@@\"}";
+            }
+            //String data = "{\"username\": \"info@cgc-guadalest.com\", \"password\": \"bmA_r115bacN\"}";
             conn.getOutputStream().write(data.getBytes());
 
             if (conn.getResponseCode() != 200) {
@@ -233,12 +241,20 @@ public class RossumCommonDialogs {
 
     public byte[] getOriginalDocumentFromDocumentId(Integer documentId)throws Exception{
         URL url = new URL("https://elis.rossum.ai/api/v1/documents/"+documentId+"/content");//your url i.e fetch data from .
+
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+        try{
+            conn.setRequestMethod("GET");
+        }catch(Exception exc){
+            conn.disconnect();
+            throw exc;
+        }
+
+
         conn.addRequestProperty("Authorization", "Bearer " + this.authToken);
-        //conn.addRequestProperty("Content-Type", "application/octed-stream;");
-        conn.setRequestProperty("Accept", "*/*;");
-        conn.setRequestProperty("Content Description", "File Transfer");
+        //conn.addRequestProperty("Content-Type", "application/octet-stream;");
+        conn.setRequestProperty("Accept", "*/*");
+        //conn.setRequestProperty("Content Description", "File Transfer");
         if (conn.getResponseCode() != 200) {
             throw new RuntimeException("Failed : HTTP Error code : "
                     + conn.getResponseCode());

@@ -144,15 +144,22 @@ public class AsistenteImpresionContrato {
             CaratulaContratoArrendamiento cca;
             byte[] bb_caratula;
             if (contratoInquilino.getUsoContrato() == UsoContratoEnum.VIVIENDA) {
-                long diff = contratoInquilino.getFechaVencimientoPrevisto().getTime() - contratoInquilino.getFechaOcupacion().getTime();
+                //el requerimiento para uqe sea contrato de temporada ya no es la duracion del contrato
+                //sino si se marca el uso como temporada
+                //long diff = contratoInquilino.getFechaVencimientoPrevisto().getTime() - contratoInquilino.getFechaOcupacion().getTime();
+
                 //to days
-                diff = diff/(1000*60*60*24);
-                if (diff >365.0){
-                    cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino);
+                //diff = diff/(1000*60*60*24);
+                //if (diff >365.0){
+                /*if (true){
+
                 }else{
                     cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino, true);
-                }
-
+                }*/
+                cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino);
+                bb_caratula = ((CaratulaContratoArrendamientoVivienda) cca).getReportAsByteArray();
+            } else if (contratoInquilino.getUsoContrato() == UsoContratoEnum.TEMPORADA){
+                cca = new CaratulaContratoArrendamientoVivienda(contratoInquilino, true);
                 bb_caratula = ((CaratulaContratoArrendamientoVivienda) cca).getReportAsByteArray();
             } else {
                 cca = new CaratulaContratoArrendamientoLocalComercial(contratoInquilino);
@@ -191,8 +198,8 @@ public class AsistenteImpresionContrato {
             if (li.getEsRenovacion()) {
                 pathMaestro = "ReportLiquidacionInicioConRenovacion.jrxml";
             }
-            Object  s = Resources.getResource("/com/company/test1/service/accessory/" + pathMaestro).getContent();
-            JasperDesign designMaestro = JRXmlLoader.load((InputStream)s);
+            String s = AppBeans.get(JasperReportService.class).getExtFileContent(pathMaestro);
+            JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(s.getBytes()));
             JasperReport reportMaestro = JasperCompileManager.compileReport(designMaestro);
 
             Ubicacion u = contratoInquilino.getDepartamento().getUbicacion();
@@ -202,6 +209,11 @@ public class AsistenteImpresionContrato {
 
 //            JRRenderable jrr = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(contratoInquilino.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
             JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+
+            String nifPropietario = contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+            if (nifPropietario.compareTo("B75537878")==0){
+                jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("cabecera_documentos_grupo_domus.png");
+            }
 
             ArrayList al = new ArrayList();
             al.add(new HelperLiquidacionInicial(li));
@@ -286,10 +298,10 @@ public class AsistenteImpresionContrato {
         }
         List<FotoThumbnail> ffth = cdf.getFotosThumbnail();
         List<FotoDocumentoFotografico> ffdf = cdf.getFotos();
-        String pathMaestro = "ReportDocumentoFotografico.jrxml";
 
-        Object  s = Resources.getResource("/com/company/test1/service/accessory/" + pathMaestro).getContent();
-        JasperDesign designMaestro = JRXmlLoader.load((InputStream)s);
+
+        String s = AppBeans.get(JasperReportService.class).getExtFileContent("ReportDocumentoFotografico.jrxml");
+        JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(s.getBytes()));
 
 
 
@@ -303,6 +315,12 @@ public class AsistenteImpresionContrato {
 //                AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("Logo.jpg");
 //                JRRenderable jrrLogo = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(c.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
                 JRRenderable jrrLogo = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+
+                String nifPropietario = c.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+                if (nifPropietario.compareTo("B75537878")==0){
+                    jrrLogo = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("cabecera_documentos_grupo_domus.png");
+                }
+
                 pamsReport.put("P_IMAGEN", jrrLogo);
 
                 for (int j = 0; (j < 4) && (4*i+ j < ffdf.size()); j++) {
@@ -340,16 +358,21 @@ public class AsistenteImpresionContrato {
     private static byte[] realizaImpresionDetalleEntregaLlaves(ContratoInquilino c) throws Exception{
 
         try{
-            String pathMaestro = "ReportDetalleEntregaLlaves.jrxml";
-            Object  s = Resources.getResource("/com/company/test1/service/accessory/" + pathMaestro).getContent();
-            JasperDesign designMaestro = JRXmlLoader.load((InputStream)s);
+            String s = AppBeans.get(JasperReportService.class).getExtFileContent("ReportDetalleEntregaLlaves.jrxml");
+            JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(s.getBytes()));
 
             JasperReport reportMaestro = JasperCompileManager.compileReport(designMaestro);
             ArrayList al = new ArrayList();al.add(new Object());
             SIJRBeanDataSource sijr1 = new SIJRBeanDataSource(al);
 
 //            JRRenderable jrr = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(c.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
-            JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+
+            String logoFileName = "LogoGuadalest.jpg";
+            String nifPropietario = c.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+            if (nifPropietario.compareTo("B75537878")==0){
+                logoFileName = "cabecera_documentos_grupo_domus.png";
+            }
+            JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject(logoFileName);
 
             Hashtable pams = new Hashtable();
 
@@ -414,16 +437,23 @@ public class AsistenteImpresionContrato {
         try{
 
             String pathMaestro = "ReportFormDomiciliacionBancaria.jrxml";
-            Object  s = Resources.getResource("/com/company/test1/service/accessory/" + pathMaestro).getContent();
-            JasperDesign designMaestro = JRXmlLoader.load((InputStream)s);
+            String s = AppBeans.get(JasperReportService.class).getExtFileContent(pathMaestro);
+            JasperDesign designMaestro = JRXmlLoader.load(new ByteArrayInputStream(s.getBytes()));
 
 
             JasperReport reportMaestro = JasperCompileManager.compileReport(designMaestro);
             ArrayList al = new ArrayList();al.add(new Object());
             SIJRBeanDataSource sijr1 = new SIJRBeanDataSource(al);
 
-//            JRRenderable jrr = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(ci.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
             JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("LogoGuadalest.jpg");
+
+
+            String nifPropietario = ci.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+            if (nifPropietario.compareTo("B75537878")==0){
+                jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("cabecera_documentos_grupo_domus.png");
+            }
+
+//            JRRenderable jrr = ReportingUtilities.obtenerJRRenderablePorEntornoOPropietario(ci.getDepartamento().getPropietarioEfectivo(), SIApplication.getCurrent().getEntornosPreseleccionados(), "LOGO", SIApplication.getCurrent().getCurrentProcess().getSessionLayer(), SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
 
             Hashtable pams = new Hashtable();
             CuentaBancaria cb = ci.getProgramacionRecibo().getCuentaBancariaPagador();

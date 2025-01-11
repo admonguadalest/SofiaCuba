@@ -20,6 +20,8 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.Remesa;
 import com.haulmont.cuba.gui.screen.LookupComponent;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
     private CollectionLoader<Remesa> remesasDl;
     @Inject
     private ContabiService contabiService;
+    @Inject
+    private UserSession userSession;
 
     @Subscribe(id = "remesasDl", target = Target.DATA_LOADER)
     public void onRemesasDlPreLoad(CollectionLoader.PreLoadEvent event) {
@@ -71,6 +75,7 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
     }
 
     public void onBtnPublicarRemesaClick(){
+        User user = userSession.getUser();
         Remesa r = remesasTable.getSingleSelected();
         if (r == null){
             notifications.create().withDescription("Selecciona una remesa para continuar").show();
@@ -78,7 +83,7 @@ public class RemesaBrowse extends StandardLookup<Remesa> {
         }
         try{
             byte[] bb = jasperReportService.listadoResumenRecibosFromZHelper(new ArrayList(remesasTable.getSelected()));
-            contabiService.publicaContabilizacionRemesaRecibos(r, bb);
+            contabiService.publicaContabilizacionRemesaRecibos(user, r, bb);
             notifications.create().withDescription("La remesa seleccionada fue publicada exitósamente").show();
         }catch(Exception exc){
             notifications.create().withDescription(exc.getMessage()).show();

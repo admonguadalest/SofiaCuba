@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.validaciones">
+    <data>
+        <collection id="proveedoresDc" class="com.company.test1.entity.extroles.Proveedor">
+            <loader id="proveedoresDl"/>
+        </collection>
+    </data>
+    <layout expand="tblProveedores" spacing="true">
+        <flowBox width="100%" caption="Datos de Búsqueda" spacing="true">
+            <dateField id="fechaDesde" caption="Desde Fecha"/>
+            <button caption="Buscar" invoke="buscarProveedores" id="btnBuscar" align="BOTTOM_LEFT"/>
+        </flowBox>
+        <table dataContainer="proveedoresDc" id="tblProveedores" width="100%">
+            <buttonsPanel>
+                <button caption="Ver Validaciones Pendientes" invoke="verValidaciones"/>
+            </buttonsPanel>
+            <columns>
+                <column id="nombreComercial"></column>
+            </columns>
+            <rows/>
+        </table>
+    </layout>
+</window>

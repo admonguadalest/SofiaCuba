@@ -57,6 +57,7 @@
                     </tab>
                 </tabSheet>
                 <checkBox id="marcaField" property="marcaPagadoAdministrador" caption="Marca de Pago de Administrador"/>
+                <checkBox id="esCompensacionField" property="esCompensacion" caption="Es Compensacion"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

@@ -36,6 +36,8 @@ import java.util.function.Consumer;
 @LoadDataBeforeShow
 public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaProveedor> {
 
+    private Boolean numDocumentoVerificado = true;
+
     @Inject
     private ScreenBuilders screenBuilders;
     @Inject
@@ -85,6 +87,8 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     private NumberUtilsService numberUtilsService;
     @Inject
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
+    @Inject
+    private CheckBox chkDesatenderAvisoDuplicado;
 
     public void setRossumAnnotation(RossumAnnotation ra){
         this.rossumAnnotation = ra;
@@ -144,7 +148,26 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
 
             }
         }
+
+
     }
+
+    @Subscribe("numDocumentoField")
+    public void onNumDocumentoFieldValueChange1(HasValue.ValueChangeEvent<String> event) {
+        this.numDocumentoVerificado = false;
+        String resultsVerificacionNoDocumento = this.doVerificacionNumDocumentoProveedor();
+        if (resultsVerificacionNoDocumento!=null){
+            notifications.create().withCaption("Posible Duplicado de Factura")
+                    .withDescription("Los siguientes numeros de factura pueden ser coincidentes. Por favor asegurar " +
+                            "que no se producen duplicados : " + resultsVerificacionNoDocumento).show();
+            return;
+        }else{
+            this.numDocumentoVerificado = true;
+        }
+
+    }
+
+
 
     private Persona getPersonaFromMail(String mail){
         if (mail.trim().length()==0) return null;
@@ -205,6 +228,14 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                     .setStreamSupplier(() -> new ByteArrayInputStream(bb_))
                     .setMimeType(aa.getMimeType());
         }
+
+
+        if (PersistenceHelper.isNew(facturaProveedorDc.getItem())) {
+            this.numDocumentoVerificado = false;
+        } else {
+            this.numDocumentoVerificado = true;
+        }
+
 
         populateRossumData();
 
@@ -306,6 +337,19 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
 
     @Subscribe
     private void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        String resultsVerificacionNoDocumento = this.doVerificacionNumDocumentoProveedor();
+        if (resultsVerificacionNoDocumento!=null){
+            if (!chkDesatenderAvisoDuplicado.isChecked()) {
+                notifications.create().withCaption("Posible Duplicado de Factura")
+                        .withDescription("Los siguientes numeros de factura pueden ser coincidentes. Por favor asegurar " +
+                                "que no se producen duplicados : " + resultsVerificacionNoDocumento).show();
+                event.preventCommit();
+                return;
+            }
+        }else{
+            this.numDocumentoVerificado = true;
+        }
+
         if (!this.getEditedEntity().getProveedor().getModoDePagoTelematico()){
             return;
         }
@@ -335,7 +379,51 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
 
     }
 
+    /**
+     * PARTE VERIFICACION NUMERO DE DOCUMENTO
+     * si devuelve null es que es correcto
+     * @return
+     */
+    private String doVerificacionNumDocumentoProveedor(){
+        String results = null;
+        if (this.facturaProveedorDc.getItem().getNumDocumento()==null){
+            return null;
+        }
+        String adjustedNoDocumento = adjustString(facturaProveedorDc.getItem().getNumDocumento());
+        String sql = "select fp.numDocumento from test1_FacturaProveedor fp join fp.proveedor p WHERE " +
+                "p.id = :pid";
+        List<String> nndd = dataManager.loadValue(sql, String.class).parameter("pid", this.facturaProveedorDc.getItem().getProveedor().getId())
+                .list();
+        //do string adjustment : erase all non 1-9 a-z chars and set to lower case
+        for (int i = 0; i < nndd.size(); i++) {
+            String s = adjustString(nndd.get(i));
+            if (s.compareTo(adjustedNoDocumento)==0){
+                if (results==null){
+                    results = "";
+                }
+                results += nndd.get(i) + " ";
+            }
 
+        }
+        return results;
+    }
+    private String adjustString(String s){
+        String allowed = "123456789abcdefghijklmnñopqrstuvwxyz";
+        String news = "";
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            String character = String.valueOf(ch);
+            if (allowed.indexOf(character)!=-1){
+                news += character;
+            }
+        }
+        return news;
+    }
+
+    /**
+     * FIN FUNCIONES VERIFICACION NUM DOCUMENTO
+     *
+     */
 
 
 

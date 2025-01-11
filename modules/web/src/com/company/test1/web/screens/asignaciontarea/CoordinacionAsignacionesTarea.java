@@ -5,6 +5,7 @@ import com.company.test1.entity.ciclos.gantasignacionestareas.Segment;
 import com.company.test1.entity.ciclos.gantasignacionestareas.TaskSpan;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
+import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.service.CicloService;
 import com.company.test1.service.ContratosService;
@@ -126,6 +127,12 @@ public class CoordinacionAsignacionesTarea extends Screen {
     private CicloService cicloService;
 
     private boolean habilitarDesmonitorizacionRapidaDeEntradas = false;
+    @Inject
+    private TextField<String> txtImputacion;
+    @Inject
+    private TextField<String> txtIndustrial;
+    @Inject
+    private VBoxLayout vbDynTareasEnCurso;
 
     private void populateColors(){
         colors.put("red", "#FF0000");
@@ -241,6 +248,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
         cargarEntradasSinAsignacionesTareas();
         cargarAsignacionesTareasGestionPresupuestaria();
         cargarAsignacionesTareasPendientesDePlanificacion();
+        cargarAsignacionesTareasIniciadas();
 
 
 
@@ -259,7 +267,20 @@ public class CoordinacionAsignacionesTarea extends Screen {
         cargarEntradasSinAsignacionesTareas();
         cargarAsignacionesTareasGestionPresupuestaria();
         cargarAsignacionesTareasPendientesDePlanificacion();
+        cargarAsignacionesTareasIniciadas();
     }
+
+    @Subscribe("txtImputacion")
+    public void onTxtImputacionEnterPress(TextInputField.EnterPressEvent event) {
+        onBtnRefrescarClick(null);
+    }
+
+    @Subscribe("txtIndustrial")
+    public void onTxtIndustrialEnterPress(TextInputField.EnterPressEvent event) {
+        onBtnRefrescarClick(null);
+    }
+
+
 
 
 
@@ -269,13 +290,14 @@ public class CoordinacionAsignacionesTarea extends Screen {
             vbDynEntradas.removeAll();
             boolean seHallaronRegistros = false;
             List<Entrada> ee = getEntradasConOrdenesTrabajoSinAsignacionesTareas();
+
             GridLayout gl = null;
             gl = uiComponents.create(GridLayout.NAME);
 
             if (this.habilitarDesmonitorizacionRapidaDeEntradas){
-                gl.setColumns(4);
+                gl.setColumns(5);
             }else{
-                gl.setColumns(3);
+                gl.setColumns(4);
             }
             gl.setWidth("100%");
             gl.setRows(100);
@@ -339,6 +361,16 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         }
                         gl.add(lev2, 2,rowCounter);
 
+                        Button linkCiclo = uiComponents.create(Button.NAME);
+                        linkCiclo.setStyleName("link");
+                        linkCiclo.setCaption("Ver Ciclo");
+                        linkCiclo.addClickListener(ev->{
+                            screenBuilders.editor(Ciclo.class, CoordinacionAsignacionesTarea.this)
+                                    .withOpenMode(OpenMode.NEW_TAB)
+                                    .editEntity(e.getCiclo())
+                                    .build().show();
+                        });
+                        gl.add(linkCiclo, 3, rowCounter);
                         if (habilitarDesmonitorizacionRapidaDeEntradas){
                             CheckBox chb = uiComponents.create(CheckBox.NAME);
                             chb.setCaption("Desmonitorizar Entrada");
@@ -348,8 +380,10 @@ public class CoordinacionAsignacionesTarea extends Screen {
                                 notifications.create().withCaption("Orden Trabajo actualizada!")
                                         .show();
                             });
-                            gl.add(chb, 3,rowCounter);
+                            gl.add(chb, 4,rowCounter);
                         }
+
+
 
                     }
 
@@ -365,6 +399,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
             }else{
                 vbDynEntradas.add(gl);
             }
+
 
 
         } catch (Exception e) {
@@ -390,7 +425,7 @@ public class CoordinacionAsignacionesTarea extends Screen {
             GridLayout gl = null;
             gl = uiComponents.create(GridLayout.NAME);
 
-            gl.setColumns(3);
+            gl.setColumns(4);
             gl.setWidth("100%");
             gl.setRows(100);
             boolean seHallaronRegistros = false;
@@ -443,6 +478,17 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         else lev2.setValue("!PENDIENTE ASIGNAR GESTION PRESUPUESTARIA");
                         gl.add(lev2, 2, rowCounter);
 
+                        Button linkCiclo = uiComponents.create(Button.NAME);
+                        linkCiclo.setStyleName("link");
+                        linkCiclo.setCaption("Ver Ciclo");
+                        linkCiclo.addClickListener(ev->{
+                            screenBuilders.editor(Ciclo.class, CoordinacionAsignacionesTarea.this)
+                                    .withOpenMode(OpenMode.NEW_TAB)
+                                    .editEntity(at_.getOrdenTrabajo().getEntrada().getCiclo())
+                                    .build().show();
+                        });
+                        gl.add(linkCiclo, 3, rowCounter);
+
                     }
                 }
 
@@ -484,9 +530,117 @@ public class CoordinacionAsignacionesTarea extends Screen {
             GridLayout gl = null;
             gl = uiComponents.create(GridLayout.NAME);
 
-            gl.setColumns(3);
+            gl.setColumns(4);
             gl.setWidth("100%");
             gl.setRows(100);
+            if (aatt.size()>0){
+
+
+                int rowCounter = -1;
+                for (int i = 0; i < aatt.size(); i++) {
+
+                    AsignacionTarea at = aatt.get(i);
+                    at = dataManager.reload(at, "asignacionTarea-view-ext");
+                    final AsignacionTarea at_ = at;
+
+                    Departamento d = at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento(d);
+                    boolean anadir = false;
+                    String vo = lkpVaciosOcupadosVR.getValue();
+                    if (vo.compareTo("Todos")==0){
+                        anadir = true;
+                    }else if(vo.compareTo("Vacíos")==0){
+                        anadir = (ci==null);
+                    }else{
+                        anadir = (ci!=null);
+                    }
+                    if (anadir) {
+                        rowCounter++;
+                        seHallaronRegistros = true;
+
+
+                        Button b = uiComponents.create(Button.NAME);
+                        b.addClickListener(ev -> {
+                            Screen s = screenBuilders.editor(AsignacionTarea.class, this).editEntity(at_)
+                                    .withScreenId("test1_AsignacionTarea.edit-ext")
+                                    .withOpenMode(OpenMode.DIALOG).build();
+                            s.addAfterCloseListener(ev2->{
+                                onBtnRefrescarClick(null);
+                            });
+                            s.show();
+                        });
+
+                        b.setStyleName("link");
+                        b.setCaption(at.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto());
+                        gl.add(b, 0, rowCounter);
+
+                        Label lev = uiComponents.create(Label.NAME);
+                        lev.setValue(at.getProveedor().getPersona().getNombreCompleto());
+                        gl.add(lev, 1, rowCounter);
+
+                        Label lev2 = uiComponents.create(Label.NAME);
+                        lev2.setValue(at.getGestionPresupuestaria().name());
+                        gl.add(lev2, 2, rowCounter);
+
+
+                        Button linkCiclo = uiComponents.create(Button.NAME);
+                        linkCiclo.setStyleName("link");
+                        linkCiclo.setCaption("Ver Ciclo");
+                        linkCiclo.addClickListener(ev->{
+                            screenBuilders.editor(Ciclo.class, CoordinacionAsignacionesTarea.this)
+                                    .withOpenMode(OpenMode.NEW_TAB)
+                                    .editEntity(at_.getOrdenTrabajo().getEntrada().getCiclo())
+                                    .build().show();
+                        });
+                        gl.add(linkCiclo, 3, rowCounter);
+
+                    }
+                }
+
+            }
+
+            if (!seHallaronRegistros){
+                Label l = uiComponents.create(Label.NAME);
+                l.setValue("(0 registros hallados)");
+                vbDynTareasProgramables.add(l);
+            }else{
+                vbDynTareasProgramables.add(gl);
+            }
+
+
+
+        }catch(Exception exc){
+
+            String m = "";
+            if ((exc.getMessage()==null)||(exc.getMessage().trim().length()==0)){
+                m = exc.getClass().getSimpleName();
+            }else{
+                m = exc.getMessage();
+            }
+            notifications.create().withDescription(m).show();
+        }
+    }
+
+    private void cargarAsignacionesTareasIniciadas(){
+        try{
+            vbDynTareasEnCurso.removeAll();
+            boolean seHallaronRegistros = false;
+            List<AsignacionTarea> aatt = getAsignacionesTareasIniciadas();
+            GridLayout gl = null;
+            gl = uiComponents.create(GridLayout.NAME);
+
+            gl.setColumns(4);
+            gl.setWidth("100%");
+            gl.setRows(100);
+
+            Collections.sort(aatt, new Comparator<AsignacionTarea>() {
+                @Override
+                public int compare(AsignacionTarea asignacionTarea, AsignacionTarea t1) {
+                    String s1 =  asignacionTarea.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                    String s2 =  t1.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                    return s1.compareTo(s2);
+                }
+            });
             if (aatt.size()>0){
 
 
@@ -535,6 +689,17 @@ public class CoordinacionAsignacionesTarea extends Screen {
                         lev2.setValue(at.getGestionPresupuestaria().name());
                         gl.add(lev2, 2, rowCounter);
 
+                        Button linkCiclo = uiComponents.create(Button.NAME);
+                        linkCiclo.setStyleName("link");
+                        linkCiclo.setCaption("Ver Ciclo");
+                        linkCiclo.addClickListener(ev->{
+                            screenBuilders.editor(Ciclo.class, CoordinacionAsignacionesTarea.this)
+                                    .withOpenMode(OpenMode.NEW_TAB)
+                                    .editEntity(at_.getOrdenTrabajo().getEntrada().getCiclo())
+                                    .build().show();
+                        });
+                        gl.add(linkCiclo, 3, rowCounter);
+
                     }
                 }
 
@@ -543,9 +708,9 @@ public class CoordinacionAsignacionesTarea extends Screen {
             if (!seHallaronRegistros){
                 Label l = uiComponents.create(Label.NAME);
                 l.setValue("(0 registros hallados)");
-                vbDynTareasProgramables.add(l);
+                vbDynTareasEnCurso.add(l);
             }else{
-                vbDynTareasProgramables.add(gl);
+                vbDynTareasEnCurso.add(gl);
             }
 
 
@@ -561,7 +726,6 @@ public class CoordinacionAsignacionesTarea extends Screen {
             notifications.create().withDescription(m).show();
         }
     }
-
 
     @Install(to = "ganttTareasEnCursoDl", target = Target.DATA_LOADER)
     private List<AsignacionTarea> ganttTareasEnCursoDlLoadDelegate(LoadContext<AsignacionTarea> loadContext) {
@@ -1074,9 +1238,84 @@ public class CoordinacionAsignacionesTarea extends Screen {
         }
         List<Entrada> ee = cicloService.getEntradasConOrdenesTrabajoSinAsignacionesTareas(ocupadosVacios);
 
+        Collections.sort(ee, new Comparator<Entrada>() {
+            @Override
+            public int compare(Entrada e1, Entrada e2) {
+                String i1 =  e1.getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                String i2 =  e2.getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                return i1.compareTo(i2);
+            }
+        });
+
+        String imputacion = txtImputacion.getValue();
+
+        ee = filtraEntradasConRegex(imputacion, ee);
+
+        if ((txtIndustrial.getValue()!=null)&&(txtIndustrial.getValue().trim().length()>0)){
+            ee = new ArrayList();
+        }
 
         return ee;
-    } 
+    }
+
+    public List<Entrada> filtraEntradasConRegex(String imputacion, List<Entrada> ee){
+        if ((imputacion!=null)&&(imputacion.trim().length()>0)){
+
+                ArrayList<Entrada> filtradas = new ArrayList();
+                for (int i = 0; i < ee.size(); i++) {
+                    Departamento d = ee.get(i).getCiclo().getDepartamento();
+                    Ubicacion u = d.getUbicacion();
+                    String cadena = u.getNombre() + " " + d.getPiso() + " " + d.getPuerta();
+                    imputacion = imputacion.replace("%",".*");
+                    if (cadena.toUpperCase().matches(imputacion.toUpperCase())){
+                        filtradas.add(ee.get(i));
+                    }
+                }
+                return filtradas;
+
+        }else{
+            return ee;
+        }
+    }
+
+    public List<AsignacionTarea> filtraAsignacionesTareaConRegex(String imputacion, List<AsignacionTarea> aatt){
+        if ((imputacion!=null)&&(imputacion.trim().length()>0)){
+
+            ArrayList<AsignacionTarea> filtradas = new ArrayList();
+            for (int i = 0; i < aatt.size(); i++) {
+                Departamento d = aatt.get(i).getOrdenTrabajo().getEntrada().getCiclo().getDepartamento();
+                Ubicacion u = d.getUbicacion();
+                String cadena = u.getNombre() + " " + d.getPiso() + " " + d.getPuerta();
+                imputacion = imputacion.replace("%",".*");
+                if (cadena.toUpperCase().matches(imputacion.toUpperCase())){
+                    filtradas.add(aatt.get(i));
+                }
+            }
+            return filtradas;
+
+        }else{
+            return aatt;
+        }
+    }
+
+    public List<AsignacionTarea> filtraAsignacionesTareaConTextoIndustrial(List<AsignacionTarea> aatt,String industrial){
+        if ((industrial!=null)&&(industrial.trim().length()>0)){
+
+            ArrayList<AsignacionTarea> filtradas = new ArrayList();
+            for (int i = 0; i < aatt.size(); i++) {
+                AsignacionTarea at = aatt.get(i);
+                String cadena = at.getProveedor().getPersona().getNombreCompleto();
+                industrial = industrial.replace("%",".*");
+                if (cadena.toUpperCase().matches(industrial.toUpperCase())){
+                    filtradas.add(aatt.get(i));
+                }
+            }
+            return filtradas;
+
+        }else{
+            return aatt;
+        }
+    }
 
 
     public List<AsignacionTarea> getAsignacionesTareasGestionPresupuestaria() throws Exception{
@@ -1090,7 +1329,20 @@ public class CoordinacionAsignacionesTarea extends Screen {
         List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
                 .parameter("ejsinppto", GestionPresupuestariaEnum.SIN_PRESUPUESTO)
                 .parameter("pptoaprob", GestionPresupuestariaEnum.PRESUPUESTO_APROBADO)
+                .view("asitnacionTarea-with-ubicacion-view")
                 .list();
+
+        Collections.sort(aatt, new Comparator<AsignacionTarea>() {
+            @Override
+            public int compare(AsignacionTarea asignacionTarea, AsignacionTarea t1) {
+                String s1 =  asignacionTarea.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                String s2 =  t1.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                return s1.compareTo(s2);
+            }
+        });
+
+        aatt = filtraAsignacionesTareaConRegex(txtImputacion.getValue(), aatt);
+        aatt = filtraAsignacionesTareaConTextoIndustrial(aatt, txtIndustrial.getValue());
         return aatt;
 
     }
@@ -1107,11 +1359,52 @@ public class CoordinacionAsignacionesTarea extends Screen {
         List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
                 .parameter("ejsinppto", GestionPresupuestariaEnum.SIN_PRESUPUESTO)
                 .parameter("pptoaprob", GestionPresupuestariaEnum.PRESUPUESTO_APROBADO)
+                .view("asitnacionTarea-with-ubicacion-view")
                 .list();
+
+        Collections.sort(aatt, new Comparator<AsignacionTarea>() {
+            @Override
+            public int compare(AsignacionTarea asignacionTarea, AsignacionTarea t1) {
+                String s1 =  asignacionTarea.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                String s2 =  t1.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                if ((s1==null)||(s2==null)){
+                   int y = 2;
+                }
+                return s1.compareTo(s2);
+            }
+        });
+
+        aatt = filtraAsignacionesTareaConRegex(txtImputacion.getValue(), aatt);
+        aatt = filtraAsignacionesTareaConTextoIndustrial(aatt, txtIndustrial.getValue());
         return aatt;
 
     }
 
+
+
+
+
+    public List<AsignacionTarea> getAsignacionesTareasIniciadas() throws Exception{
+        String hql = "select at from test1_AsignacionTarea at WHERE at.fechaPrevistoInicio is not null and (at.cancelado = false or at.cancelado is null) and at.fechaFinalizacion is null";
+        List<AsignacionTarea> aatt = dataManager.load(AsignacionTarea.class).query(hql)
+
+                .view("asitnacionTarea-with-ubicacion-view")
+                .list();
+
+        Collections.sort(aatt, new Comparator<AsignacionTarea>() {
+            @Override
+            public int compare(AsignacionTarea asignacionTarea, AsignacionTarea t1) {
+                String s1 =  asignacionTarea.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                String s2 =  t1.getOrdenTrabajo().getEntrada().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+                return s1.compareTo(s2);
+            }
+        });
+
+        aatt = filtraAsignacionesTareaConRegex(txtImputacion.getValue(), aatt);
+        aatt = filtraAsignacionesTareaConTextoIndustrial(aatt, txtIndustrial.getValue());
+        return aatt;
+
+    }
 
 
 

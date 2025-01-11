@@ -57,12 +57,13 @@
                 <button id="removeBtn" action="ordenCobroesTable.remove"/>
             </buttonsPanel>
         </groupTable>
-        <groupBox orientation="horizontal" spacing="true" caption="Generacion de Realizacion de Cobro" width="100%">
-            <lookupField id="lkpPresentador" caption="Presentador" width="100%" optionsContainer="propietariosDc"
+        <hbox expand="lbl" spacing="true" caption="Generacion de Realizacion de Cobro" width="100%">
+            <lookupField id="lkpPresentador" caption="Presentador" optionsContainer="propietariosDc"
                          captionProperty="persona.nombreCompleto"/>
-            <lookupField id="lkpCB" caption="Cuenta Bancaria" width="100%" optionsContainer="cuentaBancariasDc" captionProperty="textoCuentaBancariaCompleta"/>
+            <lookupField id="lkpCB" caption="Cuenta Bancaria" optionsContainer="cuentaBancariasDc" captionProperty="textoCuentaBancariaCompleta"/>
             <button id="btnCrearRP" caption="Crear Cobro Bancario" align="BOTTOM_LEFT" invoke="onBtnCrearRealizacionCobroClick"/>
-        </groupBox>
+            <label id="lbl" align="BOTTOM_LEFT" value="Las ordenes se generaran en tanto las orenes no tengan un RC generado previamente"/>
+        </hbox>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>

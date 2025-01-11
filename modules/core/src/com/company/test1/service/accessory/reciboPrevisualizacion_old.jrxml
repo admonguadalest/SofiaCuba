@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 3.7.4  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+    <subDataset name="datasetRecibo">
+        <queryString>
+            <![CDATA[]]>
+        </queryString>
+        <field name="titulo" class="java.lang.String">
+            <fieldDescription><![CDATA[nombre]]></fieldDescription>
+        </field>
+        <field name="importe" class="java.lang.Double">
+            <fieldDescription><![CDATA[importe]]></fieldDescription>
+        </field>
+    </subDataset>
+    <parameter name="helperBean" class="com.company.test1.service.accessory.ReportRecibo.Helper"/>
+    <parameter name="nombreEntidad" class="java.lang.String">
+        <defaultValueExpression><![CDATA[]]></defaultValueExpression>
+    </parameter>
+    <parameter name="FONDO_RECIBO" class="net.sf.jasperreports.engine.JRRenderable"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="did" class="java.lang.Integer">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.id]]></fieldDescription>
+    </field>
+    <field name="numRecibo" class="java.lang.String">
+        <fieldDescription><![CDATA[numRecibo]]></fieldDescription>
+    </field>
+    <field name="totalRecibo" class="java.lang.Double">
+        <fieldDescription><![CDATA[totalRecibo]]></fieldDescription>
+    </field>
+    <field name="fechaEmision" class="java.util.Date">
+        <fieldDescription><![CDATA[fechaEmision]]></fieldDescription>
+    </field>
+    <field name="poblacionExpedicion" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.lugarRealizacion]]></fieldDescription>
+    </field>
+    <field name="direccionEntornoNombre" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.entornoAplicable.propietarioEntorno.direccion1Nombre]]></fieldDescription>
+    </field>
+    <field name="vencimiento" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.fechaVencimientoPrevistoNombre]]></fieldDescription>
+    </field>
+    <field name="referenciaCatastral" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.referenciaCatastral]]></fieldDescription>
+    </field>
+    <field name="nifDniInquilino" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.inquilino.nifDni]]></fieldDescription>
+    </field>
+    <field name="dirprop1" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.propietarioEfectivo.persona.direccion1Nombre]]></fieldDescription>
+    </field>
+    <field name="dirprop2" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.propietarioEfectivo.persona.direccion2Nombre]]></fieldDescription>
+    </field>
+    <field name="nifDniPropietario" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.propietarioEfectivo.persona.nifDni]]></fieldDescription>
+    </field>
+    <field name="nombreCompleto" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.inquilino.nombreCompleto]]></fieldDescription>
+    </field>
+    <field name="nombreCompletoPropietario" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.departamento.propietarioEfectivo.persona.nombreCompleto]]></fieldDescription>
+    </field>
+    <field name="nombre50" class="java.lang.String">
+        <fieldDescription><![CDATA[lugarDePago]]></fieldDescription>
+    </field>
+    <field name="dirinquilino1" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.inquilino.direccion1Nombre]]></fieldDescription>
+    </field>
+    <field name="dirinquilino2" class="java.lang.String">
+        <fieldDescription><![CDATA[utilitarioContratoInquilino.inquilino.direccion2Nombre]]></fieldDescription>
+    </field>
+    <field name="IRPF" class="java.lang.Double">
+        <fieldDescription><![CDATA[totalIRPF]]></fieldDescription>
+    </field>
+    <field name="IVA" class="java.lang.Double">
+        <fieldDescription><![CDATA[totalIVA]]></fieldDescription>
+    </field>
+    <field name="totalReciboPostCCAA" class="java.lang.Double">
+        <fieldDescription><![CDATA[totalReciboPostCCAA]]></fieldDescription>
+    </field>
+    <field name="cuentaIban" class="java.lang.String">
+        <fieldDescription><![CDATA[cuentaIban]]></fieldDescription>
+    </field>
+    <field name="totalReciboMasCobranzas" class="java.lang.Double"/>
+    <field name="totalCobranzas" class="java.lang.Double"/>
+    <field name="cotitulares" class="java.lang.String"/>
+    <background>
+        <band height="802" splitType="Stretch">
+            <printWhenExpression><![CDATA[$V{PAGE_NUMBER} < 2]]></printWhenExpression>
+            <image scaleImage="FillFrame">
+                <reportElement x="0" y="0" width="555" height="802"/>
+                <imageExpression class="net.sf.jasperreports.engine.JRRenderable"><![CDATA[$P{FONDO_RECIBO}]]></imageExpression>
+            </image>
+        </band>
+    </background>
+    <detail>
+        <band height="773" splitType="Stretch">
+            <textField>
+                <reportElement x="72" y="104" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{numRecibo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement x="408" y="104" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right" lineSpacing="Single">
+                    <font fontName="Calibri" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="187" y="140" width="100" height="20" forecolor="#666666" backcolor="#666666"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="9"/>
+                </textElement>
+                <textFieldExpression class="java.util.Date"><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="187" y="128" width="183" height="20" forecolor="#666666" backcolor="#666666"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{poblacionExpedicion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="187" y="152" width="100" height="20" forecolor="#666666" backcolor="#666666"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="187" y="309" width="272" height="14" forecolor="#666666"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{referenciaCatastral}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="327" width="252" height="10" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{cuentaIban}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="605" width="272" height="15" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{referenciaCatastral}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="49" y="327" width="250" height="10" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{nombreEntidad}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="688" width="155" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirprop1}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="699" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirinquilino2}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="662" width="155" height="16" forecolor="#333333" backcolor="#333333"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nombreCompletoPropietario}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="187" y="688" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="9"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirinquilino1}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="662" width="136" height="16" forecolor="#333333" backcolor="#333333"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="699" width="100" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirprop2}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="244" y="750" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.util.Date"><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="72" y="750" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{numRecibo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="408" y="750" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="366" width="212" height="16" forecolor="#333333" backcolor="#333333"/>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="403" width="155" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirprop2}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="110" y="403" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirinquilino2}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="110" y="392" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirinquilino1}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="366" width="155" height="16" forecolor="#333333" backcolor="#333333"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nombreCompletoPropietario}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="392" width="155" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{dirprop1}]]></textFieldExpression>
+            </textField>
+            <componentElement>
+                <reportElement x="46" y="184" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),0,6)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField>
+                            <reportElement x="3" y="0" width="75" height="11" forecolor="#333333"/>
+                            <textElement lineSpacing="Single">
+                                <font fontName="Calibri" size="8" isBold="true"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00">
+                            <reportElement x="80" y="0" width="75" height="11" forecolor="#666666"/>
+                            <textElement textAlignment="Right" lineSpacing="Single">
+                                <font fontName="Calibri" size="8"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="207" y="184" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),6,12)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField>
+                            <reportElement x="3" y="0" width="75" height="11" forecolor="#333333"/>
+                            <textElement lineSpacing="Single">
+                                <font fontName="Calibri" size="8" isBold="true"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00">
+                            <reportElement x="80" y="0" width="75" height="11" forecolor="#666666"/>
+                            <textElement textAlignment="Right" lineSpacing="Single">
+                                <font fontName="Calibri" size="8"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="366" y="184" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),12,18)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField>
+                            <reportElement x="3" y="0" width="75" height="11" forecolor="#333333"/>
+                            <textElement lineSpacing="Single">
+                                <font fontName="Calibri" size="8" isBold="true"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00">
+                            <reportElement x="80" y="0" width="75" height="11" forecolor="#666666"/>
+                            <textElement textAlignment="Right" lineSpacing="Single">
+                                <font fontName="Calibri" size="8"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="48" y="451" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),0,6)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField pattern="" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="3" y="0" width="75" height="11" forecolor="#333333" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="80" y="0" width="75" height="11" forecolor="#666666" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="209" y="451" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),6,12)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField pattern="" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="3" y="0" width="75" height="11" forecolor="#333333" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="80" y="0" width="75" height="11" forecolor="#666666" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="368" y="451" width="158" height="11"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="datasetRecibo">
+                        <dataSourceExpression><![CDATA[new com.company.test1.service.accessory.SIJRBeanDataSource($P{helperBean}.getImplementacionesConceptosAgregadas(),12,18)]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="11" width="158">
+                        <textField pattern="" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="3" y="0" width="75" height="11" forecolor="#333333" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="#,##0.00" isBlankWhenNull="false">
+                            <reportElement mode="Transparent" x="80" y="0" width="75" height="11" forecolor="#666666" backcolor="#FFFFFF"/>
+                            <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                                <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                            </textElement>
+                            <textFieldExpression class="java.lang.Double"><![CDATA[$F{importe}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="49" y="622" width="274" height="10" forecolor="#000000" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{nombreEntidad}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="622" width="252" height="10" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{cuentaIban}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="110" y="381" width="212" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nifDniInquilino}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="381" width="155" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nifDniPropietario}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="353" y="677" width="155" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nifDniPropietario}]]></textFieldExpression>
+            </textField>
+            <textField pattern="" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="187" y="677" width="136" height="12" forecolor="#333333" backcolor="#666666"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{nifDniInquilino}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="249" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[IVA]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="227" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalRecibo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement x="453" y="260" width="75" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single">
+                    <font fontName="Calibri" size="8"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="249" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{IVA}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="227" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[Total Base]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="375" y="260" width="75" height="12" forecolor="#333333"/>
+                <textElement lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="238" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{IRPF}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="238" width="38" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[IRPF]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="526" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{IRPF}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="526" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[IRPF]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="537" width="38" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[IVA]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="515" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[Total Base]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="375" y="548" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="515" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalRecibo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="537" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{IVA}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="453" y="548" width="75" height="12" forecolor="#333333" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Double"><![CDATA[$F{totalReciboPostCCAA}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="272" width="38" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="272" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="286" width="75" height="12" forecolor="#333333"/>
+                <textElement lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total+Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="286" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="559" width="38" height="12" forecolor="#333333"/>
+                <textElement textAlignment="Right" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="559" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalCobranzas}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="375" y="573" width="75" height="12" forecolor="#333333"/>
+                <textElement lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total+Cobranzas]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="false">
+                <reportElement mode="Transparent" x="454" y="573" width="75" height="12" forecolor="#666666" backcolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+                    <font fontName="Calibri" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{totalReciboMasCobranzas}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="417" width="212" height="32" forecolor="#333333" backcolor="#333333">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cotitulares}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="188" y="711" width="212" height="32" forecolor="#333333" backcolor="#333333">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement lineSpacing="Single">
+                    <font fontName="Calibri" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cotitulares}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="72" y="712" width="100" height="30"/>
+                <textElement lineSpacing="Single">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[COTITULARES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="50" y="418" width="60" height="30"/>
+                <textElement lineSpacing="Single">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[COTITULARES]]></text>
+            </staticText>
+        </band>
+    </detail>
+</jasperReport>

@@ -427,8 +427,26 @@
         </property>
 
     </view>
+    <view entity="test1_AsignacionTarea" name="asitnacionTarea-with-ubicacion-view" extends="_base">
+        <property name="proveedor" view="_base">
+            <property name="persona" view="_base"/>
+        </property>
+        <property name="ordenTrabajo" view="_base">
+            <property name="entrada" view="_base">
+                <property name="ciclo" view="_minimal">
+                    <property name="departamento" view="_base">
+                        <property name="ubicacion" view="_base"/>
+                    </property>
+                </property>
+            </property>
+        </property>
+    </view>
 
     <view entity="test1_FacturaProveedor" name="facturaProveedor-view" extends="_local">
+        <property name="createTs"/>
+        <property name="updateTs"/>
+        <property name="createdBy"/>
+        <property name="updatedBy"/>
         <property name="titular" view="_base">
 
         </property>
@@ -932,13 +950,19 @@
         <property name="utilitarioContratoInquilino" view="_minimal">
             <property name="numeroContrato"/>
             <property name="inquilino" view="_base"/>
+            <property name="nombresAdicionales"/>
             <property name="departamento" view="_minimal">
                 <property name="rm2id"/>
                 <property name="piso"/>
                 <property name="puerta"/>
+                <property name="propietario">
+                    <property name="persona" view="_base"/>
+                </property>
                 <property name="ubicacion" view="_minimal">
                     <property name="nombre"/>
-
+                    <property name="propietario">
+                        <property name="persona" view="_base"/>
+                    </property>
                 </property>
 
             </property>
@@ -1505,6 +1529,7 @@
             <property name="departamento" view="_minimal">
                 <property name="piso"/>
                 <property name="puerta"/>
+                <property name="viviendaLocal"/>
                 <property name="nombreDescriptivoCompleto"/>
                 <property name="ubicacion" view="_minimal">
                     <property name="nombre"/>

@@ -12,21 +12,21 @@
             </loader>
         </collection>
     </data>
-    <layout>
-        <vbox spacing="true">
+    <layout spacing="true" expand="vbmain">
+        <vbox spacing="true" expand="scrolltable" id="vbmain">
             <vbox spacing="true">
-                <flowBox spacing="true" width="100%">
+                <hbox spacing="true" >
                     <lookupField id="lkpTipoValidacion" caption="Tipo de Validacion" width="295px"
                                  optionsEnum="com.company.test1.entity.enums.DocumentoImputableTipoEnum"/>
                     <lookupField id="lkpEstadoValidacion" caption="Filtrar Por" width="293px"
                                  optionsEnum="com.company.test1.entity.enums.ValidacionEstado"/>
-                </flowBox>
-                <flowBox spacing="true" width="100%">
+                </hbox>
+                <hbox spacing="true" >
                     <dateField resolution="DAY" id="datFechaDesde" caption="Fecha Desde"/>
                     <dateField resolution="DAY" id="datFechaHasta" caption="Fecha Hasta"/>
-                </flowBox>
+                </hbox>
             </vbox>
-            <hbox spacing="true" width="100%">
+            <hbox spacing="true">
                 <textField id="txtDireccion" caption="Direccion"/>
                 <textField id="txtProveedor" caption="Proveedor/No Documento"/>
                 <lookupField id="lkpVaciosOcupados" caption="Vacios/Ocupados"
@@ -36,9 +36,20 @@
                 <lookupField id="lkpTipoCiclo" caption="Tipo de Ciclo"
                              optionsEnum="com.company.test1.entity.enums.TipoCiclo"/>
             </hbox>
-            <scrollBox height="100%">
+            <vbox id="scrolltable" expand="tableValidaciones" spacing="true">
+                <buttonsPanel>
+                    <button id="btnVerRegistroDocumento" caption="Ver Documento Imputable"
+                            invoke="onBtnVerRegistroDocumentoClick"/>
+                    <hbox spacing="true">
+                        <button id="btnVerEscaneoDocumento" caption="Ver Escaneo Documento"
+                                invoke="onBtnVerEscaneoDocumentoClick"/>
+                        <checkBox id="btnAmpliarEscaneosTipoFactura" caption="Incluir Pptos. (si disponibles)" align="BOTTOM_LEFT"/>
+                    </hbox>
+
+                    <button id="btnConsultarCiclo" caption="Consultar Ciclo" invoke="onBtnConsultarCicloClick"/>
+                </buttonsPanel>
                 <label id="lblNumRows"></label>
-                <table id="tableValidaciones" height="400px" width="100%" dataContainer="validacionesDc">
+                <table id="tableValidaciones" width="100%" dataContainer="validacionesDc">
 
 
                     <columns>
@@ -51,34 +62,27 @@
                         <column id="imputacionDocumentoImputable.documentoImputable.importePostCCAA" caption="Importe"/>
                         <column id="estadoValidacion" generator="getColumnEstadoValidacion" caption="Estado"/>
                         <column id="consideraciones" generator="getColumnConsideraciones" caption="Consideraciones"/>
+                        <column id="imputacionDocumentoImputable.documentoImputable.id" caption="DoctoImputableId"/>
+                        <column id="id" caption="ValidacionId"/>
 
 
                     </columns>
                     <actions>
                         <action id="create" type="create"/>
                     </actions>
-                    <buttonsPanel>
-                        <button id="btnVerRegistroDocumento" caption="Ver Documento Imputable"
-                                invoke="onBtnVerRegistroDocumentoClick"/>
-                        <hbox spacing="true">
-                            <button id="btnVerEscaneoDocumento" caption="Ver Escaneo Documento"
-                                    invoke="onBtnVerEscaneoDocumentoClick"/>
-                            <checkBox id="btnAmpliarEscaneosTipoFactura" caption="Incluir Pptos. (si disponibles)" align="BOTTOM_LEFT"/>
-                        </hbox>
 
-                        <button id="btnConsultarCiclo" caption="Consultar Ciclo" invoke="onBtnConsultarCicloClick"/>
-                    </buttonsPanel>
 
                 </table>
 
 
-            </scrollBox>
-            <buttonsPanel align="BOTTOM_LEFT">
-                <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
-                <button id="btnReport" caption="Hacer Report" invoke="onBtnHacerReportClick"/>
-                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
-            </buttonsPanel>
+            </vbox>
+
         </vbox>
+        <buttonsPanel align="BOTTOM_LEFT">
+            <button id="btnBuscar" caption="Buscar" invoke="onBtnBuscarClick"/>
+            <button id="btnReport" caption="Hacer Report" invoke="onBtnHacerReportClick"/>
+            <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+        </buttonsPanel>
 
     </layout>
 </window>

@@ -62,4 +62,6 @@ public interface JasperReportService {
     public byte[] generaReportValidacionesIdis(List<ValidacionImputacionDocumentoImputable> l, DocumentoImputableTipoEnum tipo, Date fechaInicial, Date fechaFinal) throws Exception;
 
     public byte[] realizaImpresionDocumentoFotografico(CarpetaDocumentosFotograficos cdf) throws Exception;
+
+    public String getExtFileContent(String fileName) throws Exception;
 }

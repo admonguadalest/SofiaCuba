@@ -47,8 +47,11 @@
                                             optionsContainer="proveedoresDc">
 
                                 </lookupPickerField>
-                                <textField id="numDocumentoField" caption="Num.Documento" width="100%"
+                                <vbox caption="No. Documento" spacing="true">
+                                <textField id="numDocumentoField" width="100%"
                                            dataContainer="facturaProveedorDc" property="numDocumento"/>
+                                    <checkBox align="BOTTOM_LEFT" caption="Ignora Aviso Duplicado" id="chkDesatenderAvisoDuplicado"/>
+                                </vbox>
                                 <textArea id="descripcionDocumentoField" rows="5"
                                           caption="Descripcion" width="100%" dataContainer="facturaProveedorDc"
                                           property="descripcionDocumento"/>

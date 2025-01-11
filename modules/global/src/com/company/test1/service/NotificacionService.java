@@ -7,6 +7,7 @@ import com.company.test1.entity.recibos.Recibo;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public interface NotificacionService {
     String NAME = "test1_NotificacionService";
@@ -22,6 +23,8 @@ public interface NotificacionService {
     Notificacion implementaContenidoManual(Notificacion n, String contenido, Hashtable ht, boolean verCamposVacios) throws Exception;
 
     Notificacion implementaVersionPdfVersionFlexReport(Notificacion n) throws Exception;
+
+    byte[] implementaVersionPdfVersionFlexReport(String contenido, Map otherparameters) throws Exception;
 
     byte[] implementaVersionPdfVersionFlexReport(String contenido) throws Exception;
 

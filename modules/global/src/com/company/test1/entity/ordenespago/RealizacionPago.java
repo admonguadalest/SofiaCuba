@@ -57,6 +57,9 @@ public class RealizacionPago extends StandardEntity {
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
+    @Column(name = "ES_COMPENSACION")
+    protected Boolean esCompensacion;
+
     public Boolean getMarcaPagadoAdministrador() {
         return marcaPagadoAdministrador;
     }
@@ -143,5 +146,16 @@ public class RealizacionPago extends StandardEntity {
 
     public void setRm2id(Integer rm2id) {
         this.rm2id = rm2id;
+    }
+
+    public void setEsCompensacion(Boolean b){
+        this.esCompensacion = b;
+    }
+
+    public Boolean getEsCompensacion(){
+        if (this.esCompensacion==null){
+            this.esCompensacion = false;
+        }
+        return this.esCompensacion;
     }
 }

@@ -12,6 +12,7 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.AppBeans;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -257,32 +258,58 @@ public class NotificacionServiceBean implements NotificacionService {
         return n;
     }
 
+    public byte[] implementaVersionPdfVersionFlexReport(String contenido, Map otherParameters) throws Exception{
+        JRRenderable jrr = null;
+
+        if (otherParameters!=null){
+            ArrayList al = new ArrayList(otherParameters.keySet());
+            if (al.indexOf("propietario_id")!=-1){
+                String propietario_id = (String) otherParameters.get("propietario_id");
+                if (propietario_id.compareTo("310227d2781e4409e88d417a1679541b") == 0) {
+                    jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta_udedos.svg");
+                }
+                if (propietario_id.compareTo("73b732c6c51a3ac9c825112a15e19015")==0){
+                    jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta_domus.svg");
+                }
+            }else{
+                jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
+            }
+        }
+
+        if (jrr==null){
+            jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
+        }
+
+
+
+
+        Hashtable ht = new Hashtable();
+
+        ht.put("contenidoNotificacion", contenido);
+        ht.put("CARTA", jrr);
+
+        //este metodo ha dejado de funcionar
+        //byte[] bb = com.sofia.model.reports.flexreports.Productor.produceReport(llp, ht, sl, slExtDocs);
+
+        //probamos esta variante
+
+        FlexReport fr = AppBeans.get(JasperReportService.class).getFlexReportDesdeNombre("CARTA");
+        ArrayList al = new ArrayList();
+        if (fr.getForzarReportDeUnSoloRegistroVacio()){
+            al.add(" ");
+        }
+        byte[] bb = AppBeans.get(JasperReportService.class).produceReport(fr, ht, al);
+
+        return bb;
+
+
+    }
+
     public byte[] implementaVersionPdfVersionFlexReport(String contenido)
             throws Exception{
 
+        return implementaVersionPdfVersionFlexReport(contenido, null);
 
-
-
-            JRRenderable jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
-
-            Hashtable ht = new Hashtable();
-//            ht.put("propietarioId", p.getId());
-            ht.put("contenidoNotificacion", contenido);
-            ht.put("CARTA", jrr);
-
-            //este metodo ha dejado de funcionar
-            //byte[] bb = com.sofia.model.reports.flexreports.Productor.produceReport(llp, ht, sl, slExtDocs);
-
-            //probamos esta variante
-
-            FlexReport fr = AppBeans.get(JasperReportService.class).getFlexReportDesdeNombre("CARTA");
-            ArrayList al = new ArrayList();
-            if (fr.getForzarReportDeUnSoloRegistroVacio()){
-                al.add(" ");
-            }
-            byte[] bb = AppBeans.get(JasperReportService.class).produceReport(fr, ht, al);
-
-            return bb;
 
 
     }
@@ -295,7 +322,17 @@ public class NotificacionServiceBean implements NotificacionService {
             ContratoInquilino ci = nci.getContratoInquilino();
             Propietario p = ci.getDepartamento().getPropietarioEfectivo();
 
-            JRRenderable jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
+            String propietarioId = p.getId().toString().replace("-","");
+            JRRenderable jrr = null;
+            if (propietarioId.compareTo("310227d2781e4409e88d417a1679541b") == 0) {
+                jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta_udedos.svg");
+            }
+            else if (propietarioId.compareTo("73b732c6c51a3ac9c825112a15e19015")==0){
+                jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta_domus.svg");
+            }else{
+                jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("carta.svg");
+            }
+
 
             Hashtable ht = new Hashtable();
             ht.put("propietarioId", p.getId());

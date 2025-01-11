@@ -130,7 +130,11 @@ public class Impagados extends Screen {
                     return (((Ubicacion)o1.getUserObject()).getNombre().compareTo(((Ubicacion)o2.getUserObject()).getNombre()));
                 }
                 if ((o1.getUserObject() instanceof Departamento)&&(o2.getUserObject()instanceof Departamento)){
-                    return (((Departamento)o1.getUserObject()).getRm2id().compareTo(((Departamento)o2.getUserObject()).getRm2id()));
+                    try {
+                        return (((Departamento) o1.getUserObject()).getRm2id().compareTo(((Departamento) o2.getUserObject()).getRm2id()));
+                    }catch(Exception exc){
+                        return -1;
+                    }
                 }
                 if ((o1.getUserObject() instanceof Ubicacion)&&(o2.getUserObject()instanceof Departamento)){
                     return 1;

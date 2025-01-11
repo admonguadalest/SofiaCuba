@@ -19,9 +19,9 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="scrollBox" spacing="true">
-        <scrollBox spacing="true" height="100%" width="679px" id="scrollBox">
+        <scrollBox spacing="true" height="100%" width="100%" id="scrollBox">
             <form id="form" dataContainer="reciboDc" width="100%">
-                <column width="100%">
+                <column width="70%">
                     <textField editable="false" property="ordenanteRemesa.remesa.identificadorRemesa"/>
                     <textField id="numReciboField" property="numRecibo" editable="false"/>
                     <lookupField id="nombreSerieField" property="serie" editable="false" optionsContainer="seriesDc" captionProperty="nombreSerie"/>
@@ -59,8 +59,11 @@
                             <button caption="Eliminar" action="tableMovimientos.remove"/>
                         </buttonsPanel>
                     </table>
+                    <textArea id="txtAmpliacion" property="ampliacion" width="100%"/>
                 </column>
+
             </form>
+
         </scrollBox>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>

@@ -108,9 +108,14 @@ public class CaratulaContratoArrendamientoVivienda extends CaratulaContratoArren
         //Provisional
         JRRenderable jrr = null;
 
-
+        String nifPropietario = this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+        if (nifPropietario.compareTo("B75537878")==0){
+            jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGrupoDomus.jpg");
+        }else{
+            jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
+        }
         //PENDIENTE ADAPTAR A CONTRATOS DE MARVALLOS
-        jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
+
 
         //Parte comprobaciones
         if (this.contratoInquilino.getFechaRealizacion() == null) {

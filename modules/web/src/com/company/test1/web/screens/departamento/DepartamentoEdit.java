@@ -1,6 +1,7 @@
 package com.company.test1.web.screens.departamento;
 
 import com.company.test1.entity.ColeccionArchivosAdjuntos;
+import com.company.test1.entity.RegistroContrasena;
 import com.company.test1.entity.departamentos.CedulaHabitabilidad;
 import com.company.test1.entity.departamentos.CertificadoCalificacionEnergetica;
 import com.company.test1.web.screens.ScreenLaunchUtil;
@@ -16,6 +17,8 @@ import com.haulmont.cuba.gui.model.*;
 import com.haulmont.cuba.gui.model.impl.InstanceContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.departamentos.Departamento;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -59,6 +62,10 @@ public class DepartamentoEdit extends StandardEditor<Departamento> {
     private LookupField<String> pisoField;
     @Inject
     private Notifications notifications;
+    @Inject
+    private UserSession userSession;
+    @Inject
+    private TextField<Integer> rm2Id;
 
     @Install(to = "cedulasDl", target = Target.DATA_LOADER)
     private List<CedulaHabitabilidad> cedulasDlLoadDelegate(LoadContext<CedulaHabitabilidad> loadContext) {
@@ -126,6 +133,13 @@ public class DepartamentoEdit extends StandardEditor<Departamento> {
             }
         }
         pueblaListaLiteralesPickers();
+
+        User u = userSession.getUser();
+
+
+        if (u.getLogin().compareTo("carlosconti")==0){
+            rm2Id.setEditable(true);
+        }
     }
 
     private void pueblaListaLiteralesPickers(){

@@ -131,9 +131,10 @@ public class MovimientoCuentaDeGastoBrowse extends StandardLookup<MovimientoCuen
                     dialogs.createOptionDialog().withCaption("¿Desea contabilizar en Contabilidad la factura creada?")
                             .withActions(
                                     new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e3 -> {
+                                        User user = userSession.getUser();
                                         try {
                                             FacturaProveedor fprov = fpae.getEditedEntity();
-                                            boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                                            boolean res = contabiService.publicaContabilizacionFacturaProveedor(user, (FacturaProveedor) fprov);
                                             if (res) {
                                                 notifications.create().withCaption("Factura publicada corréctamente").show();
                                             }
@@ -179,6 +180,7 @@ public class MovimientoCuentaDeGastoBrowse extends StandardLookup<MovimientoCuen
 
     @Install(to = "movimientoCuentaDeGastoesDl", target = Target.DATA_LOADER)
     private List<MovimientoCuentaDeGasto> movimientoCuentaDeGastoesDlLoadDelegate(LoadContext<MovimientoCuentaDeGasto> loadContext) {
+        loadContext.getQuery().setMaxResults(0);
         List<MovimientoCuentaDeGasto> mm = dataManager.loadList(loadContext);
         User currentUser = userSession.getUser();
         if (currentUser.getLogin().compareTo("carlosconti")==0){
@@ -198,6 +200,8 @@ public class MovimientoCuentaDeGastoBrowse extends StandardLookup<MovimientoCuen
                     }
                 }catch(Exception exc){
                     int y = 2;
+                    notifications.create().withCaption("Error en registro i = " + i).show();
+                    return mm_;
                 }
 
             }

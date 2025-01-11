@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens">
+    <layout spacing="true">
+        <label value="Por favor insere los corresos electronicos a donde desea enviar los recibos seleccionados"/>
+        <textField id="txtEmails" caption="Direcciones"/>
+        <hbox spacing="true">
+            <button caption="Enviar" invoke="onBtnEnviar"/>
+            <button caption="Cancelar" invoke="onBtnCancelar"/>
+        </hbox>
+
+    </layout>
+</window>

@@ -2,8 +2,10 @@ package com.company.test1.web.screens.validaciones;
 
 import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.ArchivoAdjuntoExt;
+import com.company.test1.entity.Persona;
 import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
+import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
@@ -37,6 +39,7 @@ import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.impl.InstanceContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.security.global.UserSession;
 
 
 import javax.imageio.ImageIO;
@@ -114,6 +117,8 @@ public class GestionarValidaciones extends Screen {
     private Label<String> lblNumRows;
     @Inject
     private PdfService pdfService;
+    @Inject
+    private UserSession userSession;
 
     @Subscribe
     public void onAfterInit(AfterInitEvent event) {
@@ -147,6 +152,11 @@ public class GestionarValidaciones extends Screen {
 
     public void onBtnBuscarClick() {
         try{
+            String userlogin = userSession.getUser().getLogin();
+            HashMap<String, String> userLoginNifPropietarios = new HashMap();
+            userLoginNifPropietarios.put("pilarconti", "B75537886");
+            userLoginNifPropietarios.put("carlosconti", "B75537878;B75537860;B75537886;B08377079;B65687766");
+            //userLoginNifPropietarios.put("carlosconti", "B75537878");
             List<ValidacionImputacionDocumentoImputable> lvidis =
                     validacionesService.devuelveValidacionesAcordeADatos(
                             lkpTipoValidacion.getValue(),
@@ -163,6 +173,14 @@ public class GestionarValidaciones extends Screen {
             for (int i = 0; i < lvidis.size(); i++) {
                 ValidacionImputacionDocumentoImputable validacionImputacionDocumentoImputable =  lvidis.get(i);
                 validacionImputacionDocumentoImputable = dataManager.reload(validacionImputacionDocumentoImputable, "validacionImputacionDocumentoImputable-view");
+                ImputacionDocumentoImputable idi = validacionImputacionDocumentoImputable.getImputacionDocumentoImputable();
+                Departamento d = idi.getCiclo().getDepartamento();
+                Persona p = d.getPropietarioEfectivo().getPersona();
+                String nifProp = p.getNifDni();
+                String nifsPermitidos = userLoginNifPropietarios.get(userlogin);
+                if (nifsPermitidos.indexOf(nifProp)==-1){
+                    continue;
+                }
                 DocumentoProveedor dp = (DocumentoProveedor) validacionImputacionDocumentoImputable.getImputacionDocumentoImputable().getDocumentoImputable();
                 if (dp instanceof FacturaProveedor){
                     dp = dataManager.reload((FacturaProveedor) dp, "facturaProveedor-reasignaciones-imputaciones-view");
@@ -562,6 +580,16 @@ public class GestionarValidaciones extends Screen {
 
         }
     }
+
+    public void buscaValidacionesPendientesParaDatos(DocumentoImputableTipoEnum dite, Date fechaDesde, Proveedor p){
+        lkpTipoValidacion.setValue(dite);
+        datFechaDesde.setValue(fechaDesde);
+        lkpEstadoValidacion.setValue(ValidacionEstado.PENDIENTE);
+        txtProveedor.setValue(p.getNombreComercial());
+        onBtnBuscarClick();
+    }
+
+
 
 
 

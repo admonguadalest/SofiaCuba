@@ -82,6 +82,19 @@ public class JasperReportServiceBean implements JasperReportService {
     @Inject
     NotificacionService notificacionService;
 
+    public String getExtFileContent(String fileName) throws Exception{
+        Transaction t = persistence.createTransaction();
+        String hql = "select fd FROM sys$FileDescriptor fd WHERE fd.name = :n";
+        FileDescriptor fd = (FileDescriptor) persistence.getEntityManager().createQuery(hql).setParameter("n", fileName).getFirstResult();
+
+
+        InputStream bais  = fileLoader.openStream(fd);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        org.apache.commons.io.IOUtils.copy(bais, baos);
+
+        return new String(baos.toByteArray());
+    }
+
     public byte[] generaReportValidacionesIdis(List<ValidacionImputacionDocumentoImputable> l, DocumentoImputableTipoEnum tipo, Date fechaInicial, Date fechaFinal) throws Exception{
         if (fechaInicial == null){
             fechaInicial = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
@@ -657,6 +670,8 @@ public class JasperReportServiceBean implements JasperReportService {
             }
             urd.setTotalPostCCAAAnterior(htAntEmision.get(urd.getUbicacion()));
             urd.setTotalPostCCAAProxEmision(htProxEmision.get(urd.getUbicacion()));
+            if (urd.getTotalPostCCAAAnterior()==null) urd.setTotalPostCCAAAnterior(0.0);
+            if (urd.getTotalPostCCAAProxEmision() == null) urd.setTotalPostCCAAProxEmision(0.0);
             //si esta vacio, no lo anyado
             int s = urd.getAltas().size() + urd.getBajas().size() + urd.getAlteraciones().size();
             if (s == 0) continue;
@@ -688,6 +703,9 @@ public class JasperReportServiceBean implements JasperReportService {
             Ubicacion u = it.next();
             List<Recibo> rr = tm.get(u);
             List<Recibo> rra = tmA.get(u);
+
+            if (rr==null) rr = new ArrayList<Recibo>();
+            if (rra==null) rra = new ArrayList<Recibo>();
             a:
             for (int i = 0; i < rr.size(); i++) {
                 Recibo get = rr.get(i);
@@ -718,6 +736,12 @@ public class JasperReportServiceBean implements JasperReportService {
             Ubicacion u = ita.next();
             List<Recibo> rr = tm.get(u);
             List<Recibo> rra = tmA.get(u);
+            if (rr == null){
+                rr = new ArrayList();
+            }
+            if (rra == null){
+                rra = new ArrayList();
+            }
             a:
             for (int i = 0; i < rra.size(); i++) {
                 Recibo get = rra.get(i);
@@ -748,6 +772,9 @@ public class JasperReportServiceBean implements JasperReportService {
             Ubicacion u = it.next();
             List<Recibo> rr = tm.get(u);
             List<Recibo> rra = tmA.get(u);
+
+            if (rr==null) rr = new ArrayList<Recibo>();
+            if (rra==null) rra = new ArrayList<Recibo>();
 
             for (int i = 0; i < rr.size(); i++) {
                 Recibo get = rr.get(i);
@@ -1310,7 +1337,9 @@ public class JasperReportServiceBean implements JasperReportService {
 //
 //            }
 
-            byte[] bb = notificacionService.implementaVersionPdfVersionFlexReport(contenidoImplmentado);
+            HashMap map = new HashMap();
+            map.put("propietario_id", c.getDepartamento().getPropietarioEfectivo().getId().toString().replace("-",""));
+            byte[] bb = notificacionService.implementaVersionPdfVersionFlexReport(contenidoImplmentado, map);
 
 
             ByteArrayInputStream bais = new ByteArrayInputStream(bb);

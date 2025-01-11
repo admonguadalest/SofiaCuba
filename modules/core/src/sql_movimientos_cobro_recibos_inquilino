@@ -1,0 +1,16 @@
+use cubatest1;
+select p.nombre_completo, u.nombre, d.piso, d.puerta, r.fecha_emision, r.num_recibo, rc.fecha_cobro,
+	if (rc.modo_ingreso=1,rc.total_ingreso, 0) as "Bancario",
+    if (rc.modo_ingreso=2,rc.total_ingreso, 0) as "Administracion",
+    if (rc.modo_ingreso=3,rc.total_ingreso, 0) as "Devuelto"
+
+
+from recibo_cobrado rc
+	inner join recibo r on rc.recibo_id = r.id
+    inner join contrato_inquilino ci on r.utilitario_contrato_inquilino_id = ci.id
+    inner join persona p on ci.inquilino_id = p.id
+    inner join departamento d on ci.departamento_id = d.id
+    inner join ubicacion u on d.ubicacion_id = u.id
+
+where p.nombre_completo like '%miro llop%'
+order by rc.fecha_cobro asc

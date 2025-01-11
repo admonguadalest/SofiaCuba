@@ -43,6 +43,7 @@
                 </flowBox>
                 <flowBox spacing="true">
                     <lookupField id="paisField" dataContainer="direccionDc" property="pais" caption="Pais" />
+
                     <textField id="regionField" dataContainer="direccionDc" property="region" caption="Region"/>
 
                 </flowBox>

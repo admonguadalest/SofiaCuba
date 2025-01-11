@@ -25,7 +25,9 @@ import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.model.impl.CollectionContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
-import com.sun.glass.ui.CommonDialogs;
+
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 import com.sun.mail.imap.OlderTerm;
 import com.sun.mail.imap.YoungerTerm;
 import com.sun.mail.util.BASE64DecoderStream;
@@ -152,14 +154,10 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     private CollectionContainer<RossumAnnotation> rossumAnnotationsDc;
     @Inject
     private ContabiService contabiService;
-
-    @Subscribe("dataGridRossumAnnotations")
-    public void onDataGridRossumAnnotationsItemClick(DataGrid.ItemClickEvent<RossumAnnotation> event) {
-
-
-    }
-
-
+    @Inject
+    private Button refreshRossum;
+    @Inject
+    private UserSession userSession;
 
     @Subscribe("btnBuscar")
     public void onBtnBuscarClick(Button.ClickEvent event) {
@@ -175,6 +173,8 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
 
 
     }
+
+
 
 
 
@@ -216,10 +216,27 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         return andTerm;
     }
 
+    public void refrescar(){
+        PuntoEntradaDocumentos pde = pkrPuntoEntradaDocumentos.getValue();
+        if (pde!=null) {
+            if (pde.getTipo()==TipoPuntoEntradaDocumentosEnum.ROSSUM){
+                cargarFacturasRossum(null);
+            }else{
+                notifications.create().withCaption("Only for Rossum Entry Point").show();
+            }
+
+        }
+    }
+
     public void purgarAnnotationSeleccionada(){
+        User user = userSession.getUser();
+        this.purgarAnnotationSeleccionada(user);
+    }
+
+    public void purgarAnnotationSeleccionada(User cubaUser){
         try {
             RossumCommonDialogs rcd = new RossumCommonDialogs();
-            rcd.getAuthToken("", "");
+            rcd.getAuthToken(cubaUser, "", "");
             RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
             Integer annotationId = ra.getAnnotationId();
             Integer queueId = ra.getQueueId();
@@ -282,10 +299,10 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 if (!fpae.hasUnsavedChanges()) {
                     dialogs.createOptionDialog().withCaption("¿Desea purgar la anotación seleccionada en Rossum?").withActions(
                             new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e2 -> {
-
+                                User user = userSession.getUser();
                                 try {
                                     RossumCommonDialogs rcd = new RossumCommonDialogs();
-                                    rcd.getAuthToken("", "");
+                                    rcd.getAuthToken(user, "", "");
                                     RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
                                     Integer annotationId = ra.getAnnotationId();
                                     Integer queueId = ra.getQueueId();
@@ -302,9 +319,10 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                                         dialogs.createOptionDialog().withCaption("¿Desea contabilizar en Contabilidad la factura creada?")
                                                 .withActions(
                                                         new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e3 -> {
+                                                            User cubaUser = userSession.getUser();
                                                             try {
                                                                 FacturaProveedor fprov = fpae.getEditedEntity();
-                                                                boolean res = contabiService.publicaContabilizacionFacturaProveedor((FacturaProveedor) fprov);
+                                                                boolean res = contabiService.publicaContabilizacionFacturaProveedor(cubaUser, (FacturaProveedor) fprov);
                                                                 if (res){
                                                                     notifications.create().withCaption("Factura publicada corréctamente").show();
                                                                 }
@@ -337,6 +355,20 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         fpae.show();
 
     }
+
+    @Subscribe("pkrPuntoEntradaDocumentos")
+    public void onPkrPuntoEntradaDocumentosValueChange1(HasValue.ValueChangeEvent<PuntoEntradaDocumentos> event) {
+        PuntoEntradaDocumentos pde = pkrPuntoEntradaDocumentos.getValue();
+        if (pde!=null){
+            if (pde.getTipo() == TipoPuntoEntradaDocumentosEnum.ROSSUM){
+                refreshRossum.setEnabled(true);
+            }else{
+                refreshRossum.setEnabled(false);
+            }
+        }
+    }
+
+
 
     @Subscribe("btnNuevoPpto")
     public void onBtnNuevoPptoClick(Button.ClickEvent event) {
@@ -382,10 +414,10 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 if (!pewa.hasUnsavedChanges()) {
                     dialogs.createOptionDialog().withCaption("¿Desea purgar la anotación seleccionada en Rossum?").withActions(
                             new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e2 -> {
-
+                                User user = userSession.getUser();
                                 try {
                                     RossumCommonDialogs rcd = new RossumCommonDialogs();
-                                    rcd.getAuthToken("", "");
+                                    rcd.getAuthToken(user, "", "");
                                     RossumAnnotation ra = dataGridRossumAnnotations.getSingleSelected();
                                     Integer annotationId = ra.getAnnotationId();
                                     Integer queueId = ra.getQueueId();
@@ -466,6 +498,12 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
         });
 
         inicializaMultiUploadField();
+
+    }
+
+    @Subscribe("dataGridRossumAnnotations")
+    public void onDataGridRossumAnnotationsItemClick(DataGrid.ItemClickEvent<RossumAnnotation> event) {
+
 
     }
 
@@ -612,10 +650,11 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
     @Install(to = "rossumAnnotationsDl", target = Target.DATA_LOADER)
     private List<RossumAnnotation> rossumAnnotationsDlLoadDelegate(LoadContext<RossumAnnotation> loadContext) {
         //loggeando e rossum
+        User user = userSession.getUser();
         ArrayList<RossumAnnotation> invoices = new ArrayList<RossumAnnotation>();
         try{
             this.rcd = new RossumCommonDialogs();
-            rcd.getAuthToken("","");
+            rcd.getAuthToken(user, "","");
             rcd.getQueues();
 
             ArrayList<Integer> queues =  new ArrayList(rcd.queues.keySet());
@@ -630,7 +669,9 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 invoices.add(rbi);
             }
         }catch(Exception exc){
-
+            notifications.create(Notifications.NotificationType.ERROR)
+                    .withCaption("Error").withDescription(exc.getMessage()).show();
+            int y = 2;
         }
         return invoices;
     }

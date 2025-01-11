@@ -14,6 +14,7 @@ import com.company.test1.entity.recibos.OrdenanteRemesa;
 import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.Remesa;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.security.entity.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -44,7 +45,7 @@ public class ContabiServiceBean implements ContabiService {
     @Inject
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
 
-    public String getAuthToken(String user, String pwd) throws Exception{
+    public String getAuthToken(User cubUser, String user, String pwd) throws Exception{
 
             String url = "http://localhost:8080/oauth/token?grant_type=password&username=" + user + "&password=" + pwd;
             DefaultHttpClient http = new DefaultHttpClient();
@@ -79,8 +80,8 @@ public class ContabiServiceBean implements ContabiService {
 
     }
 
-    public boolean publicaContabilizacionFacturaProveedor(FacturaProveedor fp) throws Exception{
-        this.authToken = getAuthToken("admin", "EaGmTfki");
+    public boolean publicaContabilizacionFacturaProveedor(User cubaUser, FacturaProveedor fp) throws Exception{
+        this.authToken = getAuthToken(cubaUser, "admin", "EaGmTfki");
 
         if (comprobarPublicacionFacturaProveedor(fp, this.authToken)){
             throw new Exception("Esta factura proveedor ya esta publicada para la operacion 'CONTABILIZAR_FACTURAS'");
@@ -290,8 +291,8 @@ public class ContabiServiceBean implements ContabiService {
         }
     }
 
-    public boolean publicaContabilizacionRemesaRecibos(Remesa r, byte[] bb) throws Exception{
-        this.authToken = getAuthToken("admin", "EaGmTfki");
+    public boolean publicaContabilizacionRemesaRecibos(User cubaUser, Remesa r, byte[] bb) throws Exception{
+        this.authToken = getAuthToken(cubaUser, "admin", "EaGmTfki");
 
         if (comprobarPublicacionRemesaRecibos(r, this.authToken)){
             throw new Exception("Esta remesa ya esta publicada para la operacion 'CONTABILIZAR_REMESAS_RECIBOS'");

@@ -64,6 +64,7 @@
                             <textArea width="100%" caption="Consideraciones" dataContainer="facturaProveedorDc"
                                       property="consideracionesDocumentoImputable"/>
                         </groupBox>
+                        <textField dataContainer="facturaProveedorDc" property="id" caption="Internal Id." editable="false"/>
                     </vbox>
                 </column>
             </form>

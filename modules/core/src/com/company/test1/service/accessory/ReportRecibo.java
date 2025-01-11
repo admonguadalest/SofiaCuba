@@ -112,6 +112,7 @@ public class ReportRecibo {
         Double totalReciboMasCobranzas = 0.0;
         String cuentaIban = null;
         String cotitulares = "Sin cotitulares";
+        String ampliacion = "";
 
         List<ImplementacionConcepto> iccAgregados = null;
 
@@ -133,6 +134,7 @@ public class ReportRecibo {
             this.fechaEmision =  r.getFechaEmision();
             this.poblacionExpedicion = r.getUtilitarioContratoInquilino().getLugarRealizacion();
             this.direccionEntornoNombre = "PENDIENTE";
+            this.ampliacion = r.getAmpliacion();
             this.vencimiento = new SimpleDateFormat("dd/MM/yyyy").format(r.getFechaEmision());
 //            if (r.getUtilitarioContratoInquilino().getFechaVencimientoPrevisto()!=null){
 //
@@ -215,6 +217,8 @@ public class ReportRecibo {
                 cb = r.getUtilitarioContratoInquilino().getProgramacionRecibo().getCuentaBancariaInquilino();
             }
             this.cuentaIban = cb.getVersionIBAN();//pendinte
+
+            this.ampliacion = r.getAmpliacion();
 
             getImplementacionesConceptosAgregadas();
 
@@ -358,6 +362,10 @@ public class ReportRecibo {
 
         public String getCotitulares(){
             return this.cotitulares;
+        }
+
+        public String getAmpliacion(){
+            return this.ampliacion;
         }
     }
 }

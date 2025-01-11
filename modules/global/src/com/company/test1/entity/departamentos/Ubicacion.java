@@ -100,6 +100,10 @@ public class Ubicacion extends StandardEntity implements AsTreeItem, Comparable<
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
+    @Lob
+    @Column(name = "AMPLIACION")
+    protected String ampliacion;
+
     public List<UbicacionCoeficiente> getUbicacionesCoeficientes() {
         return ubicacionesCoeficientes;
     }
@@ -239,4 +243,12 @@ public class Ubicacion extends StandardEntity implements AsTreeItem, Comparable<
             return ubicacion.getRm2id().compareTo(t1.getRm2id());
         }
     };
+
+    public String getAmpliacion() {
+        return ampliacion;
+    }
+
+    public void setAmpliacion(String ampliacion) {
+        this.ampliacion = ampliacion;
+    }
 }
