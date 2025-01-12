@@ -13,6 +13,7 @@
         <class>com.company.test1.entity.ItemNoEmitidoOAnomalo</class>
         <class>com.company.test1.entity.recibos.FlujoMonetarioContrato</class>
         <class>com.company.test1.entity.RossumAnnotation</class>
+        <class>com.company.test1.entity.recibos.ReciboReport</class>
     </metadata-model>
 
 </metadata>

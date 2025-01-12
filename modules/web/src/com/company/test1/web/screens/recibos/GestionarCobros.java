@@ -7,6 +7,7 @@ import com.company.test1.entity.PersonaJuridica;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.enums.TipoDeDatoDeContactoEnum;
 import com.company.test1.entity.extroles.Propietario;
+import com.company.test1.entity.recibos.ReciboReport;
 import com.company.test1.service.JasperReportService;
 import com.company.test1.service.PdfService;
 import com.company.test1.web.screens.DynamicReportHelper;
@@ -18,6 +19,7 @@ import com.haulmont.cuba.core.global.EmailInfo;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
+import com.haulmont.cuba.gui.components.Filter;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
@@ -25,11 +27,12 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.recibos.Recibo;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
+import com.haulmont.reports.entity.Report;
+import com.haulmont.reports.gui.ReportGuiManager;
+import com.haulmont.yarg.reporting.ReportOutputDocument;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @UiController("test1_Recibo.browse")
 @UiDescriptor("gestionar-cobros.xml")
@@ -54,6 +57,10 @@ public class GestionarCobros extends StandardLookup<Recibo> {
     private DataManager dataManager;
     @Inject
     private UserSession userSession;
+    @Inject
+    private ReportGuiManager reportGuiManager;
+    @Inject
+    private Filter filter;
 
     public void onBtnVerReportClick() {
         byte[] bb = DynamicReportHelper.getReportDinamico("Recibos", Recibo.class, reciboesTable);
@@ -99,7 +106,54 @@ public class GestionarCobros extends StandardLookup<Recibo> {
 
     }
 
+    public void onBtnExcel(){
+        ArrayList<Recibo> rbos = new ArrayList(reciboesTable.getSelected());
+        if (rbos.size()==0){
+            notifications.create().withCaption("Seleccionar al menos un recibo").show();
+        }
+        ArrayList<ReciboReport> rrs = new ArrayList();
+        for (int i = 0; i < rbos.size(); i++) {
+            Recibo r = rbos.get(i);
+            r = dataManager.reload(r, "recibo-report-view");
+            ReciboReport rr = dataManager.create(ReciboReport.class);
+            rr.setUbicacion(r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getNombre());
+            rr.setPiso(r.getUtilitarioContratoInquilino().getDepartamento().getPiso());
+            rr.setPuerta(r.getUtilitarioContratoInquilino().getDepartamento().getPuerta());
+            rr.setFechaEmision(r.getFechaEmision());
+            rr.setNumRecibo(r.getNumRecibo());
+            rr.setNombreInquilino(r.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto());
+            rr.setImporte(r.getTotalRecibo());
+            rr.setCuotaIrpf(r.getTotalIRPF());
+            rr.setCuotaIva(r.getTotalIVA());
+            rr.setImporteFinal(r.getTotalReciboPostCCAA());
+            rr.setAmpliacion(r.getAmpliacion());
+            rr.setReciboId(r.getId().toString().replace("-",""));
+            rr.setRemesa(r.getInfoRemesa());
+            //rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
+            rr.setPropietario("pruebas");
+            rrs.add(rr);
+        }
 
+        Collections.sort(rrs, ReciboReport.getNaturalComparator());
+
+        Report r = dataManager.load(Report.class).query("select r from report$Report r " +
+                "where r.name = :rn").parameter("rn", "RecibosEmitidos2")
+                .one();
+        HashMap pams = new HashMap();
+        /*pams.put("entities", asignacionTareasProgramadasDc.getItems());
+        pams.put("TITULO", "TAREAS PROGRAMADAS");
+        pams.put("FECHA_REPORT", new Date());*/
+        pams.put("recibos",rrs);
+        pams.put("nombreCompleto", "[NOMBRE EMPRESA]");
+        pams.put("titulo", "Recibos Emitidos Periodo");
+        pams.put("fechaRealizacion", new Date());
+
+        pams.put("periodoFechaDesde", new Date());
+        pams.put("periodoFechaHasta", new Date());
+        ReportOutputDocument rod = reportGuiManager.getReportResult(r, pams, null);
+        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Emitidas.xlsx");
+        int y = 2;
+    }
 
     public void onBtnEmail(){
         //primero verifico que todas las selecciones corresponden al mismo contrato, sino veto la accion

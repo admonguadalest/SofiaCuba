@@ -28,6 +28,7 @@
             <property caption="Piso" name="utilitarioContratoInquilino.departamento.piso"/>
             <property caption="Puerta" name="utilitarioContratoInquilino.departamento.puerta"/>
             <property caption="Importe" name="totalReciboPostCCAA"/>
+            <property caption="Fecha Registro" name="createTs"/>
         </filter>
         <table id="reciboesTable"
                width="100%"
@@ -47,7 +48,7 @@
                 <column id="numRecibo"/>
                 <column id="fechaEmision"/>
                 <column id="ampliacion"/>
-
+                <column id="createTs"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
@@ -56,6 +57,7 @@
                 <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
                 <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
                 <button id="btnEmail" caption="Enviar por Email" invoke="onBtnEmail"/>
+                <button id="btnExcel" caption="XlsX" invoke="onBtnExcel"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

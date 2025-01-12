@@ -1326,6 +1326,8 @@
             <property name="fechaVencimientoPrevisto"/>
             <property name="lugarRealizacion"/>
             <property name="departamento" view="_minimal">
+                <property name="piso"/>
+                <property name="puerta"/>
                 <property name="referenciaCatastral"/>
                 <property name="propietario" view="_minimal">
                     <property name="persona" view="_minimal">
@@ -1336,6 +1338,7 @@
                     </property>
                 </property>
                 <property name="ubicacion" view="_minimal">
+                    <property name="nombre"/>
                     <property name="propietario" view="_minimal">
                         <property name="persona" view="_minimal">
                             <property name="direcciones" view="_base"/>
