@@ -105,7 +105,7 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
         ArrayList<DocumentoProveedorReport> ddpp = new ArrayList();
         for (int i = 0; i < fras.size(); i++) {
             DocumentoProveedor dp = fras.get(i);
-            dp = dataManager.reload(dp, "documentoProveedor-view");
+            dp = dataManager.reload(dp, "facturaProveedor-view");
             DocumentoProveedorReport dpr = dataManager.create(DocumentoProveedorReport.class);
             dpr.setTitularNombreCompleto(dp.getTitular().getNombreCompleto());
             dpr.setProveedorNombreCompleto(dp.getProveedor().getPersona().getNombreCompleto());
