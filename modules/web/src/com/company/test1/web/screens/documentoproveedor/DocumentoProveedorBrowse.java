@@ -3,9 +3,9 @@ package com.company.test1.web.screens.documentoproveedor;
 import com.company.test1.StringUtils;
 import com.company.test1.entity.ArchivoAdjunto;
 import com.company.test1.entity.ArchivoAdjuntoExt;
-import com.company.test1.entity.documentosImputables.DocumentoImputable;
-import com.company.test1.entity.documentosImputables.FacturaProveedor;
-import com.company.test1.entity.documentosImputables.Presupuesto;
+import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
+import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
+import com.company.test1.entity.documentosImputables.*;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
 import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.entity.recibos.ReciboReport;
@@ -26,7 +26,6 @@ import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
-import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.haulmont.cuba.gui.screen.LookupComponent;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
@@ -99,51 +98,65 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     }
 
     public void onBtnExcel(){
-        ArrayList<Recibo> rbos = new ArrayList(documentoProveedorsTable.getSelected());
-        if (rbos.size()==0){
+        ArrayList<DocumentoProveedor> fras = new ArrayList(documentoProveedorsTable.getSelected());
+        if (fras.size()==0){
             notifications.create().withCaption("Seleccionar al menos una factura").show();
         }
-        ArrayList<ReciboReport> rrs = new ArrayList();
-        for (int i = 0; i < rbos.size(); i++) {
-            Recibo r = rbos.get(i);
-            r = dataManager.reload(r, "recibo-report-view");
-            ReciboReport rr = dataManager.create(ReciboReport.class);
-            rr.setUbicacion(r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getNombre());
-            rr.setPiso(r.getUtilitarioContratoInquilino().getDepartamento().getPiso());
-            rr.setPuerta(r.getUtilitarioContratoInquilino().getDepartamento().getPuerta());
-            rr.setFechaEmision(r.getFechaEmision());
-            rr.setNumRecibo(r.getNumRecibo());
-            rr.setNombreInquilino(r.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto());
-            rr.setImporte(r.getTotalRecibo());
-            rr.setCuotaIrpf(r.getTotalIRPF());
-            rr.setCuotaIva(r.getTotalIVA());
-            rr.setImporteFinal(r.getTotalReciboPostCCAA());
-            rr.setAmpliacion(r.getAmpliacion());
-            rr.setReciboId(r.getId().toString().replace("-",""));
-            rr.setRemesa(r.getInfoRemesa());
-            rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
-            //rr.setPropietario("pruebas");
-            rrs.add(rr);
+        ArrayList<DocumentoProveedorReport> ddpp = new ArrayList();
+        for (int i = 0; i < fras.size(); i++) {
+            DocumentoProveedor dp = fras.get(i);
+            dp = dataManager.reload(dp, "documentoProveedor-view");
+            DocumentoProveedorReport dpr = dataManager.create(DocumentoProveedorReport.class);
+            dpr.setTitularNombreCompleto(dp.getTitular().getNombreCompleto());
+            dpr.setProveedorNombreCompleto(dp.getProveedor().getPersona().getNombreCompleto());
+            dpr.setFechaEmision(dp.getFechaEmision());
+            dpr.setNumDocumento(dp.getNumDocumento());
+            dpr.setBase(dp.getImporteTotalBase());
+            double iva = 0.0;
+            double irpf = 0.0;
+            for (int j = 0; j < dp.getRegistroAplicacionConceptosAdicionales().size(); j++) {
+                RegistroAplicacionConceptoAdicional raca = dp.getRegistroAplicacionConceptosAdicionales().get(j);
+                if (raca.getConceptoAdicional().getAbreviacion().compareTo("IVA")==0){
+                    iva += raca.getImporteAplicado();
+                }
+                if (raca.getConceptoAdicional().getAbreviacion().compareTo("IRPF")==0){
+                    irpf += raca.getImporteAplicado();
+                }
+            }
+            dpr.setIrpf(irpf);
+            dpr.setIva(iva);
+            dpr.setTotal(dp.getImportePostCCAA());
+            dpr.setTextoImputaciones(dp.getTextoImputaciones());
+            String porcentajesImputaciones = "";
+            for (int j = 0; j < dp.getImputacionesDocumentoImputable().size(); j++) {
+                ImputacionDocumentoImputable idi = dp.getImputacionesDocumentoImputable().get(j);
+                if (j > 0) porcentajesImputaciones += ", ";
+                porcentajesImputaciones += idi.getPorcentajeImputacion().toString();
+            }
+            dpr.setPorcentajesImputaciones(porcentajesImputaciones);
+            dpr.setFechaRegistro(dp.getCreateTs());
+            dpr.setDocumentoProveedorId(dp.getId().toString().replace("-",""));
+            ddpp.add(dpr);
         }
 
-        Collections.sort(rrs, ReciboReport.getNaturalComparator());
+
 
         Report r = dataManager.load(Report.class).query("select r from report$Report r " +
-                "where r.name = :rn").parameter("rn", "RecibosEmitidos")
+                "where r.name = :rn").parameter("rn", "FacturasSoportadas")
                 .one();
         HashMap pams = new HashMap();
         /*pams.put("entities", asignacionTareasProgramadasDc.getItems());
         pams.put("TITULO", "TAREAS PROGRAMADAS");
         pams.put("FECHA_REPORT", new Date());*/
-        pams.put("recibos",rrs);
+        pams.put("facturas",ddpp);
         pams.put("nombreCompleto", "[NOMBRE EMPRESA]");
-        pams.put("titulo", "Recibos Emitidos Periodo");
+        pams.put("titulo", "Facturas Soportadas");
         pams.put("fechaRealizacion", new Date());
 
         pams.put("periodoFechaDesde", new Date());
         pams.put("periodoFechaHasta", new Date());
         ReportOutputDocument rod = reportGuiManager.getReportResult(r, pams, null);
-        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Emitidas.xlsx");
+        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Soportadas.xlsx");
         int y = 2;
     }
 
