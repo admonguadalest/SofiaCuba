@@ -2,6 +2,7 @@ package com.company.test1.web.screens.contratoinquilino;
 
 import com.company.test1.web.screens.DynamicReportHelper;
 import com.company.test1.web.screens.ScreenLaunchUtil;
+import com.company.test1.web.screens.notificaciones.NotificacionGenericaManual;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Filter;
@@ -12,6 +13,8 @@ import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @UiController("test1_ContratoInquilino.browse")
 @UiDescriptor("contrato-inquilino-browse.xml")
@@ -43,6 +46,14 @@ public class ContratoInquilinoBrowse extends StandardLookup<ContratoInquilino> {
     public void OnBtnPrintClicked(){
         byte[] bb = DynamicReportHelper.getReportDinamico("Contratos", ContratoInquilino.class, contratoInquilinoesTable);
         exportDisplay.show(new ByteArrayDataProvider(bb), "contratos.pdf");
+    }
+
+    public void preselectOnNewManualNotification(){
+        List<ContratoInquilino> cc = new ArrayList(contratoInquilinoesTable.getSelected());
+        NotificacionGenericaManual ngm = (NotificacionGenericaManual) screenBuilders.screen(this).withScreenId("test1_NotificacionGenericaManual").withOpenMode(OpenMode.NEW_TAB).build();
+        ngm.show();
+        ngm.preselectContratosInquilinos(cc);
+
     }
 
     

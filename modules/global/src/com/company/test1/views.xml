@@ -1390,6 +1390,11 @@
             </property>
             <property name="concepto" view="_minimal"/>
         </property>
+        <property name="ordenanteRemesa" view="_minimal">
+            <property name="remesa" view="_minimal">
+                <property name="identificadorRemesa"/>
+            </property>
+        </property>
 
     </view>
     <view entity="test1_IncrementoGeneralObras" name="incrementoGeneralObras-view" extends="_local">

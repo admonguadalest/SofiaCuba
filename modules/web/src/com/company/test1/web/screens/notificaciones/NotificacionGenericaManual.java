@@ -35,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @UiController("test1_NotificacionGenericaManual")
 @UiDescriptor("notificacion-generica-manual.xml")
@@ -58,6 +59,7 @@ public class NotificacionGenericaManual extends Screen {
 
     @Inject
     private DateField<Date> dteFechaEnvio;
+
 
 
     @Inject
@@ -96,6 +98,8 @@ public class NotificacionGenericaManual extends Screen {
     private CollectionContainer<ContratoInquilino> contratoInquilinoesDc;
     @Inject
     private DataContext dataContext;
+    @Inject
+    private Table<ContratoInquilino> tblContratos;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -104,8 +108,15 @@ public class NotificacionGenericaManual extends Screen {
         plantillasDl.load();
     }
 
+    public void preselectContratosInquilinos(List<ContratoInquilino> cc){
+        contratoInquilinoesDc.setItems(cc);
+
+        notifications.create().withDescription("Contratos precargados desde otra pantalla").show();
+    }
+
     @Subscribe("tblPropietarios")
     private void onTblPropietariosSelection(Table.SelectionEvent<Propietario> event) {
+
         treeItemsDl.load();
     }
 
@@ -230,6 +241,17 @@ public class NotificacionGenericaManual extends Screen {
                     }
                 }
             }
+
+            if (ccii.isEmpty()) {
+                if (contratoInquilinoesDc.getItems().size() > 0) {
+                    ccii = new ArrayList(contratoInquilinoesDc.getItems());
+                    for (int i = 0; i < ccii.size(); i++) {
+                        ContratoInquilino ci = ccii.get(i);
+                        ci = dataManager.reload(ci, "contratoInquilino-notificaciones-aumentos-view");
+                        ccii.set(i, ci);
+                    }
+                }
+            }
             if (ccii.isEmpty()) {
                 notifications.create().withCaption("Ninguno de los Departamentos seleccionados tiene contratos vigentes asociados").show();
                 return;
@@ -282,7 +304,7 @@ public class NotificacionGenericaManual extends Screen {
             byte[] outputbb = pdfService.concatPdfs(inputStreams, false);
             exportDisplay.show(new ByteArrayDataProvider(outputbb), "Notificaciones.pdf");
         }catch(Exception exc){
-            notifications.create().withCaption(exc.getMessage());
+            notifications.create().withCaption(exc.getMessage()).show();
         }
     }
 
@@ -305,6 +327,16 @@ public class NotificacionGenericaManual extends Screen {
                     ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento((Departamento) ttii.get(i).getUserObject());
                     if (ci != null) {
                         ccii.add(ci);
+                    }
+                }
+            }
+            if (ccii.isEmpty()) {
+                if (contratoInquilinoesDc.getItems().size() > 0) {
+                    ccii = new ArrayList(contratoInquilinoesDc.getItems());
+                    for (int i = 0; i < ccii.size(); i++) {
+                        ContratoInquilino ci = ccii.get(i);
+                        ci = dataManager.reload(ci, "contratoInquilino-notificaciones-aumentos-view");
+                        ccii.set(i, ci);
                     }
                 }
             }

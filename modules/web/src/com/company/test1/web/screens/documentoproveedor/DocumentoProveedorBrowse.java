@@ -7,6 +7,8 @@ import com.company.test1.entity.documentosImputables.DocumentoImputable;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
 import com.company.test1.entity.documentosImputables.Presupuesto;
 import com.company.test1.entity.ordenespago.OrdenPagoFacturaProveedor;
+import com.company.test1.entity.recibos.Recibo;
+import com.company.test1.entity.recibos.ReciboReport;
 import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.service.ContabiService;
 import com.company.test1.service.OrdenPagoService;
@@ -28,14 +30,15 @@ import com.company.test1.entity.documentosImputables.DocumentoProveedor;
 import com.haulmont.cuba.gui.screen.LookupComponent;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
+import com.haulmont.reports.entity.Report;
+import com.haulmont.reports.gui.ReportGuiManager;
+import com.haulmont.yarg.reporting.ReportOutputDocument;
 import org.apache.http.client.utils.DateUtils;
 
 
 import javax.inject.Inject;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @UiController("test1_DocumentoProveedor.browse")
 @UiDescriptor("documento-proveedor-browse.xml")
@@ -70,6 +73,8 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
     private Label<String> lblTotales;
     @Inject
     private UserSession userSession;
+    @Inject
+    private ReportGuiManager reportGuiManager;
 
     public Component getOrdenPagoColumn(DocumentoProveedor dp){
         HBoxLayout hbx = uiComponents.create(HBoxLayout.NAME);
@@ -92,6 +97,56 @@ public class DocumentoProveedorBrowse extends StandardLookup<DocumentoProveedor>
 
         return hbx;
     }
+
+    public void onBtnExcel(){
+        ArrayList<Recibo> rbos = new ArrayList(documentoProveedorsTable.getSelected());
+        if (rbos.size()==0){
+            notifications.create().withCaption("Seleccionar al menos una factura").show();
+        }
+        ArrayList<ReciboReport> rrs = new ArrayList();
+        for (int i = 0; i < rbos.size(); i++) {
+            Recibo r = rbos.get(i);
+            r = dataManager.reload(r, "recibo-report-view");
+            ReciboReport rr = dataManager.create(ReciboReport.class);
+            rr.setUbicacion(r.getUtilitarioContratoInquilino().getDepartamento().getUbicacion().getNombre());
+            rr.setPiso(r.getUtilitarioContratoInquilino().getDepartamento().getPiso());
+            rr.setPuerta(r.getUtilitarioContratoInquilino().getDepartamento().getPuerta());
+            rr.setFechaEmision(r.getFechaEmision());
+            rr.setNumRecibo(r.getNumRecibo());
+            rr.setNombreInquilino(r.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto());
+            rr.setImporte(r.getTotalRecibo());
+            rr.setCuotaIrpf(r.getTotalIRPF());
+            rr.setCuotaIva(r.getTotalIVA());
+            rr.setImporteFinal(r.getTotalReciboPostCCAA());
+            rr.setAmpliacion(r.getAmpliacion());
+            rr.setReciboId(r.getId().toString().replace("-",""));
+            rr.setRemesa(r.getInfoRemesa());
+            rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
+            //rr.setPropietario("pruebas");
+            rrs.add(rr);
+        }
+
+        Collections.sort(rrs, ReciboReport.getNaturalComparator());
+
+        Report r = dataManager.load(Report.class).query("select r from report$Report r " +
+                "where r.name = :rn").parameter("rn", "RecibosEmitidos")
+                .one();
+        HashMap pams = new HashMap();
+        /*pams.put("entities", asignacionTareasProgramadasDc.getItems());
+        pams.put("TITULO", "TAREAS PROGRAMADAS");
+        pams.put("FECHA_REPORT", new Date());*/
+        pams.put("recibos",rrs);
+        pams.put("nombreCompleto", "[NOMBRE EMPRESA]");
+        pams.put("titulo", "Recibos Emitidos Periodo");
+        pams.put("fechaRealizacion", new Date());
+
+        pams.put("periodoFechaDesde", new Date());
+        pams.put("periodoFechaHasta", new Date());
+        ReportOutputDocument rod = reportGuiManager.getReportResult(r, pams, null);
+        exportDisplay.show(new ByteArrayDataProvider(rod.getContent()), "Emitidas.xlsx");
+        int y = 2;
+    }
+
 
     public void onBtnVerReportClick() {
         byte[] bb = DynamicReportHelper.getReportDinamico("Listado Documentos Proveedor", DocumentoProveedor.class, documentoProveedorsTable);

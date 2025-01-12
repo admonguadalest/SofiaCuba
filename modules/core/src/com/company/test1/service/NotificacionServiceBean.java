@@ -73,6 +73,8 @@ public class NotificacionServiceBean implements NotificacionService {
 
     }
 
+
+
     private Hashtable getListaParametrosPlantilla(String contenido, Hashtable objetos) throws Exception{
         Hashtable ht = new Hashtable();
         int currPos0;
@@ -82,6 +84,9 @@ public class NotificacionServiceBean implements NotificacionService {
             int pos1 = contenido.indexOf("]",currPos0);
             String nombrePam = contenido.substring(currPos0+2,pos1);
             Object valorPam = resuelveParametro(nombrePam, objetos);
+            if (valorPam==null){
+                valorPam = "NR[" + nombrePam + "]";
+            }
             if (!(valorPam instanceof Date)){
                 valorPam = valorPam.toString();
             }
@@ -221,7 +226,7 @@ public class NotificacionServiceBean implements NotificacionService {
 
     public Notificacion implementaContenidoManual(Notificacion n, String contenido, Hashtable ht, boolean verCamposVacios) throws Exception{
 
-        Hashtable objetos = getListaParametrosPlantilla(n, ht);
+        Hashtable objetos = getListaParametrosPlantilla(contenido, ht);
         Iterator iter = objetos.keySet().iterator();
         while(iter.hasNext()){
             String k = (String) iter.next();

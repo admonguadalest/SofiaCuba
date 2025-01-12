@@ -58,7 +58,7 @@
                 <button id="removeBtn" action="documentoProveedorsTable.remove"/>
                 <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
                 <button id="btnVerEscaneos" caption="Ver Escaneos" invoke="onBtnVerEscaneosClick"/>
-
+                <button id="btnExportarExcel" caption="Exportar Seleccion Excel" invoke="onBtnExcel"/>
 
             </buttonsPanel>
         </table>

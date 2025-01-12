@@ -129,15 +129,15 @@ public class GestionarCobros extends StandardLookup<Recibo> {
             rr.setAmpliacion(r.getAmpliacion());
             rr.setReciboId(r.getId().toString().replace("-",""));
             rr.setRemesa(r.getInfoRemesa());
-            //rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
-            rr.setPropietario("pruebas");
+            rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
+            //rr.setPropietario("pruebas");
             rrs.add(rr);
         }
 
         Collections.sort(rrs, ReciboReport.getNaturalComparator());
 
         Report r = dataManager.load(Report.class).query("select r from report$Report r " +
-                "where r.name = :rn").parameter("rn", "RecibosEmitidos2")
+                "where r.name = :rn").parameter("rn", "RecibosEmitidos")
                 .one();
         HashMap pams = new HashMap();
         /*pams.put("entities", asignacionTareasProgramadasDc.getItems());

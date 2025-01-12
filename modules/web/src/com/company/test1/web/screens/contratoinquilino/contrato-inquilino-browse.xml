@@ -34,7 +34,7 @@
         </filter>
         <groupTable id="contratoInquilinoesTable"
                     width="100%"
-                    dataContainer="contratoInquilinoesDc">
+                    dataContainer="contratoInquilinoesDc" multiselect="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -63,6 +63,7 @@
                 <button id="editBtn" action="contratoInquilinoesTable.edit"/>
                 <button id="removeBtn" action="contratoInquilinoesTable.remove"/>
                 <button id="printBtn" invoke="OnBtnPrintClicked" caption="Ver Report"/>
+                <button id="notifications" invoke="preselectOnNewManualNotification" caption="Notificaciones Manuales"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
