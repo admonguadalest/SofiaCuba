@@ -303,6 +303,17 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                 }
 
                 y = 2;
+                //parte suministros
+                if (this.rossumAnnotation.getPeriodFrom()!=null){
+                    this.facturaProveedorDc.getItem().setSuministroPeriodoDesde(this.rossumAnnotation.getPeriodFrom());
+                }
+                if (this.rossumAnnotation.getPeriodTo()!=null){
+                    this.facturaProveedorDc.getItem().setSuministroPeriodoHasta(this.rossumAnnotation.getPeriodTo());
+                }
+                if (this.rossumAnnotation.getUnitInfo()!=null){
+                    this.facturaProveedorDc.getItem().setSuministroInfoPuntoSuministro(this.rossumAnnotation.getUnitInfo());
+                    //pendiente incorporar codigo resolucion imputacion
+                }
 
             }catch(Exception exc){
 

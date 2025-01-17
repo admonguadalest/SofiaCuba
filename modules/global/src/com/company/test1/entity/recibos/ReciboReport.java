@@ -26,6 +26,7 @@ public class ReciboReport extends BaseUuidEntity {
     @MetaProperty
     private Date fechaEmision;
 
+    protected Date fechaRegistro;
     @MetaProperty
     private Double importe;
 
@@ -52,6 +53,14 @@ public class ReciboReport extends BaseUuidEntity {
 
     @MetaProperty
     private String propietario;
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
 
     public String getPropietario() {
         return propietario;
@@ -164,6 +173,8 @@ public class ReciboReport extends BaseUuidEntity {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+
 
     public static Comparator getNaturalComparator(){
         Comparator<ReciboReport> c = new Comparator<ReciboReport>() {

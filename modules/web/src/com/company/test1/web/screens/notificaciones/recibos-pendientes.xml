@@ -52,6 +52,7 @@
             <hbox spacing="true" width="100%">
                 <lookupField id="lkpPlantilla" caption="Plantilla" optionsContainer="plantillasDc"
                              captionProperty="nombrePlantilla" width="100%"/>
+                <dateField id="dteRecibosEmisionHastaFecha" caption="Solo recibos hasta fecha:"/>
             </hbox>
             <table id="tblValoresPlantilla" height="300px" width="100%" caption="Valores de Plantilla"
                    dataContainer="helperInyeccionPlantillasDc">

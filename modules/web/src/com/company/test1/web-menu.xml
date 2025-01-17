@@ -43,6 +43,7 @@
 
         <item screen="test1_PuntoEntradaDocumentos.browse"/>
         <item screen="test1_ListaProveedoresValidacionesPagoTelematico"/>
+        <item screen="test1_PuntoSuministro.browse"/>
 
 
     </menu>
@@ -122,6 +123,8 @@
 <!--            </item>-->
             <item bean="test1_MenuLauncherBean" beanMethod="launchNuevoReciboIndividualizado" id="nuevo-recibo-individualizado"/>
             <item screen="test1_NoEmitidosOAnomalos"/>
+            <separator></separator>
+            <item screen="test1_NotificacionesPeriodicasImpagados" id="notificacionesperiodicasimpagados"/>
         </menu>
         <menu id="incrementos">
             <item screen="test1_IncrementosGenerales"/>

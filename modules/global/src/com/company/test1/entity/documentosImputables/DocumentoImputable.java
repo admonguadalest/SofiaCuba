@@ -97,6 +97,45 @@ public class DocumentoImputable extends StandardEntity {
         this.marcajesProvisional = marcajesProvisional;
     }
 
+    //campos relativos a suministros e imputaciones
+    @Temporal(TemporalType.DATE)
+    @Column(name = "SUMINISTRO_PERIODO_DESDE")
+    protected Date suministroPeriodoDesde;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "SUMINISTRO_PERIODO_HASTA")
+    protected Date suministroPeriodoHasta;
+    @Column(name = "SUMINISTRO_INFO_PUNTO_SUMINISTRO")
+    protected String suministroInfoPuntoSuministro;
+
+
+
+    //fin campos relativos a suministros e imputaciones
+
+    public String getSuministroInfoPuntoSuministro() {
+        return suministroInfoPuntoSuministro;
+    }
+
+    public void setSuministroInfoPuntoSuministro(String suministroInfoPuntoSuministro) {
+        this.suministroInfoPuntoSuministro = suministroInfoPuntoSuministro;
+    }
+
+    public Date getSuministroPeriodoDesde() {
+        return suministroPeriodoDesde;
+    }
+
+    public void setSuministroPeriodoDesde(Date suministroPeriodoDesde) {
+        this.suministroPeriodoDesde = suministroPeriodoDesde;
+    }
+
+    public Date getSuministroPeriodoHasta() {
+        return suministroPeriodoHasta;
+    }
+
+    public void setSuministroPeriodoHasta(Date suministroPeriodoHasta) {
+        this.suministroPeriodoHasta = suministroPeriodoHasta;
+    }
+
     @Transient
     @MetaProperty
     public String getNombreProveedor() {

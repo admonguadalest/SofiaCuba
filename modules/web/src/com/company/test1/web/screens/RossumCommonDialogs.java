@@ -58,7 +58,7 @@ public class RossumCommonDialogs {
                 data = "{\"username\": \"udedos2024@gmail.com\", \"password\": \"bmA_r115bacN\"}";
             }
             if (cubaUser.getLogin().compareTo("carlosconti")==0){
-                data = "{\"username\": \"nsola@domusvcs.com\", \"password\": \"Pknrp2h8@@@@\"}";
+                data = "{\"username\": \"nsola@domusvcs.com\", \"password\": \"pknrp2h8@@@@\"}";
             }
             //String data = "{\"username\": \"info@cgc-guadalest.com\", \"password\": \"bmA_r115bacN\"}";
             conn.getOutputStream().write(data.getBytes());
@@ -389,6 +389,16 @@ public class RossumCommonDialogs {
         rbi.setOtherNotes((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(4)).get("children")).get(0)).get("value"));
 
         rbi.setDocumentId((Integer)m.get("documentId"));
+
+        //parte suministros
+        if (queueId == 2592865){//identificador de la cola de suministros grupodomus vcs ss
+            rbi.setPeriodFrom(null); //solo pendiente escribir la ruta para poblarlo -> tomar como modelo los ejemplos de aqui arriba
+            //(String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(1)).get("value")
+            //poero solo lo podre mirar con una prueba de verdad
+            rbi.setPeriodTo(null);
+            rbi.setUnitInfo(null);
+        }
+        //fin parte suministros
 
 
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.notificaciones">
+
+    <data>
+
+
+        <collection id="plantillasDc" class="com.company.test1.entity.reportsyplantillas.Plantilla" view="_base">
+            <loader id="plantillasDl">
+                <query><![CDATA[select e from test1_Plantilla e ]]></query>
+            </loader>
+        </collection>
+        <collection id="helperInyeccionPlantillasDc" class="com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla"
+                    view="helperInyeccionPlantilla-view">
+            <loader id="helperInyeccionPlantillasDl">
+                <query><![CDATA[select e from test1_HelperInyeccionPlantilla e ]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="1100"
+                modal="true"
+                resizable="true"
+                forceDialog="true"/>
+    <layout expand="vbmain" height="100%" width="100%">
+        <vbox id="vbmain" spacing="true" expand="tblValoresPlantilla" width="100%">
+
+            <hbox spacing="true" width="100%">
+                <textField id="txtContrato" caption="Contrato" editable="false"/>
+                <lookupField id="lkpPlantilla" caption="Plantilla" optionsContainer="plantillasDc"
+                             captionProperty="nombrePlantilla" width="100%"/>
+                <dateField id="dteRecibosEmisionHastaFecha" caption="Solo recibos hasta fecha:" resolution="DAY"/>
+            </hbox>
+
+            <table id="tblValoresPlantilla" height="150px" width="100%" caption="Valores de Plantilla"
+                   dataContainer="helperInyeccionPlantillasDc">
+                <columns>
+                    <column id="titulo"/>
+                    <column id="valor" generator="getColumnForInyeccion"/>
+                </columns>
+            </table>
+            <buttonsPanel>
+                <checkBox id="chkVerCamposVacios" caption="Ver Campos Vacios"/>
+                <button id="btnPrevisualizar" caption="Previsualizar" invoke="onBtnPrevisualizarClick"/>
+                <button id="btnRealizar" caption="Realizar" invoke="onBtnRealizarClick"/>
+                <button id="btnCerrar" caption="Cerrar" invoke="onBtnCerrarClick"/>
+            </buttonsPanel>
+        </vbox>
+    </layout>
+</window>

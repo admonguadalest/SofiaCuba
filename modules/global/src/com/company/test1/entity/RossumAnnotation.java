@@ -4,6 +4,8 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
+import java.util.Date;
+
 @MetaClass(name = "test1_RossumAnnotation")
 public class RossumAnnotation extends BaseUuidEntity {
     private static final long serialVersionUID = 3531652001822465792L;
@@ -73,6 +75,34 @@ public class RossumAnnotation extends BaseUuidEntity {
 
     @MetaProperty
     private String contentType;
+
+    protected Date periodFrom;
+    protected Date periodTo;
+    protected String unitInfo;
+
+    public String getUnitInfo() {
+        return unitInfo;
+    }
+
+    public void setUnitInfo(String unitInfo) {
+        this.unitInfo = unitInfo;
+    }
+
+    public Date getPeriodTo() {
+        return periodTo;
+    }
+
+    public void setPeriodTo(Date periodTo) {
+        this.periodTo = periodTo;
+    }
+
+    public Date getPeriodFrom() {
+        return periodFrom;
+    }
+
+    public void setPeriodFrom(Date periodFrom) {
+        this.periodFrom = periodFrom;
+    }
 
     public String getContentType(){return this.contentType;}
 

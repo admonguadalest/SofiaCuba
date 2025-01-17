@@ -672,7 +672,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                 queueIds = new Integer[]{291745};
             }
             if (userLogin.compareTo("carlosconti")==0){
-                queueIds = new Integer[]{2573590,2573591};
+                queueIds = new Integer[]{2573590,2573591,2592865};
             }
             for (int i = 0; i < queueIds.length; i++) {
                 Integer queueId = queueIds[i];

@@ -1,0 +1,1 @@
+alter table TEST1_PUNTO_SUMINISTRO change column PROVEEDOR_ID PROVEEDOR_ID__U37376 varchar(32)^

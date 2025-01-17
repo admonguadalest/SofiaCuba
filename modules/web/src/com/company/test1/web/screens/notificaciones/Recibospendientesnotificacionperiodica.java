@@ -1,246 +1,81 @@
 package com.company.test1.web.screens.notificaciones;
 
-import com.company.test1.entity.Direccion;
 import com.company.test1.entity.TreeItem;
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.departamentos.Departamento;
-import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.enums.NombreTipoDireccion;
-import com.company.test1.entity.extroles.Propietario;
 import com.company.test1.entity.nonpersistententities.HelperInyeccionPlantilla;
-import com.company.test1.entity.notificaciones.HelperNotificacionesAumentos;
-import com.company.test1.entity.notificaciones.HelperNotificacionesAumentosIPC;
+import com.company.test1.entity.notificaciones.Notificacion;
 import com.company.test1.entity.notificaciones.NotificacionContratoInquilino;
-import com.company.test1.entity.recibos.Concepto;
-import com.company.test1.entity.recibos.ConceptoRecibo;
 import com.company.test1.entity.reportsyplantillas.Plantilla;
 import com.company.test1.service.ContratosService;
 import com.company.test1.service.NotificacionService;
 import com.company.test1.service.PdfService;
-import com.company.test1.service.RecibosService;
 import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
-import com.haulmont.cuba.gui.screen.*;
-import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
+import com.haulmont.cuba.gui.screen.Screen;
+import com.haulmont.cuba.gui.screen.Subscribe;
+import com.haulmont.cuba.gui.screen.UiController;
+import com.haulmont.cuba.gui.screen.UiDescriptor;
 
 import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
 import java.util.*;
 
-@UiController("test1_RecibosPendientes")
-@UiDescriptor("recibos-pendientes.xml")
-public class RecibosPendientes extends Screen {
+@UiController("test1_Recibospendientesnotificacionperiodica")
+@UiDescriptor("recibos-pendientes-notificacion-periodica.xml")
+public class Recibospendientesnotificacionperiodica extends Screen {
 
-
+    ContratoInquilino contratoNotificacion = null;
+    Notificacion notificacion = null;
     @Inject
-    private Table<Propietario> tblPropietarios;
+    private CollectionLoader<Plantilla> plantillasDl;
     @Inject
-    private CollectionContainer<TreeItem> treeItemsDc;
-    @Inject
-    private CollectionLoader<TreeItem> treeItemsDl;
-    @Inject
-    private CollectionLoader<Propietario> propietariosDl;
-    @Inject
-    private CollectionContainer<Propietario> propietariosDc;
+    private NotificacionService notificacionService;
     @Inject
     private DataManager dataManager;
     @Inject
     private Notifications notifications;
     @Inject
-    private Table tblValoresPlantilla;
-    @Inject
-    private CollectionContainer<HelperInyeccionPlantilla> helperInyeccionPlantillasDc;
-
-
-    @Inject
-    private CollectionLoader<Plantilla> plantillasDl;
-    @Inject
-    private LookupField<Plantilla> lkpPlantilla;
-
-    @Inject
-    private Tree<TreeItem> treeDepartamentos;
+    private DateField<java.sql.Date> dteRecibosEmisionHastaFecha;
     @Inject
     private ContratosService contratosService;
     @Inject
-    private NotificacionService notificacionService;
-    @Inject
-    private PdfService pdfService;
+    private LookupField<Plantilla> lkpPlantilla;
     @Inject
     private ExportDisplay exportDisplay;
     @Inject
-    private ComponentsFactory componentsFactory;
-
-
+    private PdfService pdfService;
+    @Inject
+    private Table<HelperInyeccionPlantilla> tblValoresPlantilla;
     @Inject
     private CheckBox chkVerCamposVacios;
     @Inject
-    private RecibosService recibosService;
+    private TextField<String> txtContrato;
     @Inject
-    private DateField<java.sql.Date> dteRecibosEmisionHastaFecha;
+    private CollectionContainer<HelperInyeccionPlantilla> helperInyeccionPlantillasDc;
+    @Inject
+    private UiComponents uiComponents;
+
+    public void setContratoNotificacion(ContratoInquilino ci){
+        ContratoInquilino ci_ = dataManager.reload(ci, "contratoInquilino-notificaciones-aumentos-view");
+        this.contratoNotificacion = ci_;
+        Departamento d = ci.getDepartamento();
+        txtContrato.setValue(ci.getInquilino().getNombreCompleto() + " " + d.getNombreDescriptivoCompleto());
+    }
+    public Notificacion getNotificacion(){
+        return this.notificacion;
+    }
 
     @Subscribe
-    private void onAfterInit(AfterInitEvent event) {
-
-        propietariosDl.load();
+    public void onAfterShow(AfterShowEvent event) {
         plantillasDl.load();
-    }
-
-    @Subscribe("tblPropietarios")
-    private void onTblPropietariosSelection(Table.SelectionEvent<Propietario> event) {
-        treeItemsDl.load();
-    }
-
-    @Subscribe("treeDepartamentos")
-    private void onTreeDepartamentosSelection(Tree.SelectionEvent<TreeItem> event) {
-        if (!event.isUserOriginated()) return;
-        List<TreeItem> ttii = new ArrayList(event.getSelected());
-        List<TreeItem> selection = new ArrayList();
-        for (int i = 0; i < ttii.size(); i++) {
-            TreeItem ti = ttii.get(i);
-            if (ti.getUserObject() instanceof Ubicacion){
-                selection.add(ti);
-                for (int j = 0; j < treeItemsDc.getItems().size(); j++) {
-                    TreeItem t = treeItemsDc.getItems().get(j);
-                    if (t.getUserObject() instanceof Departamento){
-                        if (t.getParentItem() == ti){
-                            selection.add(t);
-                        }
-                    }
-                }
-            }
-            if (ti.getUserObject() instanceof Departamento){
-
-                    selection.add(ti);
-
-            }
-
-        }
-
-        treeDepartamentos.setSelected(selection);
-
-    }
-
-
-
-    @Install(to = "treeItemsDl", target = Target.DATA_LOADER)
-    private List<TreeItem> treeItemsDlLoadDelegate(LoadContext<TreeItem> loadContext) {
-
-
-
-        List<TreeItem> ttii = new ArrayList<TreeItem>();
-        List<Propietario> pp = new ArrayList(tblPropietarios.getSelected());
-        if (pp.size()==0){
-            notifications.create().withCaption("Seleccionar un Propietario");
-        }
-        List<UUID> idsprops = new ArrayList<UUID>();
-        for (int i = 0; i < pp.size() ; i++) {
-            idsprops.add(pp.get(i).getId());
-        }
-
-        String hql = "select d from test1_Departamento d JOIN d.ubicacion u " +
-                " LEFT JOIN d.propietario p1 LEFT JOIN u.propietario p2 " +
-                " WHERE p1.id in :idsprops OR p2.id in :idsprops";
-
-        List<Departamento> l = dataManager.loadValue(hql, Departamento.class).parameter("idsprops", idsprops).list();
-        for (int i = 0; i < l.size(); i++) {
-            l.set(i,dataManager.reload(l.get(i), "departamento-view"));
-        }
-        HashMap<Ubicacion, TreeItem> ht = new HashMap<Ubicacion,TreeItem>();
-        for (int i = 0; i < l.size(); i++) {
-            Departamento d = l.get(i);
-            TreeItem tiu = null;
-            if (ht.containsKey(d.getUbicacion())){
-                tiu = ht.get(d.getUbicacion());
-            }else{
-                TreeItem t = new TreeItem();
-                t.setUserObject(d.getUbicacion());
-                tiu = t;
-                ht.put(d.getUbicacion(), tiu);
-                ttii.add(tiu);
-            }
-            TreeItem tid = new TreeItem();
-            tid.setUserObject(d);
-            tid.setParentItem(tiu);
-            ttii.add(tid);
-        }
-        Collections.sort(ttii, new Comparator<TreeItem>(){
-
-            @Override
-            public int compare(TreeItem t1, TreeItem t2) {
-                if (t1.getUserObject() instanceof Departamento){
-                    Departamento d1 = (Departamento) t1.getUserObject();
-                    if (d1.getRm2id()==null){
-                        d1.setRm2id(-1);
-                    }
-                }
-                if (t2.getUserObject() instanceof Departamento){
-                    Departamento d2 = (Departamento) t2.getUserObject();
-                    if (d2.getRm2id()==null){
-                        d2.setRm2id(-1);
-                    }
-                }
-                try {
-                    if ((t1.getUserObject() instanceof Ubicacion) && (t2.getUserObject() instanceof Ubicacion)) {
-                        return ((Ubicacion) t1.getUserObject()).getNombre().compareTo(((Ubicacion) t2.getUserObject()).getNombre());
-
-                    }
-                    if ((t1.getUserObject() instanceof Departamento) && (t2.getUserObject() instanceof Departamento)) {
-                        Departamento d1 = (Departamento) t1.getUserObject();
-                        Departamento d2 = (Departamento) t2.getUserObject();
-                        String sd1 = d1.getPiso() + " " + d1.getPuerta();
-                        String sd2 = d2.getPiso() + " " + d2.getPuerta();
-                        return sd1.compareTo(sd2);
-                    }
-                    if ((t1.getUserObject() instanceof Ubicacion) && (t2.getUserObject() instanceof Departamento)) {
-                        return ((Ubicacion) t1.getUserObject()).getNombre().compareTo(((Departamento) t2.getUserObject()).getUbicacion().getNombre());
-
-                    }
-                    if ((t1.getUserObject() instanceof Departamento) && (t2.getUserObject() instanceof Ubicacion)) {
-
-
-                        return ((Departamento) t1.getUserObject()).getUbicacion().getNombre().compareTo(((Ubicacion) t2.getUserObject()).getNombre());
-
-
-                    }
-                    return 0;
-                }catch(Exception exc){
-                    int y = 2;
-                }
-                return 0;
-            }
-        });
-        return ttii;
-
-    }
-
-    @Subscribe("lkpPlantilla")
-    private void onLkpPlantillaValueChange(HasValue.ValueChangeEvent<Plantilla> event) {
-        Plantilla p = event.getValue();
-        if (p==null) return;
-        List l = Arrays.asList(p.getListaParametrosPlantillaLibres().split(";"));
-        List helpers = new ArrayList();
-        for (int i = 0; i < l.size(); i++) {
-            String s = (String) l.get(i);
-            HelperInyeccionPlantilla hi = new HelperInyeccionPlantilla();
-            hi.setTitulo(s);
-            helpers.add(hi);
-        }
-        helperInyeccionPlantillasDc.setItems(helpers);
-    }
-
-
-    public void onBtnCerrarClick() {
-        this.closeWithDefaultAction();
     }
 
     public void onBtnPrevisualizarClick() {
@@ -256,17 +91,9 @@ public class RecibosPendientes extends Screen {
         Plantilla plantilla = lkpPlantilla.getValue();
 
         try {
-            List<TreeItem> ttii = new ArrayList(treeDepartamentos.getSelected());
-            ArrayList<ContratoInquilino> ccii = new ArrayList();
-            for (int i = 0; i < ttii.size(); i++) {
-                if (ttii.get(i).getUserObject() instanceof Departamento) {
-                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento((Departamento) ttii.get(i).getUserObject());
 
-                    if (ci != null) {
-                        ccii.add(ci);
-                    }
-                }
-            }
+            ArrayList<ContratoInquilino> ccii = new ArrayList();
+            ccii.add(this.contratoNotificacion);
             if (ccii.isEmpty()) {
                 notifications.create().withCaption("Ninguno de los Departamentos seleccionados tiene contratos vigentes asociados").show();
                 return;
@@ -286,7 +113,7 @@ public class RecibosPendientes extends Screen {
 
             //ordenacion de los contratos
 
-            Collections.sort(ccii, new ContratoInquilinoIdDepartamento());
+
             List<ContratoInquilino> contratos = ccii;
 
             List<byte[]> inputStreams = new ArrayList<byte[]>();
@@ -353,6 +180,11 @@ public class RecibosPendientes extends Screen {
         }
     }
 
+    private boolean isDataValid(){
+
+        return lkpPlantilla.getValue() != null;
+    }
+
     public void onBtnRealizarClick() {
         ArrayList notificaciones = new ArrayList();
         boolean verCamposVacios = chkVerCamposVacios.getValue();
@@ -367,16 +199,9 @@ public class RecibosPendientes extends Screen {
         Plantilla plantilla = lkpPlantilla.getValue();
 
         try {
-            List<TreeItem> ttii = new ArrayList(treeDepartamentos.getSelected());
+
             ArrayList<ContratoInquilino> ccii = new ArrayList();
-            for (int i = 0; i < ttii.size(); i++) {
-                if (ttii.get(i).getUserObject() instanceof Departamento) {
-                    ContratoInquilino ci = contratosService.devuelveContratoVigenteParaDepartamento((Departamento) ttii.get(i).getUserObject());
-                    if (ci != null) {
-                        ccii.add(ci);
-                    }
-                }
-            }
+            ccii.add(this.contratoNotificacion);
             if (ccii.isEmpty()) {
                 notifications.create().withCaption("Ninguno de los Departamentos seleccionados tiene contratos vigentes asociados").show();
                 return;
@@ -457,6 +282,7 @@ public class RecibosPendientes extends Screen {
             if (notificaciones.size()>0){
                 dataManager.commit(new CommitContext(notificaciones));
                 notifications.create().withCaption("Notificaciones generadas exitósamente").show();
+                this.notificacion = (Notificacion) notificaciones.get(0);
             }
 
         }catch(Exception exc){
@@ -464,21 +290,23 @@ public class RecibosPendientes extends Screen {
         }
     }
 
-    private boolean isDataValid(){
-
-        return lkpPlantilla.getValue() != null;
-    }
-
-    public void onBtnSeleccionarTodosPropietariosClick() {
-        tblPropietarios.setSelected(tblPropietarios.getItems().getItems());
-    }
-
-    public void onBtnSeleccionarTodosDepartamentosClick() {
-        treeDepartamentos.setSelected(treeItemsDc.getItems());
+    @Subscribe("lkpPlantilla")
+    private void onLkpPlantillaValueChange(HasValue.ValueChangeEvent<Plantilla> event) {
+        Plantilla p = event.getValue();
+        if (p==null) return;
+        List l = Arrays.asList(p.getListaParametrosPlantillaLibres().split(";"));
+        List helpers = new ArrayList();
+        for (int i = 0; i < l.size(); i++) {
+            String s = (String) l.get(i);
+            HelperInyeccionPlantilla hi = new HelperInyeccionPlantilla();
+            hi.setTitulo(s);
+            helpers.add(hi);
+        }
+        helperInyeccionPlantillasDc.setItems(helpers);
     }
 
     public TextField getColumnForInyeccion(HelperInyeccionPlantilla hip){
-        TextField tf = componentsFactory.createComponent(TextField.NAME);
+        TextField tf = uiComponents.create(TextField.NAME);
         String valor = "";
         if (hip.getValor()!=null){
             valor = hip.getValor();
@@ -489,8 +317,5 @@ public class RecibosPendientes extends Screen {
         });
         return tf;
     }
-
-
-
 
 }

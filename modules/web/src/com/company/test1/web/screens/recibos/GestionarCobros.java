@@ -130,6 +130,7 @@ public class GestionarCobros extends StandardLookup<Recibo> {
             rr.setReciboId(r.getId().toString().replace("-",""));
             rr.setRemesa(r.getInfoRemesa());
             rr.setPropietario(r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNombreCompleto());
+            rr.setFechaRegistro(r.getCreateTs());
             //rr.setPropietario("pruebas");
             rrs.add(rr);
         }

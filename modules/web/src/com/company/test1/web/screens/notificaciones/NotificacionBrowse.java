@@ -7,6 +7,7 @@ import com.company.test1.entity.PersonaFisica;
 import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.enums.TipoDeDatoDeContactoEnum;
 import com.company.test1.entity.notificaciones.NotificacionContratoInquilino;
+import com.company.test1.entity.recibos.Recibo;
 import com.company.test1.service.NotificacionService;
 import com.company.test1.service.PdfService;
 import com.company.test1.web.screens.DynamicReportHelper;
@@ -18,6 +19,7 @@ import com.haulmont.cuba.core.global.EmailInfo;
 import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.Action;
+import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.DialogAction;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
@@ -119,9 +121,9 @@ public class NotificacionBrowse extends StandardLookup<Notificacion> {
                 }
             }
             EmailInfo emailInfo = new EmailInfo("","","");
-            emails += "," + "notificacioneslegales@domusvcs.com";
+
             emailInfo.setAddresses(emails);
-            emailInfo.setBcc("notificacioneslegales@domusvcs.com");
+
             emailInfo.setCaption("NOTIFICACION IMPORTANTE SOBRE SU " + ampliacionVivienda);
             emailInfo.setBody("Ponemos a su disposición la notificación adjunta.\nAténtamente,\nLa Administración.");
             emailInfo.setBodyContentType(EmailInfo.HTML_CONTENT_TYPE);
@@ -162,4 +164,50 @@ public class NotificacionBrowse extends StandardLookup<Notificacion> {
         byte[] bb = notificacionService.getVersionPdfConcatenada(new ArrayList(notificacionsTable.getSelected()));
         exportDisplay.show(new ByteArrayDataProvider(bb), "Notificaciones.pdf");
     }
+
+    @Subscribe("removeBtn")
+    public void onRemoveBtnClick(Button.ClickEvent event) {
+        List<Notificacion> nn = new ArrayList(notificacionsTable.getSelected());
+        if (nn.size()==0){
+            notifications.create().withDescription("Seleccionar notificaciones a borrar").show();
+            return;
+        }
+        boolean allTrue = true;
+        try {
+
+            for (int i = 0; i < nn.size(); i++) {
+                Notificacion n = nn.get(i);
+                if (!borrarNotificacion(n)) {
+                    allTrue = false;
+                }
+            }
+        }catch(Exception exc){
+            allTrue = false;
+        }
+        if (!allTrue){
+            notifications.create().withDescription("Una o mas notificaciones no pudieron ser borradas. Por favor revise la ultima accion.").show();
+            return;
+        }else{
+            notifications.create().withDescription("Todas las notificaciones fueron eliminadas exitosamente").show();
+
+        }
+
+
+    }
+
+    private boolean borrarNotificacion(Notificacion n){
+
+            String hql = "select r from test1_Recibo r where r.notificacionPeriodicaImpagados.id = :nid";
+            List<Recibo> rr = dataManager.load(Recibo.class).query(hql).parameter("nid",n.getId()).list();
+            for (int i = 0; i < rr.size(); i++) {
+                Recibo r = rr.get(i);
+                r.setNotificacionPeriodicaImpagados(null);
+                dataManager.commit(r);
+            }
+            dataManager.remove(n);
+            return true;
+
+    }
+
+
 }

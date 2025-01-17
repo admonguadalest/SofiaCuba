@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://browseCaption"
+        focusComponent="puntoSuministroesTable"
+        messagesPack="com.company.test1.web.screens.puntosuministro">
+    <data readOnly="true">
+        <collection id="puntoSuministroesDc"
+                    class="com.company.test1.entity.PuntoSuministro"
+                    view="_local">
+            <loader id="puntoSuministroesDl">
+                <query>
+                    <![CDATA[select e from test1_PuntoSuministro e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="puntoSuministroesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="puntoSuministroesTable"
+                dataLoader="puntoSuministroesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="puntoSuministroesTable"
+                    width="100%"
+                    dataContainer="puntoSuministroesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="identificadorPuntoSuministro"/>
+                <column id="descripcion"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="puntoSuministroesTable.create"/>
+                <button id="editBtn" action="puntoSuministroesTable.edit"/>
+                <button id="removeBtn" action="puntoSuministroesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

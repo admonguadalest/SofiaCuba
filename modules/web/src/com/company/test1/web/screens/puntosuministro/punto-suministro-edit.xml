@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.company.test1.web.screens.puntosuministro">
+    <data>
+        <instance id="puntoSuministroDc"
+                  class="com.company.test1.entity.PuntoSuministro"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="puntoSuministroDc">
+            <column width="250px">
+                <textField id="identificadorPuntoSuministroField" property="identificadorPuntoSuministro"/>
+                <textArea id="descripcionField" property="descripcion" rows="5"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

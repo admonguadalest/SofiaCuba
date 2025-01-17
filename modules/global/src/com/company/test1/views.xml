@@ -895,6 +895,7 @@
         </property>
     </view>
     <view entity="test1_Recibo" name="recibo-view" extends="_base" systemProperties="true">
+        <property name="notificacionPeriodicaImpagados" view="_base"/>
         <property name="programacionRecibo" view="_minimal"/>
         <property name="ordenanteRemesa" view="_minimal">
             <property name="remesa" view="_base">
@@ -905,6 +906,7 @@
         <property name="utilitarioContratoInquilino" view="_minimal">
             <property name="numeroContrato"/>
             <property name="inquilino" view="_base"/>
+            <property name="observacionesNotificacionesPeriodicasGestionCobro"/>
             <property name="departamento" view="_minimal">
                 <property name="rm2id"/>
                 <property name="piso"/>
@@ -1395,6 +1397,7 @@
                 <property name="identificadorRemesa"/>
             </property>
         </property>
+        <property name="createTs"/>
 
     </view>
     <view entity="test1_IncrementoGeneralObras" name="incrementoGeneralObras-view" extends="_local">
@@ -1574,6 +1577,7 @@
                         <property name="nombreCompleto"/>
                     </property>
                 </property>
+                <property name="direccion" view="_base"/>
             </property>
             <property name="rm2id"/>
             <property name="piso"/>

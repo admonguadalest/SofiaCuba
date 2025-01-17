@@ -98,6 +98,7 @@
         <class>com.company.test1.entity.Siniestro</class>
         <class>com.company.test1.entity.cuentadegasto.CuentaDeGasto</class>
         <class>com.company.test1.entity.cuentadegasto.MovimientoCuentaDeGasto</class>
+        <class>com.company.test1.entity.PuntoSuministro</class>
 
 
     </persistence-unit>

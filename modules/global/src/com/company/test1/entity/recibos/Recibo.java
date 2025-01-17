@@ -5,6 +5,7 @@ import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoA
 import com.company.test1.entity.contratosinquilinos.ContratoInquilino;
 import com.company.test1.entity.enums.recibos.ReciboCobradoModoIngreso;
 import com.company.test1.entity.enums.recibos.ReciboGradoImpago;
+import com.company.test1.entity.notificaciones.Notificacion;
 import com.company.test1.entity.ordenescobro.OrdenCobro;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
@@ -126,6 +127,40 @@ public class Recibo extends StandardEntity {
             }
         }
         return d;
+    }
+
+    @Column(name = "OBSERVACIONES_NOTIFICACIONES_PERIODICAS_GESTION_COBRO")
+    protected String observacionesNotificacionesPeriodicasGestionCobro;
+
+    public String getObservacionesNotificacionesPeriodicasGestionCobro() {
+        return observacionesNotificacionesPeriodicasGestionCobro;
+    }
+
+    public void setObservacionesNotificacionesPeriodicasGestionCobro(String observacionesNotificacionesPeriodicasGestionCobro) {
+        this.observacionesNotificacionesPeriodicasGestionCobro = observacionesNotificacionesPeriodicasGestionCobro;
+    }
+
+    @Column(name = "SILENCIAR_ADVERTENCIAS_NOTIFICACIONES_PERIODICASA_GESTION_COBRO")
+    protected Boolean silenciarAdvertenciasNotificacionesPeriodicasaGestionCobro;
+
+    public Boolean getSilenciarAdvertenciasNotificacionesPeriodicasaGestionCobro() {
+        return silenciarAdvertenciasNotificacionesPeriodicasaGestionCobro;
+    }
+
+    public void setSilenciarAdvertenciasNotificacionesPeriodicasaGestionCobro(Boolean silenciarAdvertenciasNotificacionesPeriodicasaGestionCobro) {
+        this.silenciarAdvertenciasNotificacionesPeriodicasaGestionCobro = silenciarAdvertenciasNotificacionesPeriodicasaGestionCobro;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "NOTIFICACION_PERIODICA_IMPAGADOS_ID")
+    protected Notificacion notificacionPeriodicaImpagados;
+
+    public Notificacion getNotificacionPeriodicaImpagados() {
+        return notificacionPeriodicaImpagados;
+    }
+
+    public void setNotificacionPeriodicaImpagados(Notificacion notificacionPeriodicaImpagados) {
+        this.notificacionPeriodicaImpagados = notificacionPeriodicaImpagados;
     }
 
     public List<OrdenCobro> getOrdenesCobro() {
@@ -274,7 +309,7 @@ public class Recibo extends StandardEntity {
 
 
     public double getTotalPendiente(){
-        double pendiente = this.totalReciboPostCCAA + this.getTotalCobranzas() - this.getTotalCobrado() - this.getTotalCompensado();
+        double pendiente = this.totalReciboPostCCAA + this.getTotalCobranzas() - this.getTotalCobrado();
         return pendiente;
     }
 

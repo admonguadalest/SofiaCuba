@@ -284,6 +284,18 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     @Column(name = "NOMBRES_ADICIONALES")
     protected String nombresAdicionales;
 
+    @Lob
+    @Column(name = "OBSERVACIONES_NOTIFICACIONES_PERIODICAS_GESTION_COBRO")
+    protected String observacionesNotificacionesPeriodicasGestionCobro;
+
+    public String getObservacionesNotificacionesPeriodicasGestionCobro() {
+        return observacionesNotificacionesPeriodicasGestionCobro;
+    }
+
+    public void setObservacionesNotificacionesPeriodicasGestionCobro(String observacionesNotificacionesPeriodicasGestionCobro) {
+        this.observacionesNotificacionesPeriodicasGestionCobro = observacionesNotificacionesPeriodicasGestionCobro;
+    }
+
     public String getNombresAdicionales() {
         return nombresAdicionales;
     }
@@ -751,8 +763,35 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     public int getNumRecibosPendientes() throws Exception{
 
         List l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
-        return l.size();
+        ArrayList al = new ArrayList();
+        for (int i = 0; i < l.size(); i++) {
+            Recibo r = (Recibo) l.get(i);
+            if (r.getTotalPendiente()<0.01){
+                continue;
+            }
+            al.add(r);
+        }
+        return al.size();
     }
+
+    public int getNumRecibosPendientes(Date hastaFecha) throws Exception{
+
+        List l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+        ArrayList al = new ArrayList();
+        for (int i = 0; i < l.size(); i++) {
+            Recibo r = (Recibo) l.get(i);
+            if (r.getFechaEmision().getTime()>hastaFecha.getTime()){
+                continue;
+            }
+            if (r.getTotalPendiente()<0.01){
+                continue;
+            }
+            al.add(r);
+        }
+        return al.size();
+    }
+
+
 
     public String getTextoRecibosPendientes() throws Exception{
         List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
@@ -761,7 +800,36 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
         String texto = "<p>";
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = l.get(i);
-            texto += df.format(recibo.getFechaEmision()) + " " + nf.format(recibo.getTotalPendiente() - recibo.getTotalCobrado()) + "<br/>";
+            if (recibo.getTotalReciboPostCCAA()<0){
+                continue;
+            }
+            if (recibo.getTotalPendiente()<0.01){
+                continue;
+            }
+            texto += df.format(recibo.getFechaEmision()) + " " + nf.format(recibo.getTotalPendiente()) + "<br/>";
+        }
+        texto += "</p>";
+        return texto;
+    }
+
+    public String getTextoRecibosPendientes(Date hastaFecha) throws Exception{
+        List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        String texto = "<p>";
+        for (int i = 0; i < l.size(); i++) {
+            Recibo recibo = l.get(i);
+            if (recibo.getFechaEmision().getTime()>hastaFecha.getTime()){
+                continue;
+            }
+            if (recibo.getTotalReciboPostCCAA()<0){
+                continue;
+            }
+            if (recibo.getTotalPendiente()<0.01){
+                continue;
+            }
+            texto += df.format(recibo.getFechaEmision()) + " " + nf.format(recibo.getTotalPendiente()) + "<br/>";
         }
         texto += "</p>";
         return texto;
@@ -773,6 +841,21 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
         double total = 0.0;
         for (int i = 0; i < l.size(); i++) {
             Recibo recibo = l.get(i);
+            total += recibo.getTotalPendiente();
+        }
+
+        return nf.format(total);
+    }
+
+    public String getImporteTotalPendienteFormateado(Date hastaFecha) throws Exception{
+        List<Recibo> l = AppBeans.get(NotificacionService.class).getRecibosPendientes(this);
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        double total = 0.0;
+        for (int i = 0; i < l.size(); i++) {
+            Recibo recibo = l.get(i);
+            if (recibo.getFechaEmision().getTime()> hastaFecha.getTime()){
+                continue;
+            }
             total += recibo.getTotalPendiente();
         }
 

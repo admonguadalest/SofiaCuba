@@ -450,6 +450,9 @@ create table DOCUMENTO_IMPUTABLE (
     OMITIR_CONTROL_DE_ORDEN_PAGO boolean not null,
     RM2ID integer,
     TIPO_ENUM varchar(50),
+    SUMINISTRO_PERIODO_DESDE date,
+    SUMINISTRO_PERIODO_HASTA date,
+    SUMINISTRO_INFO_PUNTO_SUMINISTRO varchar(255),
     --
     -- from test1_DocumentoProveedor
     PROVEEDOR_ID varchar(32),
@@ -758,6 +761,7 @@ create table CONTRATO_INQUILINO (
     CARPETA_DOCUMENTO_FOTOGRAFICO_FIRMA_ID varchar(32),
     RM2ID integer,
     NOMBRES_ADICIONALES varchar(255),
+    OBSERVACIONES_NOTIFICACIONES_PERIODICAS_GESTION_COBRO longtext,
     --
     primary key (ID)
 )^
@@ -1368,6 +1372,9 @@ create table RECIBO (
     FECHA_ESTADO_INCOBRABLE date,
     UTILITARIO_INQUILINO_ID varchar(32),
     RM2ID integer,
+    OBSERVACIONES_NOTIFICACIONES_PERIODICAS_GESTION_COBRO varchar(255),
+    SILENCIAR_ADVERTENCIAS_NOTIFICACIONES_PERIODICASA_GESTION_COBRO boolean,
+    NOTIFICACION_PERIODICA_IMPAGADOS_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -1953,3 +1960,20 @@ create table TEST1_MOVIMIENTO_CUENTA_DE_GASTO (
     primary key (ID)
 )^
 -- end TEST1_MOVIMIENTO_CUENTA_DE_GASTO
+-- begin TEST1_PUNTO_SUMINISTRO
+create table TEST1_PUNTO_SUMINISTRO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    IDENTIFICADOR_PUNTO_SUMINISTRO varchar(255),
+    DESCRIPCION longtext,
+    --
+    primary key (ID)
+)^
+-- end TEST1_PUNTO_SUMINISTRO

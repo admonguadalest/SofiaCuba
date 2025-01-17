@@ -57,7 +57,7 @@
                 <button id="btnVerReport" caption="Ver Report" invoke="onBtnVerReportClick"/>
                 <button id="btnPdf" caption="Pdf" invoke="onBtnPdfClick"/>
                 <button id="btnEmail" caption="Enviar por Email" invoke="onBtnEmail"/>
-                <button id="btnExcel" caption="XlsX" invoke="onBtnExcel"/>
+                <button id="btnExcel" caption="Exportar Seleccion a Excel" invoke="onBtnExcel"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

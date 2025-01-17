@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.recibos">
+    <data>
+
+    </data>
+
+    <layout>
+        <vbox id="vbmain" spacing="true">
+
+        </vbox>
+    </layout>
+</window>
