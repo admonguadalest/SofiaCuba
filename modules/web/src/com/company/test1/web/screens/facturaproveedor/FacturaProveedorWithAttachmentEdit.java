@@ -23,6 +23,8 @@ import com.haulmont.cuba.gui.components.data.value.ContainerValueSource;
 import com.haulmont.cuba.gui.model.*;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
@@ -89,6 +91,10 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
     private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
     @Inject
     private CheckBox chkDesatenderAvisoDuplicado;
+    @Inject
+    private UserSession userSession;
+    @Inject
+    private HBoxLayout hboxSuministros;
 
     public void setRossumAnnotation(RossumAnnotation ra){
         this.rossumAnnotation = ra;
@@ -238,6 +244,14 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
 
 
         populateRossumData();
+
+        User user = userSession.getUser();
+        if (user.getLogin().compareTo("carlosconti")==0){
+            hboxSuministros.setVisible(true);
+        }else{
+            hboxSuministros.setVisible(false);
+        }
+
 
     }
 

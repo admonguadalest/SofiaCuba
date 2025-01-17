@@ -122,10 +122,10 @@
 
                     </form>
                     </vbox>
-                    <hbox caption="Parte Suministros" width="100%">
-                        <dateField resolution="DAY" id="dtePeriodFrom" dataContainer="facturaProveedorDc" property="suministroPeriodoDesde"/>
-                        <dateField resolution="DAY" id="dtePeriodTo" dataContainer="facturaProveedorDc" property="suministroPeriodoHasta"/>
-                        <textField id="txtUnitInfo" dataContainer="facturaProveedorDc" property="suministroInfoPuntoSuministro"/>
+                    <hbox caption="Parte Suministros" id="hboxSuministros" spacing="true">
+                        <dateField caption="Periodo Desde" resolution="DAY" id="dtePeriodFrom" dataContainer="facturaProveedorDc" property="suministroPeriodoDesde"/>
+                        <dateField caption="Periodo Hasta" resolution="DAY" id="dtePeriodTo" dataContainer="facturaProveedorDc" property="suministroPeriodoHasta"/>
+                        <textField caption="Info Punto de Suministro" id="txtUnitInfo" dataContainer="facturaProveedorDc" property="suministroInfoPuntoSuministro"/>
                     </hbox>
                     <groupBox spacing="true" caption="Imputaciones">
 

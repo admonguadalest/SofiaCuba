@@ -100,6 +100,11 @@
                 </column>
                 <column/>
             </form>
+            <hbox caption="Parte Suministros" id="hboxSuministros" spacing="true">
+                <dateField caption="Periodo Desde" resolution="DAY" id="dtePeriodFrom" dataContainer="facturaProveedorDc" property="suministroPeriodoDesde"/>
+                <dateField caption="Periodo Hasta" resolution="DAY" id="dtePeriodTo" dataContainer="facturaProveedorDc" property="suministroPeriodoHasta"/>
+                <textField caption="Info Punto de Suministro" id="txtUnitInfo" dataContainer="facturaProveedorDc" property="suministroInfoPuntoSuministro"/>
+            </hbox>
             <groupBox spacing="true">
                 <label value="Imputaciones"/>
                 <table id="tableImputaciones" height="200px" width="100%"

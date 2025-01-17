@@ -6,7 +6,7 @@
     <data>
         <instance id="puntoSuministroDc"
                   class="com.company.test1.entity.PuntoSuministro"
-                  view="_local">
+                  view="puntoSuministro-view">
             <loader/>
         </instance>
     </data>
@@ -15,6 +15,7 @@
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="puntoSuministroDc">
             <column width="250px">
+                <lookupPickerField id="proveedorField" property="proveedor"/>
                 <textField id="identificadorPuntoSuministroField" property="identificadorPuntoSuministro"/>
                 <textArea id="descripcionField" property="descripcion" rows="5"/>
             </column>

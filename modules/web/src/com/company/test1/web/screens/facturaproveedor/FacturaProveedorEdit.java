@@ -28,6 +28,8 @@ import com.haulmont.cuba.gui.model.impl.InstanceContainerImpl;
 import com.haulmont.cuba.gui.model.impl.InstancePropertyContainerImpl;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.test1.entity.documentosImputables.FacturaProveedor;
+import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -66,6 +68,10 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
     private DataManager dataManager;
     @Inject
     private InstancePropertyContainer<ColeccionArchivosAdjuntos> coleccionArchivosAdjuntosDc;
+    @Inject
+    private UserSession userSession;
+    @Inject
+    private HBoxLayout hboxSuministros;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -89,6 +95,12 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
             fp.setColeccionArchivosAdjuntos(caa);
         }
         int y = 2;
+        User user = userSession.getUser();
+        if (user.getLogin().compareTo("carlosconti")==0){
+            hboxSuministros.setVisible(true);
+        }else{
+            hboxSuministros.setVisible(false);
+        }
     }
     
     

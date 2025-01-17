@@ -2055,5 +2055,10 @@
 
 
     </view>
+    <view entity="test1_PuntoSuministro" name="puntoSuministro-view" extends="_local">
+        <property name="proveedor" view="_minimal">
+            <property name="persona" view="_base"/>
+        </property>
+    </view>
 
 </views>

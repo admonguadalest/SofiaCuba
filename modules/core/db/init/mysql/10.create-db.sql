@@ -176,7 +176,7 @@ create table NOTIFICACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONTENIDO_IMPLEMENTADO longtext,
     ENVIADO boolean,
@@ -436,7 +436,7 @@ create table DOCUMENTO_IMPUTABLE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     DESCRIPCION_DOCUMENTO longtext,
     MARCAJES_PROVISIONAL varchar(255),
@@ -548,7 +548,7 @@ create table INCREMENTO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     CONCEPTO_RECIBO_ATRASOS_ID varchar(32),
     FECHA_INCREMENTO date,
@@ -1463,7 +1463,7 @@ create table ORDEN_PAGO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     EMISOR_PERSONA_ID varchar(32),
     BENEFICIARIO_PERSONA_ID varchar(32),
@@ -1539,7 +1539,7 @@ create table VALIDACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(100),
+    DTYPE varchar(31),
     --
     PROPIETARIO_ID varchar(32),
     ESTADO_VALIDACION integer,
@@ -1972,6 +1972,7 @@ create table TEST1_PUNTO_SUMINISTRO (
     DELETED_BY varchar(50),
     --
     IDENTIFICADOR_PUNTO_SUMINISTRO varchar(255),
+    PROVEEDOR_ID varchar(32) not null,
     DESCRIPCION longtext,
     --
     primary key (ID)

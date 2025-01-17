@@ -7,7 +7,7 @@
     <data readOnly="true">
         <collection id="puntoSuministroesDc"
                     class="com.company.test1.entity.PuntoSuministro"
-                    view="_local">
+                    view="puntoSuministro-view">
             <loader id="puntoSuministroesDl">
                 <query>
                     <![CDATA[select e from test1_PuntoSuministro e]]>
@@ -33,6 +33,7 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
+                <column id="proveedor.persona.nombreCompleto"/>
                 <column id="identificadorPuntoSuministro"/>
                 <column id="descripcion"/>
             </columns>

@@ -80,7 +80,6 @@ public class ContratoInquilino extends StandardEntity implements AsTreeItem {
     protected String lugarRealizacion;
 
 
-
     @NotNull(message = "Indicar mes/anno de referencia de aplicacion de IPC")
     @Column(name = "MES_ANYO_APLICACION_IPC", length = 50)
     protected String mesAnyoAplicacionIPC;
