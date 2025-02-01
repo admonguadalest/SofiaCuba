@@ -18,7 +18,8 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="scrollBox" spacing="true">
+    <layout expand="split" spacing="true">
+        <split id="split" orientation="horizontal">
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="facturaProveedorDc" width="100%">
                 <column width="50%">
@@ -133,6 +134,8 @@
             </groupBox>
 
         </scrollBox>
+            <browserFrame id="brwDocumentPreview" width="100%" height="100%"/>
+        </split>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>

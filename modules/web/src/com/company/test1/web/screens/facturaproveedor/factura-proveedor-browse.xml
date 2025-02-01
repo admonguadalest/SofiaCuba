@@ -39,6 +39,9 @@
                 <column id="fechaEmision"/>
                 <column id="importePostCCAA"/>
                 <column id="createTs"/>
+                <column id="suministroInfoPuntoSuministro"/>
+                <column id="suministroPeriodoDesde"/>
+                <column id="suministroPeriodoHasta"/>
 
             </columns>
             <rowsCount/>

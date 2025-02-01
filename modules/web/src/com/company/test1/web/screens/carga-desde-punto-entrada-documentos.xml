@@ -25,8 +25,8 @@
             >
 
             </lookupPickerField>
-            <split id="splt" width="100%" height="100%" orientation="horizontal" >
-                <vbox id="vboxped">
+            <split id="splt" width="100%" height="100%" orientation="horizontal">
+                <vbox id="vboxped" spacing="true">
                     <vbox id="vboxmail" width="100%" height="100%" expand="splt2" spacing="true">
                         <hbox spacing="true">
                             <button id="btnActualizarCorreos" visible="false" caption="Comprobar correos"/>
@@ -102,6 +102,9 @@
                                 <column property="basicInformationIssueDate" caption="Fecha Emisión"></column>
                                 <column property="totals_amountDue" caption="Total Factura"></column>
                                 <column property="vendorName_customerAddress" caption="Dirección Suministro"/>
+                                <column property="periodFrom"/>
+                                <column property="periodTo"/>
+                                <column property="unitInfo"/>
                             </columns>
                         </dataGrid>
                     </vbox>

@@ -45,18 +45,21 @@ public class OrdenCobroBrowseSinRemesa extends StandardLookup<OrdenCobro> {
 
     @Install(to = "ordenCobroesDl", target = Target.DATA_LOADER)
     private List<OrdenCobro> ordenCobroesDlLoadDelegate(LoadContext<OrdenCobro> loadContext) {
-        String hql = "select e from test1_OrdenCobro e " +
-                " left join e.recibo r " +
-                " left join e.deudor d " +
-                " left join e.cuentaBancariaDeudora cb" +
-                " where r is null and (d is not null and cb is not null)";
-        List<OrdenCobro> oocc = dataManager.load(OrdenCobro.class).query(hql).view("ordenCobro-view").list();
+//        String hql = "select e from test1_OrdenCobro e " +
+//                " left join e.recibo r " +
+//                " left join e.deudor d " +
+//                " left join e.cuentaBancariaDeudora cb" +
+//                " where r is null and (d is not null and cb is not null)";
+//        List<OrdenCobro> oocc = dataManager.load(OrdenCobro.class).query(hql).view("ordenCobro-view").list();
+
+        List<OrdenCobro> oocc = dataManager.loadList(loadContext);
         ArrayList al = new ArrayList();
         for (int i = 0; i < oocc.size(); i++) {
             OrdenCobro oc = oocc.get(i);
-            if (oc.getRecibo()==null){
+            if ((oc.getCreditor() != null) && (oc.getDeudor() != null)) {
                 al.add(oc);
             }
+
         }
         return al;
     }

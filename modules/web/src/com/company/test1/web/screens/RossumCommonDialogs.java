@@ -21,11 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.company.test1.entity.RossumAnnotation;
 import com.haulmont.cuba.security.entity.User;
@@ -358,6 +354,9 @@ public class RossumCommonDialogs {
     }
 
     public RossumAnnotation getInvoiceStructFromMap(Integer queueId, Integer annotationId, Map m) throws Exception{
+        if (queueId == 2592865){
+            return getInvoiceStructFromMap_Q2592865(annotationId, m);
+        }
         RossumAnnotation rbi = new RossumAnnotation();
         JSONObject document = (JSONObject)m.get("document");
         rbi.setContentType(getContentTypeFromFileNameExtension(document.getString("file_name")));
@@ -385,26 +384,70 @@ public class RossumCommonDialogs {
         rbi.setVendorCustomer_vendorAddress((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(1)).get("value"));
         rbi.setVendorCustomer_customerName((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(2)).get("value"));
         rbi.setVendorName_customerAddress((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(3)).get("value"));
-
-        rbi.setOtherNotes((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(4)).get("children")).get(0)).get("value"));
-
+        try {
+            rbi.setOtherNotes((String) ((JSONObject) ((JSONArray) ((JSONObject) ((JSONArray) m.get("data")).get(4)).get("children")).get(0)).get("value"));
+        }catch(Exception exc){
+            rbi.setOtherNotes("Empty");
+        }
         rbi.setDocumentId((Integer)m.get("documentId"));
 
-        //parte suministros
-        if (queueId == 2592865){//identificador de la cola de suministros grupodomus vcs ss
-            rbi.setPeriodFrom(null); //solo pendiente escribir la ruta para poblarlo -> tomar como modelo los ejemplos de aqui arriba
-            //(String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(1)).get("value")
-            //poero solo lo podre mirar con una prueba de verdad
-            rbi.setPeriodTo(null);
-            rbi.setUnitInfo(null);
-        }
-        //fin parte suministros
+
 
 
 
         return rbi;
 
 
+    }
+
+    public RossumAnnotation getInvoiceStructFromMap_Q2592865(Integer annotationId, Map m) throws Exception{
+
+        RossumAnnotation rbi = new RossumAnnotation();
+        JSONObject document = (JSONObject)m.get("document");
+        rbi.setContentType(getContentTypeFromFileNameExtension(document.getString("file_name")));
+        rbi.setQueueId(2592865);
+        rbi.setAnnotationId(annotationId);
+        rbi.setBasicInformation_documentId((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(0)).get("value"));
+        rbi.setBasicInformation_purchaseOrderNumber((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(1)).get("value"));
+        rbi.setBasicInformationIssueDate((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(2)).get("value"));
+        rbi.setBasicInformation_dueDate((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(3)).get("value"));
+
+        rbi.setPaymentInstructions_accountNumber((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(1)).get("children")).get(0)).get("value"));
+        rbi.setPaymentInstructions_bankCode((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(1)).get("children")).get(1)).get("value"));
+        rbi.setPaymentInstructions_iban((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(1)).get("children")).get(2)).get("value"));
+
+        rbi.setTotals_totalTax((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(2)).get("children")).get(2)).get("value"));
+        rbi.setTotals_subtotal((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(2)).get("children")).get(1)).get("value"));
+        rbi.setTotals_amountDue((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(2)).get("children")).get(0)).get("value"));
+        rbi.setTotals_currency((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(2)).get("children")).get(3)).get("value"));
+        try{
+            rbi.setTotals_taxDetails((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(4)).get("value"));
+        }catch(Exception exc){
+
+        }
+        rbi.setVendorCustomer_vendorName((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(0)).get("value"));
+        rbi.setVendorCustomer_vendorAddress((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(1)).get("value"));
+        rbi.setVendorCustomer_customerName((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(4)).get("value"));
+        rbi.setVendorName_customerAddress((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(3)).get("value"));
+        try {
+            rbi.setOtherNotes((String) ((JSONObject) ((JSONArray) ((JSONObject) ((JSONArray) m.get("data")).get(4)).get("children")).get(0)).get("value"));
+        }catch(Exception exc){
+            rbi.setOtherNotes("Empty");
+        }
+        rbi.setDocumentId((Integer)m.get("documentId"));
+
+        //parte suministros
+
+            rbi.setPeriodFrom((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(6)).get("value"));
+            //(String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(3)).get("children")).get(1)).get("value")
+            //poero solo lo podre mirar con una prueba de verdad
+            rbi.setPeriodTo((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(7)).get("value"));
+            rbi.setUnitInfo((String)((JSONObject)((JSONArray)((JSONObject)((JSONArray)m.get("data")).get(0)).get("children")).get(8)).get("value"));
+
+        //fin parte suministros
+
+
+        return rbi;
     }
 
 

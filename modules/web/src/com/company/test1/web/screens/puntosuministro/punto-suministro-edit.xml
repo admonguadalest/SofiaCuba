@@ -12,14 +12,16 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="editActions" spacing="true">
+    <layout expand="rest" spacing="true">
         <form id="form" dataContainer="puntoSuministroDc">
             <column width="250px">
-                <lookupPickerField id="proveedorField" property="proveedor"/>
+                <lookupPickerField id="proveedorField" property="proveedor" captionProperty="persona.nombreCompleto"/>
                 <textField id="identificadorPuntoSuministroField" property="identificadorPuntoSuministro"/>
+                <lookupPickerField id="departamentoField" property="departamento" captionProperty="nombreDescriptivoCompleto"/>
                 <textArea id="descripcionField" property="descripcion" rows="5"/>
             </column>
         </form>
+        <vbox id="rest"/>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>

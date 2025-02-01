@@ -2059,6 +2059,21 @@
         <property name="proveedor" view="_minimal">
             <property name="persona" view="_base"/>
         </property>
+        <property name="departamento" view="_base">
+            <property name="ubicacion" view="_base"/>
+        </property>
+    </view>
+    <view entity="test1_Dispositivo" name="dispositivo-view" extends="_minimal">
+        <property name="identificador"/>
+        <property name="tipoDispositivo"/>
+        <property name="ampliacion"/>
+        <property name="instaladoEn"/>
+        <property name="departamento" view="_base">
+            <property name="ubicacion" view="_base"/>
+        </property>
+        <property name="dispositivoPadre" view="_minimal">
+            <property name="identificador"/>
+        </property>
     </view>
 
 </views>

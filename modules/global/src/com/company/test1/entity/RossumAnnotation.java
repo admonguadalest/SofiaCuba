@@ -76,8 +76,13 @@ public class RossumAnnotation extends BaseUuidEntity {
     @MetaProperty
     private String contentType;
 
-    protected Date periodFrom;
-    protected Date periodTo;
+    @MetaProperty
+    protected String periodFrom;
+
+    @MetaProperty
+    protected String periodTo;
+
+    @MetaProperty
     protected String unitInfo;
 
     public String getUnitInfo() {
@@ -88,20 +93,20 @@ public class RossumAnnotation extends BaseUuidEntity {
         this.unitInfo = unitInfo;
     }
 
-    public Date getPeriodTo() {
-        return periodTo;
-    }
-
-    public void setPeriodTo(Date periodTo) {
-        this.periodTo = periodTo;
-    }
-
-    public Date getPeriodFrom() {
+    public String getPeriodFrom() {
         return periodFrom;
     }
 
-    public void setPeriodFrom(Date periodFrom) {
+    public void setPeriodFrom(String periodFrom) {
         this.periodFrom = periodFrom;
+    }
+
+    public String getPeriodTo() {
+        return periodTo;
+    }
+
+    public void setPeriodTo(String periodTo) {
+        this.periodTo = periodTo;
     }
 
     public String getContentType(){return this.contentType;}

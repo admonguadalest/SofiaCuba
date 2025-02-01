@@ -29,15 +29,17 @@
             <property caption="Puerta" name="utilitarioContratoInquilino.departamento.puerta"/>
             <property caption="Importe" name="totalReciboPostCCAA"/>
             <property caption="Fecha Registro" name="createTs"/>
+
         </filter>
         <table id="reciboesTable"
                width="100%"
-               dataContainer="reciboesDc" multiselect="true">
+               dataContainer="reciboesDc" multiselect="true" >
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
+
             <columns>
                 <column id="utilitarioContratoInquilino.inquilino.nombreCompleto"/>
                 <column id="utilitarioContratoInquilino.nombresAdicionales"/>

@@ -77,6 +77,7 @@
                 <param name="newEntity" value="true"/>
                 <param name="esVivienda" value="false"/>
             </item>
+
         </menu>
         <separator/>
         <menu id="certificados">
@@ -93,6 +94,8 @@
             <item screen="test1_Siniestro.browse"/>
             <item screen="test1_PolizaDeSeguros.browse"/>
         </menu>
+        <separator></separator>
+        <item screen="test1_Dispositivo.browse"/>
 
 
     </menu>

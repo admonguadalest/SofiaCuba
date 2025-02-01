@@ -1,15 +1,13 @@
 package com.company.test1.web.screens.facturaproveedor;
 
-import com.company.test1.entity.ColeccionArchivosAdjuntos;
-import com.company.test1.entity.Persona;
-import com.company.test1.entity.PersonaFisica;
-import com.company.test1.entity.PersonaJuridica;
+import com.company.test1.entity.*;
 import com.company.test1.entity.ciclos.ImputacionDocumentoImputable;
 import com.company.test1.entity.conceptosadicionales.ProgramacionConceptoAdicional;
 import com.company.test1.entity.conceptosadicionales.RegistroAplicacionConceptoAdicional;
 import com.company.test1.entity.departamentos.Ubicacion;
 import com.company.test1.entity.extroles.Proveedor;
 import com.company.test1.entity.validaciones.ValidacionImputacionDocumentoImputable;
+import com.company.test1.service.ColeccionArchivosAdjuntosService;
 import com.company.test1.service.ValidacionesService;
 import com.company.test1.web.screens.ScreenLaunchUtil;
 import com.company.test1.web.screens.conceptosadicionales.RegistroAplicacionConceptoAdicionalEdit;
@@ -32,10 +30,8 @@ import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.util.*;
 
 @UiController("test1_FacturaProveedor.edit")
 @UiDescriptor("factura-proveedor-edit.xml")
@@ -72,6 +68,10 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
     private UserSession userSession;
     @Inject
     private HBoxLayout hboxSuministros;
+    @Inject
+    private ColeccionArchivosAdjuntosService coleccionArchivosAdjuntosService;
+    @Inject
+    private BrowserFrame brwDocumentPreview;
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {
@@ -83,6 +83,21 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
                 this.setEntityToEdit(fp);
             }
         }
+    }
+
+    private void actualizaScan(){
+        ArchivoAdjunto aa = facturaProveedorDc.getItem().getColeccionArchivosAdjuntos().getArchivos().get(0);
+        byte[] bb = aa.getRepresentacionSerial();
+        if (bb==null){
+            ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);
+            bb = aaext.getRepresentacionSerial();
+        }
+        bb = Base64.getMimeDecoder().decode(bb);
+        bb = Base64.getMimeDecoder().decode(bb);
+        final byte[] bb_ = bb;
+        brwDocumentPreview.setSource(StreamResource.class)
+                .setStreamSupplier(() -> new ByteArrayInputStream(bb_))
+                .setMimeType(aa.getMimeType());
     }
 
     @Subscribe
@@ -101,6 +116,8 @@ public class FacturaProveedorEdit extends StandardEditor<FacturaProveedor> {
         }else{
             hboxSuministros.setVisible(false);
         }
+
+        actualizaScan();
     }
     
     

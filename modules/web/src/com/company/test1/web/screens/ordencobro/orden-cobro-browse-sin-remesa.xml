@@ -9,8 +9,11 @@
                     class="com.company.test1.entity.ordenescobro.OrdenCobro"
                     view="ordenCobro-view">
             <loader id="ordenCobroesDl">
-
+                <query><![CDATA[select e from test1_OrdenCobro e where e.deudor is not null and e.creditor is not null
+                        ]]></query>
             </loader>
+
+
         </collection>
         <collection id="propietariosDc" class="com.company.test1.entity.extroles.Propietario" view="propietario-view">
             <loader>
@@ -34,7 +37,7 @@
         </filter>
         <groupTable id="ordenCobroesTable"
                     width="100%"
-                    dataContainer="ordenCobroesDc">
+                    dataContainer="ordenCobroesDc" multiselect="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>

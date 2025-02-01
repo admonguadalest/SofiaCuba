@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
-        caption="msg://browseCaption"
+        caption="Ordenes Cobro C/Remesa"
         focusComponent="ordenCobroesTable"
         messagesPack="com.company.test1.web.screens.ordencobro">
     <data readOnly="true">

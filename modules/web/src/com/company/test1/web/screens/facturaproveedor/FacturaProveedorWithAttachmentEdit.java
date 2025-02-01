@@ -243,7 +243,7 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
         }
 
 
-        populateRossumData();
+     populateRossumData();
 
         User user = userSession.getUser();
         if (user.getLogin().compareTo("carlosconti")==0){
@@ -319,10 +319,12 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
                 y = 2;
                 //parte suministros
                 if (this.rossumAnnotation.getPeriodFrom()!=null){
-                    this.facturaProveedorDc.getItem().setSuministroPeriodoDesde(this.rossumAnnotation.getPeriodFrom());
+                    Date periodFrom = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getPeriodFrom());
+                    this.facturaProveedorDc.getItem().setSuministroPeriodoDesde(periodFrom);
                 }
                 if (this.rossumAnnotation.getPeriodTo()!=null){
-                    this.facturaProveedorDc.getItem().setSuministroPeriodoHasta(this.rossumAnnotation.getPeriodTo());
+                    Date periodTo = new SimpleDateFormat("yyyy-MM-dd").parse(this.rossumAnnotation.getPeriodTo());
+                    this.facturaProveedorDc.getItem().setSuministroPeriodoHasta(periodTo);
                 }
                 if (this.rossumAnnotation.getUnitInfo()!=null){
                     this.facturaProveedorDc.getItem().setSuministroInfoPuntoSuministro(this.rossumAnnotation.getUnitInfo());

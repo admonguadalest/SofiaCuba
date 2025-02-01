@@ -176,7 +176,7 @@ create table NOTIFICACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     CONTENIDO_IMPLEMENTADO longtext,
     ENVIADO boolean,
@@ -436,7 +436,7 @@ create table DOCUMENTO_IMPUTABLE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     DESCRIPCION_DOCUMENTO longtext,
     MARCAJES_PROVISIONAL varchar(255),
@@ -548,7 +548,7 @@ create table INCREMENTO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     CONCEPTO_RECIBO_ATRASOS_ID varchar(32),
     FECHA_INCREMENTO date,
@@ -1463,7 +1463,7 @@ create table ORDEN_PAGO (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     EMISOR_PERSONA_ID varchar(32),
     BENEFICIARIO_PERSONA_ID varchar(32),
@@ -1539,7 +1539,7 @@ create table VALIDACION (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    DTYPE varchar(31),
+    DTYPE varchar(100),
     --
     PROPIETARIO_ID varchar(32),
     ESTADO_VALIDACION integer,
@@ -1974,7 +1974,29 @@ create table TEST1_PUNTO_SUMINISTRO (
     IDENTIFICADOR_PUNTO_SUMINISTRO varchar(255),
     PROVEEDOR_ID varchar(32) not null,
     DESCRIPCION longtext,
+    DEPARTAMENTO_ID varchar(32),
     --
     primary key (ID)
 )^
 -- end TEST1_PUNTO_SUMINISTRO
+-- begin TEST1_DISPOSITIVO
+create table TEST1_DISPOSITIVO (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    IDENTIFICADOR varchar(255),
+    TIPO_DISPOSITIVO varchar(50),
+    AMPLIACION longtext,
+    INSTALADO_EN varchar(255),
+    DEPARTAMENTO_ID varchar(32),
+    DISPOSITIVO_PADRE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end TEST1_DISPOSITIVO

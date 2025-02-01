@@ -83,6 +83,8 @@ public class GestionarCobros extends StandardLookup<Recibo> {
 
     }
 
+
+    boolean abrirAccesoTotal = false;
     @Subscribe("reciboesTable.edit")
     public void onReciboesTableEdit(Action.ActionPerformedEvent event) {
         User us = userSession.getUser();
@@ -93,15 +95,28 @@ public class GestionarCobros extends StandardLookup<Recibo> {
         }
         Propietario p = r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo();
         if (us.getLogin().compareTo("carlosconti") != 0) {
-            if (p.getPersona().getNifDni().compareTo("B75537886") == 0) {
+            String nifsPermitidos = "B75537886";
+            if (nifsPermitidos.indexOf(p.getPersona().getNifDni())!=-1) {
                 screenBuilders.editor(Recibo.class, this).editEntity(r).withOpenMode(OpenMode.NEW_TAB).build().show();
             } else {
-                notifications.create().withDescription("Acceso denegado").show();
+                notifications.create().withCaption("Acceso denegado").show();
                 return;
             }
             return;
         }else{
-            screenBuilders.editor(Recibo.class, this).editEntity(r).withOpenMode(OpenMode.NEW_TAB).build().show();
+            String nifsPermitidos = "B75537878 B75537860";
+            if (abrirAccesoTotal){
+                nifsPermitidos = "B75537878 B75537860 B75537886";
+            }
+
+
+
+            if (nifsPermitidos.indexOf(p.getPersona().getNifDni())!=-1) {
+                screenBuilders.editor(Recibo.class, this).editEntity(r).withOpenMode(OpenMode.NEW_TAB).build().show();
+            } else {
+                notifications.create().withCaption("Acceso denegado").show();
+                return;
+            }
         }
 
     }

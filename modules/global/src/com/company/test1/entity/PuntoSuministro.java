@@ -1,5 +1,6 @@
 package com.company.test1.entity;
 
+import com.company.test1.entity.departamentos.Departamento;
 import com.company.test1.entity.extroles.Proveedor;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
@@ -30,6 +31,18 @@ public class PuntoSuministro extends StandardEntity {
     @Lob
     @Column(name = "DESCRIPCION")
     protected String descripcion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEPARTAMENTO_ID")
+    protected Departamento departamento;
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
 
     public Proveedor getProveedor() {
         return proveedor;

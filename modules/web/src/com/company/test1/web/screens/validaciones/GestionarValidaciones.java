@@ -151,10 +151,18 @@ public class GestionarValidaciones extends Screen {
     }
 
     public void onBtnBuscarClick() {
+
         try{
             String userlogin = userSession.getUser().getLogin();
+            String allowed = "carlosconti pilarconti bellamateos";
+            if (allowed.indexOf(userlogin)==-1){
+                notifications.create().withDescription("No tiene privilegios para acceder a esta funcionalidad")
+                        .show();
+                return;
+            }
             HashMap<String, String> userLoginNifPropietarios = new HashMap();
             userLoginNifPropietarios.put("pilarconti", "B75537886");
+            userLoginNifPropietarios.put("bellamateos", "B75537886");
             userLoginNifPropietarios.put("carlosconti", "B75537878;B75537860;B75537886;B08377079;B65687766");
             //userLoginNifPropietarios.put("carlosconti", "B75537878");
             List<ValidacionImputacionDocumentoImputable> lvidis =
