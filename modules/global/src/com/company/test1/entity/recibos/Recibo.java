@@ -103,6 +103,8 @@ public class Recibo extends StandardEntity {
     @Column(name = "RM2ID")
     protected Integer rm2id;
 
+
+
     @MetaProperty
     public String getInfoRemesa() {
         try{
@@ -129,6 +131,27 @@ public class Recibo extends StandardEntity {
         return d;
     }
 
+    @MetaProperty
+    public Double getTotalCobradoActaSuministros() {
+        Double d = 0.0;
+        List<ReciboCobrado> rrcc = this.getRecibosCobrados();
+        for (int i = 0; i < rrcc.size(); i++) {
+            ReciboCobrado rc = recibosCobrados.get(i);
+            if (rc.getActaSuministros()==null){
+                rc.setActaSuministros(0.0);
+            }
+            if ((rc.getModoIngreso()== ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
+                d += rc.getActaSuministros();
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+                d -= rc.getActaSuministros();
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
+                d += rc.getActaSuministros();
+            }
+        }
+        return d;
+    }
+
+
     @Column(name = "OBSERVACIONES_NOTIFICACIONES_PERIODICAS_GESTION_COBRO")
     protected String observacionesNotificacionesPeriodicasGestionCobro;
 
@@ -154,6 +177,8 @@ public class Recibo extends StandardEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NOTIFICACION_PERIODICA_IMPAGADOS_ID")
     protected Notificacion notificacionPeriodicaImpagados;
+
+
 
     public Notificacion getNotificacionPeriodicaImpagados() {
         return notificacionPeriodicaImpagados;

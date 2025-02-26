@@ -143,12 +143,28 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
         });
     }
 
+    private String corrigeNombreCaracteresValidos(String s){
+        String validos = "ABCDEFGHIJKLMNOPQRSTUWXYZabcdefghijklmnopqrstuvwxyz0123456789-_. ";
+        String corregido = "";
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            String sch = new String(new char[]{ch});
+            if (validos.indexOf(sch)==-1){
+                corregido += "_";
+            }else{
+                corregido += sch;
+            }
+        }
+        return corregido;
+    }
+
     @Subscribe
     public void onInit(InitEvent event) {
         multiUploadField.addQueueUploadCompleteListener(queueUploadCompleteEvent -> {
             for (Map.Entry<UUID, String> entry : multiUploadField.getUploadsMap().entrySet()) {
                 UUID fileId = entry.getKey();
                 String fileName = entry.getValue();
+                fileName = corrigeNombreCaracteresValidos(fileName);
                 FileDescriptor fd = fileUploadingAPI.getFileDescriptor(fileId, fileName);
                 try {
                     fileUploadingAPI.putFileIntoStorage(fileId, fd);
@@ -165,11 +181,11 @@ public class ColeccionArchivosAdjuntosFragment extends ScreenFragment {
                         treeColecciones.setSelected(coleccionArchivosAdjuntosDc.getItem());
                     }
                     aa.setColeccionArchivosAdjuntos(treeColecciones.getSingleSelected());
-                    aa.setDescripcion(fd.getName());
+                    aa.setDescripcion(fileName);
                     aa.setExtension(fd.getExtension());
                     aa.setMimeType("");
-                    aa.setNombreArchivo(fd.getName());
-                    aa.setNombreArchivoOriginal(fd.getName());
+                    aa.setNombreArchivo(fileName);
+                    aa.setNombreArchivoOriginal(fileName);
                     bb = Base64.getMimeEncoder().encode(bb);
                     bb = Base64.getMimeEncoder().encode(bb);
                     aa.setRepresentacionSerial(bb);

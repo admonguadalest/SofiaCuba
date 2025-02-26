@@ -19,6 +19,7 @@
                 <lookupField id="modoIngresoField" property="modoIngreso"/>
                 <textField id="totalIngresoField" property="totalIngreso"/>
                 <textField id="cobranzasField" property="cobranzas"/>
+                <textField id="actaSuministrosField" property="actaSuministros"/>
                 <textArea id="descripcionField" property="descripcion"/>
                 <textArea id="ampliacionIngresoField" property="ampliacionIngreso"/>
             </column>

@@ -47,6 +47,7 @@
                 <column id="infoRemesa"/>
                 <column id="totalReciboPostCCAA"/>
                 <column id="totalCobrado"/>
+                <column id="totalCobradoActaSuministros" caption="Suministros"/>
                 <column id="numRecibo"/>
                 <column id="fechaEmision"/>
                 <column id="ampliacion"/>

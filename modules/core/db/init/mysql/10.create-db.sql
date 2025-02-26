@@ -1396,6 +1396,7 @@ create table RECIBO_COBRADO (
     MODO_INGRESO integer,
     TOTAL_INGRESO double precision,
     COBRANZAS double precision,
+    ACTA_SUMINISTROS double precision,
     RECIBO_ID varchar(32),
     --
     primary key (ID)

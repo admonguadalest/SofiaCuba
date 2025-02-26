@@ -35,11 +35,23 @@ public class ReciboCobrado extends StandardEntity {
     @Column(name = "COBRANZAS")
     protected Double cobranzas;
 
+    @Column(name = "ACTA_SUMINISTROS")
+    protected Double actaSuministros;
+
+
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RECIBO_ID")
     protected Recibo recibo;
+
+    public Double getActaSuministros() {
+        return actaSuministros;
+    }
+
+    public void setActaSuministros(Double actaSuministros) {
+        this.actaSuministros = actaSuministros;
+    }
 
     public Recibo getRecibo() {
         return recibo;

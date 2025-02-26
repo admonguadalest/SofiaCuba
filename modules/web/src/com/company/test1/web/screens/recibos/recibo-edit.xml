@@ -50,6 +50,7 @@
                             <column id="fechaCobro"/>
                             <column id="modoIngreso"/>
                             <column id="totalIngreso"/>
+                            <column id="actaSuministros"/>
                             <column id="cobranzas"/>
                             <column id="descripcion"/>
                         </columns>

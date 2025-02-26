@@ -36,7 +36,7 @@
 
                 <column id="identificador"/>
                 <column id="fechaValor"/>
-
+               <column id="infoInquilino"/>
                 <column id="importeTotal"/>
 
             </columns>

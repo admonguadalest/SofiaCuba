@@ -41,6 +41,7 @@
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="personaFisicaDc" width="100%">
                 <column width="100%">
+                    <textField id="idField" property="id" enable="false"/>
                     <pickerField id="userField" caption="Usuario"
                                  dataContainer="personaFisicaDc" property="usuario" captionProperty="login"/>
                     <textField id="nombreField" property="nombre"/>
@@ -108,6 +109,7 @@
                                     <column id="pais"/>
                                     <column id="codigoBIC"/>
                                     <column id="digigosControlIBAN"/>
+<!--                                    <column id="createTs"/>-->
                                 </columns>
                                 <actions>
                                     <action id="create" caption="Nuevo" type="create"/>

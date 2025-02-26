@@ -33,7 +33,7 @@ public class OrdenPagoContratoInquilinoEdit extends StandardEditor<OrdenPagoCont
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
-        String[] ss = new String[]{"RETORNO FIANZA", "OTROS"};
+        String[] ss = new String[]{"RETORNO FIANZA", "LIQ. SUMINISTROS", "OTROS"};
         lkpTipo.setOptionsList(Arrays.asList(ss));
         realizacionPagoField.setEditable(false);
         try{

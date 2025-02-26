@@ -49,6 +49,9 @@
                 <column id="createTs"/>
                 <column id="createdBy"/>
                 <column id="id"/>
+                <column id="suministroInfoPuntoSuministro"/>
+                <column id="suministroPeriodoDesde"/>
+                <column id="suministroPeriodoHasta"/>
 
             </columns>
             <rowsCount/>

@@ -12,7 +12,7 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="editActions" spacing="true">
+    <layout expand="form" spacing="true">
         <form id="form" dataContainer="cuentaBancariaDc">
             <column width="250px">
                 <textField id="entidadField" property="entidad" dataContainer="cuentaBancariaDc"/>
@@ -27,6 +27,10 @@
                 <textField id="digigosControlIBANField" property="digigosControlIBAN" dataContainer="cuentaBancariaDc"/>
             </column>
         </form>
+        <vbox caption="Cuenta Bancaria">
+            <textField id="txtFormatoTradicional" caption="Formato España" enable="false" width="100%"/>
+            <textField id="txtFormatoIban" caption="Formato IBAN" enable="false" width="100%"/>
+        </vbox>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>

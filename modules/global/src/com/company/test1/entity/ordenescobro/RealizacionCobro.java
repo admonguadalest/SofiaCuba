@@ -1,6 +1,8 @@
 package com.company.test1.entity.ordenescobro;
 
 import com.company.test1.entity.CuentaBancaria;
+import com.company.test1.entity.recibos.Recibo;
+import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
@@ -44,6 +46,23 @@ public class RealizacionCobro extends StandardEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @OneToMany(mappedBy = "realizacionCobro")
     protected List<OrdenCobro> ordenesCobro = new ArrayList<OrdenCobro>();
+
+    @MetaProperty
+    public String getInfoInquilino(){
+        if (ordenesCobro.size()!=1){
+            return "REMESA MULTIPLE";
+        }else{
+            OrdenCobro oc = ordenesCobro.get(0);
+            try {
+                String s = oc.getDeudor().getNombreCompleto();
+                return s;
+            }catch(Exception exc){
+                Recibo r = oc.getRecibo();
+                String s = r.getUtilitarioContratoInquilino().getInquilino().getNombreCompleto();
+                return s;
+            }
+        }
+    }
 
     @Column(name = "RM2ID")
     protected Integer rm2id;

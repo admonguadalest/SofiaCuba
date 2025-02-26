@@ -70,6 +70,11 @@ public class ReportRecibo {
             parameters.put("nombreEntidad", "VALOR NOMBRE ENTIDAD");
 
             JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("Recibo.svg");
+
+            if (recibo.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo().getPersona().getNifDni().compareTo("B75537878")==0){
+                jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("ReciboDomus.svg");
+            }
+
             parameters.put("FONDO_RECIBO",jrr);
 
             JRDataSource mainds = new SIJRBeanDataSource(Arrays.asList(h));

@@ -35,6 +35,7 @@
 
             <form id="form" dataContainer="personaJuridicaDc" width="100%">
                 <column width="100%">
+                    <textField id="txtId" property="id"/>
                     <pickerField id="userField" caption="Usuario"
                                  dataContainer="personaJuridicaDc" property="usuario" captionProperty="login"/>
                     <textField id="nombreField" property="nombre" dataContainer="personaJuridicaDc"/>
