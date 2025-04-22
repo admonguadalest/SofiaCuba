@@ -30,6 +30,7 @@
             <property caption="Importe" name="totalReciboPostCCAA"/>
             <property caption="Fecha Registro" name="createTs"/>
 
+
         </filter>
         <table id="reciboesTable"
                width="100%"
@@ -48,6 +49,7 @@
                 <column id="totalReciboPostCCAA"/>
                 <column id="totalCobrado"/>
                 <column id="totalCobradoActaSuministros" caption="Suministros"/>
+                <column id="totalCobradoCobranzas" caption="Cobranzas"/>
                 <column id="numRecibo"/>
                 <column id="fechaEmision"/>
                 <column id="ampliacion"/>

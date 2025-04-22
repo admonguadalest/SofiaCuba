@@ -315,7 +315,13 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                                     boolean purged = rcd.purgeDeletedAnnotations(queueId);
 
                                     if ((deleted) && (purged)) {
+                                        rossumAnnotationsDc.getMutableItems().remove(ra);
                                         notifications.create().withCaption("La anotación fue eliminada satisfactoriamente").show();
+                                        String login = userSession.getUser().getLogin();
+                                        if (login.compareTo("bellamateos")==0){
+
+                                            return;
+                                        }
                                         dialogs.createOptionDialog().withCaption("¿Desea contabilizar en Contabilidad la factura creada?")
                                                 .withActions(
                                                         new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY).withHandler(e3 -> {
@@ -334,7 +340,7 @@ public class CargaDesdePuntoEntradaDocumentos extends Screen {
                                                         ,new DialogAction(DialogAction.Type.NO)
                                                         )
                                                 .show();
-                                        rossumAnnotationsDc.getMutableItems().remove(ra);
+
                                         return;
                                     } else {
                                         notifications.create().withCaption("La operación de eliminación de la anotación no finalizó exitósamente. Por favor realizar comprobación manual.").show();

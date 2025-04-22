@@ -40,7 +40,7 @@ public class ValidacionesServiceBean implements ValidacionesService {
     public List<ValidacionImputacionDocumentoImputable> devuelveValidacionesAcordeADatos(DocumentoImputableTipoEnum tdi, ValidacionEstado estado,
                                                                                          Date fechaDesde, Date fechaHasta, String direccion, String nombreProveedorNoDocto,
                                                                                          DepartamentoEstadoEnum estadoDepto, DepartamentoTipoEnum tipoDepartamento,
-                                                                                         TipoCiclo tipoCiclo
+                                                                                         TipoCiclo tipoCiclo, String nombreTitular
                                                                                          ) throws Exception{
         Transaction t =
                 persistence.createTransaction();
@@ -56,6 +56,7 @@ public class ValidacionesServiceBean implements ValidacionesService {
                 "JOIN c.departamento d " +
                 "JOIN d.ubicacion u " +
                 "JOIN di.proveedor prov " +
+                "JOIN di.titular tit " +
                 "JOIN prov.persona pers WHERE 1=1 ";
         if (estado != null){
             hql += " AND vidi.estadoValidacion = :ev";
@@ -89,6 +90,10 @@ public class ValidacionesServiceBean implements ValidacionesService {
             if (tdi == DocumentoImputableTipoEnum.PRESUPUESTO){
                 hql += " AND type(di) = test1_Presupuesto";
             }
+        }
+        if (nombreTitular!=null){
+            hql += " AND tit.nombreCompleto like :titNc";
+            q.setParameter("titNc","%" +  nombreTitular + "%");
         }
         q.setQueryString(hql);
         List<ValidacionImputacionDocumentoImputable> lvidis = q.setMaxResults(500).getResultList();

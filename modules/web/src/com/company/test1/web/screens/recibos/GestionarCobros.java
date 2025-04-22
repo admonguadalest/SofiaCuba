@@ -95,7 +95,7 @@ public class GestionarCobros extends StandardLookup<Recibo> {
         }
         Propietario p = r.getUtilitarioContratoInquilino().getDepartamento().getPropietarioEfectivo();
         if (us.getLogin().compareTo("carlosconti") != 0) {
-            String nifsPermitidos = "B75537886";
+            String nifsPermitidos = "B75537886 ";
             if (nifsPermitidos.indexOf(p.getPersona().getNifDni())!=-1) {
                 screenBuilders.editor(Recibo.class, this).editEntity(r).withOpenMode(OpenMode.NEW_TAB).build().show();
             } else {
@@ -104,9 +104,9 @@ public class GestionarCobros extends StandardLookup<Recibo> {
             }
             return;
         }else{
-            String nifsPermitidos = "B75537878 B75537860";
+            String nifsPermitidos = "B75537878 B75537860 37234554S";
             if (abrirAccesoTotal){
-                nifsPermitidos = "B75537878 B75537860 B75537886";
+                nifsPermitidos = "B75537878 B75537860 B75537886 37234554S";
             }
 
 

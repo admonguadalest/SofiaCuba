@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.test1.web.screens.facturaproveedor">
+    <data>
+        <collection id="facturasDc" class="com.company.test1.entity.documentosImputables.FacturaProveedor" view="facturaProveedor-view">
+            <loader id="facturasDl">
+                <query><![CDATA[select e from test1_FacturaProveedor e inner join
+                                    e.proveedor prov join prov.persona p
+                                    join e.imputacionesDocumentoImputable idi join idi.validacionImputacion vidi]]></query>
+            </loader>
+        </collection>
+    </data>
+    <layout expand="facturaProveedorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="facturaProveedorsTable"
+                dataLoader="facturasDl" >
+            <property name="proveedor.persona.nombreCompleto" caption="Proveedor"/>
+            <property name="titular.nombreCompleto" caption="Titular"/>
+            <property name="fechaEmision"/>
+            <property name="importeTotalBase"/>
+            <property name="importePostCCAA"/>
+            <property name="numDocumento"/>
+            <property name="imputacionesDocumentoImputable.validacionImputacion.estadoValidacion" caption="Estado Validacion" />
+
+        </filter>
+        <groupTable id="facturaProveedorsTable"
+                    width="100%"
+                    dataContainer="facturasDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="proveedor.persona.nombreCompleto"/>
+                <column id="numDocumento"/>
+                <column id="fechaEmision"/>
+                <column id="importePostCCAA"/>
+                <column id="createTs"/>
+                <column id="suministroInfoPuntoSuministro"/>
+                <column id="suministroPeriodoDesde"/>
+                <column id="suministroPeriodoHasta"/>
+
+            </columns>
+            <rowsCount/>
+
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

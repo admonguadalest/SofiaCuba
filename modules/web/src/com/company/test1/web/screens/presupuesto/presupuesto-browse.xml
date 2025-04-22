@@ -26,6 +26,7 @@
             <property name="fechaEmision"/>
             <property name="importeTotalBase"/>
             <property name="realizadoPor"/>
+
         </filter>
         <table id="presupuestoesTable"
                width="100%"
@@ -46,6 +47,7 @@
                 <column id="textoImputaciones"/>
                 <column id="realizadoPor"/>
                 <column id="consideracionesPresupuesto"/>
+                <column id="createTs"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

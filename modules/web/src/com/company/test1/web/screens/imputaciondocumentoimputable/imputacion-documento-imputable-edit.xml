@@ -19,9 +19,11 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="editActions" spacing="true">
+    <layout expand="form" spacing="true">
         <form id="form"  width="100%">
             <column width="100%">
+                <textField caption="Departamento" editable="false" id="lblNombreDepto"
+                           property="ciclo.departamento.nombreDescriptivoCompleto" dataContainer="imputacionDocumentoImputableDc"/>
                 <pickerField id="cicloField" caption="Ciclo" width="511px"
                              dataContainer="imputacionDocumentoImputableDc" property="ciclo" captionProperty="codigoCiclo"/>
                 <pickerField id="documentoImputableField" width="509px"

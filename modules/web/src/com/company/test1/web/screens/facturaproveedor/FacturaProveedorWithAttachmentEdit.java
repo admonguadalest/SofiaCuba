@@ -243,7 +243,7 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
         }
 
 
-     populateRossumData();
+        populateRossumData();
 
         User user = userSession.getUser();
         if (user.getLogin().compareTo("carlosconti")==0){
@@ -252,6 +252,16 @@ public class FacturaProveedorWithAttachmentEdit extends StandardEditor<FacturaPr
             hboxSuministros.setVisible(false);
         }
 
+        String resultsVerificacionNoDocumento = this.doVerificacionNumDocumentoProveedor();
+        if (resultsVerificacionNoDocumento!=null){
+            if (!chkDesatenderAvisoDuplicado.isChecked()) {
+                notifications.create().withCaption("Posible Duplicado de Factura")
+                        .withDescription("Los siguientes numeros de factura pueden ser coincidentes. Por favor asegurar " +
+                                "que no se producen duplicados : " + resultsVerificacionNoDocumento).show();
+
+
+            }
+        }
 
     }
 

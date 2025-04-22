@@ -18,7 +18,7 @@ public interface ValidacionesService {
     List<ValidacionImputacionDocumentoImputable> devuelveValidacionesAcordeADatos(DocumentoImputableTipoEnum tdi, ValidacionEstado estado,
                                                                                   Date fechaDesde, Date fechaHasta, String direccion, String nombreProveedorNoDocto,
                                                                                   DepartamentoEstadoEnum estadoDepto, DepartamentoTipoEnum tipoDepartamento,
-                                                                                  TipoCiclo tipoCiclo
+                                                                                  TipoCiclo tipoCiclo, String nombreTitular
     ) throws Exception;
 
     void guardaCambiosEnValidacion(Validacion v);

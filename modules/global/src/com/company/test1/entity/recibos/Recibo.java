@@ -120,6 +120,9 @@ public class Recibo extends StandardEntity {
         List<ReciboCobrado> rrcc = this.getRecibosCobrados();
         for (int i = 0; i < rrcc.size(); i++) {
             ReciboCobrado rc = recibosCobrados.get(i);
+            if (rc.getTotalIngreso()==null){
+                rc.setTotalIngreso(0.0);
+            }
             if ((rc.getModoIngreso()== ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
                 d += rc.getTotalIngreso();
             }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
@@ -146,6 +149,26 @@ public class Recibo extends StandardEntity {
                 d -= rc.getActaSuministros();
             }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
                 d += rc.getActaSuministros();
+            }
+        }
+        return d;
+    }
+
+    @MetaProperty
+    public Double getTotalCobradoCobranzas() {
+        Double d = 0.0;
+        List<ReciboCobrado> rrcc = this.getRecibosCobrados();
+        for (int i = 0; i < rrcc.size(); i++) {
+            ReciboCobrado rc = recibosCobrados.get(i);
+            if (rc.getActaSuministros()==null){
+                rc.setActaSuministros(0.0);
+            }
+            if ((rc.getModoIngreso()== ReciboCobradoModoIngreso.ADMINISTRACION)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.BANCARIO)||(rc.getModoIngreso()==ReciboCobradoModoIngreso.INGRESO_TALON)){
+                d += rc.getCobranzas();
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.DEVUELTO){
+                d -= rc.getCobranzas();
+            }else if(rc.getModoIngreso()==ReciboCobradoModoIngreso.COMPENSACION_ABONO_RECIBO){
+                d += rc.getCobranzas();
             }
         }
         return d;

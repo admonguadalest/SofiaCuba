@@ -62,6 +62,9 @@ public class ReciboCobrado extends StandardEntity {
     }
 
     public Double getCobranzas() {
+        if (cobranzas == null){
+            cobranzas = 0.0;
+        }
         return cobranzas;
     }
 

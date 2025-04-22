@@ -119,6 +119,8 @@ public class GestionarValidaciones extends Screen {
     private PdfService pdfService;
     @Inject
     private UserSession userSession;
+    @Inject
+    private TextField<String> txtNombreTitular;
 
     @Subscribe
     public void onAfterInit(AfterInitEvent event) {
@@ -175,7 +177,8 @@ public class GestionarValidaciones extends Screen {
                             txtProveedor.getValue(),
                             lkpVaciosOcupados.getValue(),
                             lkpTipoDepartamento.getValue(),
-                            lkpTipoCiclo.getValue()
+                            lkpTipoCiclo.getValue(),
+                            txtNombreTitular.getValue()
                     );
             ArrayList<ValidacionImputacionDocumentoImputable> recargadas = new ArrayList<ValidacionImputacionDocumentoImputable>();
             for (int i = 0; i < lvidis.size(); i++) {
@@ -222,6 +225,28 @@ public class GestionarValidaciones extends Screen {
             dp = dataManager.reload(dp, "presupuesto-view");
             Label l = uiComponents.create(Label.NAME);
             l.setValue(dp.getProveedor().getPersona().getNombreCompleto());
+            return l;
+        }else{
+            Label l = uiComponents.create(Label.NAME);
+            l.setValue("N/D");
+            return l;
+        }
+
+    }
+
+    public Component getColumnNombreTitular(ValidacionImputacionDocumentoImputable vidi){
+        DocumentoImputable di = vidi.getImputacionDocumentoImputable().getDocumentoImputable();
+        if (di instanceof FacturaProveedor){
+            FacturaProveedor dp = (FacturaProveedor) di;
+            dp = dataManager.reload(dp, "facturaProveedor-view");
+            Label l = uiComponents.create(Label.NAME);
+            l.setValue(dp.getTitular().getNombreCompleto());
+            return l;
+        }else if (di instanceof Presupuesto){
+            Presupuesto dp = (Presupuesto) di;
+            dp = dataManager.reload(dp, "presupuesto-view");
+            Label l = uiComponents.create(Label.NAME);
+            l.setValue(dp.getTitular().getNombreCompleto());
             return l;
         }else{
             Label l = uiComponents.create(Label.NAME);

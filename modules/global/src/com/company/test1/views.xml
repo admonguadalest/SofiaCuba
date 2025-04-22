@@ -474,6 +474,7 @@
             <property name="nombreComercial"/>
             <property name="modoDePagoTelematico"/>
         </property>
+
     </view>
     <view entity="test1_Direccion" name="direccion-with-persona-view" extends="_base">
         <property name="persona" view="_base"/>
@@ -1079,7 +1080,7 @@
         </property>
     </view>
     <view entity="test1_Presupuesto" name="presupuesto-view" extends="_local">
-
+        <property name="createTs"/>
         <property name="imputacionesDocumentoImputable" view="_base">
             <property name="validacionImputacion" view="_base"/>
             <property name="ciclo" view="_base">

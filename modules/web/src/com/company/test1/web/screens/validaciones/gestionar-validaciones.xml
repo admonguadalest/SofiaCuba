@@ -20,6 +20,7 @@
                                  optionsEnum="com.company.test1.entity.enums.DocumentoImputableTipoEnum"/>
                     <lookupField id="lkpEstadoValidacion" caption="Filtrar Por" width="293px"
                                  optionsEnum="com.company.test1.entity.enums.ValidacionEstado"/>
+                    <textField id="txtNombreTitular" caption="Nombre Titular"/>
                 </hbox>
                 <hbox spacing="true" >
                     <dateField resolution="DAY" id="datFechaDesde" caption="Fecha Desde"/>
@@ -54,6 +55,7 @@
 
                     <columns>
                         <column id="tipoDocumento" generator="getColumnTipoDocumento" caption="Tipo"/>
+                        <column id="nombreTitular" generator="getColumnNombreTitular" caption="Titular"/>
                         <column id="nombreProveedor" generator="getColumnNombreProveedor" caption="Proveedor"/>
                         <column id="imputacionDocumentoImputable.documentoImputable.fechaEmision" caption="Emision"/>
                         <column id="imputacionDocumentoImputable.documentoImputable.numDocumento" caption="No. Docto."/>

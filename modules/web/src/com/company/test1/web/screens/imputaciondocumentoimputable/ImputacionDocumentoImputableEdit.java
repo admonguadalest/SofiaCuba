@@ -189,6 +189,12 @@ public class ImputacionDocumentoImputableEdit extends StandardEditor<ImputacionD
         porcentajeImputacionField.setValue(0.25);
     }
 
+    @Subscribe
+    public void onAfterShow(AfterShowEvent event) {
+        String nombre = imputacionDocumentoImputableDc.getItem().getCiclo().getDepartamento().getNombreDescriptivoCompleto();
+        int y = 2;
+    }
+
     
     
 
