@@ -80,6 +80,30 @@ public class ContabiServiceBean implements ContabiService {
 
     }
 
+    private String devuelveTextoAmpliacionContabilidad(User cubaUser, FacturaProveedor fp){
+        String defecto = fp.getProveedor().getPersona().getNombreCompleto() + " " + fp.getNumDocumento();
+        if (cubaUser.getLogin().compareTo("carlosconti")!=0){
+            return defecto;
+        }
+        String nifAigues = "A66098435";
+        String nifGanaEnergia = "B98717457";
+        String nifTelefonica = "A82018474";
+        String nifProveedor = fp.getProveedor().getPersona().getNifDni();
+        if ((nifAigues+","+nifTelefonica).indexOf(nifProveedor)!=-1){
+            String infoPtoSuministro = fp.getSuministroInfoPuntoSuministro();
+            if ((infoPtoSuministro!=null) && (infoPtoSuministro.length()>0)){
+                return fp.getProveedor().getPersona().getNombreCompleto() + " " + infoPtoSuministro;
+            }else{
+                return defecto + " (InfoPtoSuministro No Disponible)";
+            }
+        }
+        if (nifProveedor.compareTo(nifGanaEnergia)==0){
+            return defecto;
+        }
+
+        return defecto;
+    }
+
     public boolean publicaContabilizacionFacturaProveedor(User cubaUser, FacturaProveedor fp) throws Exception{
         this.authToken = getAuthToken(cubaUser, "admin", "EaGmTfki");
 
@@ -102,6 +126,7 @@ public class ContabiServiceBean implements ContabiService {
         jo.put("IMPORTE_BASE_FACTURA", fp.getImporteTotalBase());
         jo.put("IMPORTE_TOTAL_FACTURA", fp.getImportePostCCAA());
         jo.put("NUM_FRA", fp.getNumDocumento());
+        jo.put("TEXTO_AMPLIACION_CONTABILIDAD", devuelveTextoAmpliacionContabilidad(cubaUser, fp));
         jo.put("REFERENCIAS", fp.getId().toString());
         ArchivoAdjunto aa = fp.getColeccionArchivosAdjuntos().getArchivos().get(0);
 //        ArchivoAdjuntoExt aaext = coleccionArchivosAdjuntosService.getArchivoAdjuntoExt(aa);

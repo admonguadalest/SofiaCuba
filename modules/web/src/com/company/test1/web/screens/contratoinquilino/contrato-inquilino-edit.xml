@@ -40,11 +40,14 @@
         <label dataContainer="contratoInquilinoDc" property="id"/>
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="contratoInquilinoDc" width="100%">
-                <column width="100%">
+                <column>
+                    <hbox spacing="true" caption="Inquilino" width="100%" expand="inquilinoField">
                     <pickerField id="inquilinoField" dataContainer="contratoInquilinoDc" property="inquilino"
                                  captionProperty="nombreCompleto"/>
-
+                    <button icon="font-icon:EDIT" invoke="editarUsuario"/>
+                    </hbox>
                 </column>
+
                 <column width="100%">
                     <pickerField id="departamentoField" dataContainer="contratoInquilinoDc" property="departamento"
                                  captionProperty="nombreDescriptivoCompleto"/>

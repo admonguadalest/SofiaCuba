@@ -112,8 +112,14 @@ public class CaratulaContratoArrendamientoLocalComercial extends CaratulaContrat
 //        byte[] bb = e.getImagenContratos().getArchivoAdjunto().getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs());
 ////                BufferedImage bim = javax.imageio.ImageIO.read(new ByteArrayInputStream(e.getImagenContratos().getArchivoAdjunto().getRepresentacionSerialExtDoc(SIApplication.getCurrent().getCurrentProcess().getSessionLayerExtDocs())));
 //        JRRenderable jrr = JRImageRenderer.getInstance(bb);
-        JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
-
+        //JRRenderable jrr = (JRRenderable) AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
+        String nifPropietario = this.contratoInquilino.getDepartamento().getPropietarioEfectivo().getPersona().getNifDni();
+        JRRenderable jrr = null;
+        if (nifPropietario.compareTo("B75537878")==0){
+            jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGrupoDomus.jpg");
+        }else{
+            jrr = (JRRenderable)AppBeans.get(JasperReportService.class).turnFileIntoJRRenderableObject("CaratulaContratosGuadalest.jpg");
+        }
 
         this.dataSource1 = new ArrayList();
         this.dataSource1.add(this.contratoInquilino);

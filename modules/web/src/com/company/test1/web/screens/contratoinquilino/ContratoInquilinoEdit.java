@@ -1,8 +1,6 @@
 package com.company.test1.web.screens.contratoinquilino;
 
-import com.company.test1.entity.ArchivoAdjunto;
-import com.company.test1.entity.ColeccionArchivosAdjuntos;
-import com.company.test1.entity.Persona;
+import com.company.test1.entity.*;
 import com.company.test1.entity.ciclos.Ciclo;
 import com.company.test1.entity.contratosinquilinos.*;
 import com.company.test1.entity.departamentos.Departamento;
@@ -146,6 +144,19 @@ public class ContratoInquilinoEdit extends StandardEditor<ContratoInquilino> {
     private AuthenticationService authenticationService;
     @Inject
     private UserSessionSource userSessionSource;
+
+    public void editarUsuario(){
+        Persona p = inquilinoField.getValue();
+        if (p instanceof PersonaFisica){
+            screenBuilders.editor(PersonaFisica.class, this).editEntity((PersonaFisica)p).withOpenMode(OpenMode.NEW_TAB)
+                    .build().show();
+        }
+        if (p instanceof PersonaJuridica){
+            screenBuilders.editor(PersonaJuridica.class, this).editEntity((PersonaJuridica)p).withOpenMode(OpenMode.NEW_TAB)
+                    .build().show();
+        }
+
+    }
 
     @Subscribe
     private void onAfterInit(AfterInitEvent event) {

@@ -31,6 +31,7 @@
             <property name="fechaDesocupacion" caption="Fecha Desocupacion"/>
             <property name="fechaVencimientoPrevisto" caption="Fecha Vencimiento Previsto"/>
             <property name="tipoContrato" caption="Tipo Contrato"/>
+
         </filter>
         <groupTable id="contratoInquilinoesTable"
                     width="100%"
@@ -54,6 +55,7 @@
                 <column id="inquilino.nifDni"/>
                 <column id="rentaContractual"/>
                 <column id="tipoContrato"/>
+                <column id="mesAnyoAplicacionIPC"/>
 
             </columns>
             <rowsCount/>

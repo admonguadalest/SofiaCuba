@@ -135,6 +135,9 @@ public class Clausula extends StandardEntity {
         List<VersionClausula> l = c.getVersiones();
         for (int i = 0; i < l.size(); i++) {
             VersionClausula vc = l.get(i);
+            if (vc.getEsPredeterminada()==null){
+                vc.setEsPredeterminada(false);
+            }
             if (vc.getEsPredeterminada()){
                 return vc;
             }
